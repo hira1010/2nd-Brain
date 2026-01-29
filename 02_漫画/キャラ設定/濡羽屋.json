@@ -1,0 +1,46 @@
+[
+  {
+    "name": "西　比佐（19）",
+    "age": "21",
+    "height": "155cm",
+    "personality": "真面目で少しおっちょこちょい",
+    "prompt": "1girl,solo,brown hair,outdoors,short hair\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t",
+    "backbone": "OL　数学が得意",
+    "catchphrase": "「えへへ、見つかっちゃいました？」",
+    "selected": true,
+    "id": "char_loaded_1768570986594_0"
+  },
+  {
+    "name": "北斗　アカネ",
+    "age": "15",
+    "height": "162cm",
+    "personality": "元気いっぱいな親友",
+    "prompt": "\"1girl,siuyo-to,the entire upper body,(cowboy shot:1.2),long hair,natural makeup,27 years old,star_earrings,full body,\nbig boobs glasses,1 girl,sunshine,city road,fall,green hair,Frilly blue and white corset-style dress with a ribbon bow and gold accents\"\",blue skirt,\"\t\t\t\t\n\t\t\t\t\n\t\t\t\t",
+    "backbone": "星が好き",
+    "catchphrase": "小声でね",
+    "selected": true,
+    "id": "char_loaded_1768570986594_1"
+  },
+  {
+    "name": "南　静香",
+    "age": "20",
+    "height": "170cm",
+    "personality": "クールでミステリアス",
+    "prompt": "\"1girl, solo,\nblack hair, (long ponytail,:1)\nred-framed eyewear ,\neyelashes,  \nlarge breasts,\nlooking at viewer,\nBREAK\n(star earrings,:1.1)\nblue china dress, (bare thighs,:0.1\"\t\t\t\t",
+    "backbone": "学校教師",
+    "catchphrase": "「...ふん、面白い」",
+    "selected": true,
+    "id": "char_loaded_1768570986594_2"
+  },
+  {
+    "name": "地味子",
+    "age": "27",
+    "height": "168cm",
+    "personality": "地味で器用",
+    "prompt": "anime style, manga panel, 1girl, solo, upper body, young woman, black bob hair, glasses, wearing grey business suit, white inner shirt, office lady, worried expression, nervous, sweat drop, standing in a dark forest, rain, raining, thorny vines, thorns, gloomy atmosphere, vertical rectangle narration box, high quality, 2D, flat color",
+    "backbone": "友達はぬいぐるみ",
+    "catchphrase": "フフッ　面白",
+    "selected": true,
+    "id": "char_loaded_1768570986594_3"
+  }
+]

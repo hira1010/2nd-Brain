@@ -1,0 +1,24 @@
+[
+  {
+    "id": "char_def_1",
+    "name": "レミ",
+    "age": "27",
+    "height": "168cm",
+    "personality": "高飛車だが情に厚い",
+    "prompt": "A single, cinematic anime style full body illustration of a confident woman. She has long silver hair and intense red eyes, with a smirking expression. She wears a tailored red blazer over a black lace top, a matching red pleated mini-skirt with a prominent gold chain belt, fishnet stockings, and chunky black boots. She wears a single silver chain necklace and multiple rings on her fingers. The \"r > g\" tattoo is visible on her left thigh; there is no tattoo on her neck.",
+    "backbone": "27歳のエリート実業家。冷徹だが実は情に厚い一面もある。",
+    "catchphrase": "「この計画は完璧よ」",
+    "selected": true
+  },
+  {
+    "id": "char_def_2",
+    "name": "優斗",
+    "age": "17",
+    "height": "175cm",
+    "personality": "真面目で優しい",
+    "prompt": "1boy, solo, 17 years old, short black hair, gentle brown eyes, wearing school uniform, kind smile, high-quality, masterpiece, 8k",
+    "backbone": "高校2年生。レミの弟的存在。",
+    "catchphrase": "「姉さん、大丈夫ですか？」",
+    "selected": true
+  }
+]
