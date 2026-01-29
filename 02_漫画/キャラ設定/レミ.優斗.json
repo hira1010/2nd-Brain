@@ -5,7 +5,7 @@
     "age": "27",
     "height": "168cm",
     "personality": "高飛車だが情に厚い",
-    "prompt": "A single, cinematic anime style full body illustration of a confident woman. She has long silver hair and intense red eyes, with a smirking expression. She wears a tailored red blazer over a black lace top, a matching red pleated mini-skirt with a prominent gold chain belt, fishnet stockings, and chunky black boots. She wears a single silver chain necklace and multiple rings on her fingers. The \"r > g\" tattoo is visible on her left thigh; there is no tattoo on her neck.",
+    "prompt": "Master Visual Anchor: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Wearing a (tailored RED blazer:1.3) over a black lace top. Elegant and cold mastermind expression. NO red hair, NO brown hair.",
     "backbone": "27歳のエリート実業家。冷徹だが実は情に厚い一面もある。",
     "catchphrase": "「この計画は完璧よ」",
     "selected": true
@@ -16,7 +16,7 @@
     "age": "17",
     "height": "175cm",
     "personality": "真面目で優しい",
-    "prompt": "1boy, solo, 17 years old, short black hair, gentle brown eyes, wearing school uniform, kind smile, high-quality, masterpiece, 8k",
+    "prompt": "Master Visual Anchor: (Traditional Japanese black GAKURAN school uniform:1.5), (High stiff stand-up collar:1.4), (Gold buttons:1.3). Short black hair, intense but gentle gaze. NO western suit, NO necktie, NO blazer.",
     "backbone": "高校2年生。レミの弟的存在。",
     "catchphrase": "「姉さん、大丈夫ですか？」",
     "selected": true
