@@ -10,8 +10,19 @@ if (-not $Message -or $Message -eq "") {
     $Message = "Antigravity finished [$Mode] - $timestamp"
 }
 
-# すべてステージ
-git add -A
+# リポジトリルートを決定して移動（タスク環境でも確実に動くように）
+try {
+    $repoRoot = git rev-parse --show-toplevel 2>&1
+    if ($LASTEXITCODE -ne 0 -or -not $repoRoot) { throw "git rev-parse failed" }
+    $repoRoot = $repoRoot.Trim()
+} catch {
+    # フォールバックはスクリプトの親ディレクトリ
+    $repoRoot = Split-Path -Path $PSScriptRoot -Parent
+}
+Set-Location -Path $repoRoot
+
+# すべてステージ（git -C を使って確実に対象リポジトリを指定）
+git -C "$repoRoot" add -A
 
 function Send-Notification {
     param(
@@ -34,7 +45,7 @@ function Send-Notification {
 }
 
 # 変更があるか確認
-$porcelain = git status --porcelain
+$porcelain = git -C "$repoRoot" status --porcelain
 $changeCount = ($porcelain | Where-Object { $_ -ne '' } | Measure-Object).Count
 if ($changeCount -eq 0) {
     Write-Host "No changes to commit."
@@ -43,18 +54,20 @@ if ($changeCount -eq 0) {
 }
 
 # コミット実行
-git commit -m $Message
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Commit failed."
+$commitResult = git -C "$repoRoot" commit -m $Message 2>&1
+$commitExit = $LASTEXITCODE
+if ($commitExit -ne 0) {
+    Write-Host "Commit failed: $commitResult"
     Send-Notification -Title "Git: Commit failed" -Body "Check the terminal for details."
-    exit $LASTEXITCODE
+    "$([datetime]::Now) - Commit failed - $commitResult" | Out-File -FilePath "$PSScriptRoot\notify_fallback.log" -Append -Encoding utf8
+    exit $commitExit
 }
 Write-Host "Committed with message: $Message ($changeCount files changed)"
 
 if ($Push) {
     Write-Host "Pushing to remote..."
     try {
-        $pushOutput = git push 2>&1
+        $pushOutput = git -C "$repoRoot" push 2>&1
         $pushExit = $LASTEXITCODE
         if ($pushExit -ne 0) {
             Write-Host "Push failed: $pushOutput"
