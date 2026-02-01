@@ -2,6 +2,7 @@ import "./index.css";
 import React from "react";
 import { Composition } from "remotion";
 import { MyComposition } from "./Composition";
+import { ConversationScene } from "./ConversationScene";
 import { loadFont as loadRocknRollOne } from "@remotion/google-fonts/RocknRollOne";
 // import { loadFont as loadMochiyPopOne } from "@remotion/google-fonts/MochiyPopOne";
 // import { loadFont as loadZenMaruGothic } from "@remotion/google-fonts/ZenMaruGothic";
@@ -22,6 +23,14 @@ export const RemotionRoot: React.FC = () => {
         id="MyComp"
         component={MyComposition}
         durationInFrames={3600} // 120秒に延長
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="ConversationScene"
+        component={ConversationScene}
+        durationInFrames={300}
         fps={30}
         width={1920}
         height={1080}

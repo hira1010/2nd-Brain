@@ -24,6 +24,7 @@
     "typescript": "5.9.3"
   },
   "scripts": {
+    "start": "remotion studio",
     "dev": "remotion studio",
     "build": "remotion bundle",
     "render": "remotion render src/index.ts 完成品/out.mp4",
