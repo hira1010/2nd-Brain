@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,25 +16,30 @@
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .container {
             max-width: 1200px;
             width: 100%;
         }
+
         h1 {
             color: #fff;
             text-align: center;
             margin-bottom: 20px;
         }
+
         video {
             width: 100%;
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
+
         .controls {
             margin-top: 20px;
             text-align: center;
         }
+
         button {
             background-color: #007acc;
             color: white;
@@ -44,9 +50,11 @@
             cursor: pointer;
             font-size: 16px;
         }
+
         button:hover {
             background-color: #005a9e;
         }
+
         .status {
             color: #4ec9b0;
             margin-top: 10px;
@@ -54,11 +62,12 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>🏃‍♀️ 健康エクササイズ動画（ループ再生）</h1>
         <video id="healthVideo" controls loop autoplay muted>
-            <source src="./reference_video.mp4" type="video/mp4">
+            <source src="../videos/reference_video.mp4" type="video/mp4">
             お使いのブラウザは動画タグをサポートしていません。
         </video>
         <div class="controls">
@@ -110,4 +119,5 @@
         });
     </script>
 </body>
+
 </html>
