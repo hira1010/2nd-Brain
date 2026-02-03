@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動画ループ再生</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        video {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <video id="video" controls loop autoplay>
+        <source id="source" type="video/mp4">
+    </video>
+    <script>
+        // URLパラメータから動画ファイルパスを取得
+        const params = new URLSearchParams(window.location.search);
+        const videoPath = params.get('file');
+
+        if (videoPath) {
+            document.getElementById('source').src = videoPath;
+            document.getElementById('video').load();
+        }
+    </script>
+</body>
+
+</html>
