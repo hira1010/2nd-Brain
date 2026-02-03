@@ -1,19 +1,19 @@
-﻿# No.24 PayPay証券 2P漫画生成プロンプト
+# No.24 PayPay証券 2P漫画生成プロンプト
 
 ## TIP情報
 
-| 項目     | 内容                |
-| -------- | ------------------- |
-| No       | 24                 |
-| タイトル | PayPay証券              |
-| 解説     | 1000円から少額で米国株が買える。        |
-| カテゴリ | 01_投資の基礎知識           |
+| 項目 | 内容 |
+| :--- | :--- |
+| No | 24 |
+| タイトル | PayPay証券 |
+| 解説 | 1000円から少額で米国株が買える。 |
+| カテゴリー | 01_投資の基礎知識 |
 
 ---
 
 ## 1ページ目プロンプト
 
-~~~text
+```text
 [OUTPUT: 1200x1700 pixels, aspect ratio 12:17, portrait orientation]
 
 MANDATORY IMAGE SPECIFICATIONS:
@@ -22,72 +22,161 @@ MANDATORY IMAGE SPECIFICATIONS:
 - Resolution: High quality manga illustration
 
 PANEL LAYOUT - PAGE 1:
-- Panel 1 (TOP 40%): Large horizontal panel
-- Panel 2 (MIDDLE 30%): Medium horizontal panel
-- Panel 3 (BOTTOM-LEFT 15%): Small vertical panel
-- Panel 4 (BOTTOM-RIGHT 15%): Small vertical panel
+MANGA PAGE 1 - VERTICAL DYNAMIC PANEL LAYOUT (READING ORDER: RIGHT TO LEFT, TOP TO BOTTOM)
+- Panel 1 (TOP 40%): Large horizontal panel (Intro)
+- Panel 2 (MIDDLE 30%): Medium horizontal panel (Conversation)
+- Panel 3 (BOTTOM-RIGHT 15%): Small vertical panel (Reaction)
+- Panel 4 (BOTTOM-LEFT 15%): Small vertical panel (Theme)
+READING FLOW: Panel 1 -> Panel 2 -> Panel 3 (Right) -> Panel 4 (Left)
 
-TEXT BOX in Panel 1 BOTTOM-RIGHT: Black box with white text: テーマ PayPay証券
+TEXT BOX REQUIREMENT:
+In Panel 1, BOTTOM-RIGHT corner: Draw a BLACK rectangular box with WHITE border containing WHITE TEXT:
+PayPay証券
+Font: Bold, Clear Japanese Gothic font.
 
-STYLE: Japanese manga, 6500K white balance, cel shading, white speech bubbles
+STYLE SPECIFICATIONS:
+- Japanese manga style
+- 6500K neutral white balance
+- Clean bright colors with cel shading
+- White panel borders with black outlines
+- Pure white speech bubbles
+- Professional manga quality
 
-IMPORTANT: DO NOT render character names in speech bubbles
+SCENE SETTING:
+- Location: Luxurious lounge bar with night city view
+- Atmosphere: Professional yet engaging
 
-Panel 1 - Introduction:
-Scene: Modern office with city view, afternoon sunlight
-Characters:
-- Boy: Black GAKURAN uniform, gold buttons, short black hair, curious expression
-- Woman: Silver hair, red eyes, red blazer, black lace top, confident smile
-Speech bubble: 姉さん PayPay証券 について教えてください
+CHARACTERS (ALWAYS VISIBLE):
+- Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent.
+- Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner.
 
-Panel 2 - Explanation:
-Scene: Close-up of silver-haired woman explaining
-Speech bubble: 1000円から少額で米国株が買える。
+Panel 1 - Introduction
+Scene: Luxurious lounge bar with night city view. Yuto looks confused or eager, holding a smartphone or document. Remi looks coolly at him.
+Characters: Yuto (leaning forward), Remi (standing with arms crossed)
+Speech bubbles:
+米国株は1株数万円もするから、僕の給料じゃ買えませんよ…富豪の特権ですよね。
 
-Panel 3 - Reaction:
-Scene: Boy surprised face
-Speech bubble: なるほど
+---
 
-Panel 4 - Conclusion:
-Scene: Woman with mysterious smile
-Speech bubble: これが投資の真実よ
-~~~
+Panel 2 - The Teach
+Scene: Close-up of Remi's face. She is pointing a finger or looking sharp. Background has sparkle effects.
+Characters: Remi (Silver hair, Red eyes, confident smile). Remi is positioned on the RIGHT side.
+Speech bubble:
+言い訳を見つける天才ね。スマホ一つで1000円から世界最大の企業を買い叩ける時代に、何を言っているの？
+
+---
+
+Panel 3 - Shock/Realization
+Scene: Yuto's shocked face. He realizes his mistake. Positioned BOTTOM-RIGHT.
+Characters: Yuto (Black hair, Gakuran, eyes wide open)
+Effects: Shock lines, sweat drop
+Speech bubble:
+ハッ…！
+そうだったのか…
+
+---
+
+Panel 4 - Theme Display
+Scene: Remi smiling mysteriously. Positioned BOTTOM-LEFT.
+Characters: Remi (Side profile, Silver hair, Red eyes)
+Speech bubble:
+これが投資の真実よ
+
+```
 
 ---
 
 ## 2ページ目プロンプト
 
-~~~text
+```text
 [OUTPUT: 1200x1700 pixels, aspect ratio 12:17, portrait orientation]
 
 MANDATORY IMAGE SPECIFICATIONS:
 - Canvas Size: 1200 pixels width x 1700 pixels height
 - Aspect Ratio: 12:17 (portrait)
+- Resolution: High quality manga illustration
 
 PANEL LAYOUT - PAGE 2:
-- Panel 1 (TOP 50%): Large cinematic panel
-- Panel 2 (MIDDLE-LEFT 25%): Vertical panel
-- Panel 3 (MIDDLE-RIGHT 25%): Vertical panel
-- Panel 4 (BOTTOM 25%): Wide conclusion panel
+MANGA PAGE 2 - LECTURE STYLE SQUAD (READING ORDER: RIGHT TO LEFT, TOP TO BOTTOM)
+- Panel 1 (TOP 50%): Large cinematic panel (Lecture with Visual)
+- Panel 2 (MIDDLE-RIGHT 25%): Vertical panel (Point 1)
+- Panel 3 (MIDDLE-LEFT 25%): Vertical panel (Point 2)
+- Panel 4 (BOTTOM 25%): Wide conclusion panel (Action)
+READING FLOW: Panel 1 -> Panel 2 (Right) -> Panel 3 (Left) -> Panel 4
 
-IMPORTANT: DO NOT render character names in speech bubbles
+STYLE SPECIFICATIONS:
+- Japanese manga style
+- 6500K neutral white balance
+- Rich colors with dynamic contrast
+- White panel borders with black outlines
+- Pure white speech bubbles
+- Luxurious golden and royal purple color scheme
 
-Panel 1 - Visual Metaphor:
-Scene: Dramatic visualization of PayPay証券 concept
-Narration: 1000円から少額で米国株が買える。
+SCENE SETTING:
+- Location: Luxurious lounge bar with night city view (SAME AS PAGE 1)
 
-Panel 2 - Point 1:
-Narration: ポイント1
+**IMPORTANT: CHARACTERS MUST BE CONSISTENT WITH PAGE 1**
+- Remi: Silky SILVER hair, Red eyes, Red blazer.
+- Yuto: Short Black hair, Black GAKURAN uniform.
 
-Panel 3 - Point 2:
-Narration: ポイント2
+Panel 1 - Visual Lecture (CRITICAL: Remi must be in the frame)
+Scene: Remi standing in front of a large holographic monitor or blackboard showing the concept of "PayPay証券". She is explaining it directly to Yuto.
+Characters:
+- Remi: Standing on the right, pointing at the visual behind her. (Silver hair, Red blazer)
+- Yuto: Sitting or standing on the left, looking at the visual with admiration. (Black Gakuran)
+Visual Background: Symbolic representation of PayPay証券 (Charts, Coins, Crown, etc.) on the screen.
+Speech bubbles: PayPay証券や少額投資を使えば、お菓子を我慢する金でAppleやAmazonのオーナーになれる。少額だからと侮る者が、大きな富を掴むことはないわ。
 
-Panel 4 - Ending:
-Scene: Both characters in office, satisfied expressions
+---
+
+Panel 2 - Point 1 (Remi Explaining)
+Scene: Close up of Remi emphasizing a point. Positioned MIDDLE-RIGHT.
+Characters: Remi (Silver hair, Red eyes) raising one finger.
+Speech bubbles: ポイント1：PayPay証券の重要性よ！
+Effects: Sparkles, Golden background
+
+---
+
+Panel 3 - Point 2 (Yuto Understanding)
+Scene: Yuto looking at a chart or visual, nodding. Positioned MIDDLE-LEFT.
+Characters: Yuto (Black hair, Gakuran) holding a notebook or tablet.
+Speech bubbles: なるほど、ポイント2の「実践」が大事なんだな！
+Effects: Upward arrows, Growth symbols
+
+---
+
+Panel 4 - Conclusion/Action
+Scene: Back to the main shot. Remi and Yuto facing each other.
+Characters:
+- Yuto (Left): Determined expression, clenched fist. "I will do it!" pose. (Black Gakuran)
+- Remi (Right): Proud/Satisfied smile, hand on hip. (Silver hair, Red blazer)
 Speech bubbles:
-勉強になりました 実践してみます
-その意気よ 一歩一歩 着実にね
-~~~
+1000円でもAppleの株主に…！言い訳を探す前に、まずは1株買ってみます！
+その意気よ。
+一歩一歩着実にね。
+
+```
+
+---
+
+## 生成時の変数一覧
+
+### 1ページ目
+
+| 変数 | 値 |
+| :--- | :--- |
+| TIP_NUMBER | 24 |
+| TIP_TITLE | PayPay証券 |
+| DIALOGUE_INTRO | 米国株は1株数万円もするから、僕の給料じゃ買えませんよ…富豪の特権ですよね。 |
+| DIALOGUE_TEACH | 言い訳を見つける天才ね。スマホ一つで1000円から世界最大の企業を買い叩ける時代に、何を言っているの？ |
+| SCENE | Luxurious lounge bar with night city view |
+
+### 2ページ目
+
+| 変数 | 値 |
+| :--- | :--- |
+| DIALOGUE_DESC | PayPay証券や少額投資を使えば、お菓子を我慢する金でAppleやAmazonのオーナーになれる。少額だからと侮る者が、大きな富を掴むことはないわ。 |
+| DIALOGUE_ACTION | 1000円でもAppleの株主に…！言い訳を探す前に、まずは1株買ってみます！ |
 
 ---
 
@@ -98,4 +187,26 @@ Speech bubbles:
 
 ---
 
+## generate_imageツール実行用
+
+```text
+generate_image(
+  ImageName: "remi_investment_no24_p1",
+  Prompt: [上記の1ページ目プロンプトのコードブロック内容をそのまま貼り付け]
+)
+```
+
+```text
+generate_image(
+  ImageName: "remi_investment_no24_p2",
+  Prompt: [上記の2ページ目プロンプトのコードブロック内容をそのまま貼り付け]
+)
+```
+
+### ステップ3: 結合プレビュー作成（任意）
+2枚の画像を並べて見開きプレビューを作成する場合は、画像結合スクリプト.ps1 を使用してください。
+
+---
+
 作成日: 2026-02-03
+ステータス: フルリニューアル完了（全ファイル統一・エラー解消済）
