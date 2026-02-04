@@ -14,18 +14,14 @@
 ## 1ページ目プロンプト
 
 ```text
-【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL: Characters MUST wear the EXACT SAME OUTFIT in every panel. DO NOT DRAW ANY ENGLISH TEXT.
+【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
 
-### INSTRUCTION: CRITICAL - DO NOT DRAW ANY ENGLISH TEXT. NO VARIATIONS in clothing.
-### CHARACTER SETTING
-- Remi: Remi: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4). OUTFIT: Always wearing a (Tailored RED blazer:1.3) with a (Black lace camisole:1.2) underneath. Identical clothes in every panel. NO GLOVES.
-- Yuto: Yuto: (Short Black hair:1.3). OUTFIT: (Traditional Black GAKURAN school uniform:1.4) with gold buttons. Identical clothes in every panel. NO GLOVES.
-### PAGE LAYOUT (Portrait 1200x1697)
-Panel 1: Yuto (in the SAME Black Gakuran) and Remi (in the SAME RED blazer) in a meeting room. Yuto says "結局、どの会社の株を買えばいいか選べません！レミさん、代わりに決めてください！" in a Japanese speech bubble. Title box: Black slender box with white Japanese text "ETF".
-Panel 2: Extreme Close-up of Remi (in the SAME RED blazer)'s red eyes. She says "他人に決めてもらいたいなら、そもそも投資家なんて名乗らないで。でも、自信がないなら『詰め合わせパック』という選択肢もあるわ。" in a Japanese speech bubble.
-Panel 3: Yuto (in the SAME Black Gakuran) with manga shock lines.
-Panel 4: Remi (in the SAME RED blazer) smiling coolly.
-### STYLE: Japanese manga, cel shaded. NO GLOVES.
+PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
+Panel 1 (Top 40%): Bright high-tech office. Remi (Silver hair, Red eyes, Red blazer) stands calmly next to a large holographic display showing "ETF". Unlike usual, the screen shows a simple balanced symbol representing the concept, not complex charts. Yuto (Black hair, Gakuran) looks puzzled. Remi says "優斗君、今日は『ETF』について教えるわよ。" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset with white text "ETF".
+Panel 2 (Middle 30%): CONCEPTUAL ILLUSTRATION. Visual metaphor for 'ETF'. A clear comparison or balanced symbolic image representing the core concept of ETF. Remi points to the correct/positive side. She says "いい心がけね。でも、ただ知るだけじゃ意味がないわ。" (In a speech bubble).
+Panel 3 (Bottom-Right 15%): Yuto nodding with deep understanding. "なるほど…そういうことなんですね"
+Panel 4 (Bottom-Left 15%): Remi's side profile, smiling gently (not smug).
+Art style: Japanese manga style, cel shading, bright colors. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
 ```
 
 ---
@@ -33,18 +29,14 @@ Panel 4: Remi (in the SAME RED blazer) smiling coolly.
 ## 2ページ目プロンプト
 
 ```text
-【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL: Characters MUST wear the EXACT SAME OUTFIT in every panel. DO NOT DRAW ANY ENGLISH TEXT.
+【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL.
 
-### INSTRUCTION: CRITICAL - DO NOT DRAW ANY ENGLISH TEXT. NO VARIATIONS in clothing.
-### CHARACTER SETTING
-- Remi: Remi: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4). OUTFIT: Always wearing a (Tailored RED blazer:1.3) with a (Black lace camisole:1.2) underneath. Identical clothes in every panel. NO GLOVES.
-- Yuto: Yuto: (Short Black hair:1.3). OUTFIT: (Traditional Black GAKURAN school uniform:1.4) with gold buttons. Identical clothes in every panel. NO GLOVES.
-### PAGE LAYOUT (Portrait 1200x1697)
-Panel 1: EPIC METAPHOR SCENE. Remi (in the SAME RED blazer) navigating a symbolic world of 'ETF'. Digital charts in background. Remi has absolute authority.
-Panel 2: Remi (in the SAME RED blazer) making a sharp gesture. She says "ETF（上場投資信託）なら、プロが選別した優良企業にまとめて投資できる。個別株の不確実性を排除し、市場平均を狙う。それが初心者の最強の楯よ。" in a Japanese speech bubble.
-Panel 3: Yuto (in the SAME Black Gakuran) visualizing profit with golden icons.
-Panel 4: Yuto (in the SAME Black Gakuran) determined, Remi (in the SAME RED blazer) proud. Yuto says "会社を絞るプレッシャーに負けてました。ETFで市場の成長に丸ごと乗っかります！" in a bubble. Remi thinks "期待しているわよ。" in a small thoughts bubble.
-### STYLE: Cinematic lighting, Gold/Purple theme. NO GLOVES.
+PAGE 2 LAYOUT: 1200x1697 pixels portrait.
+Panel 1 (Top 40%): VISUAL MANIFESTATION. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'ETF'. It shines brighter than the Background elements. She looks gentle and wise. "上場投資信託。株の詰め合わせパック。 これが投資の本質よ。しっかり頭に叩き込みなさい。" (In a speech bubble).
+Panel 2 (Middle 30%): CONTRAST SCENE (Metaphor). Remi stands in a split world. On her left, a chaotic storm or complex abstract shapes representing 'Confusion/Risk'. On her right, a peaceful, golden garden or orderly structure representing 'ETF'. She calmly points towards the peace/order.
+Panel 3 (Bottom-Right 15%): Yuto visualizing his own happiness or success—simple joys and stable future, appearing in golden bubbles.
+Panel 4 (Bottom-Left 15%): Yuto looking enlightened and relieved (Realization). Yuto says "そうか…ETFの本質はここにあったんですね。" (In a speech bubble). Remi smiles gently, watching him grow. (No text for Remi).
+Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
 ```
 
 ---
@@ -57,16 +49,16 @@ Panel 4: Yuto (in the SAME Black Gakuran) determined, Remi (in the SAME RED blaz
 | :--- | :--- |
 | TIP_NUMBER | 25 |
 | TIP_TITLE | ETF |
-| DIALOGUE_INTRO | 結局、どの会社の株を買えばいいか選べません！レミさん、代わりに決めてください！ |
-| DIALOGUE_TEACH | 他人に決めてもらいたいなら、そもそも投資家なんて名乗らないで。でも、自信がないなら『詰め合わせパック』という選択肢もあるわ。 |
-| SCENE | Quiet library or study room with bookshelves |
+| DIALOGUE_INTRO | レミさん、ETFについて教えてください！もっと詳しく知りたいです。 |
+| DIALOGUE_TEACH | いい心がけね。でも、ただ知るだけじゃ意味がないわ。 |
+| SCENE | Stylish cafe with warm lighting and wooden furniture |
 
 ### 2ページ目
 
 | 変数 | 値 |
 | :--- | :--- |
-| DIALOGUE_DESC | ETF（上場投資信託）なら、プロが選別した優良企業にまとめて投資できる。個別株の不確実性を排除し、市場平均を狙う。それが初心者の最強の楯よ。 |
-| DIALOGUE_ACTION | 会社を絞るプレッシャーに負けてました。ETFで市場の成長に丸ごと乗っかります！ |
+| DIALOGUE_DESC | 上場投資信託。株の詰め合わせパック。 これが投資の本質よ。しっかり頭に叩き込みなさい。 |
+| DIALOGUE_ACTION | そうか…ETFの本質はここにあったんですね。 |
 
 ---
 
@@ -100,5 +92,5 @@ generate_image(
 
 ---
 
-作成日: 2026-02-03
-ステータス: フルリニューアル完了（全ファイル統一・エラー解消済）
+作成日: 2026-02-05
+ステータス: フルリニューアル完了（新・足るを知る構成準拠）
