@@ -9,8 +9,7 @@ param(
 )
 
 # 1. 環境準備
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-. (Join-Path $ScriptDir "Settings.ps1")
+. (Join-Path $PSScriptRoot "Settings.ps1")
 
 Write-Host "🚀 統合プロンプト更新開始..." -ForegroundColor Cyan
 if ($DryRun) { Write-Host "🔍 ドライラン・モード (ファイルは書き換えられません)" -ForegroundColor Yellow }
@@ -41,9 +40,12 @@ foreach ($File in $Files) {
         # 3. テンプレート適用 (1P目/2P目)
         $TemplateP1 = if ($No % 2 -eq 0) { $Config.Prompts.TemplateP1_Remi } else { $Config.Prompts.TemplateP1_Yuto }
         
+        $RemiDef = $Config.Characters.Remi.Current
+        $YutoDef = $Config.Characters.Yuto.Current
+
         $NL = [Environment]::NewLine
-        $NewP1 = $Config.Prompts.Prefix + $NL + $NL + $TemplateP1.Replace("{Title}", $Title).Replace("{IntroDialog}", $IntroDialog).Replace("{TeachDialog}", $TeachDialog)
-        $NewP2 = $Config.Prompts.Prefix + $NL + $NL + $Config.Prompts.TemplateP2.Replace("{Title}", $Title).Replace("{DescDialog}", $DescDialog).Replace("{ActionDialog}", $ActionDialog)
+        $NewP1 = $Config.Prompts.Prefix + $NL + $NL + $TemplateP1.Replace("{Title}", $Title).Replace("{IntroDialog}", $IntroDialog).Replace("{TeachDialog}", $TeachDialog).Replace("{Remi_Full}", $RemiDef).Replace("{Yuto_Full}", $YutoDef)
+        $NewP2 = $Config.Prompts.Prefix + $NL + $NL + $Config.Prompts.TemplateP2.Replace("{Title}", $Title).Replace("{DescDialog}", $DescDialog).Replace("{ActionDialog}", $ActionDialog).Replace("{Remi_Full}", $RemiDef).Replace("{Yuto_Full}", $YutoDef)
 
         # 4. キャラクター定義の更新 (旧形式の全置換)
         foreach ($Char in $Config.Characters.Values) {
@@ -60,15 +62,17 @@ foreach ($File in $Files) {
 
         # 6. プロンプトセクションの置換 (正規表現)
         $opt = [System.Text.RegularExpressions.RegexOptions]::Singleline
-        $P1Pattern = "(## 1ページ目プロンプト\s*\n\s*```text\s*\n)(.*?)(\n```)"
-        $P2Pattern = "(## 2ページ目プロンプト\s*\n\s*```text\s*\n)(.*?)(\n```)"
         
-        # 正規表現での置換時に $ を $$ にエスケープ（Replaceメソッド用）
+        # 見出しも含めて再構成（置換ミスを防ぐ）
+        $P1Pattern = "(## 1ページ目プロンプト\s*\n\s*```text\s*\n).*?(\n```)"
+        $P2Pattern = "(## 2ページ目プロンプト\s*\n\s*```text\s*\n).*?(\n```)"
+        
+        # $ を $$ にエスケープ（Replaceメソッド用）
         $SafeP1 = $NewP1.Replace('$', '$$')
         $SafeP2 = $NewP2.Replace('$', '$$')
         
-        $CurrentContent = [regex]::Replace($CurrentContent, $P1Pattern, "${1}${SafeP1}${3}", $opt)
-        $CurrentContent = [regex]::Replace($CurrentContent, $P2Pattern, "${1}${SafeP2}${3}", $opt)
+        $CurrentContent = [regex]::Replace($CurrentContent, $P1Pattern, ('$1' + $SafeP1 + '$2'), $opt)
+        $CurrentContent = [regex]::Replace($CurrentContent, $P2Pattern, ('$1' + $SafeP2 + '$2'), $opt)
 
         # 7. 変更の保存
         if ($CurrentContent -ne $RawContent) {

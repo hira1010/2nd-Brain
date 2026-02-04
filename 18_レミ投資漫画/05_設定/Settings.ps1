@@ -13,13 +13,7 @@ $Config = @{
     Characters = @{
         Remi = @{
             Name    = "Remi"
-            Current = "Remi (Woman): (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Wearing (Tailored RED blazer:1.3) over black lace top. Cool, intelligent, and authoritative. BARE HANDS (no gloves)."
-            Old     = @(
-                "Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent. BARE HANDS (no gloves).",
-                "Remi (Woman): Silky SILVER hair, Red eyes, Red blazer.",
-                "Remi: Silky SILVER hair, Red eyes, Red blazer.",
-                "Remi: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Tailored RED blazer:1.3)."
-            )
+            Current = "Remi (SIGNATURE OUTFIT: Always wearing a Tailored RED blazer over a Black lace top, no variations allowed). (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4). NO GLOVES."
         }
         Yuto = @{
             Name    = "Yuto"
@@ -38,13 +32,13 @@ $Config = @{
         Prefix               = "【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE."
         
         # 1ページ目：優斗主導（奇数No）
-        TemplateP1_Yuto      = "PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.`nPanel 1 (Top 40%): Bright meeting room. Yuto (Black hair, Gakuran) approaches Remi with a question. Remi (Silver hair, Red eyes, Red blazer) arms crossed, listening. Yuto says `"{IntroDialog}`" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset (15% from right) with white text `"{Title}`".`nPanel 2 (Middle 30%): Close-up of Remi's face, explaining the core truth. {TeachDialog}`nPanel 3 (Bottom-Right 30%): Yuto's shock/realization face with shock lines.`nPanel 4 (Bottom-Left 30%): Remi's small cool smile.`nArt style: Japanese manga style, cel shading, professional quality. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES."
+        TemplateP1_Yuto      = "### INSTRUCTION: DO NOT DRAW ANY ENGLISH TEXT. ONLY JAPANESE IN SPEECH BUBBLES.`n### CHARACTER SETTING`n- Remi: {Remi_Full}`n- Yuto: {Yuto_Full}`n### PAGE LAYOUT (Portrait 1200x1697)`nPanel 1: Yuto and Remi in a meeting room. Yuto says `"{IntroDialog}`" in a Japanese speech bubble. Title box: Black slender box with white Japanese text `"{Title}`".`nPanel 2: Extreme Close-up of Remi's red eyes. She says `"{TeachDialog}`" in a Japanese speech bubble.`nPanel 3: Yuto with manga shock lines.`nPanel 4: Remi smiling coolly.`n### STYLE: Japanese manga, cel shaded. NO GLOVES."
 
         # 1ページ目：レミ主導（偶数No）
-        TemplateP1_Remi      = "PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.`nPanel 1 (Top 40%): Bright meeting room. Remi (Silver hair, Red eyes, Red blazer) stands confidently, pointing at a whiteboard to start a surprise lecture. Yuto (Black hair, Gakuran) looks surprised but eager. Remi says `"優斗君、今日は『{Title}』について教えるわよ。しっかり聞きなさい。`" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset (15% from right) with white text `"{Title}`".`nPanel 2 (Middle 30%): Close-up of Remi's face, explaining authoritative yet kindly. {TeachDialog}`nPanel 3 (Bottom-Right 30%): Yuto looking impressed and nodding. `"はい、レミさん！`" `nPanel 4 (Bottom-Left 30%): Remi's mysterious side profile.`nArt style: Japanese manga style, cel shading, professional quality. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES."
+        TemplateP1_Remi      = "### INSTRUCTION: DO NOT DRAW ANY ENGLISH TEXT. ONLY JAPANESE IN SPEECH BUBBLES.`n### CHARACTER SETTING`n- Remi: {Remi_Full}`n- Yuto: {Yuto_Full}`n### PAGE LAYOUT (Portrait 1200x1697)`nPanel 1: Remi pointing at whiteboard, Yuto taking notes. Remi says `"優斗君、今日は『{Title}』について教えるわよ。`" in a Japanese speech bubble. Title box: Black box with white Japanese text `"{Title}`".`nPanel 2: Remi explaining concepts. She says `"{TeachDialog}`" in a Japanese speech bubble.`nPanel 3: Yuto nodding. `"はい、レミさん！`" in a bubble.`nPanel 4: Remi's side profile.`n### STYLE: Japanese manga, cel shaded. NO GLOVES."
 
         # 2ページ目共通
-        TemplateP2           = "PAGE 2 LAYOUT: 1200x1697 pixels portrait. Lecture style.`nPanel 1 (Top 50%): Remi in front of a monitor showing '{Title}'. Charts and symbolic icons.`nPanel 2 (Middle-Right 25%): Vertical panel. Remi emphasizing key points. Speech: `"{DescDialog}`"`nPanel 3 (Middle-Left 25%): Vertical panel. Yuto understanding with visuals.`nPanel 4 (Bottom 25%): Wide shot. Yuto determined, Remi proud. Yuto says `"{ActionDialog}`".`nColors: GOLD and ROYAL PURPLE theme. Remi: SILVER hair, RED blazer. Yuto: BLACK Gakuran. Cinematic lighting."
+        TemplateP2           = "### INSTRUCTION: DO NOT DRAW ANY ENGLISH TEXT. ONLY JAPANESE IN SPEECH BUBBLES.`n### CHARACTER SETTING`n- Remi: {Remi_Full}`n- Yuto: {Yuto_Full}`n### PAGE LAYOUT (Portrait 1200x1697)`nPanel 1: EPIC METAPHOR SCENE. Remi navigating a symbolic world of '{Title}' (e.g. cosmic/oceanic). Digital charts in background. Remi has absolute authority.`nPanel 2: Remi making a sharp gesture. She says `"{DescDialog}`" in a Japanese speech bubble.`nPanel 3: Yuto visualizing profit with golden icons.`nPanel 4: Yuto determined, Remi proud. Yuto says `"{ActionDialog}`" in a bubble. Remi thinks `"期待しているわよ。`" in a small thoughts bubble.`n### STYLE: Cinematic lighting, Gold/Purple theme. NO GLOVES."
         
         # スリム化用置換パターン
         SlimmingReplacements = @{
