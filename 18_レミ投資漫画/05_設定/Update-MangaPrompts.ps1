@@ -1,59 +1,80 @@
-# Update-MangaPrompts.ps1 - 全プロンプトの一括更新（統合版）
+# Update-MangaPrompts.ps1 - 全プロンプトの一括更新（統合・強化版）
 [CmdletBinding()]
 param(
     [Parameter()]
-    [switch]$Force
+    [switch]$Force,
+
+    [Parameter()]
+    [switch]$DryRun
 )
 
 # 1. 環境準備
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 . (Join-Path $ScriptDir "Settings.ps1")
 
-Write-Host "🚀 統合更新開始..." -ForegroundColor Cyan
+Write-Host "🚀 統合プロンプト更新開始..." -ForegroundColor Cyan
+if ($DryRun) { Write-Host "🔍 ドライラン・モード (ファイルは書き換えられません)" -ForegroundColor Yellow }
 
 $Files = Get-ChildItem -Path $Config.Paths.BaseDir -Recurse -Filter "No*_プロンプト.md"
 if ($null -eq $Files -or $Files.Count -eq 0) {
-    Write-Warning "No files found."
+    Write-Warning "対象ファイルが見つかりませんでした。"
     return
 }
 
 $count = 0
+$totalFiles = $Files.Count
+
 foreach ($File in $Files) {
-    Write-Host "Processing: $($File.Name)... " -NoNewline
+    Write-Host "[$($count+1)/$totalFiles] Processing: $($File.Name)... " -NoNewline
     try {
         $RawContent = [System.IO.File]::ReadAllText($File.FullName)
+        $CurrentContent = $RawContent
         
-        $No = 1
-        if ($RawContent -match '\| No \| (\d+) \|') { $No = [int]$Matches[1] }
-        $Title = "投資"; if ($RawContent -match '\| タイトル \| (.*?) \|') { $Title = $Matches[1].Trim() }
-        $IntroDialog = "教えてください！"; if ($RawContent -match '\| DIALOGUE_INTRO \| (.*?) \|') { $IntroDialog = $Matches[1].Trim() }
-        $TeachDialog = "いいわよ。"; if ($RawContent -match '\| DIALOGUE_TEACH \| (.*?) \|') { $TeachDialog = $Matches[1].Trim() }
-        $DescDialog = "これが本質よ。"; if ($RawContent -match '\| DIALOGUE_DESC \| (.*?) \|') { $DescDialog = $Matches[1].Trim() }
-        $ActionDialog = "やってみます！"; if ($RawContent -match '\| DIALOGUE_ACTION \| (.*?) \|') { $ActionDialog = $Matches[1].Trim() }
+        # 2. データ抽出
+        $No = 1; if ($CurrentContent -match '\| No \| (\d+) \|') { $No = [int]$Matches[1] }
+        $Title = "投資"; if ($CurrentContent -match '\| タイトル \| (.*?) \|') { $Title = $Matches[1].Trim() }
+        $IntroDialog = "教えてください！"; if ($CurrentContent -match '\| DIALOGUE_INTRO \| (.*?) \|') { $IntroDialog = $Matches[1].Trim() }
+        $TeachDialog = "いいわよ。"; if ($CurrentContent -match '\| DIALOGUE_TEACH \| (.*?) \|') { $TeachDialog = $Matches[1].Trim() }
+        $DescDialog = "これが本質よ。"; if ($CurrentContent -match '\| DIALOGUE_DESC \| (.*?) \|') { $DescDialog = $Matches[1].Trim() }
+        $ActionDialog = "やってみます！"; if ($CurrentContent -match '\| DIALOGUE_ACTION \| (.*?) \|') { $ActionDialog = $Matches[1].Trim() }
 
-        $TemplateP1 = $Config.Prompts.TemplateP1_Yuto
-        if ($No % 2 -eq 0) { $TemplateP1 = $Config.Prompts.TemplateP1_Remi }
+        # 3. テンプレート適用 (1P目/2P目)
+        $TemplateP1 = if ($No % 2 -eq 0) { $Config.Prompts.TemplateP1_Remi } else { $Config.Prompts.TemplateP1_Yuto }
         
         $NL = [Environment]::NewLine
         $NewP1 = $Config.Prompts.Prefix + $NL + $NL + $TemplateP1.Replace("{Title}", $Title).Replace("{IntroDialog}", $IntroDialog).Replace("{TeachDialog}", $TeachDialog)
         $NewP2 = $Config.Prompts.Prefix + $NL + $NL + $Config.Prompts.TemplateP2.Replace("{Title}", $Title).Replace("{DescDialog}", $DescDialog).Replace("{ActionDialog}", $ActionDialog)
 
+        # 4. キャラクター定義の更新 (旧形式の全置換)
+        foreach ($Char in $Config.Characters.Values) {
+            foreach ($OldDef in $Char.Old) {
+                # 文字列として置換
+                $CurrentContent = $CurrentContent.Replace($OldDef, $Char.Current)
+            }
+        }
+
+        # 5. スリム化と共通置換 (Settings.ps1 から取得)
+        foreach ($Entry in $Config.Prompts.SlimmingReplacements.GetEnumerator()) {
+            $CurrentContent = $CurrentContent.Replace($Entry.Key, $Entry.Value)
+        }
+
+        # 6. プロンプトセクションの置換 (正規表現)
         $opt = [System.Text.RegularExpressions.RegexOptions]::Singleline
-        $P1Pattern = "## 1ページ目プロンプト\s*\n\s*```text\s*\n.*?\n```"
-        $P2Pattern = "## 2ページ目プロンプト\s*\n\s*```text\s*\n.*?\n```"
-        $Rep1 = "## 1ページ目プロンプト" + $NL + $NL + "```text" + $NL + $NewP1 + $NL + "```"
-        $Rep2 = "## 2ページ目プロンプト" + $NL + $NL + "```text" + $NL + $NewP2 + $NL + "```"
+        $P1Pattern = "(## 1ページ目プロンプト\s*\n\s*```text\s*\n)(.*?)(\n```)"
+        $P2Pattern = "(## 2ページ目プロンプト\s*\n\s*```text\s*\n)(.*?)(\n```)"
+        
+        # 正規表現での置換時に $ を $$ にエスケープ（Replaceメソッド用）
+        $SafeP1 = $NewP1.Replace('$', '$$')
+        $SafeP2 = $NewP2.Replace('$', '$$')
+        
+        $CurrentContent = [regex]::Replace($CurrentContent, $P1Pattern, "${1}${SafeP1}${3}", $opt)
+        $CurrentContent = [regex]::Replace($CurrentContent, $P2Pattern, "${1}${SafeP2}${3}", $opt)
 
-        $NewContent = [regex]::Replace($RawContent, $P1Pattern, $Rep1.Replace('$', '$$'), $opt)
-        $NewContent = [regex]::Replace($NewContent, $P2Pattern, $Rep2.Replace('$', '$$'), $opt)
-
-        $tw = $Config.Image.Width
-        $th = $Config.Image.Height
-        $tr = $Config.Image.AspectRatio
-        $NewContent = $NewContent.Replace("1200x1700", "$tw`x$th").Replace("aspect ratio 12:17", "aspect ratio $tr")
-
-        if ($NewContent -ne $RawContent) {
-            [System.IO.File]::WriteAllText($File.FullName, $NewContent, [System.Text.Encoding]::UTF8)
+        # 7. 変更の保存
+        if ($CurrentContent -ne $RawContent) {
+            if (-not $DryRun) {
+                [System.IO.File]::WriteAllText($File.FullName, $CurrentContent, [System.Text.Encoding]::UTF8)
+            }
             Write-Host "DONE" -ForegroundColor Green
             $count++
         }
@@ -65,4 +86,6 @@ foreach ($File in $Files) {
         Write-Host "ERROR: $($_.Exception.Message)" -ForegroundColor Red
     }
 }
-Write-Host "`n✅ 更新完了: $count 個のファイルを修正しました。" -ForegroundColor Cyan
+
+$Msg = if ($DryRun) { "確認完了" } else { "更新完了" }
+Write-Host "`n✅ $Msg : $count 個のファイルを修正(予定)しました。" -ForegroundColor Cyan
