@@ -1,0 +1,5 @@
+﻿AllUsersAllHosts: C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1 -> False
+AllUsersCurrentHost: C:\Windows\System32\WindowsPowerShell\v1.0\Microsoft.PowerShell_profile.ps1 -> False
+CurrentUserAllHosts: C:\Users\hirak\Documents\WindowsPowerShell\profile.ps1 -> False
+CurrentUserCurrentHost: C:\Users\hirak\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 -> False
+Length: 75 -> False
