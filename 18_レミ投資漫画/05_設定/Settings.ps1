@@ -1,5 +1,5 @@
 # Settings.ps1 - レミ投資漫画 共通設定
-# このファイルは UTF-8 (with BOM) で保存してください。
+# このファイルは UTF-8 (with BOM) で保存ください。
 
 $Config = @{
     # ディレクトリパス
@@ -12,32 +12,38 @@ $Config = @{
     # キャラクター定義
     Characters = @{
         Remi = @{
-            Old = "Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent. BARE HANDS (no gloves)."
-            New = "Remi (Woman): (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Wearing (Tailored RED blazer:1.3) over black lace top. Cool, intelligent, and authoritative. BARE HANDS (no gloves)."
+            Current = "Remi (Woman): (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Wearing (Tailored RED blazer:1.3) over black lace top. Cool, intelligent, and authoritative. BARE HANDS (no gloves)."
+            Old     = @(
+                "Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent. BARE HANDS (no gloves).",
+                "Remi (Woman): Silky SILVER hair, Red eyes, Red blazer.",
+                "Remi: Silky SILVER hair, Red eyes, Red blazer."
+            )
         }
         Yuto = @{
-            Old = "Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner. BARE HANDS (no gloves)."
-            New = "Yuto (Boy): Short Black hair, (Traditional Black GAKURAN school uniform:1.4), Gold buttons. Energetic learner. BARE HANDS (no gloves)."
+            Current = "Yuto (Boy): Short Black hair, (Traditional Black GAKURAN school uniform:1.4), Gold buttons. Energetic learner. BARE HANDS (no gloves)."
+            Old     = @(
+                "Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner. BARE HANDS (no gloves).",
+                "Yuto (Boy): Short Black hair, Black GAKURAN uniform.",
+                "Yuto: Short Black hair, Black GAKURAN uniform."
+            )
         }
     }
 
-    # プロンプト定数
+    # プロンプトテンプレート
     Prompts    = @{
-        AnatomyBlock = "CRITICAL ANATOMICAL REQUIREMENTS:`n- Each character has EXACTLY TWO HANDS`n- Each hand has EXACTLY FIVE FINGERS`n- Remi wears NO GLOVES - bare hands only`n- Yuto wears NO GLOVES - bare hands only`n- Anatomically correct human proportions"
-        Prefix       = "画像生成を行ってください。以下のプロンプトに基づいて、縦長のマンガ画像を生成してください。"
+        Prefix          = "【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE."
         
-        TitleOld     = "In Panel 1, BOTTOM-RIGHT corner: Draw a BLACK rectangular box with WHITE border containing WHITE TEXT:`n複利`nFont: Bold, Clear Japanese Gothic font."
-        TitleNew     = "In Panel 1, BOTTOM-RIGHT corner: Draw a COMPACT BLACK rectangular box with tight white border containing WHITE TEXT:`n複利`nFont: Bold, Clear Japanese Gothic font. Layout: Single line, minimal vertical padding."
+        TemplateP1_Yuto = "PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout. `nPanel 1 (Top 40%): Bright meeting room. Yuto (Black hair, Gakuran) approaches Remi with a question. Remi (Silver hair, Red eyes, Red blazer) arms crossed, listening. Yuto says `"{IntroDialog}`" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset (15% from right) with white text `"{Title}`". `nPanel 2 (Middle 30%): Close-up of Remi's face, explaining the core truth. {TeachDialog} `nPanel 3 (Bottom-Right 30%): Yuto's shock/realization face with shock lines. `nPanel 4 (Bottom-Left 30%): Remi's small cool smile. `nArt style: Japanese manga style, cel shading, professional quality. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES."
+
+        TemplateP1_Remi = "PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout. `nPanel 1 (Top 40%): Bright meeting room. Remi (Silver hair, Red eyes, Red blazer) stands confidently, pointing at a whiteboard to start a surprise lecture. Yuto (Black hair, Gakuran) looks surprised but eager. Remi says `"優斗君、今日は『{Title}』について教えるわよ。しっかり聞きなさい。`" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset (15% from right) with white text `"{Title}`". `nPanel 2 (Middle 30%): Close-up of Remi's face, explaining authoritative yet kindly. {TeachDialog} `nPanel 3 (Bottom-Right 30%): Yuto looking impressed and nodding. `"はい、レミさん！`" `nPanel 4 (Bottom-Left 30%): Remi's mysterious side profile. `nArt style: Japanese manga style, cel shading, professional quality. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES."
+
+        TemplateP2      = "PAGE 2 LAYOUT: 1200x1697 pixels portrait. Lecture style. `nPanel 1 (Top 50%): Remi in front of a monitor showing '{Title}'. Charts and symbolic icons. `nPanel 2 (Middle-Right 25%): Vertical panel. Remi emphasizing key points. Speech: `"{DescDialog}`" `nPanel 3 (Middle-Left 25%): Vertical panel. Yuto understanding with visuals. `nPanel 4 (Bottom 25%): Wide shot. Yuto determined, Remi proud. Yuto says `"{ActionDialog}`". `nColors: GOLD and ROYAL PURPLE theme. Remi: SILVER hair, RED blazer. Yuto: BLACK Gakuran. Cinematic lighting."
     }
 
     # 画像設定
     Image      = @{
-        Width  = 1200
-        Height = 1700
+        Width       = 1200
+        Height      = 1697
+        AspectRatio = "1200:1697"
     }
-}
-
-function Get-ProjectRoot {
-    # スクリプトの場所から親ディレクトリを辿ってプロジェクトルートを特定する（将来的な相対パス化用）
-    return $Config.Paths.BaseDir
 }

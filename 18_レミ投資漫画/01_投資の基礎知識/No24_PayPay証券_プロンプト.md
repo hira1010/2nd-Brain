@@ -14,82 +14,14 @@
 ## 1ページ目プロンプト
 
 ```text
-画像生成を行ってください。以下のプロンプトに基づいて、縦長のマンガ画像を生成してください。
-[OUTPUT: 1200x1700 pixels, aspect ratio 12:17, portrait orientation]
+【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
 
-MANDATORY IMAGE SPECIFICATIONS:
-- Canvas Size: 1200 pixels width x 1700 pixels height
-- Aspect Ratio: 12:17 (portrait)
-- Resolution: High quality manga illustration
-
-CRITICAL ANATOMICAL REQUIREMENTS:
-- Each character has EXACTLY TWO HANDS
-- Each hand has EXACTLY FIVE FINGERS
-- Remi wears NO GLOVES - bare hands only
-- Yuto wears NO GLOVES - bare hands only
-- Anatomically correct human proportions
-
-PANEL LAYOUT - PAGE 1:
-MANGA PAGE 1 - VERTICAL DYNAMIC PANEL LAYOUT (READING ORDER: RIGHT TO LEFT, TOP TO BOTTOM)
-- Panel 1 (TOP 40%): Large horizontal panel (Intro)
-- Panel 2 (MIDDLE 30%): Medium horizontal panel (Conversation)
-- Panel 3 (BOTTOM-RIGHT 15%): Small vertical panel (Reaction)
-- Panel 4 (BOTTOM-LEFT 15%): Small vertical panel (Theme)
-READING FLOW: Panel 1 -> Panel 2 -> Panel 3 (Right) -> Panel 4 (Left)
-
-TEXT BOX REQUIREMENT:
-In Panel 1, BOTTOM-RIGHT corner: Draw a BLACK rectangular box with WHITE border containing WHITE TEXT:
-PayPay証券
-Font: Bold, Clear Japanese Gothic font.
-
-STYLE SPECIFICATIONS:
-- Japanese manga style
-- 6500K neutral white balance
-- Clean bright colors with cel shading
-- White panel borders with black outlines
-- Pure white speech bubbles
-- Professional manga quality
-
-SCENE SETTING:
-- Location: Luxurious lounge bar with night city view
-- Atmosphere: Professional yet engaging
-
-CHARACTERS (ALWAYS VISIBLE):
-- Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent. BARE HANDS (no gloves).
-- Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner. BARE HANDS (no gloves).
-
-Panel 1 - Introduction
-Scene: Luxurious lounge bar with night city view. Yuto looks confused or eager, holding a smartphone or document. Remi looks coolly at him.
-Characters: Yuto (leaning forward), Remi (standing with arms crossed)
-Speech bubbles:
-米国株は1株数万円もするから、僕の給料じゃ買えませんよ…富豪の特権ですよね。
-
----
-
-Panel 2 - The Teach
-Scene: Close-up of Remi's face. She is pointing a finger or looking sharp. Background has sparkle effects.
-Characters: Remi (Silver hair, Red eyes, confident smile). Remi is positioned on the RIGHT side.
-Speech bubble:
-言い訳を見つける天才ね。スマホ一つで1000円から世界最大の企業を買い叩ける時代に、何を言っているの？
-
----
-
-Panel 3 - Shock/Realization
-Scene: Yuto's shocked face. He realizes his mistake. Positioned BOTTOM-RIGHT.
-Characters: Yuto (Black hair, Gakuran, eyes wide open)
-Effects: Shock lines, sweat drop
-Speech bubble:
-ハッ…！
-そうだったのか…
-
----
-
-Panel 4 - Theme Display
-Scene: Remi smiling mysteriously. Positioned BOTTOM-LEFT.
-Characters: Remi (Side profile, Silver hair, Red eyes)
-Speech bubble:
-これが投資の真実よ
-
+PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
+Panel 1 (Top 40%): Bright meeting room. Remi (Silver hair, Red eyes, Red blazer) stands confidently, pointing at a whiteboard to start a surprise lecture. Yuto (Black hair, Gakuran) looks surprised but eager. Remi says "優斗君、今日は『PayPay証券』について教えるわよ。しっかり聞きなさい。" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset (15% from right) with white text "PayPay証券".
+Panel 2 (Middle 30%): Close-up of Remi's face, explaining authoritative yet kindly. 言い訳を見つける天才ね。スマホ一つで1000円から世界最大の企業を買い叩ける時代に、何を言っているの？
+Panel 3 (Bottom-Right 30%): Yuto looking impressed and nodding. "はい、レミさん！"
+Panel 4 (Bottom-Left 30%): Remi's mysterious side profile.
+Art style: Japanese manga style, cel shading, professional quality. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
 ```
 
 ---
@@ -97,80 +29,14 @@ Speech bubble:
 ## 2ページ目プロンプト
 
 ```text
-画像生成を行ってください。以下のプロンプトに基づいて、縦長のマンガ画像を生成してください。
-[OUTPUT: 1200x1700 pixels, aspect ratio 12:17, portrait orientation]
+【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
 
-MANDATORY IMAGE SPECIFICATIONS:
-- Canvas Size: 1200 pixels width x 1700 pixels height
-- Aspect Ratio: 12:17 (portrait)
-- Resolution: High quality manga illustration
-
-CRITICAL ANATOMICAL REQUIREMENTS:
-- Each character has EXACTLY TWO HANDS
-- Each hand has EXACTLY FIVE FINGERS
-- Remi wears NO GLOVES - bare hands only
-- Yuto wears NO GLOVES - bare hands only
-- Anatomically correct human proportions
-
-PANEL LAYOUT - PAGE 2:
-MANGA PAGE 2 - LECTURE STYLE SQUAD (READING ORDER: RIGHT TO LEFT, TOP TO BOTTOM)
-- Panel 1 (TOP 50%): Large cinematic panel (Lecture with Visual)
-- Panel 2 (MIDDLE-RIGHT 25%): Vertical panel (Point 1)
-- Panel 3 (MIDDLE-LEFT 25%): Vertical panel (Point 2)
-- Panel 4 (BOTTOM 25%): Wide conclusion panel (Action)
-READING FLOW: Panel 1 -> Panel 2 (Right) -> Panel 3 (Left) -> Panel 4
-
-STYLE SPECIFICATIONS:
-- Japanese manga style
-- 6500K neutral white balance
-- Rich colors with dynamic contrast
-- White panel borders with black outlines
-- Pure white speech bubbles
-- Luxurious golden and royal purple color scheme
-
-SCENE SETTING:
-- Location: Luxurious lounge bar with night city view (SAME AS PAGE 1)
-
-**IMPORTANT: CHARACTERS MUST BE CONSISTENT WITH PAGE 1**
-- Remi: Silky SILVER hair, Red eyes, Red blazer.
-- Yuto: Short Black hair, Black GAKURAN uniform.
-
-Panel 1 - Visual Lecture (CRITICAL: Remi must be in the frame)
-Scene: Remi standing in front of a large holographic monitor or blackboard showing the concept of "PayPay証券". She is explaining it directly to Yuto.
-Characters:
-- Remi: Standing on the right, pointing at the visual behind her. (Silver hair, Red blazer)
-- Yuto: Sitting or standing on the left, looking at the visual with admiration. (Black Gakuran)
-Visual Background: Symbolic representation of PayPay証券 (Charts, Coins, Crown, etc.) on the screen.
-Speech bubbles: PayPay証券や少額投資を使えば、お菓子を我慢する金でAppleやAmazonのオーナーになれる。少額だからと侮る者が、大きな富を掴むことはないわ。
-
----
-
-Panel 2 - Point 1 (Remi Explaining)
-Scene: Close up of Remi emphasizing a point. Positioned MIDDLE-RIGHT.
-Characters: Remi (Silver hair, Red eyes) raising one finger.
-Speech bubbles: ポイント1：PayPay証券の重要性よ！
-Effects: Sparkles, Golden background
-
----
-
-Panel 3 - Point 2 (Yuto Understanding)
-Scene: Yuto looking at a chart or visual, nodding. Positioned MIDDLE-LEFT.
-Characters: Yuto (Black hair, Gakuran) holding a notebook or tablet.
-Speech bubbles: なるほど、ポイント2の「実践」が大事なんだな！
-Effects: Upward arrows, Growth symbols
-
----
-
-Panel 4 - Conclusion/Action
-Scene: Back to the main shot. Remi and Yuto facing each other.
-Characters:
-- Yuto (Left): Determined expression, clenched fist. "I will do it!" pose. (Black Gakuran)
-- Remi (Right): Proud/Satisfied smile, hand on hip. (Silver hair, Red blazer)
-Speech bubbles:
-1000円でもAppleの株主に…！言い訳を探す前に、まずは1株買ってみます！
-その意気よ。
-一歩一歩着実にね。
-
+PAGE 2 LAYOUT: 1200x1697 pixels portrait. Lecture style.
+Panel 1 (Top 50%): Remi in front of a monitor showing 'PayPay証券'. Charts and symbolic icons.
+Panel 2 (Middle-Right 25%): Vertical panel. Remi emphasizing key points. Speech: "PayPay証券や少額投資を使えば、お菓子を我慢する金でAppleやAmazonのオーナーになれる。少額だからと侮る者が、大きな富を掴むことはないわ。"
+Panel 3 (Middle-Left 25%): Vertical panel. Yuto understanding with visuals.
+Panel 4 (Bottom 25%): Wide shot. Yuto determined, Remi proud. Yuto says "1000円でもAppleの株主に…！言い訳を探す前に、まずは1株買ってみます！".
+Colors: GOLD and ROYAL PURPLE theme. Remi: SILVER hair, RED blazer. Yuto: BLACK Gakuran. Cinematic lighting.
 ```
 
 ---

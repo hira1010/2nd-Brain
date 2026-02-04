@@ -1,224 +1,150 @@
-# MangaTool.ps1 - レミ投資漫画 統合ツール
-# 使い方:
-#   .\MangaTool.ps1                (メニュー表示)
-#   .\MangaTool.ps1 -Mode Prompt -Number 15
-#   .\MangaTool.ps1 -Mode Resize -Path "image.png"
-#   .\MangaTool.ps1 -Mode Preview -Number 15
-# このファイルは UTF-8 (with BOM) で保存してください。
-
+# MangaTool.ps1 - レミ投資漫画 制作支援統合ツール
+[CmdletBinding()]
 param(
+    [Parameter()]
+    [ValidateSet("Prompt", "Resize", "Preview", "Update")]
     [string]$Mode,
+
+    [Parameter()]
     [string]$Path,
+
+    [Parameter()]
     [int]$Number
 )
 
-# 共通設定を読み込む
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-. (Join-Path $ScriptDir "Settings.ps1")
+# 1. 共通設定の読み込み
+. (Join-Path $PSScriptRoot "Settings.ps1")
 
-# --- 関数定義 ---
+# --- 内部関数 ---
 
-function Show-Header {
+function Show-MangaHeader {
+    [CmdletBinding()]
+    param()
     Clear-Host
     Write-Host "========================================" -ForegroundColor Cyan
-    Write-Host "   🎨 レミ投資漫画 制作アシスタント" -ForegroundColor White
+    Write-Host "   🎨 レミ投資漫画 制作アシスタント v2" -ForegroundColor White
     Write-Host "========================================" -ForegroundColor Cyan
     Write-Host ""
 }
 
-function Get-Prompt {
-    param([int]$Num)
-    $baseDir = $Config.Paths.BaseDir
-    # 数値を2桁のNo00形式に整形
+function Get-MangaPrompt {
+    [CmdletBinding()]
+    param([Parameter(Mandatory = $true)][int]$Num)
+    
     $numStr = $Num.ToString("00")
-    $files = Get-ChildItem -Path $baseDir -Recurse | Where-Object { $_.Name -like "No${numStr}_*_プロンプト.md" }
-
-    if ($files.Count -eq 0) { 
-        Write-Host "❌ No.$Num のファイルが見つかりません" -ForegroundColor Red
-        return 
-    }
-
-    $lines = Get-Content $files[0].FullName -Encoding UTF8
-    $inCode = $false; $section = ''; $p1 = @(); $p2 = @()
-
-    foreach ($line in $lines) {
-        if ($line -match '^## 1ページ') { $section = '1'; continue }
-        if ($line -match '^## 2ページ') { $section = '2'; continue }
-        if ($line -match '^## ') { $section = ''; $inCode = $false; continue }
-        if ($line -match '^```text') { $inCode = $true; continue }
-        if ($line -match '^```$') { $inCode = $false; continue }
-        if ($inCode -and $section -eq '1') { $p1 += $line }
-        if ($inCode -and $section -eq '2') { $p2 += $line }
-    }
-
-    Write-Host "📜 No.$Num のプロンプトを抽出しました: $($files[0].Name)" -ForegroundColor Green
-    Write-Host ""
+    $files = Get-ChildItem -Path $Config.Paths.BaseDir -Recurse -Filter "No${numStr}_*_プロンプト.md"
     
-    $prefix = $Config.Prompts.Prefix + "`n`n"
+    if (-not $files) {
+        Write-Host "❌ No.$Num のファイルが見つかりません。" -ForegroundColor Red
+        return
+    }
 
-    if ($p1) { 
-        $text1 = $p1 -join "`n"
-        # すでに命令文が含まれているか確認
-        if ($text1 -notmatch [regex]::Escape($Config.Prompts.Prefix)) {
-            $text1 = $prefix + $text1
-        }
-        Write-Host '=== 1ページ目 (AIスタジオにコピペ) ===' -ForegroundColor Yellow
-        Write-Host $text1
-        Write-Host "" 
-    }
-    if ($p2) { 
-        $text2 = $p2 -join "`n"
-        if ($text2 -notmatch [regex]::Escape($Config.Prompts.Prefix)) {
-            $text2 = $prefix + $text2
-        }
-        Write-Host '=== 2ページ目 (AIスタジオにコピペ) ===' -ForegroundColor Yellow
-        Write-Host $text2
-        Write-Host "" 
-    }
+    $content = [System.IO.File]::ReadAllText($files[0].FullName)
+    Write-Host "📜 プロンプトを抽出しました: $($files[0].Name)" -ForegroundColor Green
     
-    # クリップボードにコピー
-    $choice = Read-Host "📋 1ページ目をクリップボードにコピーしますか？ (y/n)"
-    if ($choice -eq 'y') { 
-        Set-Clipboard -Value $text1
-        Write-Host "✅ 1ページ目をコピーしました！" -ForegroundColor Green 
+    $opt = [System.Text.RegularExpressions.RegexOptions]::Singleline
+    $p1 = ""; $match1 = [regex]::Match($content, "## 1ページ目プロンプト\s*\n\s*```text\s*\n(.*?)\n```", $opt)
+    if ($match1.Success) {
+        $p1 = $match1.Groups[1].Value
+        Write-Host ""
+        Write-Host "= == 1ページ目 (AIスタジオ用) ===" -ForegroundColor Yellow
+        Write-Host $p1
     }
-    
-    $choice2 = Read-Host "📋 2ページ目をクリップボードにコピーしますか？ (y/n)"
-    if ($choice2 -eq 'y') { 
-        Set-Clipboard -Value $text2
-        Write-Host "✅ 2ページ目をコピーしました！" -ForegroundColor Green 
+
+    $p2 = ""; $match2 = [regex]::Match($content, "## 2ページ目プロンプト\s*\n\s*```text\s*\n(.*?)\n```", $opt)
+    if ($match2.Success) {
+        $p2 = $match2.Groups[1].Value
+        Write-Host ""
+        Write-Host "=== 2ページ目 (AIスタジオ用) ===" -ForegroundColor Yellow
+        Write-Host $p2
+    }
+
+    if ($p1 -or $p2) {
+        Write-Host ""
+        $c = Read-Host "📋 コピーしますか？ (1:1P目 / 2:2P目 / n:しない)"
+        if ($c -eq '1') { Set-Clipboard -Value $p1; Write-Host "✅ 1P目コピー完了" -ForegroundColor Green }
+        elseif ($c -eq '2') { Set-Clipboard -Value $p2; Write-Host "✅ 2P目コピー完了" -ForegroundColor Green }
     }
 }
 
-function Resize-Image {
-    param([string]$FilePath)
+function Set-MangaImageSize {
+    [CmdletBinding()]
+    param([Parameter(Mandatory = $true)][string]$FilePath)
     Add-Type -AssemblyName System.Drawing
-    
-    # パスが引用符で囲まれている場合のトリム
-    $FilePath = $FilePath.Trim('"').Trim("'")
-    if (-not (Test-Path $FilePath)) { Write-Host "❌ ファイルが見つかりません: $FilePath" -ForegroundColor Red; return }
-    
+    $f = $FilePath.Trim('"').Trim("'")
+    if (-not (Test-Path $f)) { Write-Error "File not found: $f"; return }
     try {
-        $img = [System.Drawing.Image]::FromFile($FilePath)
-        $targetW = $Config.Image.Width
-        $targetH = $Config.Image.Height
-
-        if ($img.Width -eq $targetW -and $img.Height -eq $targetH) {
-            Write-Host "✅ サイズは既に ${targetW}x${targetH} です。リサイズ不要。" -ForegroundColor Green
-            $img.Dispose()
-            return
+        $img = [System.Drawing.Image]::FromFile($f)
+        $tw, $th = $Config.Image.Width, $Config.Image.Height
+        if ($img.Width -eq $tw -and $img.Height -eq $th) {
+            Write-Host "✅ サイズ修正済み" -ForegroundColor Green
         }
-
-        Write-Host "リサイズ中: $($img.Width)x$($img.Height) -> ${targetW}x${targetH}..." -ForegroundColor Cyan
-        $resized = New-Object System.Drawing.Bitmap($targetW, $targetH)
-        $graphics = [System.Drawing.Graphics]::FromImage($resized)
-        $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-        $graphics.DrawImage($img, 0, 0, $targetW, $targetH)
-        
-        $outputPath = $FilePath -replace '\.png$', '_fixed.png'
-        $resized.Save($outputPath, [System.Drawing.Imaging.ImageFormat]::Png)
-        
-        $img.Dispose(); $resized.Dispose(); $graphics.Dispose()
-        Write-Host "✅ リサイズ完了: $outputPath" -ForegroundColor Green
+        else {
+            Write-Host "Resizing..." -ForegroundColor Cyan
+            $bmp = New-Object System.Drawing.Bitmap($tw, $th)
+            $g = [System.Drawing.Graphics]::FromImage($bmp)
+            $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+            $g.DrawImage($img, 0, 0, $tw, $th)
+            $out = $f -replace '\.png$', '_fixed.png'
+            $bmp.Save($out, [System.Drawing.Imaging.ImageFormat]::Png)
+            $g.Dispose(); $bmp.Dispose()
+            Write-Host "✅ 保存完了: $out" -ForegroundColor Green
+        }
+        $img.Dispose()
     }
-    catch {
-        Write-Host "❌ エラー: $_" -ForegroundColor Red
-    }
+    catch { Write-Error "Error: $_" }
 }
 
-function Create-Preview {
-    param([int]$Num)
+function New-MangaPreview {
+    [CmdletBinding()]
+    param([Parameter(Mandatory = $true)][int]$Num)
     Add-Type -AssemblyName System.Drawing
-    
-    # カレントディレクトリまたはBaseDirから画像を探す
-    $searchDir = Get-Location
-    $files = Get-ChildItem -Path $searchDir -Filter "*.png" | Where-Object { $_.Name -match "No0?$Num" }
-    
-    $p1 = $files | Where-Object { $_.Name -match "p1" -and $_.Name -notmatch "preview|見開き" } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    $p2 = $files | Where-Object { $_.Name -match "p2" -and $_.Name -notmatch "preview|見開き" } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    
-    if (-not $p1 -or -not $p2) { 
-        Write-Host "❌ No.$Num の画像ペアが見つかりません (p1, p2)" -ForegroundColor Red
-        Write-Host "   現在のディレクトリにある PNG ファイルを確認してください。"
-        return 
-    }
-
-    Write-Host "画像結合中..."
-    Write-Host "  Left: $($p1.Name)"
-    Write-Host "  Right: $($p2.Name)"
-
+    $files = Get-ChildItem -Path (Get-Location) -Filter "*.png" | Where-Object { $_.Name -match "No0?$Num" }
+    $p1 = $files | Where-Object { $_.Name -match "p1" -and $_.Name -notmatch "preview" } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $p2 = $files | Where-Object { $_.Name -match "p2" -and $_.Name -notmatch "preview" } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    if (-not $p1 -or -not $p2) { Write-Error "Pair not found."; return }
     try {
-        $img1 = [System.Drawing.Image]::FromFile($p1.FullName)
-        $img2 = [System.Drawing.Image]::FromFile($p2.FullName)
-        
-        $width = $img1.Width + $img2.Width
-        $height = [Math]::Max($img1.Height, $img2.Height)
-        
-        $combined = New-Object System.Drawing.Bitmap($width, $height)
-        $graphics = [System.Drawing.Graphics]::FromImage($combined)
-        $graphics.FillRectangle([System.Drawing.Brushes]::White, 0, 0, $width, $height)
-        
-        # 漫画の並び (通常は p1, p2 の順で左から右に配置)
-        $graphics.DrawImage($img1, 0, 0)
-        $graphics.DrawImage($img2, $img1.Width, 0)
-        
-        $outputPath = Join-Path $searchDir "No${Num}_見開きプレビュー.png"
-        $combined.Save($outputPath, [System.Drawing.Imaging.ImageFormat]::Png)
-        
-        $img1.Dispose(); $img2.Dispose(); $combined.Dispose(); $graphics.Dispose()
-        Write-Host "✅ 見開きプレビュー作成完了: $outputPath" -ForegroundColor Green
-        
-        # プレビュー表示
-        Start-Process $outputPath
+        $i1 = [System.Drawing.Image]::FromFile($p1.FullName)
+        $i2 = [System.Drawing.Image]::FromFile($p2.FullName)
+        $bmp = New-Object System.Drawing.Bitmap(($i1.Width + $i2.Width), [Math]::Max($i1.Height, $i2.Height))
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $g.Clear([System.Drawing.Color]::White)
+        $g.DrawImage($i1, 0, 0)
+        $g.DrawImage($i2, $i1.Width, 0)
+        $out = Join-Path (Get-Location) "No${Num}_見開きプレビュー.png"
+        $bmp.Save($out, [System.Drawing.Imaging.ImageFormat]::Png)
+        $i1.Dispose(); $i2.Dispose(); $bmp.Dispose(); $g.Dispose()
+        Write-Host "✅ 作成完了: $out" -ForegroundColor Green
+        Start-Process $out
     }
-    catch {
-        Write-Host "❌ エラー: $_" -ForegroundColor Red
-    }
+    catch { Write-Error "Error: $_" }
 }
 
 # --- メイン処理 ---
-
 if ($Mode) {
     switch ($Mode) {
-        "Prompt" { Get-Prompt $Number }
-        "Resize" { Resize-Image $Path }
-        "Preview" { Create-Preview $Number }
+        "Prompt" { Get-MangaPrompt $Number }
+        "Resize" { Set-MangaImageSize $Path }
+        "Preview" { New-MangaPreview $Number }
+        "Update" { & (Join-Path $PSScriptRoot "Update-MangaPrompts.ps1") }
     }
-    exit
+    return
 }
 
-# メニューモード
 while ($true) {
-    Show-Header
-    Write-Host "1. 📜 プロンプトを表示・コピー (Get-Prompt)"
-    Write-Host "2. 🖼️ 画像をリサイズ (Resize 1200x1700)"
-    Write-Host "3. 📖 見開きプレビュー作成 (Create-Preview)"
-    Write-Host "u. 🔄 プロンプトを一括更新 (Update-AllPrompts)"
-    Write-Host "q. 終了"
+    Show-MangaHeader
+    Write-Host "1. 📜 プロンプト抽出・コピー" -ForegroundColor Yellow
+    Write-Host "2. 🖼️ 画像リサイズ (1200x1697)" -ForegroundColor Yellow
+    Write-Host "3. 📖 見開きプレビュー作成" -ForegroundColor Yellow
+    Write-Host "u. 🔄 全プロンプト一括更新" -ForegroundColor Yellow
+    Write-Host "q. 終了" -ForegroundColor Gray
     Write-Host ""
-    
-    $selection = Read-Host "選択してください"
-    
-    switch ($selection) {
-        "1" {
-            $n = Read-Host "Noを入力 (例: 15)"
-            if ($n -match '^\d+$') { Get-Prompt ([int]$n) }
-            Pause
-        }
-        "2" {
-            $p = Read-Host "画像パスを入力 (ドラッグ&ドロップ可)"
-            Resize-Image $p
-            Pause
-        }
-        "3" {
-            $n = Read-Host "Noを入力 (例: 15)"
-            if ($n -match '^\d+$') { Create-Preview ([int]$n) }
-            Pause
-        }
-        "u" {
-            & (Join-Path $ScriptDir "Update-AllPrompts.ps1")
-            Pause
-        }
+    $s = Read-Host "選択"
+    switch ($s) {
+        "1" { $n = Read-Host "No"; if ($n -as [int]) { Get-MangaPrompt $n }; $null = Read-Host "Enter..." }
+        "2" { $p = Read-Host "Path"; Set-MangaImageSize $p; $null = Read-Host "Enter..." }
+        "3" { $n = Read-Host "No"; if ($n -as [int]) { New-MangaPreview $n }; $null = Read-Host "Enter..." }
+        "u" { & (Join-Path $PSScriptRoot "Update-MangaPrompts.ps1"); $null = Read-Host "Enter..." }
         "q" { exit }
     }
 }

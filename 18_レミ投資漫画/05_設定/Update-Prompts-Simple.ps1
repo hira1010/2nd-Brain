@@ -1,4 +1,6 @@
 # Update-Prompts-Simple.ps1
+[CmdletBinding()]
+param()
 $ErrorActionPreference = "Stop"
 $TargetDir = "c:\Users\hirak\Desktop\2nd-Brain\18_レミ投資漫画"
 
@@ -30,13 +32,13 @@ foreach ($File in $Files) {
         # 2. Hands (Remi)
         $RemiTarget = "Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent."
         if ($NewContent.Contains($RemiTarget) -and -not $NewContent.Contains("BARE HANDS")) {
-             $NewContent = $NewContent.Replace($RemiTarget, $RemiTarget + " BARE HANDS (no gloves).")
+            $NewContent = $NewContent.Replace($RemiTarget, $RemiTarget + " BARE HANDS (no gloves).")
         }
 
         # 3. Hands (Yuto)
         $YutoTarget = "Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner."
         if ($NewContent.Contains($YutoTarget) -and -not $NewContent.Contains("BARE HANDS")) {
-             $NewContent = $NewContent.Replace($YutoTarget, $YutoTarget + " BARE HANDS (no gloves).")
+            $NewContent = $NewContent.Replace($YutoTarget, $YutoTarget + " BARE HANDS (no gloves).")
         }
 
         # 4. Prefix
