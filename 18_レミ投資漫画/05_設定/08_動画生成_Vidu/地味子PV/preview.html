@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地味子 セクシープロモPV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        #video-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .title-overlay {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            opacity: 0;
+            animation: fadeInOut 6s ease-in-out;
+            z-index: 10;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
+        }
+
+        .credits {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            opacity: 0;
+            animation: fadeIn 2s ease-in 3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="video-canvas"></canvas>
+    <div class="title-overlay">地味子</div>
+    <div class="credits">Presented by Remi Investment</div>
+
+    <script>
+        const canvas = document.getElementById('video-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // キャンバスサイズをウィンドウに合わせる
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // 画像をロード（ユーザーが提供した画像を使用）
+        const img = new Image();
+        img.src = '../jimi_original.jpg'; // 実際の画像パスに置き換え
+        
+        let frame = 0;
+        const totalFrames = 1440; // 24fps × 60秒
+        const fps = 24;
+
+        // アニメーション効果の計算
+        function animate() {
+            frame++;
+            if (frame > totalFrames) {
+                frame = 0; // ループ
+            }
+
+            const progress = frame / totalFrames;
+            
+            // キャンバスをクリア
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (img.complete) {
+                // 画像のアスペクト比を計算
+                const imgAspect = img.width / img.height;
+                const canvasAspect = canvas.width / canvas.height;
+                
+                let renderWidth, renderHeight, offsetX, offsetY;
+
+                // Ken Burns効果: ゆっくりズームイン＆パン
+                const zoomFactor = 1 + progress * 0.3; // 1.0 → 1.3
+                const panX = Math.sin(progress * Math.PI * 2) * 50; // 左右にパン
+                const panY = progress * 100; // 下から上にパン
+
+                if (imgAspect > canvasAspect) {
+                    renderHeight = canvas.height * zoomFactor;
+                    renderWidth = renderHeight * imgAspect;
+                } else {
+                    renderWidth = canvas.width * zoomFactor;
+                    renderHeight = renderWidth / imgAspect;
+                }
+
+                offsetX = (canvas.width - renderWidth) / 2 + panX;
+                offsetY = (canvas.height - renderHeight) / 2 - panY;
+
+                // ビネット効果
+                const gradient = ctx.createRadialGradient(
+                    canvas.width / 2, canvas.height / 2, 0,
+                    canvas.width / 2, canvas.height / 2, canvas.width * 0.7
+                );
+                
+                // 画像を描画
+                ctx.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
+
+                // ビネット効果を重ねる
+                gradient.addColorStop(0, 'rgba(0,0,0,0)');
+                gradient.addColorStop(1, 'rgba(0,0,0,0.6)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // セクション別の色調整
+                if (progress < 0.33) {
+                    // 序盤: ウォームトーン
+                    ctx.fillStyle = 'rgba(255, 200, 150, 0.1)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                } else if (progress < 0.66) {
+                    // 中盤: ティール＆オレンジ
+                    ctx.fillStyle = 'rgba(100, 150, 200, 0.08)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                } else {
+                    // 終盤: ロマンティックピンク
+                    ctx.fillStyle = 'rgba(255, 180, 200, 0.12)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+            setTimeout(() => requestAnimationFrame(animate), 1000 / fps);
+        }
+
+        img.onload = () => {
+            animate();
+        };
+
+        // エラーハンドリング
+        img.onerror = () => {
+            ctx.fillStyle = '#fff';
+            ctx.font = '24px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('画像を読み込めませんでした', canvas.width / 2, canvas.height / 2);
+        };
+    </script>
+</body>
+</html>
