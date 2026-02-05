@@ -8,89 +8,119 @@
 | タイトル | インカムvsキャピタル |
 | 解説 | 配当狙いか値上がり狙いか。 |
 | カテゴリー | 02_マインド・哲学 |
+| ページ数 | 2 |
 
 ---
 
-## 1ページ目プロンプト
+## 画像生成用プロンプト (コピペ用)
 
-```text
-【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
-
-PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
-Panel 1 (Top 40%): Bright high-tech office. Remi (Silver hair, Red eyes, Red blazer) stands calmly next to a large holographic display showing "インカムvsキャピタル". Unlike usual, the screen shows a simple balanced symbol representing the concept, not complex charts. Yuto (Black hair, Gakuran) looks puzzled. Remi says "優斗君、今日は『インカムvsキャピタル』について教えるわよ。" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset with white text "インカムvsキャピタル".
-Panel 2 (Middle 30%): CONCEPTUAL ILLUSTRATION. Visual metaphor for 'インカムvsキャピタル'. A clear comparison or balanced symbolic image representing the core concept of インカムvsキャピタル. Remi points to the correct/positive side. She says "いい心がけね。でも、ただ知るだけじゃ意味がないわ。" (In a speech bubble).
-Panel 3 (Bottom-Right 15%): Yuto nodding with deep understanding. "なるほど…そういうことなんですね"
-Panel 4 (Bottom-Left 15%): Remi's side profile, smiling gently (not smug).
-Art style: Japanese manga style, cel shading, bright colors. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
-```
-
----
-
-## 2ページ目プロンプト
-
-```text
-【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL.
-
-PAGE 2 LAYOUT: 1200x1697 pixels portrait.
-Panel 1 (Top 40%): VISUAL MANIFESTATION. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'インカムvsキャピタル'. It shines brighter than the Background elements. She looks gentle and wise. "配当狙いか値上がり狙いか。 これが投資の本質よ。しっかり頭に叩き込みなさい。" (In a speech bubble).
-Panel 2 (Middle 30%): CONTRAST SCENE (Metaphor). Remi stands in a split world. On her left, a chaotic storm or complex abstract shapes representing 'Confusion/Risk'. On her right, a peaceful, golden garden or orderly structure representing 'インカムvsキャピタル'. She calmly points towards the peace/order.
-Panel 3 (Bottom-Right 15%): Yuto visualizing his own happiness or success—simple joys and stable future, appearing in golden bubbles.
-Panel 4 (Bottom-Left 15%): Yuto looking enlightened and relieved (Realization). Yuto says "そうか…インカムvsキャピタルの本質はここにあったんですね。" (In a speech bubble). Remi smiles gently, watching him grow. (No text for Remi).
-Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
-```
-
----
-
-## 生成時の変数一覧
+以下のテキストをすべてコピーして、Geminiに貼り付けてください。
 
 ### 1ページ目
 
-| 変数 | 値 |
-| :--- | :--- |
-| TIP_NUMBER | 28 |
-| TIP_TITLE | インカムvsキャピタル |
-| DIALOGUE_INTRO | レミさん、インカムvsキャピタルについて教えてください！もっと詳しく知りたいです。 |
-| DIALOGUE_TEACH | いい心がけね。でも、ただ知るだけじゃ意味がないわ。 |
-| SCENE | Bright meeting room with a large whiteboard |
+```text
+画像生成をお願いします。
+以下の要件に基づいて、日本の漫画スタイルの画像を1枚生成してください。
+コードの解説やテキストの出力は不要です。画像のみを出力してください。
+縦長(Portrait)の4コマ漫画形式です。
+
+【要件】
+**Output Format**: A single 4-panel MANGA page (Portrait Aspect Ratio).
+**Style**: Japanese Anime/Manga style, colored, cel-shaded.
+**Language**: Text in speech bubbles must be JAPANESE.
+
+【Prompt】
+Create a 4-panel MANGA page (Portrait 1200x1697).
+PAGE FLOW: Theme -> Explain -> Visual -> Understand.
+
+### CHARACTER SETTING
+- Remi (Woman): Silver hair, Red eyes, Sharp eyes. Wearing RED blazer over black lace top. Cool, intelligent. NO GLOVES.
+- Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Gold buttons. Young learner. NO GLOVES.
+
+### LAYOUT & CONTENT
+Panel 1 (Top 25%): THEME INTRO. Bright office. Remi (in RED blazer) speaks to Yuto.
+   - Remi says: "優斗君、今日は『インカムvsキャピタル』について教えるわよ。"
+   - Title box: "インカムvsキャピタル"
+
+Panel 2 (Middle-Top 25%): VERBAL EXPLANATION. Close-up of Remi teaching.
+   - Remi says: "インカムは保有で得る『配当金』。キャピタルは売却で得る『値上がり益』よ。"
+
+Panel 3 (Middle-Bottom 35%): VISUAL EXPLANATION (KEY PANEL).
+   - Visual: Split screen. Left side shows "Income" (Wallet receiving coins regularly from a tree). Right side shows "Capital" (A chart arrow going up, showing profit from selling).
+   - Remi points at it. She says: "イメージで捉えるとこういうことよ。"
+
+Panel 4 (Bottom 15%): UNDERSTANDING. Yuto nodding/enlightened.
+   - Yuto says: "なるほど！ 定期収入か、売却益か、全然違うんですね！"
+
+### FINAL CHECK
+- Ensure 4 distinct panels.
+- Ensure Japanese text is correct.
+- High quality manga art.
+```
 
 ### 2ページ目
 
-| 変数 | 値 |
-| :--- | :--- |
-| DIALOGUE_DESC | 配当狙いか値上がり狙いか。 これが投資の本質よ。しっかり頭に叩き込みなさい。 |
-| DIALOGUE_ACTION | そうか…インカムvsキャピタルの本質はここにあったんですね。 |
+```text
+画像生成をお願いします。
+以下の要件に基づいて、日本の漫画スタイルの画像を1枚生成してください。
+コードの解説やテキストの出力は不要です。画像のみを出力してください。
+縦長(Portrait)の4コマ漫画形式です。
+
+【要件】
+**Output Format**: A single 4-panel MANGA page (Portrait Aspect Ratio).
+**Style**: Japanese Anime/Manga style, colored, cel-shaded, cinematic lighting.
+**Language**: Text in speech bubbles must be JAPANESE.
+
+【Prompt】
+Create a 4-panel MANGA page (Portrait 1200x1697).
+PAGE FLOW: Metaphor -> Summary -> Internalize -> Future.
+
+### CHARACTER SETTING
+- Remi (Woman): Silver hair, Red eyes. RED blazer. NO GLOVES.
+- Yuto (Boy): Black hair, Black GAKURAN. NO GLOVES.
+
+### LAYOUT & CONTENT
+Panel 1 (Top 40%): EPIC METAPHOR. Remi navigating a symbolic world of 'Income vs Capital'.
+   - Background: Split background. Left: Peaceful Orchard with slowly growing trees (Income style). Right: Intense Hunting Ground or Trading Floor (Capital style).
+
+Panel 2 (Middle 30%): STRONG SUMMARY. Visual manifestation of the concept.
+   - Visual: Remi stands between the two worlds. Left side represents "Slow & Steady", Right side represents "High Risk & Reward".
+   - Remi says: "農耕のように育てるか、狩りのように狙うか。これが投資の二つの顔よ。"
+
+Panel 3 (Bottom-Right 15%): INTERNALIZING. Yuto visualizing his success.
+   - Visual: Golden icons representing both wealth styles.
+
+Panel 4 (Bottom-Left 15%): DETERMINATION. Yuto determined, Remi proud.
+   - Yuto says: "自分の性格にはどっちが合うか、よく考えてみます！"
+   - Remi thinks: "期待しているわよ。"
+
+### FINAL CHECK
+- Ensure 4 distinct panels.
+- Ensure Japanese text is correct.
+- High quality manga art.
+```
+
+---
+
+## 編集用データ (変数の参照元)
+
+### 1ページ目
+
+- **TITLE**: インカムvsキャピタル
+- **DIALOGUE_THEME**: 「優斗君、今日は『インカムvsキャピタル』について教えるわよ。」
+- **DIALOGUE_TEACH_1**: 「インカムは保有で得る『配当金』。キャピタルは売却で得る『値上がり益』よ。」
+- **VISUAL_INSTRUCTION_1**: Split screen. Left side shows "Income" (Wallet receiving coins regularly from a tree). Right side shows "Capital" (A chart arrow going up, showing profit from selling).
+- **DIALOGUE_ACTION_1**: 「なるほど！ 定期収入か、売却益か、全然違うんですね！」
+
+### 2ページ目
+
+- **VISUAL_INSTRUCTION_2**: Split background. Left: Peaceful Orchard with slowly growing trees (Income style). Right: Intense Hunting Ground or Trading Floor (Capital style).
+- **DIALOGUE_SUMMARY**: 「農耕のように育てるか、狩りのように狙うか。これが投資の二つの顔よ。」
+- **DIALOGUE_ACTION_2**: 「自分の性格にはどっちが合うか、よく考えてみます！」
 
 ---
 
 ## 保存ファイル名
 
-- 1ページ目: No28_インカムvsキャピタル_p1.png
-- 2ページ目: No28_インカムvsキャピタル_p2.png
-
----
-
-## generate_imageツール実行用
-
-```text
-画像生成を行ってください。以下のプロンプトに基づいて、縦長のマンガ画像を生成してください。
-generate_image(
-  ImageName: "remi_investment_no28_p1",
-  Prompt: [上記の1ページ目プロンプトのコードブロック内容をそのまま貼り付け]
-)
-```
-
-```text
-画像生成を行ってください。以下のプロンプトに基づいて、縦長のマンガ画像を生成してください。
-generate_image(
-  ImageName: "remi_investment_no28_p2",
-  Prompt: [上記の2ページ目プロンプトのコードブロック内容をそのまま貼り付け]
-)
-```
-
-### ステップ3: 結合プレビュー作成（任意）
-2枚の画像を並べて見開きプレビューを作成する場合は、画像結合スクリプト.ps1 を使用してください。
-
----
-
-作成日: 2026-02-05
-ステータス: フルリニューアル完了（新・足るを知る構成準拠）
+- p1: No28_インカムvsキャピタル_p1.png
+- p2: No28_インカムvsキャピタル_p2.png

@@ -1,20 +1,9 @@
-import os
 import re
-
-base_dir = r"c:\Users\hirak\Desktop\2nd-Brain\18_レミ投資漫画"
-
-# 最新の指示文・定義
-prefix = "【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE."
-
-remi_new = "Remi (Woman): (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Wearing (Tailored RED blazer:1.3) over black lace top. Cool, intelligent, and authoritative. BARE HANDS (no gloves)."
-yuto_new = "Yuto (Boy): Short Black hair, (Traditional Black GAKURAN school uniform:1.4), Gold buttons. Energetic learner. BARE HANDS (no gloves)."
-
-new_title_box_instruction = "In Panel 1, at the BOTTOM, positioned slightly to the LEFT of the bottom-right corner (approx. 15% away from the right edge): Draw a SLENDER BLACK rectangular box with a thin WHITE border. The box should be THINNER and vertical-compact with tight padding around the WHITE TEXT:"
+import manga_config as config
+import manga_utils as utils
 
 def update_file(filepath):
-    with open(filepath, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
+    content = utils.read_file(filepath)
     original = content
     
     # 1. サイズと比率 (1200x1697)
@@ -33,7 +22,7 @@ def update_file(filepath):
         "Remi: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Tailored RED blazer:1.3)."
     ]
     for p in old_remi_patterns:
-        content = content.replace(p, remi_new)
+        content = content.replace(p, config.REMI_DEF)
     
     old_yuto_patterns = [
         "Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner. BARE HANDS (no gloves).",
@@ -43,15 +32,15 @@ def update_file(filepath):
         "Yuto: Short Black hair, (Traditional Black GAKURAN school uniform:1.4)."
     ]
     for p in old_yuto_patterns:
-        content = content.replace(p, yuto_new)
+        content = content.replace(p, config.YUTO_DEF)
 
     # 3. 描画ミスを誘発する見出し・メタデータのスリム化
     # 構造化テキスト（[OUTPUT:...] 等）を削除し、Prefixに集約
     content = re.sub(r'画像生成を行ってください。.*?\n', '', content)
     content = re.sub(r'\[OUTPUT: .*?\]\n', '', content)
     
-    if prefix not in content:
-        content = content.replace("```text", f"```text\n{prefix}\n")
+    if config.PREFIX not in content:
+        content = content.replace("```text", f"```text\n{config.PREFIX}\n")
 
     # 4. セクション見出しの「普通の言葉」化（AIが文字として描画しないように）
     content = content.replace("MANDATORY IMAGE SPECIFICATIONS:", "Technical Setup:")
@@ -63,19 +52,16 @@ def update_file(filepath):
 
     # 5. テーマボックスの配置修正
     old_box = "In Panel 1, BOTTOM-RIGHT corner: Draw a BLACK rectangular box with WHITE border containing WHITE TEXT:"
-    content = content.replace(old_box, new_title_box_instruction)
+    content = content.replace(old_box, config.NEW_TITLE_BOX_INSTRUCTION)
 
     if content != original:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            f.write(content)
+        utils.write_file(filepath, content)
         return True
     return False
 
 count = 0
-for root, dirs, files in os.walk(base_dir):
-    for name in files:
-        if name.endswith("_プロンプト.md"):
-            if update_file(os.path.join(root, name)):
-                count += 1
+for filepath in utils.find_manga_prompt_files(config.BASE_DIR):
+    if update_file(filepath):
+        count += 1
 
 print(f"Updated {count} files.")

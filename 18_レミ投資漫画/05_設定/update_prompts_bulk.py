@@ -1,66 +1,57 @@
-import os
 import re
-
-target_dir = r"c:\Users\hirak\Desktop\2nd-Brain\18_レミ投資漫画"
-anatomy_block = """CRITICAL ANATOMICAL REQUIREMENTS:
-- Each character has EXACTLY TWO HANDS
-- Each hand has EXACTLY FIVE FINGERS
-- Remi wears NO GLOVES - bare hands only
-- Yuto wears NO GLOVES - bare hands only
-- Anatomically correct human proportions"""
-
-prefix_text = "画像生成を行ってください。以下のプロンプトに基づいて、縦長のマンガ画像を生成してください。"
-
-remi_old = "Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent."
-remi_new = "Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent. BARE HANDS (no gloves)."
-
-yuto_old = "Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner."
-yuto_new = "Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner. BARE HANDS (no gloves)."
+import manga_config as config
+import manga_utils as utils
 
 def update_file(filepath):
-    with open(filepath, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
+    content = utils.read_file(filepath)
     original_content = content
 
     # 1. 解剖学的要件の追加
-    if "CRITICAL ANATOMICAL REQUIREMENTS" not in content:
+    if "Character Anatomy:" not in content and "CRITICAL ANATOMICAL REQUIREMENTS" not in content:
+        # Note: manga_config.ANATOMY_BLOCK uses "Character Anatomy:"
+        # If the file uses old format, we might want to standardize.
         target = "Resolution: High quality manga illustration"
-        content = content.replace(target, f"{target}\n\n{anatomy_block}")
+        content = content.replace(target, f"{target}\n\n{config.ANATOMY_BLOCK}")
 
     # 2. キャラクター定義の更新 (Remi)
+    # This script seems to have been doing targeted replacement.
+    # While apply_slim_prompts does full replacement.
+    # We will keep the logic similar but use config values.
+    # However, replacing specific "old strings" with new config.
+    
+    # Actually, let's just do what the script tried to do: Ensure Bare Hands.
+    # But since we have config.REMI_DEF which includes bare hands, we can try to replace known old definitions.
+    
+    # For now, let's stick to the specific logic of specific strings if they exist.
+    remi_old = "Remi (Woman): Silky SILVER hair, Vibrant RED eyes, Red blazer, Black lace top, Cool & Intelligent."
     if remi_old in content and "BARE HANDS" not in content[content.find(remi_old):content.find(remi_old)+200]:
-        content = content.replace(remi_old, remi_new)
+        content = content.replace(remi_old, config.REMI_DEF) # Note: This might replace with a string that doesn't match the old surrounding exactly if old prompt was different.
+        # But REPO seems to be moving towards using the standard DEF everywhere.
 
-    # 3. キャラクター定義の更新 (Yuto)
+    yuto_old = "Yuto (Boy): Short Black hair, Black GAKURAN school uniform, Energetic & Learner."
     if yuto_old in content and "BARE HANDS" not in content[content.find(yuto_old):content.find(yuto_old)+200]:
-        content = content.replace(yuto_old, yuto_new)
+        content = content.replace(yuto_old, config.YUTO_DEF)
 
-    # 4. 命令プレフィックスの追加
-    # ```text の直後に prefix_text がなければ追加
-    # re.sub で最初の出現のみに限定せず、全ての ```text ブロックに適用
+    # 3. 命令プレフィックスの追加
     def add_prefix(match):
         block_content = match.group(1)
-        if prefix_text not in block_content:
-            return f"```text\n{prefix_text}\n{block_content}```"
+        if config.PREFIX not in block_content and "【IMAGE_GENERATION_TASK】" not in block_content:
+             return f"```text\n{config.PREFIX}\n{block_content}```"
         return match.group(0)
 
     content = re.sub(r"```text\n(.*?)```", add_prefix, content, flags=re.DOTALL)
 
     if content != original_content:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            f.write(content)
+        utils.write_file(filepath, content)
         return True
     return False
 
 count = 0
 updated_count = 0
-for root, dirs, files in os.walk(target_dir):
-    for file in files:
-        if file.startswith("No") and file.endswith("_プロンプト.md"):
-            count += 1
-            if update_file(os.path.join(root, file)):
-                updated_count += 1
+for filepath in utils.find_manga_prompt_files(config.BASE_DIR):
+    count += 1
+    if update_file(filepath):
+        updated_count += 1
 
 print(f"Total files found: {count}")
 print(f"Files updated: {updated_count}")
