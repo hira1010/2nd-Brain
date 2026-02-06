@@ -1,4 +1,4 @@
-# No.32 ESBI 2P漫画生成プロンプト
+﻿# No.32 ESBI 2P漫画生成プロンプト
 
 ## TIP情報
 
@@ -34,23 +34,18 @@
 ## 1ページ目プロンプト
 
 ```text
-Create a SINGLE-PAGE vertical Japanese manga illustration. CRITICAL: Output must be PORTRAIT orientation, TALL format (width 1280 pixels × height 1810 pixels). This is ONE page only, not multiple pages combined.
+FORMAT: **A4 VERTICAL PORTRAIT (Ratio 12:17)**. A single integrated 2D anime masterwork. **PREMIUM QUALITY**: High-end Japanese anime cinematic production art. (Vibrant CEL SHADING with deep dramatic shadows and glowing highlights:1.5). (Razor-sharp clean lineart). (Extreme detail in silver hair rendering:1.6). NO 3D, NO smooth textures. **TEXT CORE**: All text in accurate JAPANESE. Bold high-legibility font. NO english. **ANTI-NOISE RULE**: **LITERAL X=0 BLEED**. Illustration MUST reach the literal leftmost x=0 coordinate without exception. **PROHIBIT ANY VERTICAL BARS, SIDEBARS, OR MARGINS**. SCENE CONTENT MUST FILL ALL EDGES. **GUTTER RULE**: Use PURE WHITE gutters or SEAMLESS fusion. **ABSOLUTELY NO BLACK LINES/DIVIDERS**.
 
-**MANDATORY CHARACTER CONSISTENCY:**
+### Characters: Remi: (Sharp cat-like Crimson RED eyes:1.6). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs exposing the forehead clearly:1.8). (Sharp cool beauty facial features:1.5). Remi wears a (Matte Crimson RED blazer, black lace top). **VISUAL LOCK**: Hair MUST be WAIST-LENGTH silver with **CENTER-PARTED bangs**. Eyes MUST be Crimson RED. No gloves., Yuto: (Traditional MATTE SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. Anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
 
-Remi: Adult woman with waist-length straight silver hair with center-parted bangs, sharp ruby-red eyes with long eyelashes, wearing deep crimson business blazer with red buttons over white shirt, NO gloves, tall slim elegant figure, confident intelligent smile.
+### INTEGRATED MASTERPIECE (A4 PORTRAIT / JAPANESE TEXT)
+[Top]: [Intro Visual] Yuto and Remi. Dramatic lighting. **ILLUSTRATION REACHES x=0**. **TITLE RULE**: A HORIZONTAL black title box at bottom-right corner, white Japanese: "ESBI".
 
-Yuto: Male high school student with short neat black hair, black eyes, wearing traditional black gakuran uniform with stand-up collar, NO gloves, standard teenage boy build, curious earnest expression.
+[Center]: [Discovery] Remi (センター分けの前髪). **SPEECH BUBBLE**: "'ESBI'。残酷な現実ね。" in JAPANESE. Content covers x=0 perfectly.
 
-**PAGE 1 VERTICAL LAYOUT (1280w × 1810h portrait):**
+[Base]: [Reaction] Yuto stunned. **WHITE GUTTER ONLY** between panels.
 
-Top 40%: Modern office. Remi stands beside holographic display showing "ESBI" in Japanese. Yuto looks curious. Speech bubble (Remi): 「優斗君、今日は『ESBI』について教えるわよ。」 Title card: Black box "ESBI" bottom-left.
-
-Middle 30%: DIALOGUE FLOW. Yuto responds eagerly: "はい！もっと詳しく知りたいです！" Then Remi explains with SYMBOLIC METAPHOR visual - LEFT: chaos/confusion labeled "混乱" in cold dark tones. RIGHT: order/wisdom labeled "ESBI" in golden warm tones. Remi points to golden side. Speech bubble (Remi): 「いい心がけね。でも、ただ知るだけじゃ意味がないわ。つまり、金持ち父さんの4つのクワドラント。」
-
-Bottom 30%: Panel 3 right - Yuto nodding with understanding "なるほど…そういうことなんですね". Panel 4 left - Remi's profile, gentle smile.
-
-**FORMAT:** PORTRAIT VERTICAL 1280×1810. Page 1 of 2 ONLY. Professional manga style, cel shading, vibrant colors. Characters MUST match descriptions exactly.
+### Technical Style: Premium Japanese anime, 12:17 A4 VERTICAL RATIO. (Deep dramatic shadows and glowing highlights:1.5). Extreme-detail hair. NO BLACK LINES, NO BLACK BORDERS. **WHITE GUTTERS ONLY**. **PROHIBIT LEFT SIDEBARS**. JAPANESE ONLY.
 ```
 
 ---
@@ -58,23 +53,52 @@ Bottom 30%: Panel 3 right - Yuto nodding with understanding "なるほど…そ�
 ## 2ページ目プロンプト
 
 ```text
-Create a SINGLE-PAGE vertical Japanese manga, CONTINUING from page 1 with IDENTICAL characters. CRITICAL: PORTRAIT orientation 1280×1810 pixels. Page 2 of 2.
+FORMAT: **A4 VERTICAL PORTRAIT (Ratio 12:17)**. A single integrated 2D anime masterwork. **PREMIUM QUALITY**: High-end Japanese anime cinematic production art. (Vibrant CEL SHADING with deep dramatic shadows and glowing highlights:1.5). (Razor-sharp clean lineart). (Extreme detail in silver hair rendering:1.6). NO 3D, NO smooth textures. **TEXT CORE**: All text in accurate JAPANESE. Bold high-legibility font. NO english. **ANTI-NOISE RULE**: **LITERAL X=0 BLEED**. Illustration MUST reach the literal leftmost x=0 coordinate without exception. **PROHIBIT ANY VERTICAL BARS, SIDEBARS, OR MARGINS**. SCENE CONTENT MUST FILL ALL EDGES. **GUTTER RULE**: Use PURE WHITE gutters or SEAMLESS fusion. **ABSOLUTELY NO BLACK LINES/DIVIDERS**.
 
-**MANDATORY - SAME AS PAGE 1:**
+### Characters: Remi: (Sharp cat-like Crimson RED eyes:1.6). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs exposing the forehead clearly:1.8). (Sharp cool beauty facial features:1.5). Remi wears a (Matte Crimson RED blazer, black lace top). **VISUAL LOCK**: Hair MUST be WAIST-LENGTH silver with **CENTER-PARTED bangs**. Eyes MUST be Crimson RED. No gloves., Yuto: (Traditional MATTE SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. Anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
 
-Remi: Waist-length straight silver hair, center-parted bangs, ruby-red eyes, deep crimson blazer over white shirt, NO gloves, tall elegant figure.
+### INTEGRATED MASTERPIECE (A4 PORTRAIT / JAPANESE TEXT)
+[Top]: [Detailed List] Remi pointing to a holographic list: "2026: 子育て支援金", "2026: 防衛増税", "2027: 所得付加税", "2028: 支援金満額". **LITERAL X=0 FILL**. **NO SIDEBARS**. **SPEECH BUBBLE**: "２０２８年までの増税の一部よ。" in JAPANESE.
 
-Yuto: Short black hair, black eyes, black gakuran uniform, stand-up collar, NO gloves, teenage build.
+[Center]: [Impact Visual] Remi (center-parted silver hair) staring with sharp eyes. **SPEECH BUBBLE**: "給料は据え置きなのに。" in JAPANESE. Art touches x=0. **SEAMLESS FUSION**.
 
-**PAGE 2 VERTICAL LAYOUT (1280w × 1810h portrait):**
+[Base]: [Extreme Shock] Yuto's dramatic shock reaction. **SPEECH BUBBLE**: "未来が詰んでる…！" in JAPANESE. **NO BLACK LINES**. **WHITE GUTTERS ONLY**. 12:17 ratio.
 
-Top 40%: Close-up of Remi holding glowing golden sphere (symbolizing 'ESBI'), face illuminated, wise expression. Speech bubble (Remi): 「金持ち父さんの4つのクワドラント。 これが投資の本質よ。しっかり頭に叩き込みなさい。」
+### Technical Style: Premium Japanese anime, 12:17 A4 VERTICAL RATIO. (Deep dramatic shadows and glowing highlights:1.5). Extreme-detail hair. NO BLACK LINES, NO BLACK BORDERS. **WHITE GUTTERS ONLY**. **PROHIBIT LEFT SIDEBARS**. JAPANESE ONLY.
+```
 
-Middle 30%: Remi in split-world. LEFT: dark storm/chaos (purple/red). RIGHT: golden garden/peace (representing 'ESBI'). She points to golden side decisively.
+## 3ページ目プロンプト
 
-Bottom 30%: Panel 3 right - Yuto with golden bubbles showing happy future. Panel 4 left - Yuto enlightened. Speech bubble: 「そうか…ESBIの本質はここにあったんですね。」 Remi watching warmly (no speech).
+```text
+FORMAT: **A4 VERTICAL PORTRAIT (Ratio 12:17)**. A single integrated 2D anime masterwork. **PREMIUM QUALITY**: High-end Japanese anime cinematic production art. (Vibrant CEL SHADING with deep dramatic shadows and glowing highlights:1.5). (Razor-sharp clean lineart). (Extreme detail in silver hair rendering:1.6). NO 3D, NO smooth textures. **TEXT CORE**: All text in accurate JAPANESE. Bold high-legibility font. NO english. **ANTI-NOISE RULE**: **LITERAL X=0 BLEED**. Illustration MUST reach the literal leftmost x=0 coordinate without exception. **PROHIBIT ANY VERTICAL BARS, SIDEBARS, OR MARGINS**. SCENE CONTENT MUST FILL ALL EDGES. **GUTTER RULE**: Use PURE WHITE gutters or SEAMLESS fusion. **ABSOLUTELY NO BLACK LINES/DIVIDERS**.
 
-**FORMAT:** PORTRAIT VERTICAL 1280×1810. Page 2 ONLY. Characters IDENTICAL to page 1. Cinematic lighting, gold/purple theme.
+### Characters: Remi: (Sharp cat-like Crimson RED eyes:1.6). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs exposing the forehead clearly:1.8). (Sharp cool beauty facial features:1.5). Remi wears a (Matte Crimson RED blazer, black lace top). **VISUAL LOCK**: Hair MUST be WAIST-LENGTH silver with **CENTER-PARTED bangs**. Eyes MUST be Crimson RED. No gloves., Yuto: (Traditional MATTE SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. Anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+
+### INTEGRATED MASTERPIECE (A4 PORTRAIT / JAPANESE TEXT)
+[Top]: [Action Visual] Remi (WAIST-LENGTH, center-parted) sharp gaze. **SPEECH BUBBLE**: "行動のみが救い！" in JAPANESE. **SCENE REACHES x=0**.
+
+[Center]: [Core Truth] Yuto looking at radiant solution for beating "ESBI". Art floods x=0 with light. **PURE WHITE GUTTERS**.
+
+[Base]: [Impact Visual] Yuto's resolve. Total canvas fill on all edges.
+
+### Technical Style: Premium Japanese anime, 12:17 A4 VERTICAL RATIO. (Deep dramatic shadows and glowing highlights:1.5). Extreme-detail hair. NO BLACK LINES, NO BLACK BORDERS. **WHITE GUTTERS ONLY**. **PROHIBIT LEFT SIDEBARS**. JAPANESE ONLY.
+```
+
+## 4ページ目プロンプト
+
+```text
+FORMAT: **A4 VERTICAL PORTRAIT (Ratio 12:17)**. A single integrated 2D anime masterwork. **PREMIUM QUALITY**: High-end Japanese anime cinematic production art. (Vibrant CEL SHADING with deep dramatic shadows and glowing highlights:1.5). (Razor-sharp clean lineart). (Extreme detail in silver hair rendering:1.6). NO 3D, NO smooth textures. **TEXT CORE**: All text in accurate JAPANESE. Bold high-legibility font. NO english. **ANTI-NOISE RULE**: **LITERAL X=0 BLEED**. Illustration MUST reach the literal leftmost x=0 coordinate without exception. **PROHIBIT ANY VERTICAL BARS, SIDEBARS, OR MARGINS**. SCENE CONTENT MUST FILL ALL EDGES. **GUTTER RULE**: Use PURE WHITE gutters or SEAMLESS fusion. **ABSOLUTELY NO BLACK LINES/DIVIDERS**.
+
+### Characters: Remi: (Sharp cat-like Crimson RED eyes:1.6). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs exposing the forehead clearly:1.8). (Sharp cool beauty facial features:1.5). Remi wears a (Matte Crimson RED blazer, black lace top). **VISUAL LOCK**: Hair MUST be WAIST-LENGTH silver with **CENTER-PARTED bangs**. Eyes MUST be Crimson RED. No gloves., Yuto: (Traditional MATTE SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. Anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+
+### INTEGRATED MASTERPIECE (A4 PORTRAIT / JAPANESE TEXT)
+[Top]: [Conclusion Visual] Remi (WAIST-LENGTH, center-parted) smiles. **SPEECH BUBBLE**: "道を選びなさい。" in JAPANESE. **SCENE REACHES x=0**.
+
+[Center]: [Future Horizon] Both together in rising sun toward skyline. **SPEECH BUBBLE**: "勝ち残ります！" in JAPANESE. Art touches x=0.
+
+[Base]: [Final Path] Yuto's resolve. **WHITE GUTTERS ONLY**. A4-Portrait 12:17.
+
+### Technical Style: Premium Japanese anime, 12:17 A4 VERTICAL RATIO. (Deep dramatic shadows and glowing highlights:1.5). Extreme-detail hair. NO BLACK LINES, NO BLACK BORDERS. **WHITE GUTTERS ONLY**. **PROHIBIT LEFT SIDEBARS**. JAPANESE ONLY.
 ```
 
 ---

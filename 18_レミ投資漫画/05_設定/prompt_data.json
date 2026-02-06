@@ -1,0 +1,72 @@
+{
+    "config": {
+        "version": "6.0",
+        "description": "The Ultimate Manga Constitution - Robust Architecture"
+    },
+    "styles": {
+        "global_prefix": "FORMAT: **A4 VERTICAL PORTRAIT (Ratio 12:17)**. A single integrated 2D anime masterwork. **PREMIUM QUALITY**: High-end Japanese anime cinematic production art. (Vibrant CEL SHADING with deep dramatic shadows and glowing highlights:1.5). (Razor-sharp clean lineart). (Extreme detail in silver hair rendering:1.6). NO 3D, NO smooth textures. **TEXT CORE**: All text in accurate JAPANESE. Bold high-legibility font. NO english. **ANTI-NOISE RULE**: **LITERAL X=0 BLEED**. Illustration MUST reach the literal leftmost x=0 coordinate without exception. **PROHIBIT ANY VERTICAL BARS, SIDEBARS, OR MARGINS**. SCENE CONTENT MUST FILL ALL EDGES. **GUTTER RULE**: Use PURE WHITE gutters or SEAMLESS fusion. **ABSOLUTELY NO BLACK LINES/DIVIDERS**.",
+        "art_keywords": "Cinematic production art, intricate hair detail, sharp clean lines, dramatic high-contrast lighting.",
+        "anatomy": "### Anatomy: Perfect anime fingers (5), symmetrical eyes."
+    },
+    "characters": {
+        "remi": "Remi: (Sharp cat-like Crimson RED eyes:1.6). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs exposing the forehead clearly:1.8). (Sharp cool beauty facial features:1.5). Remi wears a (Matte Crimson RED blazer, black lace top). **VISUAL LOCK**: Hair MUST be WAIST-LENGTH silver with **CENTER-PARTED bangs**. Eyes MUST be Crimson RED. No gloves.",
+        "yuto": "Yuto: (Traditional MATTE SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. Anime style."
+    },
+    "layout": {
+        "title_box": "**TITLE RULE**: A HORIZONTAL black title box at bottom-right corner, white Japanese: \"{Title}\".",
+        "physics": "**PIXEL-PHYSICS**: Size MUST be 12:17 A4 Vertical. NO square, NO horizontal. Illustration fills 100% of the canvas from x=0. NO sidebar dividers."
+    },
+    "templates": {
+        "common_header": "### Characters: {Remi}, {Yuto}. {Anatomy}\n\n### INTEGRATED MASTERPIECE (A4 PORTRAIT / JAPANESE TEXT)\n",
+        "normal": {
+            "p1": [
+                "[Top]: [Intro Visual] Yuto and Remi. Dramatic lighting. **ILLUSTRATION REACHES x=0**. {TitleBox}\n",
+                "[Center]: [Discovery] Remi (センター分けの前髪). **SPEECH BUBBLE**: \"'{Title}'。残酷な現実ね。\" in JAPANESE. Content covers x=0 perfectly.\n",
+                "[Base]: [Reaction] Yuto stunned. **WHITE GUTTER ONLY** between panels.\n"
+            ],
+            "p2": [
+                "[Top]: [Detailed List] Remi pointing to a holographic list: \"2026: 子育て支援金\", \"2026: 防衛増税\", \"2027: 所得付加税\", \"2028: 支援金満額\". **LITERAL X=0 FILL**. **NO SIDEBARS**. **SPEECH BUBBLE**: \"２０２８年までの増税の一部よ。\" in JAPANESE.\n",
+                "[Center]: [Impact Visual] Remi (center-parted silver hair) staring with sharp eyes. **SPEECH BUBBLE**: \"給料は据え置きなのに。\" in JAPANESE. Art touches x=0. **SEAMLESS FUSION**.\n",
+                "[Base]: [Extreme Shock] Yuto's dramatic shock reaction. **SPEECH BUBBLE**: \"未来が詰んでる…！\" in JAPANESE. **NO BLACK LINES**. **WHITE GUTTERS ONLY**. 12:17 ratio.\n"
+            ],
+            "p3": [
+                "[Top]: [Action Visual] Remi (WAIST-LENGTH, center-parted) sharp gaze. **SPEECH BUBBLE**: \"行動のみが救い！\" in JAPANESE. **SCENE REACHES x=0**.\n",
+                "[Center]: [Core Truth] Yuto looking at radiant solution for beating \"{Title}\". Art floods x=0 with light. **PURE WHITE GUTTERS**.\n",
+                "[Base]: [Impact Visual] Yuto's resolve. Total canvas fill on all edges.\n"
+            ],
+            "p4": [
+                "[Top]: [Conclusion Visual] Remi (WAIST-LENGTH, center-parted) smiles. **SPEECH BUBBLE**: \"道を選びなさい。\" in JAPANESE. **SCENE REACHES x=0**.\n",
+                "[Center]: [Future Horizon] Both together in rising sun toward skyline. **SPEECH BUBBLE**: \"勝ち残ります！\" in JAPANESE. Art touches x=0.\n",
+                "[Base]: [Final Path] Yuto's resolve. **WHITE GUTTERS ONLY**. A4-Portrait 12:17.\n"
+            ]
+        },
+        "spiritual": {
+            "p1": [
+                "[Top]: [Celestial Intro] Yuto and Remi. Art touches x=0. {TitleBox}. JAPANESE.\n",
+                "[Center]: [Divine Energy] Remi (center-parted). **SPEECH**: \"真理を知れ。\" in JAPANESE.\n",
+                "[Base]: [Awe] Yuto stunned. 12:17 ratio.\n"
+            ],
+            "p2": [
+                "[Top]: [Spirit Guide] celestial visual. Art touches x=0. JAPANESE.\n",
+                "[Center]: [Qi Vision] Remi solo. Art floods x=0. **WHITE GUTTER**.\n",
+                "[Base]: [Realization] Yuto in awe. 12:17 ratio.\n"
+            ],
+            "p3": [
+                "[Top]: [Divine Truth] Remi (center-parted). **SPEECH**: \"目覚めなさい。\" in JAPANESE. **TOUCH X=0**.\n",
+                "[Center]: [Gold Glow] Yuto. Art covers edges.\n",
+                "[Base]: [Final Awakening] Yuto resolve. 12:17 ratio.\n"
+            ],
+            "p4": [
+                "[Top]: [Guidance] Remi pointing. **TOUCH X=0**. JAPANESE.\n",
+                "[Center]: [Starscape] Both together. **SPEECH**: \"覚醒せよ！\" in JAPANESE.\n",
+                "[Base]: [Final Soul] Yuto. 12:17 ratio.\n"
+            ]
+        },
+        "footer": "\n### Technical Style: Premium Japanese anime, 12:17 A4 VERTICAL RATIO. (Deep dramatic shadows and glowing highlights:1.5). Extreme-detail hair. NO BLACK LINES, NO BLACK BORDERS. **WHITE GUTTERS ONLY**. **PROHIBIT LEFT SIDEBARS**. JAPANESE ONLY."
+    },
+    "logic": {
+        "TitleRegex": "\\| タイトル \\| (.*?) \\|",
+        "DescRegex": "\\| 解説 \\| (.*?) \\|",
+        "ReactTemplate": "なるほど…{0}ということですね。"
+    }
+}
