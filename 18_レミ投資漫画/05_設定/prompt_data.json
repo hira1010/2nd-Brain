@@ -4,65 +4,65 @@
         "description": "The Ultimate Manga Constitution - Robust Architecture"
     },
     "styles": {
-        "global_prefix": "FORMAT: **A4 VERTICAL PORTRAIT (Ratio 12:17)**. A single integrated 2D anime masterwork. **PREMIUM QUALITY**: High-end Japanese anime cinematic production art. (Vibrant CEL SHADING with deep dramatic shadows and glowing highlights:1.5). (Razor-sharp clean lineart). (Extreme detail in silver hair rendering:1.6). NO 3D, NO smooth textures. **TEXT CORE**: All text in accurate JAPANESE. Bold high-legibility font. NO english. **ANTI-NOISE RULE**: **LITERAL X=0 BLEED**. Illustration MUST reach the literal leftmost x=0 coordinate without exception. **PROHIBIT ANY VERTICAL BARS, SIDEBARS, OR MARGINS**. SCENE CONTENT MUST FILL ALL EDGES. **GUTTER RULE**: Use PURE WHITE gutters or SEAMLESS fusion. **ABSOLUTELY NO BLACK LINES/DIVIDERS**.",
-        "art_keywords": "Cinematic production art, intricate hair detail, sharp clean lines, dramatic high-contrast lighting.",
+        "global_prefix": "SIZE: 1024x1792. FORMAT: TALL VERTICAL PORTRAIT. ONE SINGLE high-end 2D anime manga page. **MANDATORY**: VIBRANT FULL COLOR. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean lineart, FLAT COLORS, NO 3D effects, NO realistic gradients. **MASTERS STANDARD**: Cosmic Spiritual Background ONLY (stars, nebula, golden energy). **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. The illustration MUST be TALL and FILL the entire vertical canvas. NO side margins. Use clean white gutters. NO black borders.",
+        "art_keywords": "Masterpiece, sharp 2D lineart, flat cel shading, vibrant cinematic 2D colors, glowing aura, deep space nebula, simple 2D composition, high-contrast aesthetics.",
         "anatomy": "### Anatomy: Perfect anime fingers (5), symmetrical eyes."
     },
     "characters": {
-        "remi": "Remi: (Sharp cat-like Crimson RED eyes:1.6). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs exposing the forehead clearly:1.8). (Sharp cool beauty facial features:1.5). Remi wears a (Matte Crimson RED blazer, black lace top). **VISUAL LOCK**: Hair MUST be WAIST-LENGTH silver with **CENTER-PARTED bangs**. Eyes MUST be Crimson RED. No gloves.",
-        "yuto": "Yuto: (Traditional MATTE SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. Anime style."
+        "remi": "Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, center-parted. Red blazer. No 3D shading on skin. Sharp 2D eyes.",
+        "yuto": "Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style."
     },
     "layout": {
-        "title_box": "**TITLE RULE**: A HORIZONTAL black title box at bottom-right corner, white Japanese: \"{Title}\".",
-        "physics": "**PIXEL-PHYSICS**: Size MUST be 12:17 A4 Vertical. NO square, NO horizontal. Illustration fills 100% of the canvas from x=0. NO sidebar dividers."
+        "title_box": "",
+        "physics": "ONE PAGE ONLY. EXACTLY 3 PANELS. TALL PORTRAIT. Illustration reaches all 4 edges of each panel. Thick pure white spaces between panels. **ABSOLUTE RULE**: NO TEXT, NO LETTERS, NO SPEECH BUBBLES WITH CHARACTERS. Keep bubbles completely blank and empty."
     },
     "templates": {
-        "common_header": "### Characters: {Remi}, {Yuto}. {Anatomy}\n\n### INTEGRATED MASTERPIECE (A4 PORTRAIT / JAPANESE TEXT)\n",
+        "common_header": "### Characters: {Remi}, {Yuto}. {Anatomy}\n\n### INTEGRATED 2D MASTERPIECE (VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)\n",
         "normal": {
             "p1": [
-                "[Top]: [Intro Visual] Yuto and Remi. Dramatic lighting. **ILLUSTRATION REACHES x=0**. {TitleBox}\n",
-                "[Center]: [Discovery] Remi (センター分けの前髪). **SPEECH BUBBLE**: \"'{Title}'。残酷な現実ね。\" in JAPANESE. Content covers x=0 perfectly.\n",
-                "[Base]: [Reaction] Yuto stunned. **WHITE GUTTER ONLY** between panels.\n"
+                "[Panel 1 (Top, 40% height)]: [Universe] Yuto and Remi. Pure 2D anime style. Background is a deep space nebula with golden energy. **MANDATORY**: Illustration MUST be TALL and VERTICAL. NO OFFICE.\n",
+                "[Panel 2 (Middle, 30% height)]: [Concept] Remi pointing to a radiant sphere of cosmic light (representing the core idea). Flat 2D art. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Reaction] Dramatic close-up of Yuto in cosmic light. High-contrast 2D lighting. Reach all edges.\n"
             ],
             "p2": [
-                "[Top]: [Detailed List] Remi pointing to a holographic list: \"2026: 子育て支援金\", \"2026: 防衛増税\", \"2027: 所得付加税\", \"2028: 支援金満額\". **LITERAL X=0 FILL**. **NO SIDEBARS**. **SPEECH BUBBLE**: \"２０２８年までの増税の一部よ。\" in JAPANESE.\n",
-                "[Center]: [Impact Visual] Remi (center-parted silver hair) staring with sharp eyes. **SPEECH BUBBLE**: \"給料は据え置きなのに。\" in JAPANESE. Art touches x=0. **SEAMLESS FUSION**.\n",
-                "[Base]: [Extreme Shock] Yuto's dramatic shock reaction. **SPEECH BUBBLE**: \"未来が詰んでる…！\" in JAPANESE. **NO BLACK LINES**. **WHITE GUTTERS ONLY**. 12:17 ratio.\n"
+                "[Panel 1 (Top, 40% height)]: [Revelation] Remi explaining with majestic cosmic visual effects. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 2 (Middle, 30, height)]: [Duality] Visual contrast of light and shadow in space. Flat 2D composition. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Path] Yuto's determined face against starry background. Sharp lineart. Thick white gutters.\n"
             ],
             "p3": [
-                "[Top]: [Action Visual] Remi (WAIST-LENGTH, center-parted) sharp gaze. **SPEECH BUBBLE**: \"行動のみが救い！\" in JAPANESE. **SCENE REACHES x=0**.\n",
-                "[Center]: [Core Truth] Yuto looking at radiant solution for beating \"{Title}\". Art floods x=0 with light. **PURE WHITE GUTTERS**.\n",
-                "[Base]: [Impact Visual] Yuto's resolve. Total canvas fill on all edges.\n"
+                "[Panel 1 (Top, 40% height)]: [Power] Remi (silver hair) looking firm amidst golden aura. 2D anime flair.\n",
+                "[Panel 2 (Middle, 30% height)]: [Essence] Radiant spiritual energy. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Legacy] Yuto. Pure 2D cel shaded portrait. Space nebula background.\n"
             ],
             "p4": [
-                "[Top]: [Conclusion Visual] Remi (WAIST-LENGTH, center-parted) smiles. **SPEECH BUBBLE**: \"道を選びなさい。\" in JAPANESE. **SCENE REACHES x=0**.\n",
-                "[Center]: [Future Horizon] Both together in rising sun toward skyline. **SPEECH BUBBLE**: \"勝ち残ります！\" in JAPANESE. Art touches x=0.\n",
-                "[Base]: [Final Path] Yuto's resolve. **WHITE GUTTERS ONLY**. A4-Portrait 12:17.\n"
+                "[Panel 1 (Top, 40% height)]: [Transcendence] Remi smiles in celestial world. **EMPTY BLANK SPEECH BUBBLE**. 2D masterpiece.\n",
+                "[Panel 2 (Middle, 30% height)]: [Unity] Both characters together in light. **EMPTY BLANK SPEECH BUBBLE**. Illustration reaches side edges.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Ascension] Heroic 2D portrait of Yuto. cosmic background.\n"
             ]
         },
         "spiritual": {
             "p1": [
-                "[Top]: [Celestial Intro] Yuto and Remi. Art touches x=0. {TitleBox}. JAPANESE.\n",
-                "[Center]: [Divine Energy] Remi (center-parted). **SPEECH**: \"真理を知れ。\" in JAPANESE.\n",
-                "[Base]: [Awe] Yuto stunned. 12:17 ratio.\n"
+                "[Panel 1 (Top, 40% height)]: [Cosmology] Giant golden glowing brain in deep space nebula. Pure 2D anime. **MANDATORY**: VERTICAL ORIENTATION.\n",
+                "[Panel 2 (Middle, 30% height)]: [Teaching] Remi (red blazer) amidst swirling golden energy. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Awe] Yuto looking up. High-contrast 2D lighting. Reach both side edges.\n"
             ],
             "p2": [
-                "[Top]: [Spirit Guide] celestial visual. Art touches x=0. JAPANESE.\n",
-                "[Center]: [Qi Vision] Remi solo. Art floods x=0. **WHITE GUTTER**.\n",
-                "[Base]: [Realization] Yuto in awe. 12:17 ratio.\n"
+                "[Panel 1 (Top, 40% height)]: [Guidance] Path of light through stars. Flat 2D art. TALL layout.\n",
+                "[Panel 2 (Middle, 30% height)]: [Remi Solo] Remi glowing with 2D aura in space. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Understanding] Yuto in awe. Professional 2D anime style.\n"
             ],
             "p3": [
-                "[Top]: [Divine Truth] Remi (center-parted). **SPEECH**: \"目覚めなさい。\" in JAPANESE. **TOUCH X=0**.\n",
-                "[Center]: [Gold Glow] Yuto. Art covers edges.\n",
-                "[Base]: [Final Awakening] Yuto resolve. 12:17 ratio.\n"
+                "[Panel 1 (Top, 40% height)]: [Awakening] Remi (center-parted) glowing. **EMPTY BLANK SPEECH BUBBLE**. Art floods to edges.\n",
+                "[Panel 2 (Middle, 30% height)]: [Radiance] 2D spiritual energy. Thick white spacing.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Final Resolve] Yuto enlightened. Pure 2D portrait.\n"
             ],
             "p4": [
-                "[Top]: [Guidance] Remi pointing. **TOUCH X=0**. JAPANESE.\n",
-                "[Center]: [Starscape] Both together. **SPEECH**: \"覚醒せよ！\" in JAPANESE.\n",
-                "[Base]: [Final Soul] Yuto. 12:17 ratio.\n"
+                "[Panel 1 (Top, 40% height)]: [Path] Remi pointing. Full Color 2D. TALL ORIENTATION.\n",
+                "[Panel 2 (Middle, 30% height)]: [Transcendence] Remi and Yuto in world of geometric light. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 3 (Bottom, 30% height)]: [Soul] Masterful 2D portrait of Yuto. Reach all edges.\n"
             ]
         },
-        "footer": "\n### Technical Style: Premium Japanese anime, 12:17 A4 VERTICAL RATIO. (Deep dramatic shadows and glowing highlights:1.5). Extreme-detail hair. NO BLACK LINES, NO BLACK BORDERS. **WHITE GUTTERS ONLY**. **PROHIBIT LEFT SIDEBARS**. JAPANESE ONLY."
+        "footer": "\n### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. FLAT COLORS ONLY. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY**. **MANDATORY VERTICAL SIZE**."
     },
     "logic": {
         "TitleRegex": "\\| タイトル \\| (.*?) \\|",

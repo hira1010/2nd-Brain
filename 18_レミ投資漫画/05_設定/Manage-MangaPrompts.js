@@ -96,10 +96,16 @@ targetFiles.forEach(f => {
 
         for (let i = 1; i <= 4; i++) {
             const masterPrompt = buildPrompt(title, desc, isSpiritual, i);
+
+            // 1. プロンプト本文の更新
             const pageRegex = new RegExp(`(## .*?${i}.*?\\n\\s*\`\`\`text\\s*\\n)[\\s\\S]*?(\\n\`\`\`)`);
             if (content.match(pageRegex)) {
                 content = content.replace(pageRegex, `$1${masterPrompt}$2`);
             }
+
+            // 2. generate_image 呼び出し例の更新（Size 1024x1792 を追加）
+            const genRegex = new RegExp(`(generate_image\\(\\s*ImageName: ".*?",\\s*Prompt: \\[.*?\\])(\\s*\\))`, 'g');
+            content = content.replace(genRegex, `$1,\n  Size: "1024x1792"$2`);
         }
 
         if (content !== originalContent) {
@@ -112,4 +118,4 @@ targetFiles.forEach(f => {
     }
 });
 
-console.log(`\n\n[SUCCESS] Updated ${count} files with Dynamic Keyword Logic (v3.2).`);
+console.log(`\n\n[SUCCESS] Updated ${count} files with Vertical Size Support (1024x1792) and Masker Standard.`);
