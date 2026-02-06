@@ -1,93 +1,106 @@
-﻿# No.63 rとg - プロンプト
+﻿# No.63 r > g 漫画生成プロンプト (Master Standard v15.0 Edge Crusher)
 
 ## TIP情報
 
 | 項目 | 内容 |
 | :--- | :--- |
 | No | 63 |
-| タイトル | rとg |
-| 解説 | 投資側（r）に回る重要性。 |
-| カテゴリー | 03_戦略・リスク管理 |
+| タイトル | r > g |
+| 解説 | 労働（g）より資本（r）の成長が早い。富の格差の根本原因。 |
 
 ---
 
-## キャラクター設定（全ページ共通）
-
-### レミ（Remi）- 厳格に固定
-- **髪**: 腰まで届く非常に長いストレートなシルバーヘア、分け目なし（前髪に隙間や分け目の一切ない、重めのパッツン/サイド流しスタイル）
-- **目**: 鋭い赤い瞳（ruby red eyes）、長いまつ毛
-- **服装**: 深紅のビジネスブレザー（赤いボタン）、白いシャツ、黒レースのインナー（お手本画像通り）
-- **体型**: スリムで背が高い大人の女性、エレガントな立ち姿
-- **表情**: 知的で自信に満ちた微笑み、冷静
-
-### 優斗（Yuto）- 厳格に固定
-- **髪**: 短い黒髪、整った髪型
-- **目**: 黒い瞳、純粋な表情
-- **服装**: 伝統的な黒い学ラン（gakuran）、立襟、**手袋なし**
-- **体型**: 標準的な男子高校生の体型
-- **表情**: 好奇心旺盛、真剣に学ぶ姿勢
-
----
-
-## セリフ・構成案（台本）
-
-| ページ | パネル | キャラクター | セリフ・ナレーション |
-| :--- | :--- | :--- | :--- |
-| 1 | 1 | ナレーション | 投資側（r）に回る重要性。 |
-| 1 | 2 | レミ | 優斗君、今日の講義は「rとg」よ。 |
-| 1 | 3 | 優斗 | よろしくお願いします！ |
-
----
-
-## 1ページ目プロンプト
+## 1ページ目プロンプト (v15.0 Edge Crusher)
 
 ```text
-SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
+ARCHITECTURE: FULL BLEED WALL-TO-WALL CINEMATIC ARTWORK. MASKED AS A 3-PANEL VERTICAL PAGE. CRITICAL: 12:17 Portrait ratio. MANDATORY: ZERO PIXEL INTERNAL MARGINS. ART MUST PHYSICALLY TOUCH AND BLEED OFF THE LITERAL 1224x1728 PIXEL BOUNDARIES. NO WHITE SIDE BORDERS. NO PILLARBOXING. DRAW BEYOND THE CANVAS EDGE TO ENSURE ZERO WHITE SPACE. **MANDATORY**: DO NOT DRAW ANY LABELS LIKE "[TOP...]" OR "[PANEL...]". DRAW ONLY THE STORY CONTENT.
 
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+### Characters:
+- Remi: (Crimson RED blazer, Black lace top). (Silky SILVER hair), (RED eyes). NO GLOVES. (ONLY ONE Remi per panel).
+- Yuto: (Traditional SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. (ONLY ONE Yuto per panel).
 
-### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Cosmology] Giant golden glowing brain in deep space nebula. Pure 2D anime. **MANDATORY**: VERTICAL ORIENTATION.
+[TOP PANEL - 40% height]: [Action Scene] FULL WIDTH ART. Art MUST stretch to 100% width, touching the literal pixel-edges. Remi draws a giant flaming formula "r > g" in space near a giant scale. **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner of THIS TOP PANEL, containing white Japanese text "rとg". (Japanese speech bubbles: "優斗君、これが世界のルールを支配する『残酷な不等式』よ。", "r（資本収益）は常にg（経済成長）を追い越す。")
 
-[Panel 2 (Middle, 30% height)]: [Teaching] Remi (red blazer) amidst swirling golden energy. **EMPTY BLANK SPEECH BUBBLE**.
+[MIDDLE PANEL - 35% height]: [Focus Shot - FULL WIDTH] FULL WIDTH ART. Art MUST stretch to 100% width, NO MARGINS. The scale tilts heavily toward the "r" side (golden key). The "g" side (heavy hammer) is pulled up. (ONLY ONE Remi). (Japanese speech bubble: "お金がお金を生むスピードは、人が働いて得る豊かさを追い越してきた。働くだけでは一生追いつけないのよ。")
 
-[Panel 3 (Bottom, 30% height)]: [Awe] Yuto looking up. High-contrast 2D lighting. Reach both side edges.
+[BOTTOM PANEL - 25% height]: [Reaction Shot - FULL WIDTH] FULL WIDTH ART. Art MUST stretch to 100% width, NO MARGINS. Close-up of Yuto (BLACK GAKURAN) in shock. (Japanese speech bubble: "どんなに頑張っても最初から負けるようにできているっていうのか…！？")
 
-### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
-```
-
-## 2ページ目プロンプト
-
-```text
-SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
-
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
-
-### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Guidance] Path of light through stars. Flat 2D art. TALL layout.
-
-[Panel 2 (Middle, 30% height)]: [Remi Solo] Remi glowing with 2D aura in space. **EMPTY BLANK SPEECH BUBBLE**.
-
-[Panel 3 (Bottom, 30% height)]: [Understanding] Yuto in awe. Professional 2D anime style.
-
-### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
+### Style: Premium manga, cinematic lighting. 12:17 ratio. NO PADDING, NO MARGINS. LITERAL FULL WIDTH FILL. **NEG PROMPT**: NO side labels, NO text labels, NO margin text, NO white bars, NO grey borders.
 ```
 
 ---
 
-## 重要な生成手順
+## 2ページ目プロンプト (v15.0 Edge Crusher)
+
+```text
+ARCHITECTURE: FULL BLEED WALL-TO-WALL CINEMATIC ARTWORK. 12:17 ratio. ZERO PIXEL MARGINS. FULL WIDTH OVERFLOW. NO LABELS, NO MARGIN TEXT.
+
+### Characters:
+- Remi: (RED blazer). (SILVER hair). NO GLOVES.
+- Yuto: (BLACK Gakuran). BARE HANDS.
+
+[TOP PANEL - 40% height]: [Metaphor] FULL WIDTH FILL. Visualization of an "r-Escalator" and a "g-Runner". Remi rides golden escalator rising to stars, while people below are running on flat path. (Japanese speech bubbles: "資本(r)は複利で加速し、賃金(g)は良くて鈍足。このわずかな差が、乗り越えられない壁を作るの。", "投資の側に回らなければ、地平線は遠のくばかりよ。")
+
+[MIDDLE PANEL - 35% height]: [Focus Shot] FULL WIDTH FILL. Close-up Remi pointing to golden "Investment Door". (Japanese speech bubble: "抜け出す道は一つ。労働で得た種を、成長の側へ植え替えること。")
+
+[BOTTOM PANEL - 25% height]: [Perspective] Yuto holding golden seed. (Japanese speech bubble: "給料の一部を資本に移し替える… 数式の呪いを解くのは、僕の決断なんだ。")
+
+### Style: Premium manga, cinematic lighting. 12:17 ratio. LITERAL FULL WIDTH FILL.
+```
+
+---
+
+## 3ページ目プロンプト (v15.0 Edge Crusher)
+
+```text
+ARCHITECTURE: FULL BLEED WALL-TO-WALL CINEMATIC ARTWORK. 12:17 ratio. ZERO PIXEL MARGINS. FULL WIDTH OVERFLOW. NO LABELS, NO MARGIN TEXT.
+
+### Characters:
+- Remi: (RED blazer). (SILVER hair). NO GLOVES.
+- Yuto: (BLACK Gakuran). BARE HANDS.
+
+[TOP PANEL - 40% height]: [Action] FULL WIDTH FILL. Remi showing glowing terminal displaying 'INDEX FUND'. (Japanese speech bubbles: "今は誰でも大企業のオーナーになれる。特別な階級なんていらないわ。", "ただ、インデックスという橋を渡る勇気があればいいの。")
+
+[MIDDLE PANEL - 35% height]: [Action] Yuto pressing button on terminal, golden stardust. (Japanese speech bubble: "一歩を踏み出す。数式の向こう側、成長の世界へ。")
+
+[BOTTOM PANEL - 25% height]: [Resolve] Remi nodding with cosmic background. (Japanese speech bubble: "ええ。その決断が、あなたの人生という資本を最大化させるの。")
+
+### Style: Premium manga, cinematic lighting. 12:17 ratio. LITERAL FULL WIDTH FILL.
+```
+
+---
+
+## 4ページ目プロンプト (v15.0 Edge Crusher)
+
+```text
+ARCHITECTURE: FULL BLEED WALL-TO-WALL CINEMATIC ARTWORK. 12:17 ratio. ZERO PIXEL MARGINS. FULL WIDTH OVERFLOW. NO LABELS, NO MARGIN TEXT.
+
+### Characters:
+- Remi: (RED blazer). (SILVER hair). NO GLOVES.
+- Yuto: (BLACK Gakuran). BARE HANDS.
+
+[TOP PANEL - 40% height]: [Epilogue] Yuto and Remi on mountain of light, formula "r > g" shining like constellation in sky. (Japanese speech bubbles: "不条理を嘆くのではなく、不条理を味方にしなさい。", "世界は、動く勇気がある者にだけ優しいのよ。")
+
+[MIDDLE PANEL - 35% height]: [Focus Shot] Close-up Yuto with bright smile. (Japanese speech bubble: "レミさん、僕、もう走るのをやめません。成長の波に、乗り続けます！")
+
+[BOTTOM PANEL - 25% height]: [Final] Remi looking at camera with beautiful smile. (Japanese speech bubble: "さあ、最高にロジカルな、あなたの物語を。")
+
+### Style: Premium manga, cinematic lighting. 12:17 ratio. LITERAL FULL WIDTH FILL.
+```
+
+---
+
+## 生成手順 (v15.0 Edge Crusher)
 
 ### ステップ1: 1ページ目を生成
 
-```text
+```javascript
 generate_image(
-  ImageName: "remi_no63_page1",
-  Prompt: [上記1ページ目プロンプトを完全にコピペ],
-  Size: "1024x1792"
+  ImageName: "remi_no63_page1_v15_ms",
+  Prompt: "ARCHITECTURE: FULL BLEED WALL-TO-WALL CINEMATIC ARTWORK. MASKED AS A 3-PANEL VERTICAL PAGE. CRITICAL: 12:17 Portrait ratio. MANDATORY: ZERO PIXEL INTERNAL MARGINS. ART MUST PHYSICALLY TOUCH AND BLEED OFF THE LITERAL 1224x1728 PIXEL BOUNDARIES. NO WHITE SIDE BORDERS. NO PILLARBOXING. DRAW BEYOND THE CANVAS EDGE TO ENSURE ZERO WHITE SPACE. **MANDATORY**: DO NOT DRAW ANY LABELS LIKE '[TOP...]' OR '[PANEL...]'. DRAW ONLY THE STORY CONTENT. ### Characters: - Remi: (RED blazer, Black lace top). (SILVER hair). (RED eyes). NO GLOVES. - Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS. [PANEL 1 - 40% height]: FULL WIDTH ART. Remi draws giant flaming formula 'r > g' in space near a giant scale. **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner of THIS PANEL, with white Japanese text 'rとg'. (Japanese speech bubbles: '優斗君、これが残酷な不等式よ。', 'rは常にgを追い越す。') [PANEL 2 - 35% height]: FULL WIDTH ART. NO MARGINS. Scale tilts heavily toward 'r' side (golden key). 'g' side pulled up. (Japanese speech bubble: 'お金がお金を生むスピードは、人が働いて得る豊かさを追い越してきた。働くだけでは一生追いつけないのよ。') [PANEL 3 - 25% height]: FULL WIDTH ART. NO MARGINS. Close-up of Yuto (BLACK GAKURAN) in shock. (Japanese speech bubble: 'どんなに頑張っても最初から負けるようにできているっていうのか…！？') ### Style: Premium manga, cinematic lighting. 12:17 ratio. LITERAL FULL WIDTH FILL. **NEG PROMPT**: NO side labels, NO text labels, NO margin text, NO white bars, NO grey borders."
 )
 ```
 
 ---
-
 作成日: 2026-02-06
-ステータス: お手本画像に基づく画風・キャラ・ノイズ対策対応完了
+ステータス: No.63 全4ページ v15.0 Edge Crusher 完備
