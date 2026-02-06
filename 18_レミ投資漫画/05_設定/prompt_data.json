@@ -4,24 +4,24 @@
         "description": "The Ultimate Manga Constitution - Robust Architecture"
     },
     "styles": {
-        "global_prefix": "SIZE: 1024x1792. FORMAT: TALL VERTICAL PORTRAIT. ONE SINGLE high-end 2D anime manga page. **MANDATORY**: VIBRANT FULL COLOR. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean lineart, FLAT COLORS, NO 3D effects, NO realistic gradients. **MASTERS STANDARD**: Cosmic Spiritual Background ONLY (stars, nebula, golden energy). **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. The illustration MUST be TALL and FILL the entire vertical canvas. NO side margins. Use clean white gutters. NO black borders.",
-        "art_keywords": "Masterpiece, sharp 2D lineart, flat cel shading, vibrant cinematic 2D colors, glowing aura, deep space nebula, simple 2D composition, high-contrast aesthetics.",
+        "global_prefix": "SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.",
+        "art_keywords": "Masterpiece, sharp 2D lineart, professional cel shading, vibrant cinematic 2D colors, glowing aura, high-contrast aesthetics, sharp 2D highlights.",
         "anatomy": "### Anatomy: Perfect anime fingers (5), symmetrical eyes."
     },
     "characters": {
-        "remi": "Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, center-parted. Red blazer. No 3D shading on skin. Sharp 2D eyes.",
+        "remi": "Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes.",
         "yuto": "Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style."
     },
     "layout": {
-        "title_box": "",
-        "physics": "ONE PAGE ONLY. EXACTLY 3 PANELS. TALL PORTRAIT. Illustration reaches all 4 edges of each panel. Thick pure white spaces between panels. **ABSOLUTE RULE**: NO TEXT, NO LETTERS, NO SPEECH BUBBLES WITH CHARACTERS. Keep bubbles completely blank and empty."
+        "title_box": "A small horizontal black title box at the top center. **COMPLETELY EMPTY, BLANK AND PURE BLACK**. ABSOLUTELY NO TEXT, NO LETTERS, NO SYMBOLS, NO JAPANESE.",
+        "physics": "MANDATORY 12:17 VERTICAL RATIO. ONE PAGE ONLY. EXACTLY 3 PANELS. TALL PORTRAIT (1024x1792). Illustration reaches all 4 edges of each panel. Thick pure white spaces between panels. **ABSOLUTE RULE**: NO TEXT, NO LETTERS, NO TITLES, NO NUMBERS anywhere on the page. **SPEECH BUBBLES**: Must be perfectly OVAL, PURE WHITE interior, with a THIN BLACK OUTLINE. Keep bubbles COMPLETELY BLANK and EMPTY. NO placeholders, NO scribbles."
     },
     "templates": {
-        "common_header": "### Characters: {Remi}, {Yuto}. {Anatomy}\n\n### INTEGRATED 2D MASTERPIECE (VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)\n",
+        "common_header": "### Characters: {Remi}, {Yuto}. {Anatomy}\n\n### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)\n",
         "normal": {
             "p1": [
-                "[Panel 1 (Top, 40% height)]: [Universe] Yuto and Remi. Pure 2D anime style. Background is a deep space nebula with golden energy. **MANDATORY**: Illustration MUST be TALL and VERTICAL. NO OFFICE.\n",
-                "[Panel 2 (Middle, 30% height)]: [Concept] Remi pointing to a radiant sphere of cosmic light (representing the core idea). Flat 2D art. **EMPTY BLANK SPEECH BUBBLE**.\n",
+                "[Panel 1 (Top, 40% height)]: [Universe] Yuto and Remi. Pure 2D anime style. Background is a deep space nebula. **MANDATORY**: TALL VERTICAL ORIENTATION. {TitleBox}\n",
+                "[Panel 2 (Middle, 30% height)]: [Concept] Remi pointing to a radiant sphere of cosmic light. Flat 2D art. **EMPTY BLANK SPEECH BUBBLE**.\n",
                 "[Panel 3 (Bottom, 30% height)]: [Reaction] Dramatic close-up of Yuto in cosmic light. High-contrast 2D lighting. Reach all edges.\n"
             ],
             "p2": [
@@ -52,7 +52,7 @@
                 "[Panel 3 (Bottom, 30% height)]: [Understanding] Yuto in awe. Professional 2D anime style.\n"
             ],
             "p3": [
-                "[Panel 1 (Top, 40% height)]: [Awakening] Remi (center-parted) glowing. **EMPTY BLANK SPEECH BUBBLE**. Art floods to edges.\n",
+                "[Panel 1 (Top, 40% height)]: [Awakening] Remi glowing. **EMPTY BLANK SPEECH BUBBLE**. Art floods to edges.\n",
                 "[Panel 2 (Middle, 30% height)]: [Radiance] 2D spiritual energy. Thick white spacing.\n",
                 "[Panel 3 (Bottom, 30% height)]: [Final Resolve] Yuto enlightened. Pure 2D portrait.\n"
             ],
@@ -62,7 +62,7 @@
                 "[Panel 3 (Bottom, 30% height)]: [Soul] Masterful 2D portrait of Yuto. Reach all edges.\n"
             ]
         },
-        "footer": "\n### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. FLAT COLORS ONLY. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY**. **MANDATORY VERTICAL SIZE**."
+        "footer": "\n### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**."
     },
     "logic": {
         "TitleRegex": "\\| タイトル \\| (.*?) \\|",

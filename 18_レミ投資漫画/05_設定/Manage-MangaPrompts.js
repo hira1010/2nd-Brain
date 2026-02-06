@@ -2,9 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 /** 
- * MangaSystem Engine v3.2
- * Added: Short Keyword Extraction for stable Japanese rendering
- * Fixed: NO hardcoded theme-bias in templates
+ * MangaSystem Engine v6.5 (Refactor Edition)
+ * Updated: v6.5 Standard (High-quality Cel Shading, Side-swept Bangs, Script Section)
  */
 
 const scriptDir = __dirname;
@@ -18,12 +17,9 @@ const cfg = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
  */
 function getShortKeyword(text, index) {
     if (!text) return "真実！";
-    // Remove symbols
     let clean = text.replace(/[！、。？！『』「」]/g, '');
     let parts = clean.split(/[ \n\t]/);
     let target = parts[index % parts.length] || parts[0];
-
-    // Take first 4-5 chars if too long
     return target.substring(0, 5) + "！";
 }
 
@@ -94,18 +90,60 @@ targetFiles.forEach(f => {
 
         const isSpiritual = (no > 0 && no % 3 === 0);
 
+        // 1. 各ページのプロンプトと生成手順を更新
         for (let i = 1; i <= 4; i++) {
             const masterPrompt = buildPrompt(title, desc, isSpiritual, i);
 
-            // 1. プロンプト本文の更新
+            // プロンプト本文の更新
             const pageRegex = new RegExp(`(## .*?${i}.*?\\n\\s*\`\`\`text\\s*\\n)[\\s\\S]*?(\\n\`\`\`)`);
             if (content.match(pageRegex)) {
                 content = content.replace(pageRegex, `$1${masterPrompt}$2`);
             }
 
-            // 2. generate_image 呼び出し例の更新（Size 1024x1792 を追加）
+            // generate_image 呼び出し例の言語指定追加 (MD040対策)
+            const genLangRegex = new RegExp(`(## .*?${i}.*?手順.*?\\n\\s*\`\`\`)(\\s*\\n\\s*generate_image)`, 'g');
+            content = content.replace(genLangRegex, `$1javascript$2`);
+
+            // Size 指定の追加
             const genRegex = new RegExp(`(generate_image\\(\\s*ImageName: ".*?",\\s*Prompt: \\[.*?\\])(\\s*\\))`, 'g');
             content = content.replace(genRegex, `$1,\n  Size: "1024x1792"$2`);
+        }
+
+        // 2. キャラクター設定セクションの自動同期
+        const charSection = `## キャラクター設定（全ページ共通）
+
+### レミ（Remi）- 厳格に固定
+- **髪**: 腰まで届く非常に長いストレートなシルバーヘア、分け目なし（前髪に隙間や分け目の一切ない、重めのパッツン/サイド流しスタイル）
+- **目**: 鋭い赤い瞳（ruby red eyes）、長いまつ毛
+- **服装**: 深紅のビジネスブレザー（赤いボタン）、白いシャツ、黒レースのインナー（お手本画像通り）
+- **体型**: スリムで背が高い大人の女性、エレガントな立ち姿
+- **表情**: 知的で自信に満ちた微笑み、冷静
+
+### 優斗（Yuto）- 厳格に固定
+- **髪**: 短い黒髪、整った髪型
+- **目**: 黒い瞳、純粋な表情
+- **服装**: 伝統的な黒い学ラン（gakuran）、立襟、**手袋なし**
+- **体型**: 標準的な男子高校生の体型
+- **表情**: 好奇心旺盛、真剣に学ぶ姿勢`;
+
+        const charRegex = /## [1-9]?\.? ?キャラクター設定[\s\S]*?(?=---|$|## セリフ|## [1-9]ページ目)/;
+        if (content.match(charRegex)) {
+            content = content.replace(charRegex, charSection + "\n\n");
+        } else {
+            content = content.replace(/---/, "---\n\n" + charSection + "\n\n---");
+        }
+
+        // 3. セリフ・構成案（台本）セクションの自動挿入
+        if (!content.includes('## セリフ・構成案（台本）')) {
+            const scriptSection = `## セリフ・構成案（台本）
+
+| ページ | パネル | キャラクター | セリフ・ナレーション |
+| :--- | :--- | :--- | :--- |
+| 1 | 1 | ナレーション | ${desc} |
+| 1 | 2 | レミ | 優斗君、今日の講義は「${title}」よ。 |
+| 1 | 3 | 優斗 | よろしくお願いします！ |`;
+
+            content = content.replace(charSection, charSection + "\n\n---\n\n" + scriptSection);
         }
 
         if (content !== originalContent) {
@@ -118,4 +156,4 @@ targetFiles.forEach(f => {
     }
 });
 
-console.log(`\n\n[SUCCESS] Updated ${count} files with Vertical Size Support (1024x1792) and Masker Standard.`);
+console.log(`\n\n[SUCCESS] Refactored ${count} files with v6.5 Master Standard (High-quality Cel Shaded & Scripts).`);

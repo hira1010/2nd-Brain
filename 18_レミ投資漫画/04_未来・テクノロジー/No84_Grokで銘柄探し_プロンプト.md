@@ -14,9 +14,9 @@
 ## キャラクター設定（全ページ共通）
 
 ### レミ（Remi）- 厳格に固定
-- **髪**: 腰まで届く非常に長いストレートなシルバーヘア、前髪はセンター分け
+- **髪**: 腰まで届く非常に長いストレートなシルバーヘア、分け目なし（前髪に隙間や分け目の一切ない、重めのパッツン/サイド流しスタイル）
 - **目**: 鋭い赤い瞳（ruby red eyes）、長いまつ毛
-- **服装**: 深紅のビジネスブレザー（赤いボタン）、白いシャツ、**手袋なし**
+- **服装**: 深紅のビジネスブレザー（赤いボタン）、白いシャツ、黒レースのインナー（お手本画像通り）
 - **体型**: スリムで背が高い大人の女性、エレガントな立ち姿
 - **表情**: 知的で自信に満ちた微笑み、冷静
 
@@ -29,23 +29,31 @@
 
 ---
 
+## セリフ・構成案（台本）
 
+| ページ | パネル | キャラクター | セリフ・ナレーション |
+| :--- | :--- | :--- | :--- |
+| 1 | 1 | ナレーション | AIを活用して有望銘柄を見つける。 |
+| 1 | 2 | レミ | 優斗君、今日の講義は「Grokで銘柄探し」よ。 |
+| 1 | 3 | 優斗 | よろしくお願いします！ |
+
+---
 
 ## 1ページ目プロンプト
 
 ```text
-FORMAT: TALL VERTICAL PORTRAIT (1024x1792). ONE SINGLE high-end 2D anime manga page. **MANDATORY**: VIBRANT FULL COLOR. **STYLE**: PURE 2D ANIME (CEL SHADED). Sharp clean lineart, FLAT COLORS, NO 3D shading, NO realistic gradients. **MASTERS STANDARD**: High-contrast Japanese anime aesthetics. The illustration MUST be TALL and FILL the entire vertical canvas. NO side margins. Use clean white gutters between panels. NO black borders.
+SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
 
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, center-parted. Red blazer. No 3D shading on skin. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
 
-### INTEGRATED 2D MASTERPIECE (VERTICAL PORTRAIT / FULL COLOR / BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Cosmology] Giant golden glowing brain in deep space nebula. Pure 2D anime. **TITLE CARD**: A small horizontal black title box with Japanese text "Grokで銘柄探し" (Ensure accurate spelling). NO ENGLISH.. **MANDATORY**: VERTICAL ORIENTATION.
+### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
+[Panel 1 (Top, 40% height)]: [Cosmology] Giant golden glowing brain in deep space nebula. Pure 2D anime. **MANDATORY**: VERTICAL ORIENTATION.
 
-[Panel 2 (Middle, 30% height)]: [Teaching] Remi (red blazer) amidst swirling golden energy. **BLANK SPEECH BUBBLE**.
+[Panel 2 (Middle, 30% height)]: [Teaching] Remi (red blazer) amidst swirling golden energy. **EMPTY BLANK SPEECH BUBBLE**.
 
 [Panel 3 (Bottom, 30% height)]: [Awe] Yuto looking up. High-contrast 2D lighting. Reach both side edges.
 
-### Technical Style: **PURE 2D ANIME (CEL SHADED)**. Sharp lineart. NO 3D effects. NO gradients on skin. TALL VERTICAL PORTRAIT ONLY. **LEAVE ALL SPEECH BUBBLES BLANK** (No text inside).
+### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
 ```
 
 ---
@@ -53,52 +61,52 @@ FORMAT: TALL VERTICAL PORTRAIT (1024x1792). ONE SINGLE high-end 2D anime manga p
 ## 2ページ目プロンプト
 
 ```text
-FORMAT: TALL VERTICAL PORTRAIT (1024x1792). ONE SINGLE high-end 2D anime manga page. **MANDATORY**: VIBRANT FULL COLOR. **STYLE**: PURE 2D ANIME (CEL SHADED). Sharp clean lineart, FLAT COLORS, NO 3D shading, NO realistic gradients. **MASTERS STANDARD**: High-contrast Japanese anime aesthetics. The illustration MUST be TALL and FILL the entire vertical canvas. NO side margins. Use clean white gutters between panels. NO black borders.
+SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
 
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, center-parted. Red blazer. No 3D shading on skin. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
 
-### INTEGRATED 2D MASTERPIECE (VERTICAL PORTRAIT / FULL COLOR / BLANK BUBBLES)
+### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
 [Panel 1 (Top, 40% height)]: [Guidance] Path of light through stars. Flat 2D art. TALL layout.
 
-[Panel 2 (Middle, 30% height)]: [Remi Solo] Remi glowing with 2D aura. **BLANK SPEECH BUBBLE**.
+[Panel 2 (Middle, 30% height)]: [Remi Solo] Remi glowing with 2D aura in space. **EMPTY BLANK SPEECH BUBBLE**.
 
 [Panel 3 (Bottom, 30% height)]: [Understanding] Yuto in awe. Professional 2D anime style.
 
-### Technical Style: **PURE 2D ANIME (CEL SHADED)**. Sharp lineart. NO 3D effects. NO gradients on skin. TALL VERTICAL PORTRAIT ONLY. **LEAVE ALL SPEECH BUBBLES BLANK** (No text inside).
+### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
 ```
 
 ## 3ページ目プロンプト
 
 ```text
-FORMAT: TALL VERTICAL PORTRAIT (1024x1792). ONE SINGLE high-end 2D anime manga page. **MANDATORY**: VIBRANT FULL COLOR. **STYLE**: PURE 2D ANIME (CEL SHADED). Sharp clean lineart, FLAT COLORS, NO 3D shading, NO realistic gradients. **MASTERS STANDARD**: High-contrast Japanese anime aesthetics. The illustration MUST be TALL and FILL the entire vertical canvas. NO side margins. Use clean white gutters between panels. NO black borders.
+SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
 
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, center-parted. Red blazer. No 3D shading on skin. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
 
-### INTEGRATED 2D MASTERPIECE (VERTICAL PORTRAIT / FULL COLOR / BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Awakening] Remi (center-parted) glowing. **BLANK SPEECH BUBBLE**. Art floods to edges.
+### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
+[Panel 1 (Top, 40% height)]: [Awakening] Remi glowing. **EMPTY BLANK SPEECH BUBBLE**. Art floods to edges.
 
 [Panel 2 (Middle, 30% height)]: [Radiance] 2D spiritual energy. Thick white spacing.
 
 [Panel 3 (Bottom, 30% height)]: [Final Resolve] Yuto enlightened. Pure 2D portrait.
 
-### Technical Style: **PURE 2D ANIME (CEL SHADED)**. Sharp lineart. NO 3D effects. NO gradients on skin. TALL VERTICAL PORTRAIT ONLY. **LEAVE ALL SPEECH BUBBLES BLANK** (No text inside).
+### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
 ```
 
 ## 4ページ目プロンプト
 
 ```text
-FORMAT: TALL VERTICAL PORTRAIT (1024x1792). ONE SINGLE high-end 2D anime manga page. **MANDATORY**: VIBRANT FULL COLOR. **STYLE**: PURE 2D ANIME (CEL SHADED). Sharp clean lineart, FLAT COLORS, NO 3D shading, NO realistic gradients. **MASTERS STANDARD**: High-contrast Japanese anime aesthetics. The illustration MUST be TALL and FILL the entire vertical canvas. NO side margins. Use clean white gutters between panels. NO black borders.
+SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
 
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (STRICT CENTER-PARTED bangs). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, center-parted. Red blazer. No 3D shading on skin. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
 
-### INTEGRATED 2D MASTERPIECE (VERTICAL PORTRAIT / FULL COLOR / BLANK BUBBLES)
+### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
 [Panel 1 (Top, 40% height)]: [Path] Remi pointing. Full Color 2D. TALL ORIENTATION.
 
-[Panel 2 (Middle, 30% height)]: [Transcendence] Remi and Yuto in world of geometric light. **BLANK SPEECH BUBBLE**.
+[Panel 2 (Middle, 30% height)]: [Transcendence] Remi and Yuto in world of geometric light. **EMPTY BLANK SPEECH BUBBLE**.
 
 [Panel 3 (Bottom, 30% height)]: [Soul] Masterful 2D portrait of Yuto. Reach all edges.
 
-### Technical Style: **PURE 2D ANIME (CEL SHADED)**. Sharp lineart. NO 3D effects. NO gradients on skin. TALL VERTICAL PORTRAIT ONLY. **LEAVE ALL SPEECH BUBBLES BLANK** (No text inside).
+### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
 ```
 
 ---
@@ -107,7 +115,7 @@ FORMAT: TALL VERTICAL PORTRAIT (1024x1792). ONE SINGLE high-end 2D anime manga p
 
 ### ステップ1: 1ページ目を生成
 
-```
+```javascript
 generate_image(
   ImageName: "remi_no84_page1",
   Prompt: [上記1ページ目プロンプトを完全にコピペ],
@@ -117,7 +125,7 @@ generate_image(
 
 ### ステップ2: 2ページ目を生成（1ページ目確認後）
 
-```
+```javascript
 generate_image(
   ImageName: "remi_no84_page2",
   Prompt: [上記2ページ目プロンプトを完全にコピペ],
