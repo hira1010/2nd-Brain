@@ -1,143 +1,98 @@
-﻿# No.28 インカムvsキャピタル 2P漫画生成プロンプト
+﻿# No.28 インカムvsキャピタル 漫画生成プロンプト (Master Standard v15.1 Margin Slayer Override)
 
 ## TIP情報
 
 | 項目 | 内容 |
-| :---
-
-## キャラクター設定（全ページ共通）
-
-### レミ（Remi）- 厳格に固定
-- **髪**: 腰まで届く非常に長いストレートなシルバーヘア、分け目なし（前髪に隙間や分け目の一切ない、重めのパッツン/サイド流しスタイル）
-- **目**: 鋭い赤い瞳（ruby red eyes）、長いまつ毛
-- **服装**: 深紅のビジネスブレザー（赤いボタン）、白いシャツ、黒レースのインナー（お手本画像通り）
-- **体型**: スリムで背が高い大人の女性、エレガントな立ち姿
-- **表情**: 知的で自信に満ちた微笑み、冷静
-
-### 優斗（Yuto）- 厳格に固定
-- **髪**: 短い黒髪、整った髪型
-- **目**: 黒い瞳、純粋な表情
-- **服装**: 伝統的な黒い学ラン（gakuran）、立襟、**手袋なし**
-- **体型**: 標準的な男子高校生の体型
-- **表情**: 好奇心旺盛、真剣に学ぶ姿勢
-
----
-
-## セリフ・構成案（台本）
-
-| ページ | パネル | キャラクター | セリフ・ナレーション |
-| :--- | :--- | :--- | :--- |
-| 1 | 1 | ナレーション | 配当狙いか値上がり狙いか。 |
-| 1 | 2 | レミ | 優斗君、今日の講義は「インカムvsキャピタル」よ。 |
-| 1 | 3 | 優斗 | よろしくお願いします！ |
-
---- | :--- |
+| :--- | :--- |
 | No | 28 |
 | タイトル | インカムvsキャピタル |
-| 解説 | 配当狙いか値上がり狙いか。 |
-| カテゴリー | 02_マインド・哲学 |
-| DIALOGUE_INTRO | 優斗君、今日は『インカムvsキャピタル』について教えるわよ。 |
-| DIALOGUE_TEACH | 配当狙いか値上がり狙いか。 |
-| DIALOGUE_DESC | つまり、配当狙いか値上がり狙いか。 |
-| DIALOGUE_ACTION | なるほど…そういうことなんですね |
+| 解説 | 配当（インカム）と値上がり益（キャピタル）。両方の特性を理解し、自分に合ったスタイルを選ぶ。 |
 
 ---
 
-## 1ページ目プロンプト
+## 1ページ目プロンプト (Master Standard v15.1 Margin Slayer Override)
 
 ```text
-SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
+ARCHITECTURE: [CRITICAL OVERRIDE] FULL BLEED WALL-TO-WALL CINEMATIC ARTWORK. ZOOM IN HORIZONTALLY TO ENSURE ART OVERFLOWS THE SIDES. 12:17 Portrait ratio. MANDATORY: ZERO PIXEL SIDE MARGINS. ART MUST TOUCH AND CROP OFF THE LITERAL 1224x1728 PIXEL BOUNDARIES. NO WHITE SIDE BORDERS. NO PILLARBOXING. DRAW BEYOND THE CANVAS EDGE TO ENSURE ZERO WHITE SPACE. **MANDATORY**: DO NOT DRAW ANY LABELS OR TEXT.
 
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+### Characters:
+- Remi: (Crimson RED blazer, Black lace top). (SHARP WHITE-SILVER hair), (VIBRANT SATURATED RED eyes). NO GLOVES. (ONLY ONE Remi per panel).
+- Yuto: (Traditional SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. (ONLY ONE Yuto per panel).
 
-### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Universe] Yuto and Remi. Pure 2D anime style. Background is a deep space nebula. **MANDATORY**: TALL VERTICAL ORIENTATION. A small horizontal black title box at the top center. **COMPLETELY EMPTY, BLANK AND PURE BLACK**. ABSOLUTELY NO TEXT, NO LETTERS, NO SYMBOLS, NO JAPANESE.
+[PANEL 1 - TOP 40% height]: FULL WIDTH CINEMATIC ART. Remi and Yuto in celestial arena. Two glowing orbs: 'Golden Sun' (Income) and 'Shooting Star' (Capital). **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner of THIS PANEL, containing white Japanese text "インカムvsキャピタル". (Japanese speech bubbles: "レミさん！ 二つの光があります。どちらが正解なんですか！？", "正解ではなく選択があるだけよ。安定して果実を得る『インカム』か、爆発的な上昇を狙う『キャピタル』か。それぞれの性質を理解しなさい。")
 
-[Panel 2 (Middle, 30% height)]: [Concept] Remi pointing to a radiant sphere of cosmic light. Flat 2D art. **EMPTY BLANK SPEECH BUBBLE**.
+[PANEL 2 - MIDDLE 35% height]: FULL WIDTH CINEMATIC ART. NO MARGINS. Remi shows visualization of 'Slowly Flowing River' (Income) and 'Exploding Firework' (Capital). (Japanese speech bubble: "川の流れは静かだが絶えない。花火は鮮やかだが一瞬よ。どちらがあなたの心に寄り添うか、それを見極めるのが投資家の第一歩よ。")
 
-[Panel 3 (Bottom, 30% height)]: [Reaction] Dramatic close-up of Yuto in cosmic light. High-contrast 2D lighting. Reach all edges.
+[PANEL 3 - BOTTOM 25% height]: FULL WIDTH CINEMATIC ART. NO MARGINS. Yuto (BLACK GAKURAN) reaching out to both lights. NO PILLARBOXING. (Japanese speech bubble: "安定と爆発力……。僕の性格と、僕の未来。どちらに賭けるべきか、じっくり考えます！")
 
-### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
+### Style: Premium manga, cinematic lighting. 12:17 ratio. **MANDATORY**: STRETCH ART BEYOND EDGES. NO PADDING, NO SIDE BARS.
 ```
 
 ---
 
-## 2ページ目プロンプト
+## 2ページ目プロンプト (v15.1 Margin Slayer Override)
 
 ```text
-SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
+ARCHITECTURE: [CRITICAL OVERRIDE] FULL_BLEED 12:17. HORIZONTAL OVERFLOW. ZERO PIXEL MARGINS. ART MUST TOUCH RIGHT EDGE. NO LABELS, NO TEXT.
 
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
+### Characters:
+- Remi: (RED blazer). (SHARP SILVER hair). NO GLOVES.
+- Yuto: (BLACK Gakuran). BARE HANDS.
 
-### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Revelation] Remi explaining with majestic cosmic visual effects. **EMPTY BLANK SPEECH BUBBLE**.
+[PANEL 1 - TOP 40% height]: [Metaphor] STRETCH FILL. 'The Orchard' vs 'The Rocket'. Farmer gathering fruit and pilot blasting off. (Japanese speech bubbles: "インカムは心理的安定を、キャピタルは資産形成の加速を生むわ。投資の目的に合わせて使い分けなさい。", "欲張ってもいいけれど、軸を決めなさい。")
 
-[Panel 2 (Middle, 30, height)]: [Duality] Visual contrast of light and shadow in space. Flat 2D composition. **EMPTY BLANK SPEECH BUBBLE**.
+[PANEL 2 - MIDDLE 35% height]: [Focus Shot] STRETCH FILL. Remi (RED blazer) sharp balanced smile. (Japanese speech bubble: "複利の力を最大化するならキャピタル、生活の質を今すぐ上げるならインカム。答えはあなたの中にある。")
 
-[Panel 3 (Bottom, 30% height)]: [Path] Yuto's determined face against starry background. Sharp lineart. Thick white gutters.
+[PANEL 3 - BOTTOM 25% height]: [Perspective] STRETCH FILL. Yuto seeing garden with rocket pad, smiling. (Japanese speech bubble: "バランスという答え。自分だけの『最高のミックス』を見つけます！")
 
-### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
-```
-
-## 3ページ目プロンプト
-
-```text
-SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
-
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
-
-### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Power] Remi (silver hair) looking firm amidst golden aura. 2D anime flair.
-
-[Panel 2 (Middle, 30% height)]: [Essence] Radiant spiritual energy. **EMPTY BLANK SPEECH BUBBLE**.
-
-[Panel 3 (Bottom, 30% height)]: [Legacy] Yuto. Pure 2D cel shaded portrait. Space nebula background.
-
-### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
-```
-
-## 4ページ目プロンプト
-
-```text
-SIZE: 1024x1792. RATIO: 12:17. **STRICTLY TALL VERTICAL PORTRAIT**. ONE SINGLE high-end 2D anime manga page. **FILL THE ENTIRE VERTICAL CANVAS**. **MANDATORY**: VIBRANT FULL COLOR ONLY. **STYLE**: 90s high-end cel-shaded 2D anime. Sharp clean 2D lineart, professional cel shading, NO 3D effects, NO gradients on skin. **MASTERS STANDARD**: High-contrast cinematic 2D lighting, vibrant saturated colors. Highly detailed 2D hair rendering. **ATMOSPHERE**: Cosmic Spiritual Background (nebula/energy) in space. **PROHIBITED**: NO modern offices, NO desks, NO digital monitors. NO side margins. Use clean white gutters. NO black borders.
-
-### Characters: Remi: (Crimson RED eyes). (WAIST-LENGTH needle-thin STARK SILVER hair:1.8). (Flat solid bangs covering forehead, ABSOLUTELY NO gap, NO parting line, NO center part:1.8). (Cool beauty). Remi wears a (Vibrant Crimson RED blazer over a BLACK LACE inner top). **VISUAL LOCK**: Pure silver hair, solid flat bangs, No part. Red blazer. No 3D skin shading. Sharp 2D eyes., Yuto: (Short Black hair). (Traditional BLACK Gakuran school uniform). Dynamic 2D anime style.. ### Anatomy: Perfect anime fingers (5), symmetrical eyes.
-
-### INTEGRATED 2D MASTERPIECE (STRICT 12:17 VERTICAL PORTRAIT / FULL COLOR / CLEAN BLANK BUBBLES)
-[Panel 1 (Top, 40% height)]: [Transcendence] Remi smiles in celestial world. **EMPTY BLANK SPEECH BUBBLE**. 2D masterpiece.
-
-[Panel 2 (Middle, 30% height)]: [Unity] Both characters together in light. **EMPTY BLANK SPEECH BUBBLE**. Illustration reaches side edges.
-
-[Panel 3 (Bottom, 30% height)]: [Ascension] Heroic 2D portrait of Yuto. cosmic background.
-
-### Technical Style: **PURE 2D ANIME (90S CEL SHADED)**. Sharp lineart. professional cel shading. **DO NOT RENDER ANY TEXT, LETTERS, OR TITLES**. **EMPTY BLANK SPEECH BUBBLES ONLY (Perfectly oval shape, pure white interior, thin black outline)**. **MANDATORY VERTICAL SIZE**.
+### Style: Premium manga, cinematic lighting. 12:17 ratio. FULL WIDTH FILL.
 ```
 
 ---
 
-## 重要な生成手順
+## 3ページ目プロンプト (v15.1 Margin Slayer Override)
+
+```text
+ARCHITECTURE: [CRITICAL OVERRIDE] FULL BLEED 12:17. ZERO PIXEL MARGINS. ART MUST TOUCH RIGHT EDGE.
+
+[PANEL 1 - TOP 40% height]: [Action] STRETCH FILL. 'Dual Growth'. Golden line (Dividends) and Blue line (Price). (Japanese speech bubbles: "配当は『今』の豊かさを、値上がりは『未来』の自由を創る。時間の使い方が、結果を決めるわ。", "どちらの果実も、根っこは企業の成長よ。")
+
+[PANEL 2 - MIDDLE 35% height]: [Action] STRETCH FILL. Yuto watching dual lines, mature expression. (Japanese speech bubble: "今を楽しむか、未来を最大化するか。投資は本当に生き方そのものですね。")
+
+[PANEL 3 - BOTTOM 25% height]: [Resolve] STRETCH FILL. Remi nodding cosmic background. (Japanese speech bubble: "ええ。その自覚こそが、無敵の投資家への第一歩よ。")
+
+### Style: Premium manga, cinematic lighting. 12:17 ratio. FULL WIDTH FILL.
+```
+
+---
+
+## 4ページ目プロンプト (v15.1 Margin Slayer Override)
+
+```text
+ARCHITECTURE: [CRITICAL OVERRIDE] FULL BLEED 12:17. ZERO PIXEL MARGINS. ART MUST TOUCH RIGHT EDGE.
+
+[PANEL 1 - TOP 40% height]: [Epilogue] STRETCH FILL. Bridge of light between two planets of gold and sapphire. (Japanese speech bubbles: "自分の心地よい速度で歩みなさい。どちらの道も、栄光へと続いているわ。", "あなたは、どちらを選ぶ？")
+
+[PANEL 2 - MIDDLE 35% height]: [Focus Shot] STRETCH FILL. Yuto bright mature smile looking at camera. (Japanese speech bubble: "レミさん！ 僕は、今日という日を大切にしながら、大きな未来を掴み取ります！")
+
+[PANEL 3 - BOTTOM 25% height]: [Final] STRETCH FILL. Remi beauty smile. (Japanese speech bubble: "さあ、最高にロジカルな、あなたの物語を。")
+
+### Style: Premium manga, cinematic lighting. 12:17 ratio. FULL WIDTH FILL.
+```
+
+---
+
+## 生成手順 (v15.1 Margin Slayer Override)
 
 ### ステップ1: 1ページ目を生成
 
 ```javascript
 generate_image(
-  ImageName: "remi_no28_page1",
-  Prompt: [上記1ページ目プロンプトを完全にコピペ],
-  Size: "1024x1792"
-)
-```
-
-### ステップ2: 2ページ目を生成（1ページ目確認後）
-
-```javascript
-generate_image(
-  ImageName: "remi_no28_page2",
-  Prompt: [上記2ページ目プロンプトを完全にコピペ],
-  Size: "1024x1792"
+  ImageName: "remi_no28_page1_v15_1_ms",
+  Prompt: "ARCHITECTURE: [CRITICAL OVERRIDE] FULL BLEED WALL-TO-WALL CINEMATIC ARTWORK. ZOOM IN HORIZONTALLY TO ENSURE ART OVERFLOWS THE SIDES. 12:17 Portrait ratio. MANDATORY: ZERO PIXEL SIDE MARGINS. ART MUST PHYSICALLY TOUCH AND CROP OFF THE LITERAL 1224x1728 PIXEL BOUNDARIES. NO WHITE GUTTERS. NO RIGHT-SIDE PILLARBOXING. DRAW BEYOND EDGES. DO NOT DRAW ANY LABELS OR TEXT. ### Characters: - Remi: (RED blazer, Black lace top). (SHARP WHITE-SILVER hair). (VIBRANT RED eyes). NO GLOVES. - Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS. [PANEL 1 - 40% height]: FULL WIDTH ART. Remi and Yuto in celestial arena. Two glowing orbs: 'Golden Sun' (Income) and 'Shooting Star' (Capital). **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner, with white Japanese text 'インカムvsキャピタル'. (Japanese speech bubbles: 'どちらが正解なんですか！？', '正解ではなく選択があるだけよ。安定して果実を得るインカムか、爆発的な上昇を狙うキャピタルか。それぞれの性質を理解しなさい。') [PANEL 2 - 35% height]: FULL WIDTH ART. NO MARGINS. Visualization of 'Slowly Flowing River' (Income) and 'Exploding Firework' (Capital). (Japanese speech bubble: '川の流れは静かだが絶えない。花火は鮮やかだが一瞬よ。どちらがあなたの心に寄り添うかを見極めなさい。') [PANEL 3 - 25% height]: FULL WIDTH ART. NO MARGINS. Yuto (BLACK GAKURAN) reaching out to lights. Absolutely NO right-side gutters. (Japanese speech bubble: '安定と爆発力…。僕の性格と未来、どちらに賭けるべきか考えます！') ### Style: Premium manga, cinematic lighting. 12:17 ratio. MANDATORY: STRETCH ART BEYOND EDGES. NO PADDING, NO SIDE BARS."
 )
 ```
 
 ---
-
-作成日: 2026-02-05
-ステータス: A4縦・複数ページ・キャラ一貫性・会話フロー対応完了
+作成日: 2026-02-07
+ステータス: No.28 全4ページ v15.1 Margin Slayer Override 完備
