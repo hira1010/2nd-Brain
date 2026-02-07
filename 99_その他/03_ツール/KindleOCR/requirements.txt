@@ -1,5 +1,0 @@
-pyautogui
-pygetwindow
-pytesseract
-Pillow
-opencv-python
