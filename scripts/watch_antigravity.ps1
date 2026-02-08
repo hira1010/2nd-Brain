@@ -2,7 +2,8 @@ param(
     [string]$ProcessName = "Antigravity",
     [int]$PollSeconds = 2,
     [string]$CommitScript = "${PSScriptRoot}\commit_all.ps1",
-    [string]$LogFile = "${PSScriptRoot}\watcher.log"
+    [string]$LogFile = "${PSScriptRoot}\watcher.log",
+    [string]$EnableFlag = "${PSScriptRoot}\.autocommit-enabled"
 )
 
 # 注意: ProcessName はプロセス名（拡張子なし）、例: MyApp.exe -> "MyApp"
@@ -10,6 +11,12 @@ param(
 # ログファイルがなければ作成
 if (-not (Test-Path -Path $LogFile)) {
     New-Item -Path $LogFile -ItemType File -Force | Out-Null
+}
+
+$enabled = Test-Path -Path $EnableFlag
+if (-not $enabled) {
+    "Watcher disabled because flag file was not found: $EnableFlag ($(Get-Date))" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+    exit 0
 }
 
 $running = $false
