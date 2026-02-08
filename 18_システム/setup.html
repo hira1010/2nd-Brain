@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Required - Antigravity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --bg: #000000;
+            --card-bg: #0f111a;
+            --text: #ffffff;
+            --text-muted: #888888;
+            --step-bg: #7c3aed;
+            --warning-bg: rgba(139, 92, 246, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            margin: 0.5rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .main-card {
+            background-color: var(--card-bg);
+            border: 1px solid #1f2937;
+            border-radius: 1rem;
+            padding: 3rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            background: var(--step-bg);
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .step-content h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .copy-btn {
+            background: linear-gradient(to right, #9333ea, #7c3aed);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: opacity 0.2s;
+            font-size: 1rem;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .warning-icon {
+            color: #fbd38d;
+        }
+
+        .warning-text strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .warning-text p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .help-link {
+            color: #c084fc;
+            text-decoration: none;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .help-link:hover {
+            color: #d8b4fe;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Setup Required</h1>
+        <p class="subtitle">Enable Chrome DevTools Protocol for Antigravity</p>
+    </div>
+
+    <div class="main-card">
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <h3>Copy Setup Script</h3>
+                <p>Click the button to copy the script to your clipboard</p>
+                <button class="copy-btn" id="copyBtn">
+                    <span>📋</span> Copy Setup Script
+                </button>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <h3>Run in PowerShell (as Administrator)</h3>
+                <p>Paste and execute the script in PowerShell (as Administrator)</p>
+            </div>
+        </div>
+
+        <div class="step" style="margin-bottom: 0;">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <h3>Restart Antigravity</h3>
+                <p>Completely close and restart Antigravity for changes to take effect</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="warning-box">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-text">
+            <strong>Windows Users</strong>
+            <p>Right-click PowerShell and select "Run as Administrator" before pasting the script.</p>
+        </div>
+    </div>
+
+    <a href="setup_guide.html" class="help-link">Need help? View setup guide →</a>
+
+    <script>
+        const scriptContent = `# Antigravity CDP Setup
+$searchLocations = @(
+    [Environment]::GetFolderPath('Desktop'),
+    "$env:USERPROFILE\Desktop",
+    "$env:USERPROFILE\OneDrive\Desktop",
+    "$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs",
+    "$env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs",
+    "$env:USERPROFILE\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar"
+)
+$WshShell = New-Object -ComObject WScript.Shell
+$foundShortcuts = @()
+foreach ($location in $searchLocations) {
+    if (Test-Path $location) {
+        $shortcuts = Get-ChildItem -Path $location -Recurse -Filter "*.lnk" -ErrorAction SilentlyContinue | Where-Object { $_.Name -like "*Antigravity*" }
+        $foundShortcuts += $shortcuts
+    }
+}
+if ($foundShortcuts.Count -eq 0) {
+    $exePath = "$env:LOCALAPPDATA\\Programs\\Antigravity\\Antigravity.exe"
+    if (Test-Path $exePath) {
+        $desktopPath = [Environment]::GetFolderPath('Desktop')
+        $shortcutPath = "$desktopPath\\Antigravity.lnk"
+        $shortcut = $WshShell.CreateShortcut($shortcutPath)
+        $shortcut.TargetPath = $exePath
+        $shortcut.Arguments = "--remote-debugging-port=9000"
+        $shortcut.Save()
+    }
+} else {
+    foreach ($shortcutFile in $foundShortcuts) {
+        $shortcut = $WshShell.CreateShortcut($shortcutFile.FullName)
+        $originalArgs = $shortcut.Arguments
+        if ($originalArgs -match "--remote-debugging-port=\\d+") {
+            $shortcut.Arguments = $originalArgs -replace "--remote-debugging-port=\\d+", "--remote-debugging-port=9000"
+        } else {
+            $shortcut.Arguments = "--remote-debugging-port=9000 " + $originalArgs
+        }
+        $shortcut.Save()
+    }
+}`;
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(scriptContent).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                btn.style.background = '#10b981';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+
+</html>
