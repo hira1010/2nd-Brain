@@ -63,7 +63,7 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
 - Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. High garden. (Japanese speech bubbles: '知識は勇気に、勇気は盾になる。', 'あなたは今日、自分の未来を守る最強の城を作ったのよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto smile radiant horizon. (Japanese speech bubble: 'レミさん。僕のNISA枠、黄金の果実でいっぱいにします。誰にも邪魔されない、僕だけの城です。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi beauty smile. (Japanese speech bubble: 'さあ、最高にロジカルな、あなたの物語を。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+[PANEL 1 - 40% height]: FULL WIDTH FILL. High garden. (Japanese speech bubbles: '知識は勇気に、勇気は盾になる。', 'あなたは今日、自分の未来を守る最強の城を作ったのよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto looking intently at his laptop screen, finger hovering over 'Confirm' button. (Japanese speech bubble: '難しい設定だ……。でも、このワンクリックが、将来の数百万円を守る盾になるんだ……！') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi nodding. (Japanese speech bubble: 'ええ。面倒くさがらずに築いたその壁だけが、あなたを守り抜くわ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
 )
 ```

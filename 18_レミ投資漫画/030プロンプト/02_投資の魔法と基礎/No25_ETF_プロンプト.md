@@ -63,7 +63,7 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
 - Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Floating observatory. (Japanese speech bubbles: '最適解は、常にシンプル。', '複雑さに逃げるのをやめ、王道を歩みなさい。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto smile radiant horizon. (Japanese speech bubble: 'レミさん。僕、ようやく分かりました。最高の武器は、僕の手の中にあったんですね。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi beauty smile. (Japanese speech bubble: 'さあ、最高にロジカルな、あなたの物語を。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+[PANEL 1 - 40% height]: FULL WIDTH FILL. Floating observatory. (Japanese speech bubbles: '最適解は、常にシンプル。', '複雑さに逃げるのをやめ、王道を歩みなさい。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto staring at his smartphone screen, wide-eyed. (Japanese speech bubble: 'これで……終わり？ たったワンクリックで、僕は世界を買ってしまったのか……？') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi mystic smile. (Japanese speech bubble: 'ええ。その「あまりの呆気なさ」こそが、革命の証よ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
 )
 ```

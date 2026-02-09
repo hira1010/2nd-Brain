@@ -63,7 +63,7 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
 - Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Formula constellation. (Japanese speech bubbles: '不条理を嘆くのではなく味方にしなさい。', '世界は動く勇気がある者にだけ優しいのよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto bright mature smile. (Japanese speech bubble: 'レミさん。僕もう走るのをやめません。成長の波に乗り続けます！') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi beauty smile. (Japanese speech bubble: 'さあ、最高にロジカルな、あなたの物語を。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+[PANEL 1 - 40% height]: FULL WIDTH FILL. Formula constellation. (Japanese speech bubbles: '不条理を嘆くのではなく味方にしなさい。', '世界は動く勇気がある者にだけ優しいのよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto looking at his rough hands (labor), clenching them tight. (Japanese speech bubble: '僕の手だけじゃ……あの方程式には一生勝てない……。労働という武器だけじゃ、守りきれないんだ……！') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi stern nodding. (Japanese speech bubble: 'ええ。だからこそ、今すぐ別の武器を手になさい。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
 )
 ```

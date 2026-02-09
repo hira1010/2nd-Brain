@@ -63,7 +63,7 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
 - Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Future city cafe. (Japanese speech bubbles: 'どの位置に立つかで、見える景色は全て変わる。', 'あなたはもう、自由という名の新大陸に第一歩を記したのよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto smile holding golden compass. (Japanese speech bubble: 'レミさん。僕もう迷いません。自分の時間を夢のために使える日が楽しみです。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi beauty smile. (Japanese speech bubble: 'さあ、最高にロジカルな、あなたの物語を。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+[PANEL 1 - 40% height]: FULL WIDTH FILL. Future city cafe. (Japanese speech bubbles: 'どの位置に立つかで、見える景色は全て変わる。', '労働者(E)の席に座り続けていては、一生自由の景色は見えないわ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto staring at his Employee ID Card in his hand. (Japanese speech bubble: '僕は……ただの歯車(パーツ)だったんだ。代わりなんていくらでもいる……それが今の僕の価値……。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi nod. (Japanese speech bubble: 'ええ。その悔しさが、あなたを右側（資本家）の世界へ突き動かす燃料になるの。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
 )
 ```

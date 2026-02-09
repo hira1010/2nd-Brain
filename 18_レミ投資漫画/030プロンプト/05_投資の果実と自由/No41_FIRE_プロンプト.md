@@ -71,11 +71,11 @@ ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVER
 - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
 - Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
 
-[PANEL 1 - TOP 40% height]: [Epilogue] STRETCH FILL. Balcony of palace in stars, looking at infinite ocean of light. (Japanese speech bubbles: "もう、誰のために働く必要もない。今日から、あなたはあなたの時間の主人よ。", "おめでとう。真の世界へようこそ。")
+[PANEL 1 - TOP 40% height]: FULL WIDTH FILL. Yuto standing on a white, blank canvas world. No chains, no clocks. (Japanese speech bubbles: '……静かだ。誰の命令も、時計の音も聞こえない。', 'これが、自由……。') 
 
-[PANEL 2 - MIDDLE 35% height]: [Focus Shot] STRETCH FILL. Yuto bright mature smile looking at camera. (Japanese speech bubble: "レミさん。僕、自由のために戦います。そして、一生かけて本当の幸せを見つけます！")
+[PANEL 2 - MIDDLE 35% height]: FULL WIDTH FILL. Yuto looking at his own hands, trembling slightly with excitement/fear of total freedom. (Japanese speech bubble: '明日から何もしなくていい。……いや、違う。「何をしてもいい」んだ。僕の人生を、僕がゼロから描くんだ。') 
 
-[PANEL 3 - BOTTOM 25% height]: [Final] STRETCH FILL. Remi beauty smile. (Japanese speech bubble: "さあ、最高にロジカルな、あなたの物語を。")
+[PANEL 3 - BOTTOM 25% height]: FULL WIDTH FILL. Remi handing him a pen of light. (Japanese speech bubble: 'ええ。さあ、描きなさい。誰のものでもない、あなただけの傑作を。')
 
 ### Style: Premium manga, cinematic lighting. 12:17 ratio. FULL WIDTH FILL.
 ```
