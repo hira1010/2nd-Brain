@@ -1,30 +1,49 @@
 """
-Manga production system configuration file
-ASCII-only version to prevent UnicodeDecodeError on Windows.
+Manga production system configuration file.
+Defines constants, paths, and templates for the manga prompt generation system.
 """
 
 import os
 from pathlib import Path
+from typing import List, Dict
 
-# Target directory settings
+# ==========================================
+# Path Considerations
+# ==========================================
+# Base directory for the manga project
 BASE_DIR = Path(r"c:\Users\hirak\Desktop\2nd-Brain\18_レミ投資漫画")
-TARGET_DIRS = [
-    "01_Investment_Basics",
-    "02_Mind_Philosophy",
-    "03_Strategy_Risk_Management",
-    "04_Future_Technology"
+
+# Target directories to process
+# Updated to match actual directory structure on disk (as of 2025/02)
+TARGET_DIRS: List[str] = [
+    "030プロンプト/01_現状把握と脱労働",
+    "030プロンプト/02_投資の魔法と基礎",
+    "030プロンプト/03_実践と準備",
+    "030プロンプト/04_継続の技術",
+    "030プロンプト/05_投資の果実と自由",
+    "101プロンプト/01_投資の基礎知識",
+    "101プロンプト/02_マインド・哲学",
+    "101プロンプト/03_戦略・リスク管理",
+    "101プロンプト/04_未来・テクノロジー"
 ]
 
 # Internal directory name mapping (English key : Japanese folder name)
-DIR_MAP = {
-    "01_Investment_Basics": "01_\u6295\u8cc7\u306e\u57fa\u790e\u77e5\u8b58",
-    "02_Mind_Philosophy": "02_\u30de\u30a4\u30f3\u30c9\u30fb\u54f2\u5b66",
-    "03_Strategy_Risk_Management": "03_\u6226\u7565\u30fb\u30ea\u30b9\u30af\u7ba1\u7406",
-    "04_Future_Technology": "04_\u672a\u6765\u30fb\u30c6\u30af\u30ce\u30ed\u30b8\u30fc"
+# Kept for backward compatibility or future use, though TARGET_DIRS now uses direct paths
+DIR_MAP: Dict[str, str] = {
+    "01_Investment_Basics": "101プロンプト/01_投資の基礎知識",
+    "02_Mind_Philosophy": "101プロンプト/02_マインド・哲学",
+    "03_Strategy_Risk_Management": "101プロンプト/03_戦略・リスク管理",
+    "04_Future_Technology": "101プロンプト/04_未来・テクノロジー"
 }
 
-# Scene variations (Background)
-SCENES = [
+# ==========================================
+# Visual Settings
+# ==========================================
+IMAGE_WIDTH: int = 1200
+IMAGE_HEIGHT: int = 1697
+
+# Scene variations (Background options)
+SCENES: List[str] = [
     "Modern high-rise office with panoramic city view",
     "Stylish cafe with warm lighting and wooden furniture",
     "Luxurious lounge bar with night city view",
@@ -33,7 +52,8 @@ SCENES = [
 ]
 
 # Character visual settings (visual lock)
-CHARACTER_SETTINGS_EN = """## Character Settings (Global)
+# Defines the standard appearance for Remi and Yuto
+CHARACTER_SETTINGS_EN: str = """## Character Settings (Global)
 
 ### Remi - Visual Lock
 - **Hair**: Waist-length straight silver hair, center-parted bangs
@@ -50,11 +70,14 @@ CHARACTER_SETTINGS_EN = """## Character Settings (Global)
 - **Expression**: Curious, earnest learning posture
 """
 
-IMAGE_WIDTH = 1200
-IMAGE_HEIGHT = 1697
-
-# 2P Manga Generation Common Template (English headings, parameters preserved)
-TEMPLATE = """# No.{NO} {TITLE} 2P Manga Prompt
+# ==========================================
+# Templates
+# ==========================================
+# 2P Manga Generation Common Template
+# Placeholders: {NO}, {TITLE}, {DESC}, {CATEGORY}, {CHARACTER_SETTINGS}, 
+# {WIDTH}, {HEIGHT}, {SCENE}, {DIALOGUE_INTRO}, {DIALOGUE_TEACH}, 
+# {DIALOGUE_DESC}, {DIALOGUE_ACTION}, {TODAY}
+TEMPLATE: str = """# No.{NO} {TITLE} 2P Manga Prompt
 
 ## TIP Information
 
@@ -116,3 +139,4 @@ Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
 
 Created: {TODAY}
 """
+

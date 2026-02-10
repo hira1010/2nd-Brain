@@ -1,37 +1,43 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-
-# Base directory for the manga files
-BASE_DIR = r"c:\Users\hirak\Desktop\2nd-Brain\18_レミ投資漫画\マンガノ\01_長編_希望の投資"
-
-# Character and Style Updates
-OLD_YUTO = r"- Yuto: \(BLACK Gakuran, gold buttons\)\. \(Short Black hair\)\. BARE HANDS\."
-NEW_YUTO = "- Yuto: (NAVY BUSINESS SUIT, white shirt, ties). (Short Black hair). Salaryman attire."
-
-# Stronger Vertical Instruction
-OLD_ARCH = r"ARCHITECTURE: \[v15\.5 EDGE OBLITERATOR\] FULL BLEED\. ZERO PIXEL MARGINS\. 110% OVERFILL\. 12:17\."
-NEW_ARCH = "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**"
+import manga_config as config
 
 def fix_files():
-    if not os.path.exists(BASE_DIR):
-        print(f"Directory not found: {BASE_DIR}")
+    if not os.path.exists(config.BASE_DIR):
+        print(f"Directory not found: {config.BASE_DIR}")
         return
 
-    for filename in os.listdir(BASE_DIR):
-        if filename.endswith(".md") and filename != "00_ストーリー構成.md":
-            filepath = os.path.join(BASE_DIR, filename)
+    for filename in os.listdir(config.BASE_DIR):
+        if filename.endswith(".md") and filename != "00_スト�Eリー構�E.md":
+            filepath = os.path.join(config.BASE_DIR, filename)
             with open(filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
 
-            # Replace Yuto's description (regex or direct string)
-            # Handling both escaped and non-escaped versions just in case
-            content = content.replace("- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.", NEW_YUTO)
+            # Using centralized logic is tricky because this is a *fix* script that 
+            # might be looking for OLD strings to replace with NEW ones.
+            # The original script had hardcoded OLD strings. We should keep them or define them in config if they are constants.
+            # However, for checking against the NEW definitions, we should use config.
+            
+            # Note: The original script's regex replacement logic for Architecture is:
+            # content = re.sub(r"ARCHITECTURE: \[v15\.5 EDGE OBLITERATOR\].*?12:17\.", NEW_ARCH, content)
+            # We need to construct NEW_ARCH from config or just use the header part.
+            
+            # Let's extract the header first line from config.HEADER_TEMPLATE for replacement
+            # But the original script had a specific string for NEW_ARCH.
+            # Let's see: NEW_ARCH = "ARCHITECTURE: ... **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**"
+            # This matches the first line of config.HEADER_TEMPLATE (mostly).
+            
+            new_arch_line = config.HEADER_TEMPLATE.split('\n')[0]
+            
+            # Replace Yuto's description
+            # We can use config.CHAR_YUTO as the target replacement
+            content = content.replace("- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.", config.CHAR_YUTO)
             content = content.replace("- Yuto: (BLACK Gakuran).", "- Yuto: (NAVY BUSINESS SUIT).")
             content = content.replace("{Yuto: (BLACK Gakuran)}", "{Yuto: (NAVY BUSINESS SUIT)}")
             
-            # Use regex for more flexible replacement of the architecture line
-            content = re.sub(r"ARCHITECTURE: \[v15\.5 EDGE OBLITERATOR\].*?12:17\.", NEW_ARCH, content)
+            # Architecture replacement
+            content = re.sub(r"ARCHITECTURE: \[v15\.5 EDGE OBLITERATOR\].*?12:17\.", new_arch_line, content)
 
             # Fix any other mentions of Gakuran
             content = content.replace("Gakuran", "Business Suit")
