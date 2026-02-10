@@ -1,32 +1,29 @@
-"""
-プロンプト・リファクタリング・ラッパー
-smart_refactor.py の機能を利用して、全ファイルのプロンプトを一括更新します。
+﻿"""
+Prompt refactoring wrapper.
+Delegates to smart_refactor.py for batch processing.
 """
 
+import os
 import subprocess
 import sys
-import os
 
-def main():
-    print("="*70)
-    print("全漫画プロンプト・リニューアル (Core Logic: smart_refactor.py)")
-    print("="*70)
-    
-    # 18_システム ディレクトリをPythonパスに追加
-    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-    
-    try:
-        import smart_refactor
-    except ImportError:
-        print("Error: smart_refactor.py not found in the same directory.")
-        return
 
-    # 全ファイルを処理
-    subprocess.run([sys.executable, "smart_refactor.py", "--all"], check=True)
-    
-    print("\n" + "="*70)
-    print("完了しました。")
-    print("="*70)
+def run_smart_refactor_all() -> None:
+    script_path = os.path.join(os.path.dirname(__file__), "smart_refactor.py")
+    subprocess.run([sys.executable, script_path, "--all"], check=True)
+
+
+def main() -> None:
+    print("=" * 70)
+    print("Bulk Manga Prompt Refactor (Core Logic: smart_refactor.py)")
+    print("=" * 70)
+
+    run_smart_refactor_all()
+
+    print("\n" + "=" * 70)
+    print("Done")
+    print("=" * 70)
+
 
 if __name__ == "__main__":
     main()

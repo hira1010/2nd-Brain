@@ -3,9 +3,19 @@ Manga production system common utilities.
 Provides logging, text extraction, and sanitization helper functions.
 """
 
-import re
 import logging
-from typing import Dict, Any, Optional
+import re
+from typing import Dict, Optional
+
+_NO_RE = re.compile(r"\|\s*No\s*\|\s*(\d+)\s*\|")
+_TITLE_RE = re.compile(r"\|\s*Title\s*\|\s*(.*?)[\s|]*\|", re.IGNORECASE)
+_HEADER_TITLE_RE = re.compile(r"#\s*No\.\d+\s+(.*?)($|\s)")
+_DESC_RE = re.compile(r"\|\s*Description\s*\|\s*(.*?)[\s|]*\|", re.IGNORECASE)
+_INTRO_RE = re.compile(r'Remi says "(.*?)" \(In a speech bubble\)\. Title box:')
+_TEACH_RE = re.compile(r'She says "(.*?)" \(In a speech bubble\)\.')
+_DETAIL_RE = re.compile(r'She looks gentle and wise\. "(.*?)" \(In a speech bubble\)\.')
+_ACTION_RE = re.compile(r'Yuto says "(.*?)" \(In a speech bubble\)\.')
+_SAFE_FILENAME_RE = re.compile(r'[\\/*?:"<>|]')
 
 def setup_logger(name: str) -> logging.Logger:
     """
@@ -26,24 +36,24 @@ def extract_info_from_md(content: str) -> Dict[str, str]:
     """
     Extracts metadata (No, Title, etc.) from the markdown content.
     """
-    info = {}
+    info: Dict[str, str] = {}
     
     # Extract No
-    no_match = re.search(r'\|\s*No\s*\|\s*(\d+)\s*\|', content)
+    no_match = _NO_RE.search(content)
     info['no'] = no_match.group(1) if no_match else "00"
     
     # Extract Title
     # Looks for a table row with 'Title' and captures the content
-    title_match = re.search(r'\|\s*Title\s*\|\s*(.*?)[\s|]*\|', content, re.IGNORECASE)
+    title_match = _TITLE_RE.search(content)
     if title_match:
         info['title'] = title_match.group(1).strip()
     else:
         # Fallback: try to find it in the header
-        header_match = re.search(r'#\s*No\.\d+\s+(.*?)($|\s)', content)
+        header_match = _HEADER_TITLE_RE.search(content)
         info['title'] = header_match.group(1).strip() if header_match else "Unknown"
 
     # Extract Description
-    desc_match = re.search(r'\|\s*Description\s*\|\s*(.*?)[\s|]*\|', content, re.IGNORECASE)
+    desc_match = _DESC_RE.search(content)
     info['desc'] = desc_match.group(1).strip() if desc_match else ""
 
     return info
@@ -70,22 +80,22 @@ def get_dialogues(content: str, title: str, desc: str) -> Dict[str, str]:
     # Note: This is a best-effort extraction based on the template structure.
     
     # Intro
-    intro_match = re.search(r'Remi says "(.*?)" \(In a speech bubble\)\. Title box:', content)
+    intro_match = _INTRO_RE.search(content)
     if intro_match:
         dialogues["Intro"] = clean(intro_match.group(1))
 
     # Teach
-    teach_match = re.search(r'She says "(.*?)" \(In a speech bubble\)\.', content)
+    teach_match = _TEACH_RE.search(content)
     if teach_match:
         dialogues["Teach"] = clean(teach_match.group(1))
 
     # Desc
-    desc_match = re.search(r'She looks gentle and wise\. "(.*?)" \(In a speech bubble\)\.', content)
-    if desc_match:
-        dialogues["Desc"] = clean(desc_match.group(1))
+    detail_match = _DETAIL_RE.search(content)
+    if detail_match:
+        dialogues["Desc"] = clean(detail_match.group(1))
 
     # Action
-    action_match = re.search(r'Yuto says "(.*?)" \(In a speech bubble\)\.', content)
+    action_match = _ACTION_RE.search(content)
     if action_match:
         dialogues["Action"] = clean(action_match.group(1))
 
@@ -97,7 +107,7 @@ def get_safe_filename(text: str) -> str:
     Replaces unsafe characters with underscores.
     """
     # Remove characters that are unsafe for filenames
-    safe_text = re.sub(r'[\\/*?:"<>|]', "", text)
+    safe_text = _SAFE_FILENAME_RE.sub("", text)
     # Replace spaces with underscores
     safe_text = safe_text.replace(" ", "_").strip()
     return safe_text if safe_text else "manga_file"

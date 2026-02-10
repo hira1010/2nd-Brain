@@ -10,7 +10,7 @@ import random
 import argparse
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional, List
+from typing import Dict, Optional
 
 # Add current directory to path to ensure imports work if run from elsewhere
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -19,6 +19,7 @@ import manga_config
 import manga_utils
 
 logger = manga_utils.setup_logger("smart_refactor")
+DEFAULT_CATEGORY = "Uncategorized"
 
 class MangaRefactorer:
     """
@@ -45,10 +46,7 @@ class MangaRefactorer:
             
             # Auto-detect category from parent folder if possible
             parent_dir_name = path.parent.name
-            if parent_dir_name in manga_config.TARGET_DIRS:
-                info['category'] = parent_dir_name
-            elif 'category' not in info or not info['category']:
-                info['category'] = "Uncategorized"
+            info["category"] = self._resolve_category(info, parent_dir_name)
 
             # Get Dialogues (Preserves existing or uses defaults)
             dialogues = manga_utils.get_dialogues(content, info['title'], info['desc'])
@@ -70,6 +68,11 @@ class MangaRefactorer:
             logger.error(f"Error processing {path}: {e}")
             return False
 
+    def _resolve_category(self, info: Dict[str, str], parent_dir_name: str) -> str:
+        if parent_dir_name in manga_config.TARGET_DIRS:
+            return parent_dir_name
+        return info.get("category") or DEFAULT_CATEGORY
+
     def _read_file(self, path: Path) -> Optional[str]:
         try:
             # Modern Python 3 defaults to utf-8, but explicit is better
@@ -78,7 +81,7 @@ class MangaRefactorer:
             logger.error(f"Failed to read file {path}: {e}")
             return None
 
-    def _write_file(self, path: Path, content: str):
+    def _write_file(self, path: Path, content: str) -> None:
         path.write_text(content, encoding="utf-8")
 
     def _generate_content(self, info: Dict[str, str], dialogues: Dict[str, str]) -> str:
@@ -135,12 +138,16 @@ class MangaRefactorer:
         
         logger.info(f"Batch processing complete. Total: {total_count}, Success: {success_count}")
 
-def main():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Smart refactor manga prompts")
     parser.add_argument("--target", help="Specific file to process")
     parser.add_argument("--all", action="store_true", help="Process all files in target directories")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be changed without writing")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
     
     refactorer = MangaRefactorer(dry_run=args.dry_run)
     

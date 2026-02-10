@@ -1,72 +1,76 @@
-﻿# No.18 NISA枠 漫画生成プロンプト (Master Standard v15.5 Edge Obliterator)
+# No.18 NISA枠 2P Manga Prompt
 
-## TIP情報
+## TIP Information
 
-| 項目 | 内容 |
+| Item | Content |
 | :--- | :--- |
 | No | 18 |
-| タイトル | NISA枠 |
-| 解説 | 利益を丸ごと手に入れる、最強の「聖域」。 |
+| Title | NISA枠 |
+| Description |  |
+| Category | Uncategorized |
 
 ---
 
-## 1ページ目プロンプト (v15.5 Edge Obliterator)
+## Character Settings (Global)
 
-```javascript
-generate_image(
-  ImageName: "remi_no18_page1_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+### Remi - Visual Lock
+- **Hair**: Waist-length straight silver hair, center-parted bangs
+- **Eyes**: Sharp ruby red eyes, long eyelashes
+- **Outfit**: Deep crimson business blazer (red buttons), white shirt, **NO gloves**
+- **Figure**: Slim, tall, adult woman, elegant posture
+- **Expression**: Intelligent, confident smile, calm
 
-[PANEL 1 - 40% height]: FULL WIDTH ART. TOTAL EDGE SATURATION. Yuto holding a golden fruit (Profit) while a large shadowy hand (The State) takes part of it. Remi stands holding a glowing crystalline shield over another golden fruit. **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner, with white Japanese text 'NISA枠'. (Japanese speech bubbles: 'レミさん！ 利益が出たのに、手取りは2割も引かれているんです。', 'それが日本のルール。でも、この『NISA』という聖域の中では、すべての果実はあなたのものになるのよ。') [PANEL 2 - 35% height]: FULL WIDTH ART. ABSOLUTE ZERO MARGINS. Remi draws a golden 'Tax-Free Dome' protecting Yuto's assets. Fill entire width. (Japanese speech bubble: '本来なら奪われるはずの20.315%。それを無効化する最強の盾。これを使わないのは、自ら富を投げ捨てているのと同じよ。') [PANEL 3 - 25% height]: FULL WIDTH ART. ABSOLUTE ZERO MARGINS. Yuto realization, seeing the shield block the shadowy hands. (Japanese speech bubble: '2割も守れる…！？ この盾さえあれば、僕の成長は加速する！') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
+### Yuto - Visual Lock
+- **Hair**: Short black hair, neat style
+- **Eyes**: Black eyes, pure expression
+- **Outfit**: Traditional black gakuran (school uniform), stand-up collar, **NO gloves**
+- **Figure**: Standard teenage boy build
+- **Expression**: Curious, earnest learning posture
+
+
+---
+
+## Page 1 Prompt
+
+```text
+【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
+
+PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
+Panel 1 (Top 40%): Stylish cafe with warm lighting and wooden furniture. Remi (Silver hair, Red eyes, Red blazer) stands calmly next to a large holographic display showing "NISA枠". Unlike usual, the screen shows a simple balanced symbol representing the concept, not complex charts. Yuto (Black hair, Gakuran) looks puzzled. Remi says "Dialogue Intro" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset with white text "NISA枠".
+Panel 2 (Middle 30%): CONCEPTUAL ILLUSTRATION. Visual metaphor for 'NISA枠'. A clear comparison or balanced symbolic image representing the core concept of NISA枠. Remi points to the correct/positive side. She says "Dialogue Teach" (In a speech bubble).
+Panel 3 (Bottom-Right 15%): Yuto nodding with deep understanding. "I see... so that is what it means."
+Panel 4 (Bottom-Left 15%): Remi's side profile, smiling gently (not smug).
+Art style: Japanese manga style, cel shading, bright colors. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
 ```
 
 ---
 
-## 2ページ目プロンプト (v15.5 Edge Obliterator)
+## Page 2 Prompt
 
-```javascript
-generate_image(
-  ImageName: "remi_no18_page2_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+```text
+【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL.
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Comparison of 'Old NISA' vs 'New NISA'. Remi shows a massive infinite golden gate. (Japanese speech bubbles: 'かつての制限は消えた。無期限、かつ巨大な投資枠。国が用意した唯一の出口を最大現に使い倒しなさい。', '生涯を通じて、1800万円の聖域を使い切る覚悟を持ちなさい。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Remi sharp noble expression. (Japanese speech bubble: 'まずつみたて枠で土台を築き、成長投資枠で攻める。完璧な王の陣形を整えるのよ。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Yuto looking at a digital command center. (Japanese speech bubble: '限界までこの盾を広げる。僕の帝国は、誰にも侵されない聖域から始まるんだ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
+PAGE 2 LAYOUT: 1200x1697 pixels portrait.
+Panel 1 (Top 40%): VISUAL MANIFESTATION. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'NISA枠'. It shines brighter than the Background elements. She looks gentle and wise. "Dialogue Desc" (In a speech bubble).
+Panel 2 (Middle 30%): CONTRAST SCENE (Metaphor). Remi stands in a split world. On her left, a chaotic storm or complex abstract shapes representing 'Confusion/Risk'. On her right, a peaceful, golden garden or orderly structure representing 'NISA枠'. She calmly points towards the peace/order.
+Panel 3 (Bottom-Right 15%): Yuto visualizing his own happiness or success—simple joys and stable future, appearing in golden bubbles.
+Panel 4 (Bottom-Left 15%): Yuto looking enlightened and relieved (Realization). Yuto says "Dialogue Action" (In a speech bubble). Remi smiles gently, watching him grow. (No text for Remi).
+Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
 ```
 
 ---
 
-## 3ページ目プロンプト (v15.5 Edge Obliterator)
+## Variables
 
-```javascript
-generate_image(
-  ImageName: "remi_no18_page3_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Remi showing 'Reinvestment visualization'. Golden fruits multiplying inside the shield. (Japanese speech bubbles: '税金がかからないから、再投資の効率は最大化される。', '時間が経つほど、普通の投資家との差は絶望的になるわ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto watching the infinite multiplication of light fruits. (Japanese speech bubble: '雪だるまの芯が、最初から大きいんだ！ NISAは最強の加速装置だ！') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi nodding cosmic background. (Japanese speech bubble: 'ええ。その特権を使い倒すことが覇者への最短距離よ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
-```
+### Page 1
+| Var | Value |
+| -- | -- |
+| NO | 18 |
+| TITLE | NISA枠 |
+| INTRO | Dialogue Intro |
+| TEACH | Dialogue Teach |
+| SCENE | Stylish cafe with warm lighting and wooden furniture |
 
 ---
 
-## 4ページ目プロンプト (v15.5 Edge Obliterator)
-
-```javascript
-generate_image(
-  ImageName: "remi_no18_page4_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - 40% height]: FULL WIDTH FILL. High garden. (Japanese speech bubbles: '知識は勇気に、勇気は盾になる。', 'あなたは今日、自分の未来を守る最強の城を作ったのよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto looking intently at his laptop screen, finger hovering over 'Confirm' button. (Japanese speech bubble: '難しい設定だ……。でも、このワンクリックが、将来の数百万円を守る盾になるんだ……！') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi nodding. (Japanese speech bubble: 'ええ。面倒くさがらずに築いたその壁だけが、あなたを守り抜くわ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
-```
-
-作成日: 2026-02-07
-ステータス: No.18 全4ページ v15.5 Edge Obliterator 完備
+Created: 2026-02-10

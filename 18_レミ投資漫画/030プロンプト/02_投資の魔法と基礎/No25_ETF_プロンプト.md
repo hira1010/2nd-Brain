@@ -1,72 +1,76 @@
-﻿# No.25 ETF 漫画生成プロンプト (Master Standard v15.5 Edge Obliterator)
+# No.25 ETF 2P Manga Prompt
 
-## TIP情報
+## TIP Information
 
-| 項目 | 内容 |
+| Item | Content |
 | :--- | :--- |
 | No | 25 |
-| タイトル | ETF |
-| 解説 | 上場投資信託。これ一つで、世界中の優れた企業すべてのオーナーになれる。 |
+| Title | ETF |
+| Description |  |
+| Category | Uncategorized |
 
 ---
 
-## 1ページ目プロンプト (v15.5 Edge Obliterator)
+## Character Settings (Global)
 
-```javascript
-generate_image(
-  ImageName: "remi_no25_page1_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+### Remi - Visual Lock
+- **Hair**: Waist-length straight silver hair, center-parted bangs
+- **Eyes**: Sharp ruby red eyes, long eyelashes
+- **Outfit**: Deep crimson business blazer (red buttons), white shirt, **NO gloves**
+- **Figure**: Slim, tall, adult woman, elegant posture
+- **Expression**: Intelligent, confident smile, calm
 
-[PANEL 1 - 40% height]: FULL WIDTH ART. TOTAL EDGE SATURATION. Yuto holding a single glowing golden gem (ETF). Inside the gem, logos of hundreds of global top companies are visible like stars. Remi stands beside him, pointing at the gem. **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner, with white Japanese text 'ETF'. (Japanese speech bubbles: 'レミさん！ どの会社を選べばいいか分からなくて。アップル？ アマゾン？ 選びきれません！', '優斗君、なぜ選ぶ必要があるの？ この『ETF』という魔法の詰め合わせを使えば、、あなたは世界中のエリート企業すべてのオーナーになれるのよ。') [PANEL 2 - 35% height]: FULL WIDTH ART. ABSOLUTE ZERO MARGINS. Remi shows a visualization of 'The Automatic Balance'. As some companies fall, others rise within the gem. (Japanese speech bubble: '勝手に中身を入れ替え、常に最強の布陣を維持してくれる。あなたはただ、世界経済という名の最強のチームに乗るだけでいいの。') [PANEL 3 - 25% height]: FULL WIDTH ART. ABSOLUTE ZERO MARGINS. Yuto realization, seeing the hundreds of companies working for him inside the gem. Fill entire width. (Japanese speech bubble: '一個ずつ選ばなくていい… 世界そのものを買うってことか。これが、プロの戦い方なんだ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
+### Yuto - Visual Lock
+- **Hair**: Short black hair, neat style
+- **Eyes**: Black eyes, pure expression
+- **Outfit**: Traditional black gakuran (school uniform), stand-up collar, **NO gloves**
+- **Figure**: Standard teenage boy build
+- **Expression**: Curious, earnest learning posture
+
+
+---
+
+## Page 1 Prompt
+
+```text
+【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
+
+PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
+Panel 1 (Top 40%): Luxurious lounge bar with night city view. Remi (Silver hair, Red eyes, Red blazer) stands calmly next to a large holographic display showing "ETF". Unlike usual, the screen shows a simple balanced symbol representing the concept, not complex charts. Yuto (Black hair, Gakuran) looks puzzled. Remi says "Dialogue Intro" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset with white text "ETF".
+Panel 2 (Middle 30%): CONCEPTUAL ILLUSTRATION. Visual metaphor for 'ETF'. A clear comparison or balanced symbolic image representing the core concept of ETF. Remi points to the correct/positive side. She says "Dialogue Teach" (In a speech bubble).
+Panel 3 (Bottom-Right 15%): Yuto nodding with deep understanding. "I see... so that is what it means."
+Panel 4 (Bottom-Left 15%): Remi's side profile, smiling gently (not smug).
+Art style: Japanese manga style, cel shading, bright colors. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
 ```
 
 ---
 
-## 2ページ目プロンプト (v15.5 Edge Obliterator)
+## Page 2 Prompt
 
-```javascript
-generate_image(
-  ImageName: "remi_no25_page2_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+```text
+【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL.
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Comparison of 'Buying a single company' vs 'Buying an ETF'. Individual company icons break, while ETF constellation remains bright. (Japanese speech bubbles: '一つの命運に人生を託すのは危険。でも、何百何千という命運を束ねれば、それは強固な盾になる。', '分散と上場、二つの利点を兼ね備えた最強の兵器よ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Remi sharp noble expression. (Japanese speech bubble: 'リアルタイムで取引でき、コストは極限まで低い。無駄を削ぎ落とした、最高のロジックが生んだ結晶なの。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Yuto looking at a digital starmap of global corporations. (Japanese speech bubble: 'コストを抑えて、最強の布陣。僕は、この黄金の詰め合わせを生涯の伴侶にする！') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
+PAGE 2 LAYOUT: 1200x1697 pixels portrait.
+Panel 1 (Top 40%): VISUAL MANIFESTATION. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'ETF'. It shines brighter than the Background elements. She looks gentle and wise. "Dialogue Desc" (In a speech bubble).
+Panel 2 (Middle 30%): CONTRAST SCENE (Metaphor). Remi stands in a split world. On her left, a chaotic storm or complex abstract shapes representing 'Confusion/Risk'. On her right, a peaceful, golden garden or orderly structure representing 'ETF'. She calmly points towards the peace/order.
+Panel 3 (Bottom-Right 15%): Yuto visualizing his own happiness or success—simple joys and stable future, appearing in golden bubbles.
+Panel 4 (Bottom-Left 15%): Yuto looking enlightened and relieved (Realization). Yuto says "Dialogue Action" (In a speech bubble). Remi smiles gently, watching him grow. (No text for Remi).
+Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
 ```
 
 ---
 
-## 3ページ目プロンプト (v15.5 Edge Obliterator)
+## Variables
 
-```javascript
-generate_image(
-  ImageName: "remi_no25_page3_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Remi showing 'Global Capital Flow'. Golden streams flowing into the ETF gem. (Japanese speech bubbles: '人類が成長を続ける限り、この中身は膨らみ続ける。', 'あなたはただ、歴史の波に乗っていればいいの。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto calm aura. (Japanese speech bubble: '個別のニュースに一喜一憂しなくて済む… これが、本物の余裕なんだ。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi nodding cosmic background. (Japanese speech bubble: 'ええ。その平穏さこそが、最強の投資家の証よ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
-```
+### Page 1
+| Var | Value |
+| -- | -- |
+| NO | 25 |
+| TITLE | ETF |
+| INTRO | Dialogue Intro |
+| TEACH | Dialogue Teach |
+| SCENE | Luxurious lounge bar with night city view |
 
 ---
 
-## 4ページ目プロンプト (v15.5 Edge Obliterator)
-
-```javascript
-generate_image(
-  ImageName: "remi_no25_page4_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Floating observatory. (Japanese speech bubbles: '最適解は、常にシンプル。', '複雑さに逃げるのをやめ、王道を歩みなさい。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto staring at his smartphone screen, wide-eyed. (Japanese speech bubble: 'これで……終わり？ たったワンクリックで、僕は世界を買ってしまったのか……？') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi mystic smile. (Japanese speech bubble: 'ええ。その「あまりの呆気なさ」こそが、革命の証よ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
-```
-
-作成日: 2026-02-07
-ステータス: No.25 全4ページ v15.5 Edge Obliterator 完備
+Created: 2026-02-10

@@ -2,7 +2,7 @@
 import os
 
 # Base paths
-BASE_DIR = os.path.join(os.getcwd(), "01_髟ｷ邱ｨ_蟶梧悍縺ｮ謚戊ｳ・)
+BASE_DIR = os.path.join(os.getcwd(), "01_\u9577\u7de8_\u5e0c\u671b\u306e\u6295\u8cc7")
 
 # Characters
 CHAR_REMI = "- Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES."
@@ -31,40 +31,52 @@ HEADER_TEMPLATE = """ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIX
 
 # Episodes List
 EPISODES = [
-    {"no": 1, "title": "邨ｶ譛帙・迴ｾ莉｣遉ｾ莨・, "range": "P1-5", "desc": "蠅礼ｨ弱・繝ｳ繝ｻ迚ｩ萓｡鬮倥・繝ｳ縺ｮ隘ｲ譚･縺ｨ縲∝━譁励・邨梧ｸ亥峅遯ｮ縲・},
-    {"no": 2, "title": "謳ｾ蜿悶・騾｣骼・, "range": "P6-10", "desc": "謇句叙繧翫∈縺ｮ謾ｻ謦・→縲∝酔蜒夂伐荳ｭ縺ｮFX閾ｪ諷｢縲・},
-    {"no": 3, "title": "逕倥＞隱俶ヱ", "range": "P11-15", "desc": "逕ｰ荳ｭ縺ｮ雎ｪ驕翫→蜆ｪ譁励・辟ｦ繧翫ゅΞ繝舌Ξ繝・ず縺ｮ隱俶ヱ縲・},
-    {"no": 4, "title": "謨台ｸ紋ｸｻ繝ｬ繝・, "range": "P16-20", "desc": "蜈ｬ蝨偵〒縺ｮ驕句多縺ｮ蜃ｺ莨壹＞縲よｳ｢蜍輔・荵ｱ繧後・謖・遭縲・},
-    {"no": 5, "title": "繧ｫ繝｡縺ｮ豁ｩ縺ｿ", "range": "P21-25", "desc": "繝ｬ繝溘↓繧医ｋ謚戊ｳ・蕗閧ｲ髢句ｧ九よ兜讖溘→謚戊ｳ・・驕輔＞縲・},
-    {"no": 6, "title": "隍・茜縺ｮ鬲疲ｳ・, "range": "P26-30", "desc": "螳・ｮ呎怙蠑ｷ縺ｮ蜉帙∬､・茜縺ｮ隕冶ｦ壼喧縲・},
-    {"no": 7, "title": "闍玲惠繧呈､阪∴繧・, "range": "P31-35", "desc": "驥代・縺ｪ繧区惠縺ｮ闍玲惠繧呈､阪∴繧狗ｲｾ逾樒噪蜆蠑上・},
-    {"no": 8, "title": "遨咲ｫ九・髢句ｧ・, "range": "P36-40", "desc": "S&P500縺ｸ縺ｮ蜈･驥代ら伐荳ｭ縺ｮ蜀ｷ隨代・},
-    {"no": 9, "title": "蠏舌・莠亥・", "range": "P41-45", "desc": "謨ｰ蟷ｴ蠕後る・ｪｿ縺ｪ謌宣聞縺ｨ逕ｰ荳ｭ縺ｮ逡ｰ蟶ｸ縺ｪ閹ｨ蠑ｵ縲・},
-    {"no": 10, "title": "繝悶Λ繝・け繝ｻ繧ｹ繝ｯ繝ｳ", "range": "P46-50", "desc": "證ｴ關ｽ縺ｮ逋ｺ逕溘ゅヮ繧､繧ｺ縺御ｸ也阜繧定ｦ・≧縲・},
-    {"no": 11, "title": "逕ｰ荳ｭ縺ｮ騾蝣ｴ", "range": "P51-55", "desc": "繝ｭ繧ｹ繧ｫ繝・ヨ縺ｫ豕｣縺冗伐荳ｭ縲よ兜讖溘・谿矩・縺輔・},
-    {"no": 12, "title": "謠｡蜉帙・隧ｦ邱ｴ", "range": "P56-60", "desc": "闍玲惠繧貞ｼ輔″謚懊％縺・→縺吶ｋ蜆ｪ譁励ｒ繝ｬ繝溘′蛻ｶ豁｢縲・},
-    {"no": 13, "title": "髱吶°縺ｪ繧句ｿ崎・, "range": "P61-65", "desc": "繝ｬ繝溘・邨千阜縺ｮ荳ｭ縺ｧ縺ｮ豐磯ｻ吶ょ・荳頑・縺ｮ蜈・＠縲・},
-    {"no": 14, "title": "蜀咲函縺ｮ邱・, "range": "P66-70", "desc": "譬ｪ萓｡蝗槫ｾｩ縲り距譛ｨ縺御ｻ･蜑阪ｈ繧雁､ｪ縺上↑繧九・},
-    {"no": 15, "title": "譛蛻昴・譫懷ｮ・, "range": "P71-75", "desc": "蛻昴ａ縺ｦ縺ｮ驟榊ｽ薙ょ・謚戊ｳ・・蝟懊・縲・},
-    {"no": 16, "title": "關ｽ蟾ｮ縺ｮ迴ｾ莉｣", "range": "P76-80", "desc": "繝ｪ繝吶Φ繧ｸFX縺ｧ縺輔ｉ縺ｫ豐医・逕ｰ荳ｭ縺ｨ縺ｮ蟇ｾ豈斐・},
-    {"no": 17, "title": "雉・肇縺ｮ逶ｾ", "range": "P81-85", "desc": "雉・肇縺ｨ縺・≧蜷阪・繧ｷ繝ｼ繝ｫ繝峨らｵ梧ｸ医＞髦ｲ蠕｡縺ｮ螳梧・縲・},
-    {"no": 18, "title": "鮟・≡縺ｮ豕｢蜍・, "range": "P86-90", "desc": "邊ｾ逾樒噪閾ｪ遶九ゅΞ繝溘′蜆ｪ譁励・謌宣聞繧定ｪ阪ａ繧九・},
-    {"no": 19, "title": "20蟷ｴ蠕後・譛・, "range": "P91-95", "desc": "螟ｧ讓ｹ縺ｨ縺ｪ縺｣縺溯ｳ・肇縲り・逕ｱ縺ｪ譎る俣縺ｮ迯ｲ蠕励・},
-    {"no": 20, "title": "F-U Money", "range": "P96-100", "desc": "雖後↑縺薙→縺ｫNO縺ｨ險縺医ｋ蜉帙ょｾ瑚ｼｩ縺ｸ縺ｮ莨晄価縲・},
-    {"no": 21, "title": "縺企≡縺ｮ譌・ｷｯ", "range": "P101-105", "desc": "繝ｬ繝溘→縺ｮ蟇ｾ隧ｱ縲ゅ♀驥代・謇区ｮｵ縺ｧ縺ゅｋ縺薙→縲・},
-    {"no": 22, "title": "閾ｪ蛻・・霄ｫ縺ｮ驕・, "range": "P106-110", "desc": "螟｢縺ｸ縺ｮ蜀肴倦謌ｦ縲ら悄縺ｮ雎翫°縺輔・},
-    {"no": 23, "title": "蟶梧悍縺ｮ謚戊ｳ・, "range": "P111-115", "desc": "繧ｨ繝斐Ο繝ｼ繧ｱ縲よｬ｡荳紋ｻ｣縺ｸ郢九＄繝舌ヨ繝ｳ縲・}
+    {"no": 1, "title": "\u7d76\u671b\u306e\u73fe\u4ee3\u793e\u4f1a", "range": "P1-5", "desc": "\u5897\u7a0e\u30de\u30f3\u30fb\u7269\u4fa1\u9ad8\u30de\u30f3\u306e\u8972\u6765\u3068\u3001\u512a\u6597\u306e\u7d4c\u6e08\u56f0\u7aae\u3002"},
+    {"no": 2, "title": "\u641e\u53d6\u306e\u9023\u9396", "range": "P6-10", "desc": "\u624b\u53d6\u308a\u3078\u306e\u653b\u6483\u3068\u3001\u540c\u50da\u7530\u4e2d\u306eFX\u81ea\u6162\u3002"},
+    {"no": 3, "title": "\u7518\u3044\u8a98\u60d1", "range": "P11-15", "desc": "\u7530\u4e2d\u306e\u8c6a\u904a\u3068\u512a\u6597\u306e\u7126\u308a\u3002\u30ec\u30d0\u30ec\u30c3\u30b8\u306e\u8a98\u60d1\u3002"},
+    {"no": 4, "title": "\u6551\u4e16\u4e3b\u30ec\u30df", "range": "P16-20", "desc": "\u516c\u5712\u3067\u306e\u904b\u547d\u306e\u51fa\u4f1a\u3044\u3002\u6ce2\u52d5\u306e\u4e71\u308c\u306e\u6307\u6458\u3002"},
+    {"no": 5, "title": "\u30ab\u30e1\u306e\u6b69\u307f", "range": "P21-25", "desc": "\u30ec\u30df\u306b\u3088\u308b\u6295\u8cc7\u6559\u80b2\u958b\u59cb\u3002\u6295\u6a5f\u3068\u6295\u8cc7\u306e\u9055\u3044\u3002"},
+    {"no": 6, "title": "\u8907\u5229\u306e\u9b54\u6cd5", "range": "P26-30", "desc": "\u5b87\u5b99\u6700\u5f37\u306e\u529b\u3001\u8907\u5229\u306e\u8996\u899a\u5316\u3002"},
+    {"no": 7, "title": "\u82d7\u6728\u3092\u690d\u3048\u308b", "range": "P31-35", "desc": "\u91d1\u306e\u306a\u308b\u6728\u306e\u82d7\u6728\u3092\u690d\u3048\u308b\u7cbe\u795e\u7684\u5100\u5f0f\u3002"},
+    {"no": 8, "title": "\u7a4d\u7acb\u306e\u958b\u59cb", "range": "P36-40", "desc": "S&P500\u3078\u306e\u5165\u91d1\u3002\u7530\u4e2d\u306e\u51b7\u7b11\u3002"},
+    {"no": 9, "title": "\u5d50\u306e\u4e88\u5146", "range": "P41-45", "desc": "\u6570\u5e74\u5f8c\u3002\u9806\u8abf\u306a\u6210\u9577\u3068\u7530\u4e2d\u306e\u7570\u5e38\u306a\u81a8\u5f35\u3002"},
+    {"no": 10, "title": "\u30d6\u30e9\u30c3\u30af\u30fb\u30b9\u30ef\u30f3", "range": "P46-50", "desc": "\u66b4\u843d\u306e\u767a\u751f\u3002\u30ce\u30a4\u30ba\u304c\u4e16\u754c\u3092\u8986\u3046\u3002"},
+    {"no": 11, "title": "\u7530\u4e2d\u306e\u9000\u5834", "range": "P51-55", "desc": "\u30ed\u30b9\u30ab\u30c3\u30c8\u306b\u6ce3\u304f\u7530\u4e2d\u3002\u6295\u6a5f\u306e\u6b8b\u9177\u3055\u3002"},
+    {"no": 12, "title": "\u63e1\u529b\u306e\u8a66\u7df4", "range": "P56-60", "desc": "\u82d7\u6728\u3092\u5f15\u304d\u629c\u3053\u3046\u3068\u3059\u308b\u512a\u6597\u3092\u30ec\u30df\u304c\u5236\u6b62\u3002"},
+    {"no": 13, "title": "\u9759\u304b\u306a\u308b\u5fcd\u8010", "range": "P61-65", "desc": "\u30ec\u30df\u306e\u7d50\u754c\u306e\u4e2d\u3067\u306e\u6c88\u9ed9\u3002\u518d\u4e0a\u6607\u306e\u5146\u3057\u3002"},
+    {"no": 14, "title": "\u518d\u751f\u306e\u7dd1", "range": "P66-70", "desc": "\u682a\u4fa1\u56de\u5fa9\u3002\u82d7\u6728\u304c\u4ee5\u524d\u3088\u308a\u592a\u304f\u306a\u308b\u3002"},
+    {"no": 15, "title": "\u6700\u521d\u306e\u679c\u5b9f", "range": "P71-75", "desc": "\u521d\u3081\u3066\u306e\u914d\u5f53\u3002\u518d\u6295\u8cc7\u306e\u559c\u3073\u3002"},
+    {"no": 16, "title": "\u843d\u5dee\u306e\u73fe\u4ee3", "range": "P76-80", "desc": "\u30ea\u30d9\u30f3\u30b8FX\u3067\u3055\u3089\u306b\u6c88\u3080\u7530\u4e2d\u3068\u306e\u5bfe\u6bd4\u3002"},
+    {"no": 17, "title": "\u8cc7\u7523\u306e\u76fe", "range": "P81-85", "desc": "\u8cc7\u7523\u3068\u3044\u3046\u540d\u306e\u30b7\u30fc\u30eb\u30c9\u3002\u7d4c\u6e08\u3044\u9632\u5fa1\u306e\u5b8c\u6210\u3002"},
+    {"no": 18, "title": "\u9ec4\u91d1\u306e\u6ce2\u52d5", "range": "P86-90", "desc": "\u7cbe\u795e\u7684\u81ea\u7acb\u3002\u30ec\u30df\u304c\u512a\u6597\u306e\u6210\u9577\u3092\u8a8d\u3081\u308b\u3002"},
+    {"no": 19, "title": "20\u5e74\u5f8c\u306e\u671d", "range": "P91-95", "desc": "\u5927\u6a39\u3068\u306a\u3063\u305f\u8cc7\u7523\u3002\u81ea\u7531\u306a\u6642\u9593\u306e\u7372\u5f97\u3002"},
+    {"no": 20, "title": "F-U Money", "range": "P96-100", "desc": "\u5acc\u306a\u3053\u3068\u306bNO\u3068\u8a00\u3048\u308b\u529b\u3002\u5f8c\u8f29\u3078\u306e\u4f1d\u627f\u3002"},
+    {"no": 21, "title": "\u304a\u91d1\u306e\u65c5\u8def", "range": "P101-105", "desc": "\u30ec\u30df\u3068\u306e\u5bfe\u8a71\u3002\u304a\u91d1\u306f\u624b\u6bb5\u3067\u3042\u308b\u3053\u3068\u3002"},
+    {"no": 22, "title": "\u81ea\u5206\u81ea\u8eab\u306e\u9053", "range": "P106-110", "desc": "\u5922\u3078\u306e\u518d\u6311\u6226\u3002\u771f\u306e\u8c4a\u304b\u3055\u3002"},
+    {"no": 23, "title": "\u5e0c\u671b\u306e\u6295\u8cc7", "range": "P111-115", "desc": "\u30a8\u30d4\u30ed\u30fc\u30b1\u3002\u6b21\u4e16\u4ee3\u3078\u7e4b\u3050\u30d0\u30c8\u30f3\u3002"}
 ]
 
 # Email Settings
 EMAIL_SENDER = "hirakura10@gmail.com"
 EMAIL_PASSWORD = "Teruki1982@@"
 EMAIL_RECEIVER = "hirakura10@mail.com"
-EMAIL_SUBJECT = "縲舌Ξ繝滓兜雉・ｼｫ逕ｻ縲代・繝ｳ繧ｬ繝朱聞邱ｨ讒区・繝励Ο繝ｳ繝励ヨ 蜈ｨ23繝輔ぃ繧､繝ｫ"
-EMAIL_BODY = "縺顔夢繧梧ｧ倥〒縺吶ゅ＃萓晞ｼ縺・◆縺縺・◆蜈ｨ23繝輔ぃ繧､繝ｫ縺ｮMarkdown繝励Ο繝ｳ繝励ヨ繧呈ｷｻ莉倥↓縺ｦ縺企√ｊ縺励∪縺吶・
+EMAIL_SUBJECT = "\u3010\u30ec\u30df\u6295\u8cc7\u6f2b\u753b\u3011\u30de\u30f3\u30ac\u30ce\u9577\u7de8\u69cb\u6210\u30d7\u30ed\u30f3\u30d7\u30c8 \u516823\u30d5\u30a1\u30a4\u30eb"
+EMAIL_BODY = "\u304a\u75b2\u308c\u69d8\u3067\u3059\u3002\u3054\u4f9d\u983c\u3044\u305f\u3060\u3044\u305f\u516823\u30d5\u30a1\u30a4\u30eb\u306eMarkdown\u30d7\u30ed\u30f3\u30d7\u30c8\u3092\u6dfb\u4ed8\u306b\u3066\u304a\u9001\u308a\u3057\u307e\u3059\u3002"
 
 # Prompt formatting settings
 PROMPT_VERSION = "v15.5 Edge Obliterator"
+PROMPT_TEMPLATE = """---
+
+## {p} \u30da\u30fc\u30b8\u76ee\u30d7\u30ed\u30f3\u30d7\u30c8 ({version})
+
+```javascript
+generate_image(
+  ImageName: "remi_102_ep{ep_no}_p{p}_final",
+  Prompt: "ARCHITECTURE: [{version_upper}] FULL BLEED. ZERO PIXEL MARGINS. 12:17. Characters: {{{{Remi}}}}, {{{{Yuto}}}}, {{{{Tanaka}}}}, {{{{Villains}}}}. [PANEL 1 - 40% height]: FULL WIDTH FILL. {desc}. Detailed 2D anime style. [PANEL 2 - 35% height]: FULL WIDTH FILL. Interaction in {title}. Blank speech bubbles. [PANEL 3 - 25% height]: FULL WIDTH FILL. Symbolic background. Cinematic lighting."
+)
+```
+
+"""
 
 def get_header():
     return HEADER_TEMPLATE.format(

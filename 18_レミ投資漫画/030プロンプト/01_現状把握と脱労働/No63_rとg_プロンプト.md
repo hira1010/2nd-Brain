@@ -1,72 +1,76 @@
-﻿# No.63 r > g 漫画生成プロンプト (Master Standard v15.5 Edge Obliterator)
+# No.63 r 2P Manga Prompt
 
-## TIP情報
+## TIP Information
 
-| 項目 | 内容 |
+| Item | Content |
 | :--- | :--- |
 | No | 63 |
-| タイトル | r > g |
-| 解説 | 労働（g）より資本（r）の成長が早い。富の格差の根本原因。 |
+| Title | r |
+| Description |  |
+| Category | Uncategorized |
 
 ---
 
-## 1ページ目プロンプト (v15.5 Edge Obliterator)
+## Character Settings (Global)
 
-```javascript
-generate_image(
-  ImageName: "remi_no63_page1_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+### Remi - Visual Lock
+- **Hair**: Waist-length straight silver hair, center-parted bangs
+- **Eyes**: Sharp ruby red eyes, long eyelashes
+- **Outfit**: Deep crimson business blazer (red buttons), white shirt, **NO gloves**
+- **Figure**: Slim, tall, adult woman, elegant posture
+- **Expression**: Intelligent, confident smile, calm
 
-[PANEL 1 - 40% height]: FULL WIDTH ART. TOTAL EDGE SATURATION. Remi and Yuto stand before giant celestial scale. golden key Capital vs hammer Labor. **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner, with white Japanese text 'rとg'. (Japanese speech bubbles: 'これが世界のルールを支配する残酷な不等式よ。', 'rは常にgを追い越す。この格差は歴史が証明しているの。') [PANEL 2 - 35% height]: FULL WIDTH ART. ABSOLUTE ZERO MARGINS. Scale tilts toward 'r' side. 'g' side pulled up. (Japanese speech bubble: 'お金がお金を生むスピードは人が働いて得る豊かさを追い越してきた。働くだけでは一生追いつけないのよ。') [PANEL 3 - 25% height]: FULL WIDTH ART. ABSOLUTE ZERO MARGINS. Yuto in shock. Fill entire width. (Japanese speech bubble: 'どんなに頑張っても最初から負けるようにできているっていうのか…！？') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
+### Yuto - Visual Lock
+- **Hair**: Short black hair, neat style
+- **Eyes**: Black eyes, pure expression
+- **Outfit**: Traditional black gakuran (school uniform), stand-up collar, **NO gloves**
+- **Figure**: Standard teenage boy build
+- **Expression**: Curious, earnest learning posture
+
+
+---
+
+## Page 1 Prompt
+
+```text
+【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
+
+PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
+Panel 1 (Top 40%): Luxurious lounge bar with night city view. Remi (Silver hair, Red eyes, Red blazer) stands calmly next to a large holographic display showing "r". Unlike usual, the screen shows a simple balanced symbol representing the concept, not complex charts. Yuto (Black hair, Gakuran) looks puzzled. Remi says "Dialogue Intro" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset with white text "r".
+Panel 2 (Middle 30%): CONCEPTUAL ILLUSTRATION. Visual metaphor for 'r'. A clear comparison or balanced symbolic image representing the core concept of r. Remi points to the correct/positive side. She says "Dialogue Teach" (In a speech bubble).
+Panel 3 (Bottom-Right 15%): Yuto nodding with deep understanding. "I see... so that is what it means."
+Panel 4 (Bottom-Left 15%): Remi's side profile, smiling gently (not smug).
+Art style: Japanese manga style, cel shading, bright colors. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
 ```
 
 ---
 
-## 2ページ目プロンプト (v15.5 Edge Obliterator)
+## Page 2 Prompt
 
-```javascript
-generate_image(
-  ImageName: "remi_no63_page2_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+```text
+【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL.
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. r-Escalator vs g-Runner. Remi on golden escalator. (Japanese speech bubbles: '資本(r)は複利で加速し給料(g)は鈍足。このわずかな差が乗り越えられない壁を作るの。', '投資の側に回らなければ地平線は遠のくばかりよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Remi pointing to golden 'Investment Door'. (Japanese speech bubble: '抜け出す道は一つ。労働で得た種を、成長の側へ植え替えること。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Yuto holding golden seed. (Japanese speech bubble: '給料を資本に移し替える。数式の呪いを解くのは、僕の決断なんだ。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
+PAGE 2 LAYOUT: 1200x1697 pixels portrait.
+Panel 1 (Top 40%): VISUAL MANIFESTATION. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'r'. It shines brighter than the Background elements. She looks gentle and wise. "Dialogue Desc" (In a speech bubble).
+Panel 2 (Middle 30%): CONTRAST SCENE (Metaphor). Remi stands in a split world. On her left, a chaotic storm or complex abstract shapes representing 'Confusion/Risk'. On her right, a peaceful, golden garden or orderly structure representing 'r'. She calmly points towards the peace/order.
+Panel 3 (Bottom-Right 15%): Yuto visualizing his own happiness or success—simple joys and stable future, appearing in golden bubbles.
+Panel 4 (Bottom-Left 15%): Yuto looking enlightened and relieved (Realization). Yuto says "Dialogue Action" (In a speech bubble). Remi smiles gently, watching him grow. (No text for Remi).
+Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
 ```
 
 ---
 
-## 3ページ目プロンプト (v15.5 Edge Obliterator)
+## Variables
 
-```javascript
-generate_image(
-  ImageName: "remi_no63_page3_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Remi showing 'INDEX FUND' terminal. (Japanese speech bubbles: '今は誰でも大企業のオーナーになれる。特別な階級なんていらないわ。', 'ただ、インデックスという橋を渡る勇気があればいいの。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto pressing button, golden stardust. (Japanese speech bubble: '一歩を踏み出す。数式の向こう側、成長の世界へ。') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi nodding cosmic background. (Japanese speech bubble: 'ええ。その決断が人生という資本を最大化させるの。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
-```
+### Page 1
+| Var | Value |
+| -- | -- |
+| NO | 63 |
+| TITLE | r |
+| INTRO | Dialogue Intro |
+| TEACH | Dialogue Teach |
+| SCENE | Luxurious lounge bar with night city view |
 
 ---
 
-## 4ページ目プロンプト (v15.5 Edge Obliterator)
-
-```javascript
-generate_image(
-  ImageName: "remi_no63_page4_v15_5_final",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - 40% height]: FULL WIDTH FILL. Formula constellation. (Japanese speech bubbles: '不条理を嘆くのではなく味方にしなさい。', '世界は動く勇気がある者にだけ優しいのよ。') [PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto looking at his rough hands (labor), clenching them tight. (Japanese speech bubble: '僕の手だけじゃ……あの方程式には一生勝てない……。労働という武器だけじゃ、守りきれないんだ……！') [PANEL 3 - 25% height]: FULL WIDTH FILL. Remi stern nodding. (Japanese speech bubble: 'ええ。だからこそ、今すぐ別の武器を手になさい。') ### Style: Premium manga, cinematic lighting, best quality, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped."
-)
-```
-
-作成日: 2026-02-07
-ステータス: No.63 全4ページ v15.5 Edge Obliterator 完備
+Created: 2026-02-10

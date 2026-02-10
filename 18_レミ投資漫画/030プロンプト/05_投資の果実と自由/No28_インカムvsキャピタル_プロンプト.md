@@ -1,101 +1,76 @@
-﻿# No.28 インカムvsキャピタル 漫画生成プロンプト (Master Standard v15.1 Margin Slayer Override)
+# No.28 インカムvsキャピタル 2P Manga Prompt
 
-## TIP情報
+## TIP Information
 
-| 項目 | 内容 |
+| Item | Content |
 | :--- | :--- |
 | No | 28 |
-| タイトル | インカムvsキャピタル |
-| 解説 | 配当（インカム）と値上がり益（キャピタル）。両方の特性を理解し、自分に合ったスタイルを選ぶ。 |
+| Title | インカムvsキャピタル |
+| Description |  |
+| Category | Uncategorized |
 
 ---
 
-## 1ページ目プロンプト (Master Standard v15.1 Margin Slayer Override)
+## Character Settings (Global)
+
+### Remi - Visual Lock
+- **Hair**: Waist-length straight silver hair, center-parted bangs
+- **Eyes**: Sharp ruby red eyes, long eyelashes
+- **Outfit**: Deep crimson business blazer (red buttons), white shirt, **NO gloves**
+- **Figure**: Slim, tall, adult woman, elegant posture
+- **Expression**: Intelligent, confident smile, calm
+
+### Yuto - Visual Lock
+- **Hair**: Short black hair, neat style
+- **Eyes**: Black eyes, pure expression
+- **Outfit**: Traditional black gakuran (school uniform), stand-up collar, **NO gloves**
+- **Figure**: Standard teenage boy build
+- **Expression**: Curious, earnest learning posture
+
+
+---
+
+## Page 1 Prompt
 
 ```text
-ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters:
-- Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
 
-[PANEL 1 - TOP 40% height]: FULL WIDTH CINEMATIC ART. Remi and Yuto in celestial arena. Two glowing orbs: 'Golden Sun' (Income) and 'Shooting Star' (Capital). **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner of THIS PANEL, containing white Japanese text "インカムvsキャピタル". (Japanese speech bubbles: "レミさん！ 二つの光があります。どちらが正解なんですか！？", "正解ではなく選択があるだけよ。安定して果実を得る『インカム』か、爆発的な上昇を狙う『キャピタル』か。それぞれの性質を理解しなさい。")
-
-[PANEL 2 - MIDDLE 35% height]: FULL WIDTH CINEMATIC ART. NO MARGINS. Remi shows visualization of 'Slowly Flowing River' (Income) and 'Exploding Firework' (Capital). (Japanese speech bubble: "川の流れは静かだが絶えない。花火は鮮やかだが一瞬よ。どちらがあなたの心に寄り添うか、それを見極めるのが投資家の第一歩よ。")
-
-[PANEL 3 - BOTTOM 25% height]: FULL WIDTH CINEMATIC ART. NO MARGINS. Yuto (BLACK GAKURAN) reaching out to both lights. NO PILLARBOXING. (Japanese speech bubble: "安定と爆発力……。僕の性格と、僕の未来。どちらに賭けるべきか、じっくり考えます！")
-
-### Style: Premium manga, cinematic lighting. 12:17 ratio. **MANDATORY**: STRETCH ART BEYOND EDGES. NO PADDING, NO SIDE BARS.
+PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
+Panel 1 (Top 40%): Stylish cafe with warm lighting and wooden furniture. Remi (Silver hair, Red eyes, Red blazer) stands calmly next to a large holographic display showing "インカムvsキャピタル". Unlike usual, the screen shows a simple balanced symbol representing the concept, not complex charts. Yuto (Black hair, Gakuran) looks puzzled. Remi says "Dialogue Intro" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset with white text "インカムvsキャピタル".
+Panel 2 (Middle 30%): CONCEPTUAL ILLUSTRATION. Visual metaphor for 'インカムvsキャピタル'. A clear comparison or balanced symbolic image representing the core concept of インカムvsキャピタル. Remi points to the correct/positive side. She says "Dialogue Teach" (In a speech bubble).
+Panel 3 (Bottom-Right 15%): Yuto nodding with deep understanding. "I see... so that is what it means."
+Panel 4 (Bottom-Left 15%): Remi's side profile, smiling gently (not smug).
+Art style: Japanese manga style, cel shading, bright colors. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
 ```
 
 ---
 
-## 2ページ目プロンプト (v15.1 Margin Slayer Override)
+## Page 2 Prompt
 
 ```text
-ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters:
-- Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
+【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL.
 
-[PANEL 1 - TOP 40% height]: [Metaphor] STRETCH FILL. 'The Orchard' vs 'The Rocket'. Farmer gathering fruit and pilot blasting off. (Japanese speech bubbles: "インカムは心理的安定を、キャピタルは資産形成の加速を生むわ。投資の目的に合わせて使い分けなさい。", "欲張ってもいいけれど、軸を決めなさい。")
-
-[PANEL 2 - MIDDLE 35% height]: [Focus Shot] STRETCH FILL. Remi (RED blazer) sharp balanced smile. (Japanese speech bubble: "複利の力を最大化するならキャピタル、生活の質を今すぐ上げるならインカム。答えはあなたの中にある。")
-
-[PANEL 3 - BOTTOM 25% height]: [Perspective] STRETCH FILL. Yuto seeing garden with rocket pad, smiling. (Japanese speech bubble: "バランスという答え。自分だけの『最高のミックス』を見つけます！")
-
-### Style: Premium manga, cinematic lighting. 12:17 ratio. FULL WIDTH FILL.
+PAGE 2 LAYOUT: 1200x1697 pixels portrait.
+Panel 1 (Top 40%): VISUAL MANIFESTATION. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'インカムvsキャピタル'. It shines brighter than the Background elements. She looks gentle and wise. "Dialogue Desc" (In a speech bubble).
+Panel 2 (Middle 30%): CONTRAST SCENE (Metaphor). Remi stands in a split world. On her left, a chaotic storm or complex abstract shapes representing 'Confusion/Risk'. On her right, a peaceful, golden garden or orderly structure representing 'インカムvsキャピタル'. She calmly points towards the peace/order.
+Panel 3 (Bottom-Right 15%): Yuto visualizing his own happiness or success—simple joys and stable future, appearing in golden bubbles.
+Panel 4 (Bottom-Left 15%): Yuto looking enlightened and relieved (Realization). Yuto says "Dialogue Action" (In a speech bubble). Remi smiles gently, watching him grow. (No text for Remi).
+Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
 ```
 
 ---
 
-## 3ページ目プロンプト (v15.1 Margin Slayer Override)
+## Variables
 
-```text
-ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters:
-- Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - TOP 40% height]: [Action] STRETCH FILL. 'Dual Growth'. Golden line (Dividends) and Blue line (Price). (Japanese speech bubbles: "配当は『今』の豊かさを、値上がりは『未来』の自由を創る。時間の使い方が、結果を決めるわ。", "どちらの果実も、根っこは企業の成長よ。")
-
-[PANEL 2 - MIDDLE 35% height]: [Action] STRETCH FILL. Yuto watching dual lines, mature expression. (Japanese speech bubble: "今を楽しむか、未来を最大化するか。投資は本当に生き方そのものですね。")
-
-[PANEL 3 - BOTTOM 25% height]: [Resolve] STRETCH FILL. Remi nodding cosmic background. (Japanese speech bubble: "ええ。その自覚こそが、無敵の投資家への第一歩よ。")
-
-### Style: Premium manga, cinematic lighting. 12:17 ratio. FULL WIDTH FILL.
-```
+### Page 1
+| Var | Value |
+| -- | -- |
+| NO | 28 |
+| TITLE | インカムvsキャピタル |
+| INTRO | Dialogue Intro |
+| TEACH | Dialogue Teach |
+| SCENE | Stylish cafe with warm lighting and wooden furniture |
 
 ---
 
-## 4ページ目プロンプト (v15.1 Margin Slayer Override)
-
-```text
-ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters:
-- Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - TOP 40% height]: [Epilogue] STRETCH FILL. Bridge of light between two planets of gold and sapphire. (Japanese speech bubbles: "自分の心地よい速度で歩みなさい。どちらの道も、栄光へと続いているわ。", "あなたは、どちらを選ぶ？")
-
-[PANEL 2 - MIDDLE 35% height]: [Focus Shot] STRETCH FILL. Yuto bright mature smile looking at camera. (Japanese speech bubble: "レミさん！ 僕は、今日という日を大切にしながら、大きな未来を掴み取ります！")
-
-[PANEL 3 - BOTTOM 25% height]: [Final] STRETCH FILL. Remi beauty smile. (Japanese speech bubble: "さあ、最高にロジカルな、あなたの物語を。")
-
-### Style: Premium manga, cinematic lighting. 12:17 ratio. FULL WIDTH FILL.
-```
-
----
-
-## 生成手順 (v15.1 Margin Slayer Override)
-
-### ステップ1: 1ページ目を生成
-
-```javascript
-generate_image(
-  ImageName: "remi_no28_page1_v15_1_ms",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. 12:17. ### Characters: - Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES.
-- Yuto: (BLACK Gakuran, gold buttons). (Short Black hair). BARE HANDS.
-
-[PANEL 1 - 40% height]: FULL WIDTH ART. Remi and Yuto in celestial arena. Two glowing orbs: 'Golden Sun' (Income) and 'Shooting Star' (Capital). **STRICT TITLE BOX**: A HORIZONTAL black rectangular title box placed in the BOTTOM-RIGHT corner, with white Japanese text 'インカムvsキャピタル'. (Japanese speech bubbles: 'どちらが正解なんですか！？', '正解ではなく選択があるだけよ。安定して果実を得るインカムか、爆発的な上昇を狙うキャピタルか。それぞれの性質を理解しなさい。') [PANEL 2 - 35% height]: FULL WIDTH ART. NO MARGINS. Visualization of 'Slowly Flowing River' (Income) and 'Exploding Firework' (Capital). (Japanese speech bubble: '川の流れは静かだが絶えない。花火は鮮やかだが一瞬よ。どちらがあなたの心に寄り添うかを見極めなさい。') [PANEL 3 - 25% height]: FULL WIDTH ART. NO MARGINS. Yuto (BLACK GAKURAN) reaching out to lights. Absolutely NO right-side gutters. (Japanese speech bubble: '安定と爆発力…。僕の性格と未来、どちらに賭けるべきか考えます！') ### Style: Premium manga, cinematic lighting. 12:17 ratio. MANDATORY: STRETCH ART BEYOND EDGES. NO PADDING, NO SIDE BARS."
-)
-```
-
----
-作成日: 2026-02-07
-ステータス: No.28 全4ページ v15.1 Margin Slayer Override 完備
+Created: 2026-02-10
