@@ -1,0 +1,129 @@
+﻿# Episode 01: 絶望�E現代社企E(P1-5)
+
+## TIP惁E��
+
+| 頁E�� | 冁E�� |
+| :--- | :--- |
+| EP | 1 |
+| タイトル | 絶望�E現代社企E|
+| 解説 | 増税�Eン・物価高�Eンの襲来と、優斗�E経済的困窮、E|
+
+---
+
+## 1 ペ�Eジ目プロンプト (v15.5 Edge Obliterator)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep01_p1_final",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). Sharp elegant facial features.
+- Yuto: (NAVY BUSINESS SUIT, white shirt, silk tie). (Short Black hair). Tired salaryman facial expression.
+- Bukkadaka-man: (Gargantuan bloated monster with red price tags). (Gaping mouth).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. Modern Japan city street. Dark heavy atmosphere. Yuto in business suit looking exhausted. Bukkadaka-man looming in the sky. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '働いても働ぁE��も、手允E��お��が残らなぁE..、E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto looking at a supermarket price tag for eggs, his face pale. Bukkadaka-man laughing behind him. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '卵まで値上げかよ...、E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. Close up of Yuto's empty wallet. Cinematic 2D lighting.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, white borders, margins.
+"
+)
+```
+
+---
+
+## 2 ペ�Eジ目プロンプト (v15.5 Edge Obliterator)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep01_p2_final",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Yuto: (NAVY BUSINESS SUIT).
+- Zouzei-man: (Massive monster made of tax forms). (Glowing purple eyes).
+- Remi: (Silhouette).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. Yuto at home, dark room. Zouzei-man reaching through the window with long paper-like claws. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'また増税�Eお知らせぁE..�E�E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. Zouzei-man grabbing Yuto's shadow, pulling out golden coins. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT (Zouzei-man)**: '国民�E義務だ〜！E全部よこせ�E�E�E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. Yuto clutching his head in despair. Shadows stretching.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, white borders, margins.
+"
+)
+```
+
+---
+
+## 3 ペ�Eジ目プロンプト (v15.5 Edge Obliterator)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep01_p3_final",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Yuto: (NAVY BUSINESS SUIT). Rain-soaked.
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. Yuto walking alone in the rain. Cold blue-tinted cinematic 2D art. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'これ以上、どぁE��ろってんだめE..'
+[PANEL 2 - 35% height]: FULL WIDTH FILL. Montage of bills and notices (Tax, Insurance, Rent). Flat 2D art. **STRICT TITLE BOX**: A black rectangular box with white text '搾取�E現宁E.
+[PANEL 3 - 25% height]: FULL WIDTH FILL. Yuto staring at a dark reflection in a puddle. The reflection looks like a dead man.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, white borders, margins.
+"
+)
+```
+
+---
+
+## 4 ペ�Eジ目プロンプト (v15.5 Edge Obliterator)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep01_p4_final",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Yuto: (NAVY BUSINESS SUIT).
+- Bukkadaka-man: (Red price tags).
+- Zouzei-man: (Tax papers).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. The two monsters circling Yuto like vultures. Dramatic low-angle perspective. **STRICT SPEECH BUBBLE**: 'もう送E��場はなぁE��...�E�E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. Yuto trying to run but the ground turns into a whirlpool of 'Noise'. Dark purple miasma.
+[PANEL 3 - 25% height]: FULL WIDTH FILL. High contrast silhouette of Yuto being surrounded by the monsters' shadows. **STRICT SPEECH BUBBLE**: '誰ぁE.. 誰か助けてくれ�E�E
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, white borders, margins.
+"
+)
+```
+
+---
+
+## 5 ペ�Eジ目プロンプト (v15.5 Edge Obliterator)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep01_p5_final",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Yuto: (NAVY BUSINESS SUIT).
+- Remi: (Glow of light).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. Yuto reaching for a faint silver light in the distance. **STRICT SPEECH BUBBLE**: 'あ�E光�E...�E�E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. Close up of Yuto's eyes, wide with hope and fear.
+[PANEL 3 - 25% height]: FULL WIDTH FILL. Transition: The light turns out to be a phone screen showing a stock chart. **STRICT TITLE BOX**: '運命の交差'.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, white borders, margins.
+"
+)
+```
+
+作�E日: 2026-02-07
+スチE�Eタス: P1-5 Refined (Art Style + Dialogue Fix)

@@ -1,0 +1,128 @@
+﻿# Episode 04: 救世主レチE(P16-20)
+
+## TIP惁E��
+
+| 頁E�� | 冁E�� |
+| :--- | :--- |
+| EP | 4 |
+| タイトル | 救世主レチE|
+| 解説 | 公園での運命の出会い。波動�E乱れ�E持E��、E|
+
+---
+
+## 16 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep04_p16_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Remi: (Crimson RED blazer, Black lace top). (LONG STARK STRAIGHT SILVER hair). (GLOWING SOLID BLOOD-RED eyes). NO GLOVES. **VISUAL LOCK**.
+- Yuto: (NAVY BUSINESS SUIT). (Surprised). **VISUAL LOCK**.
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Low Angle] Remi standing elegantly on the park bench backrest, silhouetted against a giant full moon. Silver hair glowing.
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Action] Yuto jumping up in shock, dropping his phone. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'だっ、誰�E�E��E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Close-up] Remi's face, mysterious smile. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '波動が乱れてぁE��わ�E、\n坊や、E
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 17 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep04_p17_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Remi: (Crimson RED blazer, Black lace top, Silver hair, Red eyes). **VISUAL LOCK**.
+- Yuto: (NAVY BUSINESS SUIT).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [High Angle] Remi pointing a gloved finger at Yuto's fallen smartphone. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'それは希望じゃなぁE��Enただの底なし沼よ、E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Reaction] Yuto looking confused and annoyed. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '波動だの沼だの……\n宗教の勧誘かよ、E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Focus] Remi's eyes glowing intensely. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'ぁE��え、Enこれは最高にロジカルな\n宁E���E法則、E
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 18 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep04_p18_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Remi: (Crimson RED blazer, Silver hair). **VISUAL LOCK**.
+- Yuto: (NAVY BUSINESS SUIT).
+- Monsters: (Shadowy/Ghostly apparitions of Zouzei-man and Inflation).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Visualization] Remi waving her hand, revealing the ghostly monsters clinging to Yuto's back.
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Mid Shot] Remi looking cold and serious. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '彼らに搾取され続ける人生か、Enそれとも�E由か、En選ぶのはあなた、E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Reaction] Yuto stunned, sweating, realizing the truth of her words.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 19 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep04_p19_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Remi: (Crimson RED blazer, Silver hair). **VISUAL LOCK**.
+- Yuto: (NAVY BUSINESS SUIT).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Close-up] Remi's hand holding out a single, glowing GOLDEN SEED (Acorn-like).
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Focus] Yuto's face, illuminated by the seed's light. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'これが……\n自由�E�E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Extreme Close-up] Yuto's trembling hand reaching out to take it.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 20 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep04_p20_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Remi: (Crimson RED blazer, Silver hair). **VISUAL LOCK**.
+- Yuto: (NAVY BUSINESS SUIT).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Wide Shot] The park transforms for a moment into a cosmic nebula of stars.
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Back View] Remi walking away, dissolving into light/mist. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '明日、En同じ場所で、あなた�E決意を聞かせて、E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Epilogue] Yuto left alone on the bench, clutching the glowing seed.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+作�E日: 2026-02-08
+スチE�Eタス: P16-20 v15.5 Edge Obliterator 完備 (Character Lock + Drama Boost)
