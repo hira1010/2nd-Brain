@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[branch "main"]
+	gk-last-accessed = 2026-02-12T00:18:44.556Z
+	gk-last-modified = 2026-02-11T03:07:20.718Z
+	remote = origin
+	merge = refs/heads/main
+	vscode-merge-base = origin/main
+	gk-merge-base = origin/main
+[remote "origin"]
+	url = https://github.com/hira1010/2nd-Brain.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
