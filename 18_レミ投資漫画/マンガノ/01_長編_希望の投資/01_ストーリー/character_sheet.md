@@ -13,5 +13,11 @@
 `((Navy Blue Suit)), ((White Shirt)), ((Blue Tie))`
 `((Bare Hands))`
 
+## 😈 田中 (Tanaka) - ギャンブル投機家
+
+**Visual Lock Prompt:**
+`((Messy Brown Hair)), ((Stubble)), ((Arrogant Smirk))`
+`((Dark Suit)), ((Loose Tie)), ((Unbuttoned collar))`
+
 ---
 **Note**: Copied from `02_設定編_鉄壁のキャラ固定.md`. use this for all future prompts.
