@@ -1,33 +1,37 @@
 """
 Smart Refactoring Script.
-Updates manga prompt files to the latest template and character settings.
-Refactored to use a class-based structure for better maintainability (User Request: Feature unchanged).
+Updates manga prompt files to the latest high-quality template.
+Refactored to use modular `manga_core` package.
 """
 
 import os
 import sys
-import random
 import argparse
+import random
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
 
-# Add current directory to path to ensure imports work if run from elsewhere
+# Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import manga_config
 import manga_utils
+from manga_core.file_handler import FileHandler
+from manga_core.template_manager import TemplateManager
+from manga_core.models import MangaEpisode
 
 logger = manga_utils.setup_logger("smart_refactor")
 DEFAULT_CATEGORY = "Uncategorized"
 
 class MangaRefactorer:
     """
-    Handles the refactoring process for manga prompt files.
+    Handles the refactoring process using the new core modules.
     """
 
     def __init__(self, dry_run: bool = False):
         self.dry_run = dry_run
+        self.template_manager = TemplateManager(manga_config.TEMPLATES_DIR)
 
     def process_file(self, file_path: str) -> bool:
         """
@@ -37,30 +41,37 @@ class MangaRefactorer:
         logger.info(f"Processing: {path}")
 
         try:
-            content = self._read_file(path)
+            content = FileHandler.read_file(path)
             if not content:
                 return False
 
             # Extract Information
             info = manga_utils.extract_info_from_md(content)
             
-            # Auto-detect category from parent folder if possible
+            # Auto-detect category
             parent_dir_name = path.parent.name
             info["category"] = self._resolve_category(info, parent_dir_name)
 
-            # Get Dialogues (Preserves existing or uses defaults)
+            # Get Dialogues
             dialogues = manga_utils.get_dialogues(content, info['title'], info['desc'])
 
             # Generate New Content
             new_content = self._generate_content(info, dialogues)
 
+            if not new_content:
+                logger.error("Failed to generate content.")
+                return False
+
             # Write or Log
             if self.dry_run:
                 logger.info(f"[DRY-RUN] Would update {path} (No.{info['no']} {info['title']})")
-                logger.debug(f"Preview:\n{new_content[:200]}...")
+                logger.debug(f"Preview:\n{new_content[:500]}...")
             else:
-                self._write_file(path, new_content)
-                logger.info(f"Successfully refactored: {path}")
+                success = FileHandler.write_file(path, new_content)
+                if success:
+                    logger.info(f"Successfully refactored: {path}")
+                else:
+                    logger.error(f"Failed to write to {path}")
             
             return True
 
@@ -69,43 +80,35 @@ class MangaRefactorer:
             return False
 
     def _resolve_category(self, info: Dict[str, str], parent_dir_name: str) -> str:
-        if parent_dir_name in manga_config.TARGET_DIRS:
-            return parent_dir_name
+        # Check against config target dirs, allowing partial matches key logic if needed
+        # For simple check:
+        for target in manga_config.TARGET_DIRS:
+            if parent_dir_name in target:
+                return parent_dir_name
         return info.get("category") or DEFAULT_CATEGORY
 
-    def _read_file(self, path: Path) -> Optional[str]:
-        try:
-            # Modern Python 3 defaults to utf-8, but explicit is better
-            return path.read_text(encoding="utf-8")
-        except Exception as e:
-            logger.error(f"Failed to read file {path}: {e}")
+    def _generate_content(self, info: Dict[str, str], dialogues: Dict[str, str]) -> Optional[str]:
+        """
+        Generates the full markdown content using the external template.
+        """
+        template_content = self.template_manager.load_template("manga_prompt.md")
+        if not template_content:
             return None
 
-    def _write_file(self, path: Path, content: str) -> None:
-        path.write_text(content, encoding="utf-8")
-
-    def _generate_content(self, info: Dict[str, str], dialogues: Dict[str, str]) -> str:
-        """
-        Generates the full markdown content using the template.
-        """
-        # Select a random scene for variety
+        # Select a random scene
         scene = random.choice(manga_config.SCENES)
         
-        # Get safe title for filenames/internal logic if needed (unused in template but good practice)
-        # title_safe = manga_utils.get_safe_filename(info['title']) 
+        # Prepare template variables
+        # Note: Visual locks are now hardcoded in the template for strict consistency,
+        # so we don't need to inject CHARACTER_SETTINGS anymore.
         
-        # Format the template
-        # Note: Using CHARACTER_SETTINGS_EN from config. 
-        # If the original code used 'CHARACTER_SETTINGS', it likely meant this one or a missing one.
-        # We assume EN is correct for this context.
-        return manga_config.TEMPLATE.format(
+        return template_content.format(
             NO=info['no'],
+            # Clean NO for filenames (remove leading zeros if needed, or keep as is)
+            NO_CLEAN=info['no'].lstrip('0') or '0', 
             TITLE=info['title'],
             DESC=info['desc'],
             CATEGORY=info['category'],
-            CHARACTER_SETTINGS=manga_config.CHARACTER_SETTINGS_EN,
-            WIDTH=manga_config.IMAGE_WIDTH,
-            HEIGHT=manga_config.IMAGE_HEIGHT,
             SCENE=scene,
             DIALOGUE_INTRO=dialogues["Intro"],
             DIALOGUE_TEACH=dialogues["Teach"],
@@ -122,7 +125,6 @@ class MangaRefactorer:
         success_count = 0
         
         for subdir in manga_config.TARGET_DIRS:
-            # Construct path using the BASE_DIR from config
             target_dir = manga_config.BASE_DIR / subdir
             
             if not target_dir.exists():
