@@ -57,7 +57,7 @@ def extract_data_from_image(image_path):
         data = {}
         
         # Keywords to identify if this is a diet screenshot
-        keywords = ["体重", "体脂肪", "BMI", "kg", "内臓脂肪", "骨格筋"]
+        keywords = ["体重", "体脂肪", "BMI", "kg", "内臓脂肪", "骨格筋", "最高", "最低", "血圧"]
         hit_count = sum(1 for k in keywords if k in text)
         
         if hit_count < 2:
@@ -91,6 +91,17 @@ def extract_data_from_image(image_path):
              else:
                  data['date'] = datetime.date.today()
 
+        # 4. Blood Pressure (SYS/DIA)
+        # Look for pattern like "150/96" or "120 / 80"
+        # Also support finding distinct numbers if they are labeled "最高" "最低"
+        bp_match = re.search(r'(\d{2,3})[\s/]+(\d{2,3})', text)
+        if bp_match:
+            # Basic validation: SYS should be higher than DIA, usually SYS > 80, DIA > 40
+            sys_val = int(bp_match.group(1))
+            dia_val = int(bp_match.group(2))
+            if sys_val > dia_val and sys_val > 50:
+                data['bp'] = f"{sys_val}/{dia_val}"
+        
         return data
 
     except Exception as e:
@@ -111,6 +122,7 @@ def update_markdown(data):
         date_str = data['date'].strftime("%-m/%-d") # e.g., 2/14
         weight = data.get('weight')
         fat = data.get('fat')
+        bp = data.get('bp', '-')
         
         if not weight:
             logging.warning("No weight data found, skipping markdown update.")
@@ -118,16 +130,18 @@ def update_markdown(data):
 
         # --- 1. Update Weekly Trend Table ---
         # Check if entry already exists
+        # Update regex to handle the new BP column
         row_pattern = re.compile(rf"\|\s*{re.escape(date_str)}\s*\|\s*{weight}kg\s*\|", re.IGNORECASE)
         if row_pattern.search(content):
             logging.info("Entry already exists in table.")
+            # TODO: Ideally update the existing row if BP data is new, but for now skip simple duplicate
         else:
             # Insert at top of the table (after the header separator)
             # Find the header separator position
-            header_sep_match = re.search(r'\|\s*:---\s*\|\s*:---\s*\|\s*:---\s*\|\n', content)
+            header_sep_match = re.search(r'\|\s*:---\s*\|\s*:---\s*\|\s*:---\s*\|\s*:---\s*\|\n', content)
             if header_sep_match:
                 insert_pos = header_sep_match.end()
-                new_row = f"| {date_str} | {weight}kg | - |\n" # Diff calculation is hard without prev data, leave as -
+                new_row = f"| {date_str} | {weight}kg | - | {bp} |\n"
                 content = content[:insert_pos] + new_row + content[insert_pos:]
                 logging.info(f"Inserted new row for {date_str} into Weekly Trend.")
 
@@ -157,7 +171,8 @@ def update_markdown(data):
 | 体脂肪 | {fat}% | 皮下脂肪 | - |
 | 骨格筋 | - | 内臓脂肪 | - |
 | 代謝 | - | 体内年齢 | - |
-| BMI | - | - | - |
+| BMI | - | 血圧 | {bp} |
+| ウエスト | - | - | - |
 
 > **メモ**: (自動取得)
 
@@ -215,7 +230,10 @@ def main():
 
     # 2. Update Markdown
     if update_markdown(data):
-        send_notification("Diet Update Success", f"Recorded: {data.get('weight')}kg")
+        msg = f"Recorded: {data.get('weight')}kg"
+        if data.get('bp'):
+            msg += f", BP: {data.get('bp')}"
+        send_notification("Diet Update Success", msg)
         
         # 3. Move File
         moved_path = move_screenshot(image_path)
