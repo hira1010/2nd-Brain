@@ -22,7 +22,7 @@ LOG_FILE = Path(__file__).parent / "auto_diet.log"
 
 # Tesseract Configuration
 # If tesseract is not in PATH, specify it here:
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Logging setup
 logging.basicConfig(
@@ -49,6 +49,7 @@ def extract_data_from_image(image_path):
     """
     try:
         img = Image.open(image_path)
+        img = img.convert("RGB") # Convert to RGB to handle MPO or other formats
         # Use Japanese and English
         text = pytesseract.image_to_string(img, lang='jpn+eng')
         

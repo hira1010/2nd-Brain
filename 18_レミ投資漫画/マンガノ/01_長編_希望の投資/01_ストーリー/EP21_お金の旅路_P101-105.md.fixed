@@ -1,16 +1,16 @@
-# Episode 21: お金の旅路 (P101-105)
+# Episode 21: お��の旁E�� (P101-105)
 
-## TIP情報
+## TIP諠・�ｱ
 
-| 項目 | 内容 |
+| 鬆・岼 | 蜀・ｮｹ |
 | :--- | :--- |
 | EP | 21 |
-| タイトル | お金の旅路 |
-| 解説 | レミとの対話。お金は手段であることを確認。 |
+| タイトル | お��の旁E�� |
+| 解説 | レミとの対話。お金�E手段であること、E|
 
 ---
 
-## 101 ページ目プロンプト (v15.5 Edge Obliterator - Refined)
+## 101 繝壹・繧ｸ逶ｮ繝励Ο繝ｳ繝励ヨ (v15.5 Edge Obliterator - Refined)
 
 ```javascript
 generate_image(
@@ -18,12 +18,12 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
 
 CHARACTERS:
-- Remi: ((Very Long Silver Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)), ((Black Pantyhose)). **VISUAL LOCK**.
+- Remi: ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)). **VISUAL LOCK**.
 - Yuto: (Adult, 40s). **VISUAL LOCK**.
 
 [PANEL 1 - 40% height]: FULL WIDTH FILL. [Setting] A spiritual realm. A bridge made of translucent starlight. Yuto walking towards Remi, who waits at the center.
-[PANEL 2 - 35% height]: FULL WIDTH FILL. [Dialogue] Remi smiling, hair floating in zero gravity. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '素晴らしい旅路だったわね、\n優斗。'
-[PANEL 3 - 25% height]: FULL WIDTH FILL. [Response] Yuto smiling warmly, no longer a student but an equal. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'ええ。あなたのおかげで、\n迷わずに済みました。'
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Dialogue] Remi smiling, hair floating in zero gravity. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '�晴らしぁE��路�ったわね、\n優斗、E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Response] Yuto smiling warmly, no longer a student but an equal. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'ええ。あなた�Eおかげで、\n迷わずに済みました、E
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architectural text, panel labels, white borders, margins.
@@ -41,11 +41,11 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
 
 CHARACTERS:
-- Remi: ((Very Long Silver Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)), ((Black Pantyhose)). **VISUAL LOCK**.
+- Remi: ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)). **VISUAL LOCK**.
 - Yuto: (Adult, 40s).
 
 [PANEL 1 - 40% height]: FULL WIDTH FILL. [Visualization] Remi waving her hand. The background dissolves into a visualization of global currency flowing like golden blood vessels in a cosmic organism.
-[PANEL 2 - 35% height]: FULL WIDTH FILL. [Lecture] Remi explaining passionately. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'お金は愛、信頼、\nそしてエネルギーの交換。\nただ溜め込むためのものじゃない。'
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Lecture] Remi explaining passionately. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'お��は愛、信頼、\nそしてエネルギーの交換、Enただ溜め込むためのも�EじゃなぁE��E
 [PANEL 3 - 25% height]: FULL WIDTH FILL. [Detail] Close-up of the golden energy flowing into Yuto's chest.
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
@@ -64,12 +64,12 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
 
 CHARACTERS:
-- Remi: ((Very Long Silver Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)), ((Black Pantyhose)). **VISUAL LOCK**.
+- Remi: ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)). **VISUAL LOCK**.
 - Yuto: (Adult, 40s).
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. [Question] Remi leaning in. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'あなたはもう、お金の支配から卒業した。\n次は、そのエネルギーで\n何を描くの？'
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Question] Remi leaning in. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'あなた�Eもう、お金�E支配から卒業した、En次は、そのエネルギーで\n何を描くの�E�E
 [PANEL 2 - 35% height]: FULL WIDTH FILL. [Vision] Yuto looking at a vast, blank canvas made of stars behind him.
-[PANEL 3 - 25% height]: FULL WIDTH FILL. [Answer] Yuto’s eyes sparkling with creativity. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '描きたいことは……\n山ほどあります。'
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Answer] Yuto’s eyes sparkling with creativity. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '描きたいことは……\n山ほどあります�E
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architectural text, panel labels, white borders, margins.
@@ -87,11 +87,11 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
 
 CHARACTERS:
-- Remi: ((Very Long Silver Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)), ((Black Pantyhose)). **VISUAL LOCK**.
+- Remi: ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)). **VISUAL LOCK**.
 - Yuto: (Adult, 40s).
 
-[PANEL 1 - 40% height]: FULL WIDTH FILL. [Action] Remi giving Yuto a gentle, celestial hug. Floating in space. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'あなたの魂が望むままに。\nそれが本当の意思よ。'
-[PANEL 2 - 35% height]: FULL WIDTH FILL. [Dry Humor] Yuto smiling awkwardly. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'またスピってるけど……\n今なら、その意味がわかる気がします。'
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Action] Remi giving Yuto a gentle, celestial hug. Floating in space. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'あなた�E魂が望�Eままに、Enそれが宁E���E意思よ、E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Dry Humor] Yuto smiling awkwardly. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'またスピってるけど……\n今なら、その意味がわかる気がします、E
 [PANEL 3 - 25% height]: FULL WIDTH FILL. [Joy] Both of them laughing under a waterfall of stardust.
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
@@ -123,5 +123,5 @@ STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant color
 )
 ```
 
-作成日: 2026-02-14
-ステータス: P101-105 v15.5 Edge Obliterator 完了 (Character Lock + Drama Boost)
+菴懈・譌･: 2026-02-08
+繧ｹ繝・・繧ｿ繧ｹ: P101-105 v15.5 Edge Obliterator 螳悟ｙ (Character Lock + Drama Boost)

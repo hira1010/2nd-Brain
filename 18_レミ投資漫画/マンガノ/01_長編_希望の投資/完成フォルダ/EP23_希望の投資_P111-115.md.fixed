@@ -1,16 +1,16 @@
-# Episode 23: 希望の投資 (P111-115)
+# Episode 23: 希望の投賁E(P111-115)
 
-## TIP情報
+## TIP諠・�ｱ
 
-| 項目 | 内容 |
+| 鬆・岼 | 蜀・ｮｹ |
 | :--- | :--- |
 | EP | 23 |
-| タイトル | 希望の投資 |
-| 解説 | エピローグ。次世代へ繋ぐバトン。 |
+| タイトル | 希望の投賁E|
+| 解説 | エピローグ。次世代へ繋ぐバトン、E|
 
 ---
 
-## 111 ページ目プロンプト (v15.5 Edge Obliterator - Refined)
+## 111 繝壹・繧ｸ逶ｮ繝励Ο繝ｳ繝励ヨ (v15.5 Edge Obliterator - Refined)
 
 ```javascript
 generate_image(
@@ -22,7 +22,7 @@ CHARACTERS:
 
 [PANEL 1 - 40% height]: FULL WIDTH FILL. [Setting] Yuto standing on a hill overlooking the city. A gentle breeze blowing his black and grey hair.
 [PANEL 2 - 35% height]: FULL WIDTH FILL. [Object] He holds a self-published book titled 'Introduction to Hope' (Investment guide).
-[PANEL 3 - 25% height]: FULL WIDTH FILL. [Monologue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'かつての僕に、\nこの本を届けるつもりで。'
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Monologue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'かつての僕に、\nこ�E本を届けるつもりで、E
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architectural text, panel labels, white borders, margins.
@@ -32,7 +32,7 @@ STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant color
 
 ---
 
-## 112 ページ目プロンプト (v15.5 Edge Obliterator - Refined)
+## 112 繝壹・繧ｸ逶ｮ繝励Ο繝ｳ繝励ヨ (v15.5 Edge Obliterator - Refined)
 
 ```javascript
 generate_image(
@@ -44,7 +44,7 @@ CHARACTERS:
 - Young People: (Students, casual). (Eyes wide with hope).
 
 [PANEL 1 - 40% height]: FULL WIDTH FILL. [Scene] Yuto speaking passionately to a small group of young people in the park (the specific bench where he met Remi).
-[PANEL 2 - 35% height]: FULL WIDTH FILL. [Dialogue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '投資とは、自分自身を信じること、\nそして、未来を信じること。'
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Dialogue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '投賁E�E、�E刁E�E身を信じること、Enそして、未来を信じること、E
 [PANEL 3 - 25% height]: FULL WIDTH FILL. [Effect] The young people's chests beginning to glow with a faint GOLDEN LIGHT (The seeds of Money Trees).
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
@@ -55,7 +55,7 @@ STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant color
 
 ---
 
-## 113 ページ目プロンプト (v15.5 Edge Obliterator - Refined)
+## 113 繝壹・繧ｸ逶ｮ繝励Ο繝ｳ繝励ヨ (v15.5 Edge Obliterator - Refined)
 
 ```javascript
 generate_image(
@@ -63,10 +63,10 @@ generate_image(
   Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
 
 CHARACTERS:
-- Remi: ((Silver Long Straight Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)), ((Black Pantyhose)). **VISUAL LOCK**.
+- Remi: (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face), ((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Cleavage)), ((Tight Red Skirt)). **VISUAL LOCK**.
 
 [PANEL 1 - 40% height]: FULL WIDTH FILL. [High Angle] Remi floating high above the city, watching Yuto. She is smiling the most beautiful, satisfied smile in the entire series.
-[PANEL 2 - 35% height]: FULL WIDTH FILL. [Monologue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '世界はこうして、\n希望に染まっていくのね。'
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Monologue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '世界はこうして、\n黁E��に染まってぁE��のね、E
 [PANEL 3 - 25% height]: FULL WIDTH FILL. [Art] Cinematic wide angle of the world below, dotted with thousands of tiny golden lights (investors).
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
@@ -77,7 +77,7 @@ STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant color
 
 ---
 
-## 114 ページ目プロンプト (v15.5 Edge Obliterator - Refined)
+## 114 繝壹・繧ｸ逶ｮ繝励Ο繝ｳ繝励ヨ (v15.5 Edge Obliterator - Refined)
 
 ```javascript
 generate_image(
@@ -90,7 +90,7 @@ CHARACTERS:
 
 [PANEL 1 - 40% height]: FULL WIDTH FILL. [Peace] Yuto leaning his back against the massive, warm trunk of his Money Tree.
 [PANEL 2 - 35% height]: FULL WIDTH FILL. [Feel] He closes his eyes, feeling the pulse of 20 years of compounding vibrating through the bark.
-[PANEL 3 - 25% height]: FULL WIDTH FILL. [Dialogue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'さあ、行こうか。\n最高の、ロジカルな未来へ。'
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Dialogue] **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'さあ、行こぁE��、En最高�E、ロジカルな未来へ、E
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architectural text, panel labels, white borders, margins.
@@ -100,7 +100,7 @@ STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant color
 
 ---
 
-## 115 ページ目プロンプト (v15.5 Edge Obliterator - Refined)
+## 115 繝壹・繧ｸ逶ｮ繝励Ο繝ｳ繝励ヨ (v15.5 Edge Obliterator - Refined)
 
 ```javascript
 generate_image(
@@ -113,7 +113,7 @@ CHARACTERS:
 
 [PANEL 1 - 40% height]: FULL WIDTH FILL. [Last Shot] Final shot of Yuto's back as he walks confidently into a horizon of infinite golden starlight.
 [PANEL 2 - 35% height]: FULL WIDTH FILL. [Symbolism] A single Silver Butterfly flutters over his head.
-[PANEL 3 - 25% height]: FULL WIDTH FILL. [The End] Large Japanese text overlay in a clean, cinematic font: '完 (END)'. Logo: The Golden Seed.
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [The End] Large Japanese text overlay in a clean, cinematic font: '螳・ (END). Logo: The Golden Seed.
 
 STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
 **NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architectural text, panel labels, white borders, margins.
@@ -121,5 +121,5 @@ STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant color
 )
 ```
 
-作成日: 2026-02-14
-ステータス: P111-115 v15.5 Edge Obliterator 完了 (Character Lock + Drama Boost)
+菴懈・譌･: 2026-02-08
+繧ｹ繝・・繧ｿ繧ｹ: P111-115 v15.5 Edge Obliterator 螳悟ｙ (Character Lock + Drama Boost)

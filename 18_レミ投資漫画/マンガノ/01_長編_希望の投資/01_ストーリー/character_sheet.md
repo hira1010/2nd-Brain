@@ -3,7 +3,7 @@
 ## 👩‍🏫 レミ (Remi)
 
 **Visual Lock Prompt:**
-`((Silver Long Straight Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Cool Beauty Face))`
+`((Very Long Silver Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Cool Beauty Face))`
 `((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Tight Red Skirt)), ((Black Pantyhose))`
 
 ## 🧑‍🎓 優斗 (Yuto)
