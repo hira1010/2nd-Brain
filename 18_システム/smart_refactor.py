@@ -10,7 +10,7 @@ import argparse
 import random
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, Optional, Set
 
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -32,6 +32,7 @@ class MangaRefactorer:
     def __init__(self, dry_run: bool = False):
         self.dry_run = dry_run
         self.template_manager = TemplateManager(manga_config.TEMPLATES_DIR)
+        self.target_leaf_dirs: Set[str] = {Path(target).name for target in manga_config.TARGET_DIRS}
 
     def process_file(self, file_path: str) -> bool:
         """
@@ -45,18 +46,13 @@ class MangaRefactorer:
             if not content:
                 return False
 
-            # Extract Information
-            info = manga_utils.extract_info_from_md(content)
-            
-            # Auto-detect category
-            parent_dir_name = path.parent.name
-            info["category"] = self._resolve_category(info, parent_dir_name)
+            episode = self._build_episode(path, content)
 
             # Get Dialogues
-            dialogues = manga_utils.get_dialogues(content, info['title'], info['desc'])
+            dialogues = manga_utils.get_dialogues(content, episode.title, episode.desc)
 
             # Generate New Content
-            new_content = self._generate_content(info, dialogues)
+            new_content = self._generate_content(episode, dialogues)
 
             if not new_content:
                 logger.error("Failed to generate content.")
@@ -64,7 +60,7 @@ class MangaRefactorer:
 
             # Write or Log
             if self.dry_run:
-                logger.info(f"[DRY-RUN] Would update {path} (No.{info['no']} {info['title']})")
+                logger.info(f"[DRY-RUN] Would update {path} (No.{episode.no} {episode.title})")
                 logger.debug(f"Preview:\n{new_content[:500]}...")
             else:
                 success = FileHandler.write_file(path, new_content)
@@ -79,15 +75,22 @@ class MangaRefactorer:
             logger.error(f"Error processing {path}: {e}")
             return False
 
-    def _resolve_category(self, info: Dict[str, str], parent_dir_name: str) -> str:
-        # Check against config target dirs, allowing partial matches key logic if needed
-        # For simple check:
-        for target in manga_config.TARGET_DIRS:
-            if parent_dir_name in target:
-                return parent_dir_name
-        return info.get("category") or DEFAULT_CATEGORY
+    def _build_episode(self, path: Path, content: str) -> MangaEpisode:
+        info = manga_utils.extract_info_from_md(content)
+        parent_dir_name = path.parent.name
+        return MangaEpisode(
+            no=info.get("no", "00"),
+            title=info.get("title", "Unknown"),
+            desc=info.get("desc", ""),
+            category=self._resolve_category(info.get("category"), parent_dir_name),
+        )
 
-    def _generate_content(self, info: Dict[str, str], dialogues: Dict[str, str]) -> Optional[str]:
+    def _resolve_category(self, extracted_category: Optional[str], parent_dir_name: str) -> str:
+        if parent_dir_name in self.target_leaf_dirs:
+            return parent_dir_name
+        return extracted_category or DEFAULT_CATEGORY
+
+    def _generate_content(self, episode: MangaEpisode, dialogues: Dict[str, str]) -> Optional[str]:
         """
         Generates the full markdown content using the external template.
         """
@@ -103,12 +106,12 @@ class MangaRefactorer:
         # so we don't need to inject CHARACTER_SETTINGS anymore.
         
         return template_content.format(
-            NO=info['no'],
+            NO=episode.no,
             # Clean NO for filenames (remove leading zeros if needed, or keep as is)
-            NO_CLEAN=info['no'].lstrip('0') or '0', 
-            TITLE=info['title'],
-            DESC=info['desc'],
-            CATEGORY=info['category'],
+            NO_CLEAN=episode.no.lstrip('0') or '0',
+            TITLE=episode.title,
+            DESC=episode.desc,
+            CATEGORY=episode.category,
             SCENE=scene,
             DIALOGUE_INTRO=dialogues["Intro"],
             DIALOGUE_TEACH=dialogues["Teach"],
@@ -150,15 +153,15 @@ def parse_args() -> argparse.Namespace:
 
 def main():
     args = parse_args()
-    
+
     refactorer = MangaRefactorer(dry_run=args.dry_run)
-    
+
     if args.target:
         refactorer.process_file(args.target)
     elif args.all:
         refactorer.run_all()
     else:
-        parser.print_help()
+        logger.error("Specify either --target <file> or --all.")
 
 if __name__ == "__main__":
     main()

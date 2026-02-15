@@ -5,20 +5,15 @@ Provides logging, text extraction, and sanitization helper functions.
 
 import logging
 import re
-from typing import Dict, Optional
+from typing import Dict
 
 # Regex Patterns
 _NO_RE = re.compile(r"\|\s*No\s*\|\s*(\d+)\s*\|")
 _TITLE_RE = re.compile(r"\|\s*Title\s*\|\s*(.*?)[\s|]*\|", re.IGNORECASE)
 _HEADER_TITLE_RE = re.compile(r"#\s*(?:Episode|No\.)\s*\d+\s*[:\.]?\s*(.*?)($|\s)", re.IGNORECASE)
 _DESC_RE = re.compile(r"\|\s*Description\s*\|\s*(.*?)[\s|]*\|", re.IGNORECASE)
-
-# Old Template Dialogue Patterns
-_INTRO_RE = re.compile(r'(?:Remi says "|STRICT SPEECH BUBBLE.*?: \')([^\'"]+)(?:"|\')')
-_TEACH_RE = re.compile(r'(?:She says "|STRICT SPEECH BUBBLE.*?: \')([^\'"]+)(?:"|\')')
-# Simplified patterns - can be improved if more context needed
-# But for now, capturing *any* speech bubble content might be safer if structure varies
-# Let's try to match the specific keys used in typical files.
+_HEADER_EPISODE_NO_RE = re.compile(r"#\s*Episode\s*(\d+)", re.IGNORECASE)
+_SPEECH_BUBBLE_RE = re.compile(r"(?:STRICT SPEECH BUBBLE|says)\s*[:\.]?\s*['\"](.*?)['\"]")
 
 _SAFE_FILENAME_RE = re.compile(r'[\\/*?:"<>|]')
 
@@ -47,7 +42,7 @@ def extract_info_from_md(content: str) -> Dict[str, str]:
     no_match = _NO_RE.search(content)
     # If not found in table, try header "Episode X"
     if not no_match:
-        header_no_match = re.search(r"#\s*Episode\s*(\d+)", content, re.IGNORECASE)
+        header_no_match = _HEADER_EPISODE_NO_RE.search(content)
         info['no'] = header_no_match.group(1) if header_no_match else "00"
     else:
         info['no'] = no_match.group(1)
@@ -67,7 +62,7 @@ def extract_info_from_md(content: str) -> Dict[str, str]:
 
     return info
 
-def get_dialogues(content: str, title: str, desc: str) -> Dict[str, str]:
+def get_dialogues(content: str, _title: str, _desc: str) -> Dict[str, str]:
     """
     Extracts dialogues if they exist in the content.
     This is complex because formats vary (Old vs New).
@@ -90,7 +85,7 @@ def get_dialogues(content: str, title: str, desc: str) -> Dict[str, str]:
     
     # Simple extraction strategy: Find all speech bubbles content
     # This might mix them up, but better than nothing if structure is broken
-    bubbles = re.findall(r"(?:STRICT SPEECH BUBBLE|says)\s*[:\.]?\s*['\"](.*?)['\"]", content)
+    bubbles = _SPEECH_BUBBLE_RE.findall(content)
     
     if len(bubbles) >= 4:
         # If we found enough bubbles, assume they correspond to the 4 key slots

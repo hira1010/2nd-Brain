@@ -3,14 +3,15 @@
 ## 👩‍🏫 レミ (Remi)
 
 **Visual Lock Prompt:**
-`((Very Long Silver Hair)), ((Hime-cut)), ((Sharp Red Eyes)), ((Cool Beauty Face))`
-`((Crimson Red Suit Jacket)), ((Black Lace Camisole)), ((Tight Red Skirt)), ((Black Pantyhose))`
+`((Very Long Silver Hair:1.5)), ((Hime-cut)), ((Intense Glowing Red Eyes:1.6)), ((Cool Beauty Face))`
+`((Crimson Red Suit Jacket)), ((Black Lace Camisole:1.8)), ((Deep Cleavage:1.5)), ((Tight Red Skirt)), ((Black Pantyhose))`
+**Negative Prompt Key:** `white shirt, white blouse, collared shirt, white collar, clothes under jacket except lace`
 
 ## 🧑‍🎓 優斗 (Yuto)
 
 **Visual Lock Prompt:**
-`((Short Black hair, slightly messy))`
-`((Navy Blue Suit)), ((White Shirt)), ((Blue Tie))`
+`((Short Black hair, silky straight, flat hairstyle, low hair volume, neat style))`
+`((Navy Blue Suit:1.3)), ((White Shirt)), ((Blue Tie:1.3))`
 `((Bare Hands))`
 
 ## 😈 田中 (Tanaka) - ギャンブル投機家

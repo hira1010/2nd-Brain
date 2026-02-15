@@ -1,86 +1,95 @@
-import requests
-import pandas as pd
-from io import StringIO
-import re
+﻿import re
 from datetime import datetime
-import os
+from io import StringIO
+from pathlib import Path
+from typing import Optional, Tuple
+
+import pandas as pd
+import requests
 
 # Configuration
 SPREADSHEET_ID = "1-5kRLKDWkEHd7BKwXqnft0_fISJ4KnDXLf1CAGEKHyc"
-GID = "0" 
+GID = "0"
 CSV_URL = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/export?format=csv&gid={GID}"
-TARGET_MD = r"c:\Users\hirak\Desktop\2nd-Brain\01_ダイエット\記録.md"
+TARGET_MD = Path(r"c:\Users\hirak\Desktop\2nd-Brain\01_繝繧､繧ｨ繝・ヨ\險倬鹸.md")
+WEEKDAYS = ["譛・", "轣ｫ", "豌ｴ", "譛ｨ", "驥・", "蝨・", "譌･"]
 
-def fetch_latest_weight():
+
+def fetch_latest_weight() -> Optional[pd.DataFrame]:
     print("Fetching data from Google Sheets...")
     try:
-        response = requests.get(CSV_URL)
+        response = requests.get(CSV_URL, timeout=30)
         response.raise_for_status()
         csv_data = StringIO(response.text)
-        df = pd.read_csv(csv_data, header=None)
-        return df
-    except Exception as e:
+        return pd.read_csv(csv_data, header=None)
+    except requests.RequestException as e:
         print(f"Error fetching data: {e}")
         return None
 
-def update_mermaid_chart(content, date_str, weight_val):
-    # Update x-axis
-    # x-axis [..., 2/5] -> [..., 2/5, 2/6]
-    # Regex to find x-axis list
-    x_axis_match = re.search(r'x-axis \[(.*?)\]', content)
+
+def normalize_date(date_text: str) -> str:
+    return re.sub(r"/0", "/", str(date_text).strip())
+
+
+def format_header(date_text: str, weight: str) -> str:
+    normalized = normalize_date(date_text)
+    try:
+        dt = datetime.strptime(f"2026/{normalized}", "%Y/%m/%d")
+        return f"### {dt.month}/{dt.day} ({WEEKDAYS[dt.weekday()]}) 笏笏 **{weight}**kg"
+    except ValueError:
+        # Keep original date text if parsing fails.
+        return f"### {normalized} 笏笏 **{weight}**kg"
+
+
+def update_mermaid_chart(content: str, date_str: str, weight_val: str) -> str:
+    x_axis_match = re.search(r"x-axis \[(.*?)\]", content)
+    date_added = False
     if x_axis_match:
         current_dates = x_axis_match.group(1)
         if date_str not in current_dates:
             new_dates = f"{current_dates}, {date_str}"
             content = content.replace(f"x-axis [{current_dates}]", f"x-axis [{new_dates}]")
-    
-    # Update line data
-    # line [..., 94.3] -> [..., 94.3, 93.7]
-    line_match = re.search(r'line \[(.*?)\]', content)
-    if line_match:
+            date_added = True
+
+    line_match = re.search(r"line \[(.*?)\]", content)
+    if line_match and date_added:
         current_vals = line_match.group(1)
-        # Check if we should append (simple check if date was added)
-        # Assuming simple sequential add for now
-        # If date_str was already in dates, we might need to replace the last val, but let's assume append for "sync new data"
-        if f", {date_str}" in content: # we just added it
-             new_vals = f"{current_vals}, {weight_val}"
-             content = content.replace(f"line [{current_vals}]", f"line [{new_vals}]")
-             
+        new_vals = f"{current_vals}, {weight_val}"
+        content = content.replace(f"line [{current_vals}]", f"line [{new_vals}]")
+
     return content
 
-def update_markdown_file(date, weight):
-    print(f"Updating Markdown with Date: {date}, Weight: {weight}")
-    
-    with open(TARGET_MD, 'r', encoding='utf-8') as f:
-        content = f.read()
 
-    # 1. Update/Insert Timeline Entry
-    # Format: ### 2/6 (金) ── 93.7kg
-    # We need to map date to "M/D (Day)" format
-    try:
-        dt = datetime.strptime(f"2026/{date}", "%Y/%m/%d")
-        weekdays = ["月", "火", "水", "木", "金", "土", "日"]
-        day_str = weekdays[dt.weekday()]
-        header_date_str = f"{dt.month}/{dt.day}"
-        header_str = f"### {header_date_str} ({day_str}) ── **{weight}**kg"
-    except:
-        # Fallback if date parsing fails locally (though format seems to be M/D)
-        pass # use 'date' as is if needed, but the spreadsheet had '2/6' presumably
+def get_latest_row(df: pd.DataFrame) -> Optional[Tuple[str, str]]:
+    valid_data = df[df.iloc[:, 0].notna() & df.iloc[:, 1].notna()]
+    if valid_data.empty:
+        return None
 
+    last_row = valid_data.iloc[-1]
+    return str(last_row[0]), str(last_row[1])
+
+
+def update_markdown_file(date_text: str, weight: str) -> None:
+    print(f"Updating Markdown with Date: {date_text}, Weight: {weight}")
+
+    if not TARGET_MD.exists():
+        print(f"Target markdown not found: {TARGET_MD}")
+        return
+
+    content = TARGET_MD.read_text(encoding="utf-8")
+
+    header_str = format_header(date_text, weight)
     if header_str in content:
         print("Entry already exists. Skipping timeline insert.")
     else:
-        # Insert after "## 📝 タイムライン (Daily Log)"
-        insert_marker = "## 📝 タイムライン (Daily Log)"
-        
-        # New entry template
+        insert_marker = "## 統 繧ｿ繧､繝繝ｩ繧､繝ｳ (Daily Log)"
         new_entry = f"""
 {header_str}
 >
-> **📊 数値詳細**
-> (自動同期)
+> **投 謨ｰ蛟､隧ｳ邏ｰ**
+> (閾ｪ蜍募酔譛・
 >
-> **✍️ 日記・メモ**
+> **笨搾ｸ・譌･險倥・繝｡繝｢**
 > 
 >
 > ---
@@ -89,20 +98,25 @@ def update_markdown_file(date, weight):
             content = content.replace(insert_marker, f"{insert_marker}\n\n{new_entry}")
             print("Inserted new timeline entry.")
 
-    # 2. Update Mermaid Chart
-    # Use simple date string matching spreadsheet '2/6'
-    content = update_mermaid_chart(content, re.sub(r'/0', '/', date), weight) # remove leading zeros e.g. 02/06 -> 2/6 if needed
-
-    with open(TARGET_MD, 'w', encoding='utf-8') as f:
-        f.write(content)
+    content = update_mermaid_chart(content, normalize_date(date_text), weight)
+    TARGET_MD.write_text(content, encoding="utf-8")
     print("Markdown update complete.")
 
-if __name__ == "__main__":
+
+def main() -> int:
     df = fetch_latest_weight()
-    if df is not None:
-         valid_data = df[df.iloc[:, 0].notna() & df.iloc[:, 1].notna()]
-         if not valid_data.empty:
-             last_row = valid_data.iloc[-1]
-             last_date = last_row[0] # e.g. "2/6"
-             last_weight = last_row[1]
-             update_markdown_file(last_date, last_weight)
+    if df is None:
+        return 1
+
+    latest = get_latest_row(df)
+    if latest is None:
+        print("No valid rows found.")
+        return 1
+
+    last_date, last_weight = latest
+    update_markdown_file(last_date, last_weight)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,8 +1,9 @@
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 logger = logging.getLogger(__name__)
+PathLike = Union[str, Path]
 
 class FileHandler:
     """
@@ -10,25 +11,27 @@ class FileHandler:
     """
     
     @staticmethod
-    def read_file(path: Path) -> Optional[str]:
+    def read_file(path: PathLike) -> Optional[str]:
         """
         Reads a file safely, enforcing utf-8.
         """
+        target = Path(path)
         try:
-            return path.read_text(encoding="utf-8")
-        except Exception as e:
-            logger.error(f"Failed to read file {path}: {e}")
+            return target.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as e:
+            logger.error("Failed to read file %s: %s", target, e)
             return None
 
     @staticmethod
-    def write_file(path: Path, content: str) -> bool:
+    def write_file(path: PathLike, content: str) -> bool:
         """
         Writes content to a file safely.
         """
+        target = Path(path)
         try:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(content, encoding="utf-8")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
             return True
-        except Exception as e:
-            logger.error(f"Failed to write file {path}: {e}")
+        except (OSError, UnicodeError) as e:
+            logger.error("Failed to write file %s: %s", target, e)
             return False

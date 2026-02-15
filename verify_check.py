@@ -1,24 +1,62 @@
-import os
+﻿from pathlib import Path
+from typing import Dict, List
 
-d = 'c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/01_ストーリー'
-out = 'c:/Users/hirak/Desktop/2nd-Brain/verify_result.txt'
-ep5 = sorted([f for f in os.listdir(d) if f.endswith('.md') and '.5_' in f])
-themes = ['未来年表','複利','ドルコスト平均法','逆張り','長期投資','分散投資','配当貴族','FIRE']
+SOURCE_DIR = Path(
+    r"c:/Users/hirak/Desktop/2nd-Brain/18_繝ｬ繝滓兜雉・ｼｫ逕ｻ/繝槭Φ繧ｬ繝・01_髟ｷ邱ｨ_蟶梧悍縺ｮ謚戊ｳ・01_繧ｹ繝医・繝ｪ繝ｼ"
+)
+OUTPUT_FILE = Path(r"c:/Users/hirak/Desktop/2nd-Brain/verify_result.txt")
+EPISODE_MARKER = ".5_"
 
-with open(out, 'w', encoding='utf-8') as o:
-    o.write(f'EPxx.5 files: {len(ep5)}\n')
-    for f in ep5:
-        o.write(f'  {f}\n')
-    o.write('\n')
+THEMES = [
+    "譛ｪ譚･蟷ｴ陦ｨ",
+    "隍・茜",
+    "繝峨Ν繧ｳ繧ｹ繝亥ｹｳ蝮・ｳ・,",
+    "騾・ｼｵ繧・,",
+    "髟ｷ譛滓兜雉・,",
+    "蛻・淵謚戊ｳ・,",
+    "驟榊ｽ楢ｲｴ譌・,",
+    "FIRE",
+]
 
-    for f in ep5:
-        fp = os.path.join(d, f)
-        with open(fp, 'r', encoding='utf-8-sig', errors='replace') as fh:
-            c = fh.read()
-        o.write(f'--- {f} ---\n')
-        o.write(f'  KW: {"OK" if "キーワード枠" in c else "NG"}\n')
-        o.write(f'  YT: {"OK" if "優斗の成長" in c else "NG"}\n')
-        o.write(f'  TN: {"OK" if "田中の対比" in c else "NG"}\n')
-        found = [t for t in themes if t in c]
-        o.write(f'  TH: {found}\n')
-        o.write(f'  RM: {"OK" if "レミの解説" in c else "NG"}\n\n')
+KEYWORDS: Dict[str, str] = {
+    "KW": "繧ｭ繝ｼ繝ｯ繝ｼ繝画棧",
+    "YT": "蜆ｪ譁励・謌宣聞",
+    "TN": "逕ｰ荳ｭ縺ｮ蟇ｾ豈・",
+    "RM": "繝ｬ繝溘・隗｣隱ｬ",
+}
+
+
+def list_episode_files(directory: Path) -> List[Path]:
+    return sorted(
+        [path for path in directory.iterdir() if path.is_file() and path.suffix == ".md" and EPISODE_MARKER in path.name]
+    )
+
+
+def check_markers(content: str) -> Dict[str, str]:
+    return {key: "OK" if token in content else "NG" for key, token in KEYWORDS.items()}
+
+
+def main() -> None:
+    episode_files = list_episode_files(SOURCE_DIR)
+
+    with OUTPUT_FILE.open("w", encoding="utf-8") as output:
+        output.write(f"EPxx.5 files: {len(episode_files)}\n")
+        for file_path in episode_files:
+            output.write(f"  {file_path.name}\n")
+        output.write("\n")
+
+        for file_path in episode_files:
+            content = file_path.read_text(encoding="utf-8-sig", errors="replace")
+            status = check_markers(content)
+            found_themes = [theme for theme in THEMES if theme in content]
+
+            output.write(f"--- {file_path.name} ---\n")
+            output.write(f"  KW: {status['KW']}\n")
+            output.write(f"  YT: {status['YT']}\n")
+            output.write(f"  TN: {status['TN']}\n")
+            output.write(f"  TH: {found_themes}\n")
+            output.write(f"  RM: {status['RM']}\n\n")
+
+
+if __name__ == "__main__":
+    main()

@@ -32,6 +32,11 @@ logging.basicConfig(
     encoding='utf-8'
 )
 
+
+def format_md_date(value: datetime.date) -> str:
+    """Return M/D format in a Windows-compatible way."""
+    return f"{value.month}/{value.day}"
+
 def send_notification(title, message):
     """Sends a Windows Toast notification using PowerShell."""
     try:
@@ -120,7 +125,7 @@ def update_markdown(data):
     try:
         content = DIET_MD_PATH.read_text(encoding='utf-8')
         
-        date_str = data['date'].strftime("%-m/%-d") # e.g., 2/14
+        date_str = format_md_date(data['date'])  # e.g., 2/14
         weight = data.get('weight')
         fat = data.get('fat')
         bp = data.get('bp', '-')

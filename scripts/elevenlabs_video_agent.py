@@ -1,10 +1,9 @@
 import os
-import time
 import requests
 import json
-import random
-from moviepy.editor import VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip, ColorClip, concatenate_videoclips
+from moviepy.editor import VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip, ColorClip
 import openai
+from typing import Any, Dict, Optional
 
 # --- Configuration ---
 # 1. VOICEVOX Settings (Must be running locally)
@@ -22,7 +21,7 @@ OLLAMA_MODEL = "gemma2" # or "llama3", "mistral", etc.
 
 # --- Functions ---
 
-def generate_script(topic):
+def generate_script(topic: str) -> Dict[str, Any]:
     """
     Uses LLM (Ollama or OpenAI) to generate a short script and search keywords.
     """
@@ -48,7 +47,7 @@ def generate_script(topic):
             "stream": False,
             "format": "json"
         }
-        res = requests.post(OLLAMA_URL, json=data)
+        res = requests.post(OLLAMA_URL, json=data, timeout=30)
         if res.status_code == 200:
             content = res.json()["message"]["content"]
             return json.loads(content)
@@ -68,9 +67,9 @@ def generate_script(topic):
         )
         return json.loads(response.choices[0].message.content)
     
-    raise Exception("No LLM available. Please ensure Ollama is running (localhost:11434) or OPENAI_API_KEY is set.")
+    raise RuntimeError("No LLM available. Ensure Ollama is running (localhost:11434) or OPENAI_API_KEY is set.")
 
-def synthesize_voicevox(text, filename="output_audio.wav"):
+def synthesize_voicevox(text: str, filename: str = "output_audio.wav") -> Optional[str]:
     """
     Generates audio using local VOICEVOX engine.
     """
@@ -79,7 +78,7 @@ def synthesize_voicevox(text, filename="output_audio.wav"):
     # 1. Create Audio Query
     params = {"text": text, "speaker": SPEAKER_ID}
     try:
-        query_res = requests.post(f"{VOICEVOX_URL}/audio_query", params=params)
+        query_res = requests.post(f"{VOICEVOX_URL}/audio_query", params=params, timeout=30)
         query_res.raise_for_status()
         query_json = query_res.json()
 
@@ -87,7 +86,8 @@ def synthesize_voicevox(text, filename="output_audio.wav"):
         synth_res = requests.post(
             f"{VOICEVOX_URL}/synthesis",
             params={"speaker": SPEAKER_ID},
-            json=query_json
+            json=query_json,
+            timeout=60,
         )
         synth_res.raise_for_status()
 
@@ -99,7 +99,7 @@ def synthesize_voicevox(text, filename="output_audio.wav"):
         print("Please ensure VOICEVOX is running on port 50021.")
         return None
 
-def download_pexels_video(query, filename="stock_video.mp4"):
+def download_pexels_video(query: str, filename: str = "stock_video.mp4") -> Optional[str]:
     """
     Searches and downloads a video from Pexels (Free).
     """
@@ -112,7 +112,7 @@ def download_pexels_video(query, filename="stock_video.mp4"):
     url = f"https://api.pexels.com/videos/search?query={query}&per_page=1&orientation=landscape"
     
     try:
-        res = requests.get(url, headers=headers)
+        res = requests.get(url, headers=headers, timeout=30)
         res.raise_for_status()
         data = res.json()
         
@@ -123,7 +123,7 @@ def download_pexels_video(query, filename="stock_video.mp4"):
             download_link = target_video["link"]
             
             print("Downloading video...")
-            video_data = requests.get(download_link).content
+            video_data = requests.get(download_link, timeout=60).content
             with open(filename, "wb") as f:
                 f.write(video_data)
             return filename
@@ -134,7 +134,7 @@ def download_pexels_video(query, filename="stock_video.mp4"):
         print(f"Pexels API Error: {e}")
         return None
 
-def create_final_video(audio_path, video_path, text_overlay, output_path="final_result.mp4"):
+def create_final_video(audio_path: str, video_path: Optional[str], text_overlay: str, output_path: str = "final_result.mp4") -> None:
     """
     Combines Audio, Video (or Color Background), and Text Overlay.
     """

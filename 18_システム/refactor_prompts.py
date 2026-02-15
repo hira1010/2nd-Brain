@@ -6,11 +6,12 @@ Delegates to smart_refactor.py for batch processing.
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 
 def run_smart_refactor_all() -> None:
-    script_path = os.path.join(os.path.dirname(__file__), "smart_refactor.py")
-    subprocess.run([sys.executable, script_path, "--all"], check=True)
+    script_path = Path(__file__).resolve().parent / "smart_refactor.py"
+    subprocess.run([sys.executable, str(script_path), "--all"], check=True)
 
 
 def main() -> None:
