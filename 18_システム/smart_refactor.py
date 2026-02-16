@@ -1,167 +1,182 @@
-"""
-Smart Refactoring Script.
-Updates manga prompt files to the latest high-quality template.
-Refactored to use modular `manga_core` package.
-"""
+"""Refactor manga prompt markdown files using a common template."""
 
-import os
-import sys
 import argparse
 import random
+import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional, Set
+from typing import Dict, Iterator, Optional, Set, Tuple
 
-# Add current directory to path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+CURRENT_DIR = Path(__file__).resolve().parent
+if str(CURRENT_DIR) not in sys.path:
+    sys.path.append(str(CURRENT_DIR))
 
 import manga_config
 import manga_utils
 from manga_core.file_handler import FileHandler
-from manga_core.template_manager import TemplateManager
 from manga_core.models import MangaEpisode
+from manga_core.template_manager import TemplateManager
 
 logger = manga_utils.setup_logger("smart_refactor")
+
 DEFAULT_CATEGORY = "Uncategorized"
+TEMPLATE_NAME = "manga_prompt.md"
+DEFAULT_DIALOGUES: Dict[str, str] = {
+    "Intro": "Dialogue Intro",
+    "Teach": "Dialogue Teach",
+    "Desc": "Dialogue Desc",
+    "Action": "Dialogue Action",
+}
+
 
 class MangaRefactorer:
-    """
-    Handles the refactoring process using the new core modules.
-    """
+    """Handle prompt refactoring for one file or a batch of files."""
 
-    def __init__(self, dry_run: bool = False):
+    def __init__(self, dry_run: bool = False) -> None:
         self.dry_run = dry_run
         self.template_manager = TemplateManager(manga_config.TEMPLATES_DIR)
-        self.target_leaf_dirs: Set[str] = {Path(target).name for target in manga_config.TARGET_DIRS}
+        self.target_leaf_dirs: Set[str] = {
+            Path(target).name for target in manga_config.TARGET_DIRS
+        }
 
-    def process_file(self, file_path: str) -> bool:
-        """
-        Refactors a single file. Returns True if successful.
-        """
+    def process_file(self, file_path: Path) -> bool:
+        """Refactor a single markdown file and return success state."""
         path = Path(file_path)
-        logger.info(f"Processing: {path}")
+        logger.info("Processing: %s", path)
+
+        content = FileHandler.read_file(path)
+        if not content:
+            logger.error("File content is empty or unreadable: %s", path)
+            return False
 
         try:
-            content = FileHandler.read_file(path)
-            if not content:
-                return False
-
             episode = self._build_episode(path, content)
-
-            # Get Dialogues
-            dialogues = manga_utils.get_dialogues(content, episode.title, episode.desc)
-
-            # Generate New Content
+            extracted_dialogues = manga_utils.get_dialogues(
+                content, episode.title, episode.desc
+            )
+            dialogues = {**DEFAULT_DIALOGUES, **extracted_dialogues}
             new_content = self._generate_content(episode, dialogues)
+        except Exception as exc:
+            logger.error("Error preparing refactor for %s: %s", path, exc)
+            return False
 
-            if not new_content:
-                logger.error("Failed to generate content.")
-                return False
+        if not new_content:
+            logger.error("Failed to generate content for %s", path)
+            return False
 
-            # Write or Log
-            if self.dry_run:
-                logger.info(f"[DRY-RUN] Would update {path} (No.{episode.no} {episode.title})")
-                logger.debug(f"Preview:\n{new_content[:500]}...")
-            else:
-                success = FileHandler.write_file(path, new_content)
-                if success:
-                    logger.info(f"Successfully refactored: {path}")
-                else:
-                    logger.error(f"Failed to write to {path}")
-            
+        if self.dry_run:
+            logger.info(
+                "[DRY-RUN] Would update %s (No.%s %s)",
+                path,
+                episode.no,
+                episode.title,
+            )
             return True
 
-        except Exception as e:
-            logger.error(f"Error processing {path}: {e}")
-            return False
+        success = FileHandler.write_file(path, new_content)
+        if success:
+            logger.info("Successfully refactored: %s", path)
+        else:
+            logger.error("Failed to write to %s", path)
+        return success
 
     def _build_episode(self, path: Path, content: str) -> MangaEpisode:
         info = manga_utils.extract_info_from_md(content)
-        parent_dir_name = path.parent.name
         return MangaEpisode(
             no=info.get("no", "00"),
             title=info.get("title", "Unknown"),
             desc=info.get("desc", ""),
-            category=self._resolve_category(info.get("category"), parent_dir_name),
+            category=self._resolve_category(info.get("category"), path.parent.name),
         )
 
-    def _resolve_category(self, extracted_category: Optional[str], parent_dir_name: str) -> str:
+    def _resolve_category(
+        self, extracted_category: Optional[str], parent_dir_name: str
+    ) -> str:
         if parent_dir_name in self.target_leaf_dirs:
             return parent_dir_name
         return extracted_category or DEFAULT_CATEGORY
 
-    def _generate_content(self, episode: MangaEpisode, dialogues: Dict[str, str]) -> Optional[str]:
-        """
-        Generates the full markdown content using the external template.
-        """
-        template_content = self.template_manager.load_template("manga_prompt.md")
+    def _generate_content(
+        self, episode: MangaEpisode, dialogues: Dict[str, str]
+    ) -> Optional[str]:
+        """Generate markdown from the configured template."""
+        template_content = self.template_manager.load_template(TEMPLATE_NAME)
         if not template_content:
             return None
 
-        # Select a random scene
         scene = random.choice(manga_config.SCENES)
-        
-        # Prepare template variables
-        # Note: Visual locks are now hardcoded in the template for strict consistency,
-        # so we don't need to inject CHARACTER_SETTINGS anymore.
-        
-        return template_content.format(
-            NO=episode.no,
-            # Clean NO for filenames (remove leading zeros if needed, or keep as is)
-            NO_CLEAN=episode.no.lstrip('0') or '0',
-            TITLE=episode.title,
-            DESC=episode.desc,
-            CATEGORY=episode.category,
-            SCENE=scene,
-            DIALOGUE_INTRO=dialogues["Intro"],
-            DIALOGUE_TEACH=dialogues["Teach"],
-            DIALOGUE_DESC=dialogues["Desc"],
-            DIALOGUE_ACTION=dialogues["Action"],
-            TODAY=datetime.now().strftime('%Y-%m-%d')
-        )
+        try:
+            return template_content.format(
+                NO=episode.no,
+                NO_CLEAN=episode.no.lstrip("0") or "0",
+                TITLE=episode.title,
+                DESC=episode.desc,
+                CATEGORY=episode.category,
+                SCENE=scene,
+                DIALOGUE_INTRO=dialogues["Intro"],
+                DIALOGUE_TEACH=dialogues["Teach"],
+                DIALOGUE_DESC=dialogues["Desc"],
+                DIALOGUE_ACTION=dialogues["Action"],
+                TODAY=datetime.now().strftime("%Y-%m-%d"),
+            )
+        except KeyError as exc:
+            logger.error("Template placeholder missing: %s", exc)
+            return None
 
-    def run_all(self):
-        """
-        Processes all files in the target directories defined in config.
-        """
-        total_count = 0
-        success_count = 0
-        
+    def iter_target_files(self) -> Iterator[Path]:
+        """Yield markdown files from configured target directories."""
         for subdir in manga_config.TARGET_DIRS:
             target_dir = manga_config.BASE_DIR / subdir
-            
             if not target_dir.exists():
-                logger.warning(f"Directory not found: {target_dir}")
+                logger.warning("Directory not found: %s", target_dir)
                 continue
-                
-            logger.info(f"Scanning directory: {subdir}")
-            for item in target_dir.iterdir():
+
+            logger.info("Scanning directory: %s", subdir)
+            for item in sorted(target_dir.iterdir()):
                 if item.is_file() and item.suffix.lower() == ".md":
-                    if self.process_file(str(item)):
-                        success_count += 1
-                    total_count += 1
-        
-        logger.info(f"Batch processing complete. Total: {total_count}, Success: {success_count}")
+                    yield item
+
+    def run_all(self) -> Tuple[int, int]:
+        """Process all configured markdown files and return (total, success)."""
+        total_count = 0
+        success_count = 0
+
+        for file_path in self.iter_target_files():
+            total_count += 1
+            if self.process_file(file_path):
+                success_count += 1
+
+        logger.info(
+            "Batch processing complete. Total: %s, Success: %s",
+            total_count,
+            success_count,
+        )
+        return total_count, success_count
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Smart refactor manga prompts")
-    parser.add_argument("--target", help="Specific file to process")
-    parser.add_argument("--all", action="store_true", help="Process all files in target directories")
-    parser.add_argument("--dry-run", action="store_true", help="Show what would be changed without writing")
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--target", help="Specific file to process")
+    mode.add_argument(
+        "--all", action="store_true", help="Process all files in target directories"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Show changes without writing"
+    )
     return parser.parse_args()
 
 
-def main():
+def main() -> int:
     args = parse_args()
-
     refactorer = MangaRefactorer(dry_run=args.dry_run)
 
     if args.target:
-        refactorer.process_file(args.target)
-    elif args.all:
-        refactorer.run_all()
-    else:
-        logger.error("Specify either --target <file> or --all.")
+        return 0 if refactorer.process_file(Path(args.target)) else 1
+
+    total, success = refactorer.run_all()
+    return 0 if total == success else 1
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

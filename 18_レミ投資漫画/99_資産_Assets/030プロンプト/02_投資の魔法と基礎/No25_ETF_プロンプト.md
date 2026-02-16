@@ -1,76 +1,57 @@
-# No.25 ETF 2P Manga Prompt
+# Episode 25: ETF
 
-## TIP Information
+## TIPS情報
 
-| Item | Content |
+| 項目 | 内容 |
 | :--- | :--- |
-| No | 25 |
-| Title | ETF |
-| Description |  |
-| Category | Uncategorized |
+| EP | 25 |
+| タイトル | ETF |
+| 解説 |  |
 
 ---
 
-## Character Settings (Global)
+## Page 1 (The Hook)
 
-### Remi - Visual Lock
-- **Hair**: Waist-length straight silver hair, center-parted bangs
-- **Eyes**: Sharp ruby red eyes, long eyelashes
-- **Outfit**: Deep crimson business blazer (red buttons), white shirt, **NO gloves**
-- **Figure**: Slim, tall, adult woman, elegant posture
-- **Expression**: Intelligent, confident smile, calm
+```javascript
+generate_image(
+  ImageName: "remi_ep25_p1_v1",
+  Prompt: "((Vertical Portrait A4 Ratio)), ((Long Strip Format)), ((Manga Page Layout)). ((NO TEXT, NO WORDS, NO LABELS)). (High Quality Manga Layout). (Full Bleed).
 
-### Yuto - Visual Lock
-- **Hair**: Short black hair, neat style
-- **Eyes**: Black eyes, pure expression
-- **Outfit**: Traditional black gakuran (school uniform), stand-up collar, **NO gloves**
-- **Figure**: Standard teenage boy build
-- **Expression**: Curious, earnest learning posture
+[Scene]:
+Remi: ((Crimson Red Suit Jacket)), ((Black Lace High-neck Camisole)), ((Tight Red Skirt)). (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face). **VISUAL LOCK**.
+Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slightly messy). **VISUAL LOCK**.
 
+[Panel 1]: Luxurious lounge bar with night city view. Remi stands calmly next to a large holographic display showing 'ETF'. Unlike usual, the screen shows a simple balanced symbol. Yuto looks puzzled.
+[Panel 2]: Close-up. Remi's face, mysterious. **STRICT SPEECH BUBBLE**: 'Dialogue Intro'
+[Panel 3]: Visualization. A clear comparison or balanced symbolic image representing the core concept of 'ETF'. Remi points to the correct/positive side. **STRICT SPEECH BUBBLE**: 'Dialogue Teach'
 
----
+(Style: Premium Digital Anime, Mathematical surrealism, Cosmic scales, Glowing geometric patterns).
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
+"
+)
+```
 
-## Page 1 Prompt
+## Page 2 (The Insight)
 
-```text
-【IMAGE_GENERATION_TASK】Generate a high-quality manga illustration BASE ON THE FOLLOWING VISUAL DESCRIPTION. DO NOT OUTPUT ANY TEXT OR CODE. ONLY OUTPUT THE IMAGE.
+```javascript
+generate_image(
+  ImageName: "remi_ep25_p2_v1",
+  Prompt: "((Vertical Portrait A4 Ratio)), ((Long Strip Format)), ((Manga Page Layout)). ((NO TEXT, NO WORDS, NO LABELS)). (High Quality Manga Layout). (Full Bleed).
 
-PAGE 1 LAYOUT: 1200x1697 pixels portrait. Vertical dynamic layout.
-Panel 1 (Top 40%): Luxurious lounge bar with night city view. Remi (Silver hair, Red eyes, Red blazer) stands calmly next to a large holographic display showing "ETF". Unlike usual, the screen shows a simple balanced symbol representing the concept, not complex charts. Yuto (Black hair, Gakuran) looks puzzled. Remi says "Dialogue Intro" (In a speech bubble). Title box: BLACK SLENDER box at bottom-left offset with white text "ETF".
-Panel 2 (Middle 30%): CONCEPTUAL ILLUSTRATION. Visual metaphor for 'ETF'. A clear comparison or balanced symbolic image representing the core concept of ETF. Remi points to the correct/positive side. She says "Dialogue Teach" (In a speech bubble).
-Panel 3 (Bottom-Right 15%): Yuto nodding with deep understanding. "I see... so that is what it means."
-Panel 4 (Bottom-Left 15%): Remi's side profile, smiling gently (not smug).
-Art style: Japanese manga style, cel shading, bright colors. Characters: Remi has Silver hair, Red eyes, Red blazer. Yuto has Black Gakuran. NO GLOVES.
+[Scene]:
+Remi: ((Crimson Red Suit Jacket)), ((Black Lace High-neck Camisole)), ((Tight Red Skirt)). (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face). **VISUAL LOCK**.
+Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slightly messy). **VISUAL LOCK**.
+
+[Panel 1]: Visual Manifestation. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'ETF'. It shines brighter than the Background elements. **STRICT SPEECH BUBBLE**: 'Dialogue Desc'
+[Panel 2]: Contrast Scene. Remi stands in a split world. On her left, a chaotic storm representing 'Risk/Confusion'. On her right, a peaceful, golden garden representing 'ETF'. She calmly points towards the peace.
+[Panel 3]: Realization. Yuto looking enlightened and relieved. **STRICT SPEECH BUBBLE**: 'Dialogue Action'
+
+(Style: Premium Digital Anime, Breathtaking miracle, Particle effects, Divine lighting).
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
+"
+)
 ```
 
 ---
 
-## Page 2 Prompt
-
-```text
-【IMAGE_GENERATION_TASK】Generate high-quality manga. VISUAL CONSISTENCY IS CRITICAL.
-
-PAGE 2 LAYOUT: 1200x1697 pixels portrait.
-Panel 1 (Top 40%): VISUAL MANIFESTATION. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'ETF'. It shines brighter than the Background elements. She looks gentle and wise. "Dialogue Desc" (In a speech bubble).
-Panel 2 (Middle 30%): CONTRAST SCENE (Metaphor). Remi stands in a split world. On her left, a chaotic storm or complex abstract shapes representing 'Confusion/Risk'. On her right, a peaceful, golden garden or orderly structure representing 'ETF'. She calmly points towards the peace/order.
-Panel 3 (Bottom-Right 15%): Yuto visualizing his own happiness or success—simple joys and stable future, appearing in golden bubbles.
-Panel 4 (Bottom-Left 15%): Yuto looking enlightened and relieved (Realization). Yuto says "Dialogue Action" (In a speech bubble). Remi smiles gently, watching him grow. (No text for Remi).
-Art style: Cinematic lighting, Gold/Purple theme. NO GLOVES.
-```
-
----
-
-## Variables
-
-### Page 1
-| Var | Value |
-| -- | -- |
-| NO | 25 |
-| TITLE | ETF |
-| INTRO | Dialogue Intro |
-| TEACH | Dialogue Teach |
-| SCENE | Luxurious lounge bar with night city view |
-
----
-
-Created: 2026-02-10
+Created: 2026-02-16
