@@ -1,31 +1,29 @@
 #!/usr/bin/env python3
 """
-資産データ同期スクリプト (Refactored Version)
-
-Googleスプレッドシートから配当金・資産データを取得し、
-Markdownファイルを自動更新します。
+資産データ同期スクリプト
+Googleスプレッドシートから配当金・資産データを取得し、Markdownファイルを自動更新します。
 """
 
+import os
+import sys
 import re
 from datetime import datetime
 from typing import Dict, List, Optional, Any
-from io import StringIO
 import logging
 
-try:
-    import pandas as pd
-    import requests
-except ImportError:
-    print("エラー: 必要なライブラリがインストールされていません。")
-    print("以下のコマンドを実行してください: pip install pandas requests")
-    exit(1)
+# プロジェクトルートをパスに追加（libのインポート用）
+lib_parent = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if lib_parent not in sys.path:
+    sys.path.append(lib_parent)
 
-# === 設定 (Constants) ===
-SHEET_ID = "1lnN_z84DLknNWbQX0YWzHiyn5Ea_Hue9TbxQeHSe3HA"
+from lib import config, utils, sheets
+
+# === 設定 ===
+# lib/config から値を引き継ぎつつ、このスクリプト固有のGIDなどを定義
+SHEET_ID = config.ASSETS_SHEET_ID
 GID = "709056658"
-# パスを共通管理可能に (将来的に manga_config へ移管も検討)
-MD_FILE_PATH = r"c:\Users\hirak\Desktop\2nd-Brain\07_株\配当金・資産推移.md"
-CSV_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GID}"
+# ターゲットとなるMarkdownファイルのパス
+MD_FILE_PATH = config.STOCKS_DIR / "配当金・資産推移.md"
 
 # スプレッドシート内のデータ位置（ゼロベースインデックス）
 YEAR_2026_COLUMN = 10  # K列
@@ -34,36 +32,18 @@ TOTAL_ROW = 14         # 合計行
 GROWTH_RATE_ROW = 15   # 伸び率行
 ASSET_ROW = 16         # 資産行
 
-# ログの設定
-logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
-logger = logging.getLogger("sync_assets")
-
-def fetch_csv_data() -> pd.DataFrame:
-    """
-    スプレッドシートからCSVデータを取得し、DataFrameとして返す。
-    """
-    logger.info(f"データ取得中: {CSV_URL}")
-    try:
-        response = requests.get(CSV_URL, timeout=10)
-        response.raise_for_status()
-        return pd.read_csv(StringIO(response.text), header=None)
-    except requests.RequestException as e:
-        logger.error(f"スプレッドシートの取得に失敗しました: {e}")
-        raise
+logger = utils.setup_logger("sync_assets")
 
 def format_value(value: Any) -> str:
-    """
-    数値を文字列に整形（0やNaNは'-'に変換）。
-    """
+    """数値を文字列に整形（0やNaNは'-'に変換）。"""
+    import pandas as pd
     if pd.isna(value) or value == 0:
         return "-"
-    # 小数点以下を削除
     return str(int(float(value))) if isinstance(value, (int, float)) else str(value)
 
 def format_percentage(value: Any) -> str:
-    """
-    パーセンテージ値を整形。
-    """
+    """パーセンテージ値を整形。"""
+    import pandas as pd
     if pd.isna(value):
         return "-"
     val_str = str(value).replace("%", "").strip()
@@ -73,17 +53,14 @@ def format_percentage(value: Any) -> str:
         return str(value)
 
 def format_asset(value: Any) -> str:
-    """
-    資産値を整形（そのまま返す、または特定のフォーマットがあれば適用）。
-    """
+    """資産値を整形。"""
+    import pandas as pd
     if pd.isna(value):
         return "-"
     return str(value)
 
-def extract_2026_data(df: pd.DataFrame) -> Dict[str, str]:
-    """
-    スプレッドシートから2026年のデータを抽出して整形。
-    """
+def extract_2026_data(df) -> Dict[str, str]:
+    """スプレッドシートから2026年のデータを抽出して整形。"""
     data = {}
     
     # 月別データ
@@ -97,13 +74,13 @@ def extract_2026_data(df: pd.DataFrame) -> Dict[str, str]:
             data[month_key] = "-"
     
     # サマリーデータ
-    summary_map = {
+    summary_config = {
         "合計": (TOTAL_ROW, format_value),
         "伸び率": (GROWTH_RATE_ROW, format_percentage),
         "資産": (ASSET_ROW, format_asset)
     }
     
-    for key, (row, func) in summary_map.items():
+    for key, (row, func) in summary_config.items():
         try:
             val = df.iloc[row, YEAR_2026_COLUMN]
             data[key] = func(val)
@@ -114,21 +91,16 @@ def extract_2026_data(df: pd.DataFrame) -> Dict[str, str]:
     return data
 
 def update_month_row(line: str, value: str) -> str:
-    """
-    月別行の2026年カラムを更新。
-    """
+    """月別行の2026年カラムを更新。"""
     parts = line.split('|')
     if len(parts) >= 12:
-        # 値がある場合は太字、ない場合は通常
         formatted = f" **{value}** " if value != "-" else f" {value} "
         parts[11] = formatted
         return '|'.join(parts)
     return line
 
 def update_summary_row(line: str, value: str, bold: bool = True) -> str:
-    """
-    サマリー行（合計・資産など）の2026年カラムを更新。
-    """
+    """サマリー行（合計・資産など）の2026年カラムを更新。"""
     parts = line.split('|')
     if len(parts) >= 12:
         formatted = f" **{value}** " if bold else f" {value} "
@@ -137,9 +109,7 @@ def update_summary_row(line: str, value: str, bold: bool = True) -> str:
     return line
 
 def update_markdown_table(content: str, data: Dict[str, str]) -> str:
-    """
-    Markdown内のテーブルを更新。
-    """
+    """Markdown内のテーブルを更新。"""
     lines = content.splitlines()
     updated_lines = []
     
@@ -164,36 +134,35 @@ def update_markdown_table(content: str, data: Dict[str, str]) -> str:
     return "\n".join(updated_lines)
 
 def sync() -> bool:
-    """
-    メイン同期処理。
-    """
+    """メイン同期処理。"""
     logger.info(f"資産データ同期を開始 (ターゲット: {MD_FILE_PATH})")
     
     try:
         # 1. データ取得
-        df = fetch_csv_data()
-        
+        df = sheets.fetch_csv_from_google_sheets(SHEET_ID, GID)
+        if df is None:
+            return False
+            
         # 2. データ抽出
         data = extract_2026_data(df)
         logger.info(f"抽出完了 - 資産: {data.get('資産', '-')}, 伸び率: {data.get('伸び率', '-')}")
         
         # 3. Markdown更新
-        with open(MD_FILE_PATH, 'r', encoding='utf-8') as f:
-            content = f.read()
+        content = utils.FileIO.read_text(MD_FILE_PATH)
+        if content is None:
+            return False
         
         updated_content = update_markdown_table(content, data)
+        success = utils.FileIO.write_text(MD_FILE_PATH, updated_content)
         
-        with open(MD_FILE_PATH, 'w', encoding='utf-8') as f:
-            f.write(updated_content)
-        
-        logger.info("✓ 資産データの同期が完了しました。")
-        return True
+        if success:
+            logger.info("✓ 資産データの同期が完了しました。")
+        return success
         
     except Exception as e:
         logger.error(f"同期中にエラーが発生しました: {e}")
         return False
 
 if __name__ == "__main__":
-    import sys
     success = sync()
     sys.exit(0 if success else 1)

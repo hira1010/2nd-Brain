@@ -1,21 +1,30 @@
 """
-Manga production system configuration file.
-Defines constants and paths for the manga prompt generation system.
+漫画制作システムの設定ファイル。
+プロンプト生成システムのための定数とパスを定義します。
 """
 
+import sys
+import os
 from pathlib import Path
 from typing import List, Dict
 
-# ==========================================
-# Path Considerations
-# ==========================================
-# Base directory for the manga project
-BASE_DIR = Path(r"c:\Users\hirak\Desktop\2nd-Brain\18_レミ投資漫画")
+# プロジェクトルートをパスに追加（libのインポート用）
+lib_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib')
+if lib_path not in sys.path:
+    sys.path.append(os.path.dirname(lib_path))
 
-# Directory containing external templates
+from lib import config
+
+# ==========================================
+# パス設定
+# ==========================================
+# 漫画プロジェクトのベースディレクトリ（lib/config.py から取得）
+BASE_DIR = config.MANGA_DIR
+
+# 外部テンプレートを格納するディレクトリ
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 
-# Target directories to process
+# 処理対象のディレクトリ
 TARGET_DIRS: List[str] = [
     "030プロンプト/01_現状把握と脱労働",
     "030プロンプト/02_投資の魔法と基礎",
@@ -29,15 +38,13 @@ TARGET_DIRS: List[str] = [
 ]
 
 # ==========================================
-# Visual Settings
+# ビジュアル設定
 # ==========================================
-# High Quality Vertical A4 Ratio (Approximate pixels for 300dpi A4)
-# Note: The prompt uses "Vertical Portrait A4 Ratio" textual tag, 
-# but these dimensions might be used for other programatic needs.
+# 高画質 垂直 A4 比率 (300dpi A4 に基づく近似ピクセル)
 IMAGE_WIDTH: int = 2480
 IMAGE_HEIGHT: int = 3508
 
-# Scene variations (Background options)
+# シーン（背景）のバリエーション
 SCENES: List[str] = [
     "Modern high-rise office with panoramic city view",
     "Stylish cafe with warm lighting and wooden furniture",
@@ -46,8 +53,8 @@ SCENES: List[str] = [
     "Quiet library or study room with bookshelves"
 ]
 
-# Character visual settings (visual lock) - Kept for reference, 
-# though the template now strictly enforces them inline.
+# キャラクターのビジュアル設定 (Visual Lock)
+# テンプレートにハードコードされるものですが、参照用に保持。
 CHARACTER_SETTINGS_EN: str = """## Character Settings (Global)
 ### Remi - Visual Lock
 - **Hair**: Waist-length straight silver hair, center-parted bangs
