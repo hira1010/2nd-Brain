@@ -1,16 +1,8 @@
-﻿"""
+"""
 Legacy wrapper for running smart_refactor.py on all target files.
 """
 
-import os
-import subprocess
-import sys
-from pathlib import Path
-
-
-def run_smart_refactor_all() -> None:
-    script_path = Path(__file__).resolve().parent / "smart_refactor.py"
-    subprocess.run([sys.executable, str(script_path), "--all"], check=True)
+from _smart_refactor_runner import run_smart_refactor_all
 
 
 def main() -> None:
