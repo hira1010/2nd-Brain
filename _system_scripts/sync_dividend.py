@@ -13,7 +13,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 import re
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from lib import config, utils
+from lib import config, utils, sheets
 
 # 初期化
 logger = utils.initialize_script("sync_dividend")
@@ -22,15 +22,14 @@ def sync_dividend_data():
     try:
         logger.info("Starting sync process...")
         
-        # 1. Google Sheets API認証
-        scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-        creds = ServiceAccountCredentials.from_json_keyfile_name(str(config.CREDENTIALS_FILE), scope)
-        client = gspread.authorize(creds)
-        
-        # 2. スプレッドシートを開く
-        sheet = client.open_by_key(config.ASSETS_SHEET_ID).sheet1
-        all_values = sheet.get_all_values()
-        
+        # 1. Google Sheets API連携 (libを使用して認証)
+        client = sheets.GSheetClient()
+        all_values = client.get_sheet_values(config.ASSETS_SHEET_ID)
+
+        if not all_values:
+            logger.error("Failed to retrieve data from sheet.")
+            return
+
         target_year = '2026'
         
         # 3. データの抽出

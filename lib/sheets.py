@@ -1,14 +1,46 @@
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from io import StringIO
-from typing import Optional
+from typing import Optional, List, Dict
 
 import pandas as pd
 import requests
 
-from . import utils
+from . import utils, config
 
 
 CSV_TIMEOUT_SECONDS = 30
 logger = utils.setup_logger("lib.sheets")
+
+
+class GSheetClient:
+    """Class to handle authenticated access to Google Sheets via gspread."""
+    
+    def __init__(self, credentials_file: str = str(config.CREDENTIALS_FILE)):
+        self.credentials_file = credentials_file
+        self.scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+        self.client = None
+
+    def _authorize(self):
+        """Authorize and return the gspread client."""
+        if self.client is None:
+            try:
+                creds = ServiceAccountCredentials.from_json_keyfile_name(self.credentials_file, self.scope)
+                self.client = gspread.authorize(creds)
+            except Exception as e:
+                logger.error("Failed to authorize Google Sheets API: %s", e)
+                raise
+        return self.client
+
+    def get_sheet_values(self, sheet_id: str, worksheet_index: int = 0) -> List[List[str]]:
+        """Fetch all values from a specific worksheet as a list of lists."""
+        try:
+            client = self._authorize()
+            sheet = client.open_by_key(sheet_id).get_worksheet(worksheet_index)
+            return sheet.get_all_values()
+        except Exception as e:
+            logger.error("Failed to fetch values from sheet %s: %s", sheet_id, e)
+            return []
 
 
 def fetch_csv_from_google_sheets(sheet_id: str, gid: str = "0") -> Optional[pd.DataFrame]:

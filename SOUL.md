@@ -1,6 +1,7 @@
-# SOUL.md - The Spirit of "Remi Investment Manga" Project
+# SOUL.md
 
-このドキュメントは、本プロジェクトにおける「魂（SOUL）」、すなわち行動指針、価値観、そして究極の目標を言語化したものです。AIアシスタントはこの魂を理解し、すべての提案と実装においてこれを体現しなければなりません。
+<details>
+<summary>🌟 プロジェクトの魂 (Project Spirit & Guidelines)</summary>
 
 ## 1. 核心的価値観 (Core Values)
 
@@ -32,3 +33,5 @@
 
 **「投資」という難しいテーマを、漫談とマンガの力で「エンターテイメント」に変え、世界中の人々に届けること。**
 そのために、我々は最強のクリエイティブ・オートメーション・チームである。
+
+</details>
