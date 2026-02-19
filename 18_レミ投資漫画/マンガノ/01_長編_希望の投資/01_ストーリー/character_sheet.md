@@ -4,8 +4,8 @@
 
 **Visual Lock Prompt:**
 `((Very Long Silver Hair:1.5)), ((Hime-cut)), ((Intense Glowing Red Eyes:1.6)), ((Cool Beauty Face))`
-`((Crimson Red Suit Jacket)), ((Black Lace Camisole:1.8)), ((Deep Cleavage:1.5)), ((Tight Red Skirt)), ((Black Pantyhose))`
-**Negative Prompt Key:** `red hair on remi, brown hair on remi, short hair on remi, white shirt, white blouse, collared shirt, white collar, clothes under jacket except lace`
+`((Crimson Red Suit Jacket:1.4)), ((Black Lace Camisole:1.3)), ((Tight Red Skirt)), ((Black Pantyhose))`
+**Negative Prompt Key:** `red hair on remi, brown hair on remi, short hair on remi, white shirt, white blouse, collared shirt, white collar, clothes under jacket except lace, ((naked:3.0)), ((topless:3.0)), ((undressed:3.0))`
 
 ## 🧑‍🎓 優斗 (Yuto)
 

@@ -13,12 +13,26 @@ def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
         return logger
 
     handler = logging.StreamHandler(sys.stdout)
+    # Windows環境での日本語化防止のため、エンコーディングを指定したいがStreamHandlerは通常sys.stdoutを使う
+    # initialize_script で一括設定を行う
     formatter = logging.Formatter("[%(levelname)s] %(name)s: %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(level)
     logger.propagate = False
     return logger
+
+
+def initialize_script(name: str) -> logging.Logger:
+    """Initialize environment for Windows UTF-8 and returns a logger."""
+    import io
+    if sys.platform == "win32":
+        try:
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+        except Exception:
+            pass
+    return setup_logger(name)
 
 
 class FileIO:
@@ -33,9 +47,13 @@ class FileIO:
             return None
 
     @staticmethod
-    def write_text(path: Union[str, Path], content: str, encoding: str = config.DEFAULT_ENCODING) -> bool:
+    def write_text(path: Union[str, Path], content: str, encoding: str = config.DEFAULT_ENCODING, make_backup: bool = False) -> bool:
         try:
             target = Path(path)
+            if make_backup and target.exists():
+                backup = target.with_suffix(target.suffix + ".bak")
+                backup.write_bytes(target.read_bytes())
+            
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(content, encoding=encoding)
             return True

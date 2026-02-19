@@ -1,49 +1,56 @@
-import os
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+🎭 登場人物設定標準化スクリプト (Refactored)
+"""
+
+import sys
+from pathlib import Path
+
+# プロジェクトルートをパスに追加
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 import re
 import glob
+from lib import config, utils
 
-# Define the root directory
-ROOT_DIR = r"c:\Users\hirak\Desktop\2nd-Brain\18_レミ投資漫画"
+# 初期化
+logger = utils.initialize_script("standardize_characters")
 
-# The standardized character block to insert
+# 標準化されたキャラクターブロック
 NEW_CHARS = """### Characters:
 - Remi: (Crimson RED blazer, Black lace top). (Silky SILVER hair), (RED eyes). NO GLOVES. (ONLY ONE Remi per panel).
 - Yuto: (Traditional SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. (ONLY ONE Yuto per panel)."""
 
-# Regex pattern to match the existing Characters block.
-# Assumptions:
-# 1. Starts with "### Characters:"
-# 2. Contains "- Remi:" and "- Yuto:" lines (in that order).
-# 3. Ends before a blank line or the start of a panel definition ("[")
-# 4. We use re.DOTALL to match content across lines, but we try to be specific about the structure.
+# 正規表現パターン
 PATTERN = r"### Characters:\s*\n\s*- Remi:.*?\n\s*- Yuto:.*?(?=(\n\s*\n|\n\s*\[))"
 
-count = 0
-updated_files = 0
+def main():
+    logger.info("Scanning files in %s...", config.MANGA_DIR)
+    # config.CHAR_PROMPT_PATTERN は "**/*プロンプト.md"
+    pattern_path = str(config.MANGA_DIR / config.CHAR_PROMPT_PATTERN)
+    files = glob.glob(pattern_path, recursive=True)
+    logger.info("Found %d files.", len(files))
 
-print(f"Scanning files in {ROOT_DIR}...")
-files = glob.glob(os.path.join(ROOT_DIR, "**", "*プロンプト.md"), recursive=True)
-print(f"Found {len(files)} files.")
+    updated_files = 0
+    for filepath in files:
+        try:
+            content = utils.FileIO.read_text(filepath)
+            if content is None: continue
+            
+            # 置換実行
+            new_content, n = re.subn(PATTERN, NEW_CHARS, content, flags=re.IGNORECASE | re.DOTALL)
+            
+            if n > 0 and new_content != content:
+                if utils.FileIO.write_text(filepath, new_content):
+                    logger.info("Updated: %s (%d sections updated)", Path(filepath).name, n)
+                    updated_files += 1
+            elif n == 0:
+                logger.debug("Skipped (No match): %s", Path(filepath).name)
+        except Exception as e:
+            logger.error("Error processing %s: %s", filepath, e)
 
-for filepath in files:
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # Perform substitution
-        new_content, n = re.subn(PATTERN, NEW_CHARS, content, flags=re.IGNORECASE | re.DOTALL)
-        
-        if n > 0 and new_content != content:
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(new_content)
-            print(f"Updated: {os.path.basename(filepath)} ({n} pages/sections updated)")
-            updated_files += 1
-        elif n == 0:
-            print(f"Skipped (No match): {os.path.basename(filepath)}")
-            # Optional: detailed debug if needed
-            # if "Characters:" in content:
-            #     print(f"  -> 'Characters:' found but regex failed. Check formatting.")
-    except Exception as e:
-        print(f"Error processing {filepath}: {e}")
+    logger.info("Summary: Updated %d files out of %d.", updated_files, len(files))
 
-print(f"\nSummary: Updated {updated_files} files out of {len(files)}.")
+if __name__ == "__main__":
+    main()
