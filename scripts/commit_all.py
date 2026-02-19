@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-🚀 Unified Commit Tool (Sync & Refactor & Commit)
+🚀 Unified Commit Tool (Sync & Refactor & Commit) - Robust Version
 
 1. Google Sheets からのデータ同期 (Asset & Weight)
 2. スマート・リファクタリング (Prompt optimization)
-3. Git Commit & Push
+3. Git Commit & Push (確実に実行)
 """
 
 import os
@@ -30,9 +30,9 @@ def run_script(script_path: Path):
         return False
     
     try:
-        # UTF-8 モードで実行
         env = os.environ.copy()
         env["PYTHONUTF8"] = "1"
+        # -X utf8 を付与して文字化けを防止
         result = subprocess.run(
             [sys.executable, "-X", "utf8", str(script_path)],
             env=env,
@@ -40,14 +40,16 @@ def run_script(script_path: Path):
             text=True,
             encoding="utf-8"
         )
-        if result.returncode != 0:
-            logger.warning(f"Script {script_path.name} exited with code {result.returncode}")
-            if result.stderr:
-                logger.error(f"Error: {result.stderr.strip()}")
-            return False
         
         if result.stdout:
             print(result.stdout.strip())
+            
+        if result.returncode != 0:
+            logger.warning(f"Script {script_path.name} exited with code {result.returncode}")
+            if result.stderr:
+                logger.error(f"Error Output: {result.stderr.strip()}")
+            return False
+            
         return True
     except Exception as e:
         logger.error(f"Exception running script {script_path.name}: {e}")
@@ -56,23 +58,24 @@ def run_script(script_path: Path):
 def main():
     logger.info("=== Antigravity Unified Shortcut [5] Started ===")
 
-    # Step 1: Sync Data
+    # Step 1: Sync Data (失敗しても継続)
     sync_assets = ROOT_DIR / "18_システム" / "sync_assets.py"
     sync_weight = ROOT_DIR / "18_システム" / "sync_weight.py"
     
     run_script(sync_assets)
     run_script(sync_weight)
 
-    # Step 2: Smart Refactor
+    # Step 2: Smart Refactor (失敗しても継続)
     smart_refactor = ROOT_DIR / "18_システム" / "smart_refactor.py"
-    # 引数なしで実行（デフォルト設定）
     run_script(smart_refactor)
 
-    # Stage changes
-    logger.info("--- Staging changes ---")
+    # Step 3: Git Commit & Push
+    logger.info("--- [Step 3/3] Git Management ---")
+    
+    # 全変更を自動でステージング
     subprocess.run(["git", "add", "-A"], cwd=str(ROOT_DIR))
 
-    # Check for changes
+    # 変更があるか確認
     status = subprocess.run(
         ["git", "status", "--porcelain"],
         cwd=str(ROOT_DIR),
@@ -80,22 +83,31 @@ def main():
         text=True
     )
     
-    if not status.stdout.strip():
-        logger.info("🎉 No changes to commit (Everything is up-to-date).")
+    output = status.stdout.strip()
+    if not output:
+        logger.info("🎉 No changes to commit (Everything is already up-to-date locally).")
+        # 変更がなくても念のため Push を実行して GitHub と同期を確実にしにいく
+        logger.info("Enforcing push to ensure GitHub is in sync...")
+        subprocess.run(["git", "push", "origin", "main"], cwd=str(ROOT_DIR))
         return
 
-    # Step 3: Commit
+    # コミット実行
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    message = f"Unified Shortcut 5 - {timestamp}"
+    message = f"統合ショートカット 5 - {timestamp}"
     
-    logger.info(f"--- Committing: {message} ---")
+    logger.info(f"Committing changes: {message}")
     subprocess.run(["git", "commit", "-m", message], cwd=str(ROOT_DIR))
 
-    # Push
-    logger.info("--- Pushing to remote ---")
-    subprocess.run(["git", "push"], cwd=str(ROOT_DIR))
+    # 強制的に Push を実行
+    logger.info("Pushing to GitHub (origin main)...")
+    push_result = subprocess.run(["git", "push", "origin", "main"], cwd=str(ROOT_DIR), capture_output=True, text=True)
+    
+    if push_result.returncode == 0:
+        logger.info("✅ GitHub sync completed successfully!")
+    else:
+        logger.error(f"❌ Push failed: {push_result.stderr}")
 
-    logger.info("✅ All tasks completed successfully!")
+    logger.info("✅ All tasks finished.")
 
 if __name__ == "__main__":
     main()
