@@ -1,227 +1,225 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-🏥 体重データ同期＆振り返りスクリプト
+🏥 体重データ同期＆振り返りスクリプト (Integrated with Sheets)
 
-このスクリプトは「記録.md」から体重データを読み取り、
-推移分析と今日のアドバイスを自動生成します。
+Googleスプレッドシートから最新の計測データを取得し、「記録.md」を更新します。
 """
 
-import os
 import sys
-import io
+from pathlib import Path
 
-# Windows環境でのエンコーディング問題を回避
-if sys.platform == 'win32':
-    # 標準出力・標準エラー出力をUTF-8で再定義
-    try:
-        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-    except Exception:
-        pass
+# プロジェクトルートをパスに追加
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import re
 from datetime import datetime
-from pathlib import Path
 from typing import List, Dict, Optional
 import statistics
+import pandas as pd
+
+from lib import config, utils, sheets
+
+# 初期化 (UTF-8, Logger)
+logger = utils.initialize_script("sync_weight")
+
 
 class WeightRecord:
     """体重記録データクラス"""
-    def __init__(self, date: str, weight: float, waist: Optional[float] = None,
-                 body_fat: Optional[float] = None, visceral_fat: Optional[float] = None):
+    def __init__(self, date: str, weight: float, body_fat: Optional[float] = None,
+                 muscle: Optional[float] = None, metabolism: Optional[float] = None,
+                 systolic: Optional[int] = None, diastolic: Optional[int] = None,
+                 waist: Optional[float] = None):
         self.date = date
         self.weight = weight
-        self.waist = waist
         self.body_fat = body_fat
-        self.visceral_fat = visceral_fat
+        self.muscle = muscle
+        self.metabolism = metabolism
+        self.systolic = systolic
+        self.diastolic = diastolic
+        self.waist = waist
     
     def __repr__(self):
         return f"WeightRecord({self.date}, {self.weight}kg)"
 
+
 class DietAnalyzer:
-    """ダイエットデータ分析クラス"""
+    """ダイエットデータ分析・同期クラス"""
     
     def __init__(self, record_file: Path):
         self.record_file = record_file
         self.records: List[WeightRecord] = []
-        self.start_weight = 94.0  # 初期値
-        self.target_weight = 76.0  # 目標
+        self.start_weight = 94.0
+        self.target_weight = 76.0
         
-    def parse_records(self) -> List[WeightRecord]:
-        """記録.mdから体重データを抽出"""
-        if not self.record_file.exists():
-            print(f"⚠️ ファイルが見つかりません: {self.record_file}")
+    def fetch_records_from_sheets(self) -> List[WeightRecord]:
+        """スプレッドシートからデータを取得"""
+        logger.info("🌐 スプレッドシートから最新データを取得しています...")
+        df = sheets.fetch_csv_from_google_sheets(config.DIET_SHEET_ID, "0")
+        if df is None:
+            logger.error("❌ スプレッドシートの取得に失敗しました。")
             return []
-        
-        content = self.record_file.read_text(encoding='utf-8')
-        records = []
-        
-        # 日次記録のパターン
-        pattern = r'###\s+(\d+)/(\d+)\s+\([^)]+\)\s+──\s+\*\*([0-9.]+)\*\*kg(?:\s+/\s+\*\*([0-9.]+)\*\*cm)?'
-        
-        matches = re.finditer(pattern, content)
-        for match in matches:
-            month = int(match.group(1))
-            day = int(match.group(2))
-            weight = float(match.group(3))
-            waist = float(match.group(4)) if match.group(4) else None
-            date_str = f"{month}/{day}"
+
+        new_records = []
+        # 列のインデックスはシートの構造に依存 (例: 0=日付, 3=体重CT, 5=体脂肪, 6=骨格筋, 7=代謝, 8=血圧上, 9=血圧下)
+        # 取得したCSVのサンプルに基づいてパース (ヘッダーを考慮)
+        for _, row in df.iterrows():
+            date_val = str(row[0]).replace("-", "/")
+            if not re.match(r'^\d{1,2}/\d{1,2}$', date_val):
+                continue
             
-            section_start = match.end()
-            next_match = re.search(r'###\s+\d+/\d+', content[section_start:])
-            section_end = section_start + next_match.start() if next_match else len(content)
-            section = content[section_start:section_end]
-            
-            body_fat = None
-            visceral_fat = None
-            details = re.search(r'体脂肪:\s*([0-9.]+)%', section)
-            if details: body_fat = float(details.group(1))
-            visceral = re.search(r'内臓脂肪:\s*([0-9.]+)', section)
-            if visceral: visceral_fat = float(visceral.group(1))
-            
-            records.append(WeightRecord(date_str, weight, waist, body_fat, visceral_fat))
-        
-        self.records = sorted(records, key=lambda r: tuple(map(int, r.date.split('/'))), reverse=True)
+            try:
+                weight = float(str(row[3]).replace(",", ""))
+                body_fat = float(str(row[5]).replace(",", "")) if pd.notna(row[5]) and str(row[5]) != "-" else None
+                muscle = float(str(row[6]).replace(",", "")) if pd.notna(row[6]) and str(row[6]) != "-" else None
+                metabolism = int(float(str(row[7]).replace(",", ""))) if pd.notna(row[7]) and str(row[7]) != "-" else None
+                systolic = int(float(str(row[8]).replace(",", ""))) if pd.notna(row[8]) and str(row[8]) != "-" else None
+                diastolic = int(float(str(row[9]).replace(",", ""))) if pd.notna(row[9]) and str(row[9]) != "-" else None
+                
+                new_records.append(WeightRecord(
+                    date=date_val, weight=weight, body_fat=body_fat,
+                    muscle=muscle, metabolism=metabolism,
+                    systolic=systolic, diastolic=diastolic
+                ))
+            except (ValueError, TypeError):
+                continue
+
+        # 日付順（降順）にソート
+        self.records = sorted(new_records, key=lambda r: tuple(map(int, r.date.split('/'))), reverse=True)
         return self.records
-    
-    def analyze_trend(self) -> Dict[str, any]:
+
+    def update_record_md(self):
+        """記録.mdのテーブルとタイムラインを更新"""
+        content = utils.FileIO.read_text(self.record_file)
+        if not content or not self.records:
+            return
+
+        latest = self.records[0]
+        
+        # 1. タイムラインセクションの更新（その日のセクションがなければ追加）
+        date_header = f"### {latest.date}"
+        if date_header not in content:
+            logger.info("📝 新しい日付セクションを追加します: %s", latest.date)
+            new_section = self._format_timeline_section(latest)
+            # ## 🗓️ タイムライン の直後に挿入
+            content = content.replace("## 🗓️ タイムライン\n", f"## 🗓️ タイムライン\n\n{new_section}\n")
+
+        # 2. テーブルの更新
+        content = self._update_table(content)
+
+        # 3. グラフ(Mermaid)の更新
+        content = self._update_mermaid_graph(content)
+
+        utils.FileIO.write_text(self.record_file, content, make_backup=True)
+
+    def _format_timeline_section(self, record: WeightRecord) -> str:
+        bp_str = f"{record.systolic}/{record.diastolic}" if record.systolic else "-"
+        return f"""{record.date} ({datetime.now().strftime('%a')}) — {record.weight}kg
+
+| 指標 | 値 | 指標 | 値 |
+| :--- | :--- | :--- | :--- |
+| 体脂肪 | {record.body_fat}% | 血圧 | {bp_str} |
+| 骨格筋 | {record.muscle}% | 代謝 | {record.metabolism} |
+| BMI | {(record.weight / (1.79**2)):.1f} | - | - |
+
+> **メモ**: (自動同期)"""
+
+    def _update_table(self, content: str) -> str:
+        # テーブル部分を抽出
+        table_pattern = r'(\| 日付 \| 体重 \| 前日比 \| 血圧 \(上/下\) \|\n\| :--- \| :--- \| :--- \| :--- \|\n)([\s\S]*?)\n\n'
+        match = re.search(table_pattern, content)
+        if not match:
+            return content
+        
+        header_and_align = match.group(1)
+        # 既存のテーブル行から最新数件を取得
+        rows = []
+        for r in self.records[:10]:
+            prev_weight = next((rec.weight for rec in self.records if self.records.index(rec) == self.records.index(r) + 1), None)
+            diff_str = "-"
+            if prev_weight:
+                diff = r.weight - prev_weight
+                diff_str = f"{'+' if diff > 0 else '−'}{abs(diff):.1f}"
+            
+            bp_str = f"{r.systolic}/{r.diastolic}" if r.systolic else "-"
+            rows.append(f"| {r.date} | {r.weight}kg | {diff_str} | {bp_str} |")
+        
+        new_table = header_and_align + "\n".join(rows) + "\n\n"
+        return content.replace(match.group(0), new_table)
+
+    def _update_mermaid_graph(self, content: str) -> str:
+        # グラフ用のデータを直近20件から作成
+        subset = self.records[:20][::-1] # 昇順
+        dates = [r.date for r in subset]
+        weights = [str(r.weight) for r in subset]
+        
+        x_axis = f"    x-axis [{', '.join(dates)}]"
+        line_data = f"    line [{', '.join(weights)}]"
+        
+        content = re.sub(r'x-axis \[.*?\]', x_axis, content)
+        content = re.sub(r'line \[.*?\]', line_data, content)
+        return content
+
+    def analyze_trend(self) -> Dict:
         if len(self.records) < 2:
-            return {"status": "データ不足", "message": "比較するデータがありません"}
+            return {"status": "データ不足"}
         
         latest = self.records[0]
         previous = self.records[1]
         diff = latest.weight - previous.weight
-        diff_percent = (diff / previous.weight) * 100
-        recent_weights = [r.weight for r in self.records[:7]]
-        week_avg = statistics.mean(recent_weights) if recent_weights else latest.weight
-        
-        if len(self.records) >= 3:
-            recent_3 = [r.weight for r in self.records[:3]]
-            trend = "減少傾向" if recent_3[0] < recent_3[-1] else "横ばいor増加"
-        else:
-            trend = "評価中"
-        
+        week_avg = statistics.mean([r.weight for r in self.records[:7]])
         remaining = latest.weight - self.target_weight
         progress = ((self.start_weight - latest.weight) / (self.start_weight - self.target_weight)) * 100
         
         return {
-            "latest": latest, "previous": previous, "diff": diff,
-            "diff_percent": diff_percent, "week_avg": week_avg,
-            "trend": trend, "remaining": remaining, "progress": progress
+            "latest": latest, "diff": diff, "week_avg": week_avg,
+            "remaining": remaining, "progress": progress
         }
-    
+
     def generate_advice(self, analysis: Dict) -> str:
-        advice_lines = []
-        advice_lines.append("## 🎯 今日の振り返りとアドバイス\n")
-        advice_lines.append(f"**日時**: {datetime.now().strftime('%Y年%m月%d日 %H:%M')}\n")
+        advice = f"""## 🧘‍♂️ 今日の振り返り ({analysis['latest'].date})
+
+> **最新体重**: {analysis['latest'].weight}kg｜**前回比**: {analysis['diff']:+.1f}kg｜**週間平均**: {analysis['week_avg']:.1f}kg
+
+### アクションプラン
+
+> 「失われた身体機能を呼び戻す」 — Ninniki-nene Style
+
+- ✅ 現在のリズムをキープ！
+- ✅ 水分補給を適切に
+- ✅ 1時間に1回、姿勢リセット
+
+> [!TIP]
+> "測る行為そのものが健康への第一歩。今日も、本来の自分を取り戻しましょう！" """
+        return advice
+
+    def inject_advice(self, advice: str):
+        content = utils.FileIO.read_text(self.record_file)
+        if not content: return
         
-        latest = analysis["latest"]
-        diff = analysis["diff"]
-        
-        advice_lines.append("### 📊 体重推移の分析\n")
-        advice_lines.append(f"- **最新体重**: {latest.weight}kg")
-        
-        if diff < 0:
-            advice_lines.append(f"- **前回比**: {diff:.1f}kg 減 ✨ 素晴らしい！")
-            advice_lines.append(f"- 💪 **Good Job!** 身体が本来の機能を取り戻しつつあります！")
-        elif diff > 0:
-            advice_lines.append(f"- **前回比**: +{diff:.1f}kg")
-            advice_lines.append(f"- 🌱 **大丈夫!** 体重は波があるもの。長期的なトレンドを見ましょう。")
-        else:
-            advice_lines.append(f"- **前回比**: 変化なし（安定）")
-        
-        advice_lines.append(f"- **週間平均**: {analysis['week_avg']:.1f}kg")
-        advice_lines.append(f"- **傾向**: {analysis['trend']}")
-        advice_lines.append(f"- **目標まで**: あと{analysis['remaining']:.1f}kg（達成率 {analysis['progress']:.1f}%）\n")
-        
-        advice_lines.append("### 🧘‍♂️ 今日のアクションプラン\n")
-        advice_lines.append("> 「失われた身体機能を呼び戻す」 - Ninniki-nene Style\n")
-        
-        if diff >= 0.5:
-            advice_lines.append("**📌 重点アクション**:")
-            advice_lines.append("- ✅ 16時間断食を再確認（20時夕食→翌12時昼食）")
-            advice_lines.append("- ✅ スワイショウ（腕振り運動）で代謝の地盤を作る")
-            advice_lines.append("- ✅ 水分補給を意識（水、お茶、ブラックコーヒー）")
-        elif diff < 0:
-            advice_lines.append("**🌟 現在のリズムをキープ！**:")
-            advice_lines.append("- ✅ 現在の食事リズムを継続")
-            advice_lines.append("- ✅ 座りながらドローイン（お客様との通話中もOK）")
-            advice_lines.append("- ✅ 1時間に1回、背骨リセット")
-        else:
-            advice_lines.append("**🔄 変化をつけてみましょう**:")
-            advice_lines.append("- ✅ 運動のバリエーションを増やす（肩甲骨・股関節を動的に）")
-            advice_lines.append("- ✅ 食事内容の見直し（添加物チェック）")
-        
-        advice_lines.append("\n**📝 今日の一言**:")
-        advice_lines.append('> "10分あれば、座りながらでも機能は回復できる。今日も、本来の自分の身体機能を取り戻しましょう！"')
-        return "\n".join(advice_lines)
-    
-    def update_record_file(self, advice: str):
-        content = self.record_file.read_text(encoding='utf-8')
-        latest = self.records[0]
-        pattern = rf'(###\s+{latest.date}\s+\([^)]+\)\s+──[^\n]+)'
-        
-        match = re.search(pattern, content)
-        if match:
-            insert_pos = match.end()
-            next_section = content[insert_pos:insert_pos+500]
-            if "## 🎯 今日の振り返りとアドバイス" in next_section:
-                print("✅ 既に振り返りが存在します。上書きはしません。")
-                return
-            new_content = content[:insert_pos] + "\n\n" + advice + "\n" + content[insert_pos:]
-            # backup_file = self.record_file.with_suffix('.md.bak')
-            # backup_file.write_text(content, encoding='utf-8')
-            # print(f"📦 バックアップを作成: {backup_file}")
-            self.record_file.write_text(new_content, encoding='utf-8')
-            print(f"✅ 記録ファイルを更新しました: {self.record_file}")
-        else:
-            print(f"⚠️ 対象の日付セクションが見つかりませんでした: {latest.date}")
+        # 既存の「今日の振り返り」セクションを置換
+        pattern = r'## 🧘‍♂️ 今日の振り返り \(\d+/\d+\)[\s\S]*?(?=\n---)'
+        content = re.sub(pattern, advice + "\n", content)
+        utils.FileIO.write_text(self.record_file, content)
+
 
 def main():
-    print("🏥 ダイエット同期＆振り返りスクリプト起動\n")
-    script_dir = Path(__file__).parent
-    record_file = script_dir / "01_ダイエット/記録.md"
+    logger.info("🏥 体重データ自動同期開始")
+    analyzer = DietAnalyzer(config.DIET_RECORD_FILE)
     
-    analyzer = DietAnalyzer(record_file)
-    print("📖 体重記録を読み込み中...")
-    records = analyzer.parse_records()
+    records = analyzer.fetch_records_from_sheets()
     if not records:
-        print("❌ 体重データが見つかりませんでした。")
         return
-    print(f"✅ {len(records)}件の記録を読み込みました。latest: {records[0]}")
     
-    print("📊 trend analysis...")
+    analyzer.update_record_md()
     analysis = analyzer.analyze_trend()
-    if analysis.get("status") == "データ不足":
-        print(f"⚠️ {analysis['message']}")
-        return
+    if analysis.get("status") != "データ不足":
+        advice = analyzer.generate_advice(analysis)
+        analyzer.inject_advice(advice)
+        logger.info("✅ 同期と分析が完了しました。")
     
-    print("💡 generating advice...")
-    advice = analyzer.generate_advice(analysis)
-    
-    print("=" * 60)
-    try:
-        print(advice)
-    except UnicodeEncodeError:
-        print("(Output contains characters that cannot be displayed in this console)")
-    print("=" * 60)
-    
-    print("\n📝 update record file automatically? (y/n)") 
-    # 自動化のため、ここでは入力を待たずに問答無用で書き込むモードにするか、
-    # inputを受け付けるか。
-    # ユーザーの手間を省くため、ここでは引数なしでも実行されたら書き込んでしまうようにロジック変更
-    # いや、安全のため input を待つ。
-    
-    # response = input().strip().lower()
-    # 自動実行用に変更
-    response = 'y'
-    
-    if response == 'y':
-        analyzer.update_record_file(advice)
-        print("\n🎉 done!")
-    else:
-        print("\n✋ canceled.")
+    logger.info("🎉 Done!")
+
 
 if __name__ == "__main__":
     main()
