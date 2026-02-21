@@ -69,6 +69,10 @@ def main():
     smart_refactor = ROOT_DIR / "18_システム" / "smart_refactor.py"
     run_script(smart_refactor)
 
+    # Step 2.5: Auto Format (Markdown Lint Fix)
+    fix_lint = ROOT_DIR / "18_システム" / "fix_manga_lint.py"
+    run_script(fix_lint)
+
     # Step 3: Git Commit & Push
     logger.info("--- [Step 3/3] Git Management ---")
     
