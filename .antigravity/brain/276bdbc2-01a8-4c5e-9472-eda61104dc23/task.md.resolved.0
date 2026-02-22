@@ -1,0 +1,6 @@
+# Health Data Logging Tasks
+
+- [ ] Locate the correct file/directory for health data (checking `01_ダイエット` reference) <!-- id: 0 -->
+- [ ] Analyze image content and extract data row by row <!-- id: 1 -->
+- [ ] Propose data update plan to user and get confirmation <!-- id: 2 -->
+- [ ] Create or update the health log file with extracted data <!-- id: 3 -->

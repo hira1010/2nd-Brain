@@ -1,0 +1,3 @@
+"""
+Manga Generation Core Package.
+"""

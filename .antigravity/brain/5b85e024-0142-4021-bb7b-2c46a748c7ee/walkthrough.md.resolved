@@ -1,0 +1,46 @@
+# リファクタリング完了報告 (overall_refactoring)
+
+システム全体のコードを対象に、機能はそのままに、保守性と可読性を向上させるリファクタリングを完了しました。
+
+## 実施内容
+
+### 1. 共通基盤の構築
+重複していた定数、キャラクター設定、プロンプトテンプレート、および共通ロジックを独立したモジュールに集約しました。
+
+- **[manga_config.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_システム/manga_config.py)**: 共有定数（ベースディレクトリ、シーン、ビジュアル設定、テンプレート）
+- **[manga_utils.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_システム/manga_utils.py)**: 共通関数（Markdown解析、セリフ抽出、ロギング）
+
+### 2. 各スクリプトの最適化
+共通基盤を利用するように各スクリプトを書き換え、コード量を削減し、堅牢性を高めました。
+
+- **[smart_refactor.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_システム/smart_refactor.py)**: 中心となるリファクタリング・ロジック。
+- **[refactor_prompts.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_システム/refactor_prompts.py)**: [smart_refactor.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/smart_refactor.py) のラッパーとして統合。
+- **[update_all_manga_prompts.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_システム/update_all_manga_prompts.py)**: 同様に統合（非推奨化。
+- **[sync_assets.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_システム/sync_assets.py)**: 型ヒントの追加、エラー処理の強化、ロギングの標準化。
+
+---
+
+## 検証結果と課題
+
+### 検証内容
+- 各スクリプトの構文チェック
+- ドライランの試行
+
+### ⚠️ 注意事項と既知の問題
+検証中、現在の実行環境（Windows/CMD/PowerShell）において、Pythonインタープリタが起動時に `UnicodeDecodeError` (Fatal Error) を起こす現象が確認されました。
+
+> [!CAUTION]
+> これはソースコードではなく、**Python実行環境の設定（デフォルトエンコーディング）に起因する問題**です。環境変数やパスに含まれる非ASCII文字が原因でPython自体が起動に失敗している可能性があります。
+
+#### 解決策（ユーザー側での実行時）
+実環境でこれらのスクリプトを実行する際は、以下のいずれかの方法を推奨します：
+
+1. **環境変数の設定**:
+   Windowsの環境変数に `PYTHONUTF8=1` を追加する。
+2. **実行コマンドの指定**:
+   `python -X utf8 18_システム/smart_refactor.py --all` のように `-X utf8` オプションを付けて実行する。
+
+---
+
+## 結論
+コードの構造化と共通化により、今後の機能追加やテンプレート変更が一箇所の修正で済むようになりました。環境起因の問題はあるものの、コードベースとしては極めてクリーンで標準化された状態になっています。

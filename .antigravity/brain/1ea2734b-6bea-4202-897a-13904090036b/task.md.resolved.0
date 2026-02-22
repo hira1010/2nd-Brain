@@ -1,0 +1,9 @@
+# Global Skill/Workflow Identification and Implementation
+
+- [ ] Analyze existing workflows in `.agent/workflows` <!-- id: 0 -->
+    - [ ] Read `manga-gen.md` <!-- id: 1 -->
+    - [ ] Read `create_remotion_mv.md` <!-- id: 2 -->
+- [ ] Analyze current manual tasks <!-- id: 3 -->
+    - [ ] Review `generate_manzai_audio.py` for automation potential <!-- id: 4 -->
+- [ ] Propose new skill/workflow to user <!-- id: 5 -->
+- [ ] Implement approved skill/workflow <!-- id: 6 -->

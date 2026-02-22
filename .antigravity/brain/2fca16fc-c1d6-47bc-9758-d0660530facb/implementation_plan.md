@@ -1,0 +1,42 @@
+# Implementation Plan - EP10.5 Expansion & EP09 Fix
+
+## Goal Description
+
+1. Expand **EP10.5** ("逆張りの思考") from 2 pages to 4 pages.
+    - Include the text "逆張り" (Contrarian) as a prominent visual element (telop).
+    - Use the "Pendulum" and "Black Swan" metaphors.
+    - Ensure Remi's hair is `((Very Long Silver Hair))`.
+2. Fix typo in **EP09** ("嵐の予兆").
+    - Identify the typo in the file (likely Shift-JIS encoded).
+    - Correct it.
+
+## User Review Required
+
+- **EP10.5 Structure**: 4 pages. P1: Pendulum (Fear/Greed). P2: Dealing with the Drop. P3: The "Contrarian" (逆張り) Text/Concept. P4: Black Swan transformation.
+- **EP09 Typo**: Fixing the identified typo.
+
+## Proposed Changes
+
+### 18_レミ投資漫画/マンガノ/01_長編_希望の投資/01_ストーリー
+
+#### [MODIFY] [EP10.5_逆張りの思考.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/01_%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC/EP10.5_%E9%80%86%E5%BC%B5%E3%82%8A%E3%81%AE%E6%80%9D%E8%80%83.md)
+
+- Rewrite content to 4 pages.
+- Add "逆張り" text prompt.
+- Update hair prompts.
+
+#### [MODIFY] [EP09_嵐の予兆_P41-45.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/%E5%AE%8C%E6%88%90%E3%83%95%E3%82%A9%E3%83%AB%E3%83%80/EP09_%E5%B5%90%E3%81%AE%E4%BA%88%E5%85%86_P41-45.md)
+
+- Fix typo (TBD after reading).
+
+## Verification Plan
+
+### Automated Tests
+
+- Verify EP10.5 has 4 prompt blocks.
+- Verify "逆張り" exists in the prompt.
+- Verify Remi's hair is `((Very Long Silver Hair))`.
+
+### Manual Verification
+
+- User to review the plot and visuals.

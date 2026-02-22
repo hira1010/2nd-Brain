@@ -1,0 +1,10 @@
+# Task: Automating Screenshot Classification
+
+- [x] Create `scripts/auto_diet_screenshot.py` for OCR and markdown update <!-- id: 4 -->
+- [x] Create `scripts/watch_diet.ps1` to monitor Desktop for images <!-- id: 5 -->
+- [/] Update `01_ダイエット/記録.md` to include Blood Pressure columns <!-- id: 8 -->
+- [ ] Update `scripts/auto_diet_screenshot.py` to extract Blood Pressure (SYS/DIA) <!-- id: 9 -->
+- [ ] Create `scripts/fetch_gmail_diet.py` to download images from emails <!-- id: 10 -->
+- [ ] Register `fetch_gmail_diet.py` to run periodically <!-- id: 11 -->
+- [ ] Register the new watcher task in Windows Task Scheduler (or startup) <!-- id: 6 -->
+- [ ] Verify the automation with a test image <!-- id: 7 -->

@@ -1,0 +1,13 @@
+# Task: Add Missing Investment Topics to Manga Story
+
+- [ ] Analyze existing story structure and identify places to insert missing topics <!-- id: 0 -->
+    - [ ] Compound Interest (複利)
+    - [ ] Dollar Cost Averaging (ドルコスト平均法)
+    - [ ] Long-term Investment (長期投資)
+    - [ ] Contrarian Investing (逆張り)
+    - [ ] FIRE
+    - [ ] Dividend Aristocrats (配当貴族)
+    - [ ] Diversified Investment (分散投資)
+    - [ ] Future Chronology (未来年表)
+- [ ] Propose a plan to the user for where and how to include these topics <!-- id: 1 -->
+- [ ] Update story outline or create new scripts based on user feedback <!-- id: 2 -->

@@ -1,0 +1,32 @@
+﻿--- Execution Policy ---
+
+        Scope Execu
+              tionP
+              olicy
+        ----- -----
+MachinePolicy ...ed
+   UserPolicy ...ed
+      Process ...ed
+  CurrentUser ...ed
+ LocalMachine ...ed
+
+
+
+--- PSVersion ---
+
+Name               
+----               
+PSVersion          
+PSEdition          
+PSCompatibleVers...
+BuildVersion       
+CLRVersion         
+WSManStackVersion  
+PSRemotingProtoc...
+SerializationVer...
+
+
+
+--- Profile Param ---
+Path: C:\Users\hirak\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+Exists: False

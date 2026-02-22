@@ -1,0 +1,20 @@
+# 画風の完全復元・ライティング改善・セリフ形式の標準化
+
+## 概要
+「画風が違う（リアルすぎる、塗りが重い）」という指摘を受け、EP15以前のクリーンな2Dアニメ調を完全に復元します。Style行の記述を成功例の形式に戻し、Negative Promptによってリアル化を強力に抑制します。
+
+## 修正内容
+1. **画風の完全復元 (Style)**
+    - **成功例の完全再現**: `Style: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Cinematic lighting, Sharp Cel Shading, Masterpiece quality.`
+    - 短縮したStyle行を元の詳細な記述に戻し、AIに「2Dアニメ」であることを強く認識させます。
+2. **ライティングの精査 (Lighting)**
+    - 「表情が見える温かい逆光」を指定しつつ、描き込みがリアルになりすぎないよう「アニメ的な陰影(Cel Shading)」を強調します。
+3. **セリフと英単語漏れの防止**
+    - `STRICT SPEECH BUBBLE WITH JAPANESE TEXT: [名前・「」なし]` 形式を継続。
+    - 指示語（SPLIT CONTRAST等）はPanel内の日本語描写に含め、Style行には一切含めません。
+4. **Negative Promptの劇的強化**
+    - `hyperrealistic, 3D render, realistic, heavy shading, photorealistic, oily skin, western face, high detail textures` を追加。
+    - これにより、意図しない「劇画調」や「実写調」への変化を防ぎます。
+
+## 対象範囲
+- EP16から順次、この「アニメ画風・完全固定ルール」で再構成し、チャットに出力します。

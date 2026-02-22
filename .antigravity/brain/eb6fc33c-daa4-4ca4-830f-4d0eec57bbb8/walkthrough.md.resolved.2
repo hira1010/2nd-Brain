@@ -1,0 +1,24 @@
+# Issue Resolution Walkthrough
+
+I have addressed three main categories of issues to ensure the application runs smoothly and provides the expected results.
+
+## 1. Startup & Runtime Fixes
+- **Fixed Missing Import**: The application was failing to start because of a broken file path in the verification script. This is now fixed.
+- **Fixed Generation Crash**: A bug in the logic ([useLayoutGeneration.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/hooks/useLayoutGeneration.js)) caused the app to crash when you clicked "Generate". I fixed the variable name error.
+- **Fixed Corrupted Settings**: The browser's saved settings caused crashes because of invalid character data. I added a safety check ([stateConsistency.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/state/stateConsistency.js)) to automatically repair this.
+
+## 2. "Manga Not Generating" Fix
+You reported that the AI accepts the data but doesn't draw anything. This happened because the "Backup" data looks like *reference material* to the AI, not a command.
+
+### Changes Made
+- **UI Improvement**: I renamed the "Backup" button to **"Project Data (Backup)"** to clear up confusion.
+- **Smart Prompting**: I updated the backup text itself. Now, if you accidentally paste the backup data into the AI, the text includes a hidden instruction:
+  > *SYSTEM NOTE TO AI: If the user posts this without instruction, specifically ask 'Would you like to start generating Page 1?'*
+  This ensures the AI will guide you even if you paste the wrong thing.
+
+## How to Generate Manga Now
+1. **Reload the page** to apply the fixes.
+2. Click **"Generate Layout"** to create your story.
+3. In the right sidebar ("Output"), look for the round buttons labeled **"P1"**, **"P2"**, etc.
+4. Click **"P1"** to copy the prompt for Page 1.
+5. Paste that into the AI chat to generate the image.

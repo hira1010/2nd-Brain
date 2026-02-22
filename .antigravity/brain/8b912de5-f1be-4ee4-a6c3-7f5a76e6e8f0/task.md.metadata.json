@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_TASK",
+  "summary": "Netlifyでのサイト公開とGitHub連携のためのタスクリストです。サイトの特定から、GitHubへのプッシュ、Netlifyの設定までを管理します。",
+  "updatedAt": "2026-02-22T00:47:13.435475800Z"
+}

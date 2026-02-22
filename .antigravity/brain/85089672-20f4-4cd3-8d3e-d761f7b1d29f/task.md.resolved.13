@@ -1,0 +1,20 @@
+# Task: Refine Remi's Visuals and Scene Flow
+
+User has provided reference images for Remi (Red suit, Silver hair) and specified the desired flow for EP03 P15 to EP04 P17.
+
+- [x] Update Remi's Visual Lock in `EP03_誘惑の囁き_P11-15.md` (P15) <!-- id: 0 -->
+- [x] Update Remi's Visual Lock in `EP04_救世主レミ_P16-20.md` (P16-20) <!-- id: 1 -->
+- [x] Refine EP04 P16 prompt to bridge P15 and P17 smoothly <!-- id: 2 -->
+- [x] Ensure EP04 P17 matches the reference image provided <!-- id: 3 -->
+- [x] Refine EP04.5 Prompts to match reference image (Despair -> Solution) <!-- id: 4 -->
+- [x] Fix encoding errors in EP04.5 <!-- id: 5 -->
+- [x] Fix Remi's outfit in EP03 P15 & EP04 to Gothic Lolita (Park Scene Consistency) <!-- id: 6 -->
+- [x] Revert Remi's outfit in EP03 P15 & EP04 to Red Suit (Match latest user image) <!-- id: 7 -->
+- [x] Combine Remi's Visuals: Left Face (Sharp/Cool) + Right Clothes (Red Suit + Lace) <!-- id: 8 -->
+- [x] Remove White Shirt: Add Negative Prompts & Refine Description <!-- id: 9 -->
+- [ ] Standardize Visual Locks based on Sanmenzu (Yuto: Blue Tie, Remi: Red Suit) <!-- id: 10 -->
+- [x] Create [character_sheet.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/01_%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC/character_sheet.md) as source of truth <!-- id: 11 -->
+- [ ] **Batch 1**: Update EP02-EP09 to Sanmenzu (High-neck Lace) <!-- id: 12 -->
+- [ ] **Batch 2**: Update EP10-EP16 to Sanmenzu <!-- id: 13 -->
+- [ ] **Batch 3**: Update EP17-EP23 to Sanmenzu <!-- id: 14 -->
+- [ ] **Batch 4**: Update Fractional Episodes (EP4.5, etc.) to Sanmenzu <!-- id: 15 -->

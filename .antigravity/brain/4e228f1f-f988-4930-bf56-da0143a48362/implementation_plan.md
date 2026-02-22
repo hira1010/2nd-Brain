@@ -1,0 +1,61 @@
+# Refactoring Plan: Manga Generation Scripts
+
+Current scripts have duplicated configurations (character definitions, paths) and logic scattered across multiple files. This refactoring aims to centralize these into a configuration module and a utility module, making the code cleaner and easier to maintain without changing its functionality.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **Configuration Centralization**: I will create `manga_config.py` to store all settings (characters, episodes, paths, email settings).
+> **Sensitive Data**: Your email password found in the script will be moved to `manga_config.py`. Please ensure this file is not shared publicly.
+
+## Proposed Changes
+
+### Directory: `18_レミ投資漫画\マンガノ`
+
+#### [NEW] [manga_config.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/manga_config.py)
+
+- Consolidate all constants:
+  - Base paths
+  - Character descriptions (Remi, Yuto, etc.)
+  - Layout/Prompts headers
+  - Episode list (Data structure)
+  - Email settings
+
+#### [NEW] [manga_utils.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/manga_utils.py)
+
+- Helper functions:
+  - `ensure_directory()`
+  - `save_text_file()`
+  - `load_text_file()`
+  - `get_episode_filename()`
+
+#### [MODIFY] [generate_mangano.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/generate_mangano.py)
+
+- Import settings from `manga_config`.
+- Use `manga_utils` for file operations.
+- Remove hardcoded lists and strings.
+
+#### [MODIFY] [fix_manga_prompts.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/fix_manga_prompts.py)
+
+- Import character definitions from `manga_config` (eliminates duplication).
+
+### Directory: `18_レミ投資漫画\マンガノ\01_長編_希望の投資`
+
+#### [MODIFY] [send_manga_email_final.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/send_manga_email_final.py)
+
+- Import email settings and paths from `manga_config` (requires adding parent directory to sys.path).
+
+## Verification Plan
+
+### Automated Verification
+
+I will create a temporary verification script `verify_refactor.py` that:
+
+1. Runs the *original* logic (simulated or backed up) to generate content.
+2. Runs the *new* logic.
+3. Compares the output to ensure exact match.
+
+### Manual Verification
+
+1. Run `generate_mangano.py` and confirm `No102_*.md` files are updated/created correctly.
+2. Check `fix_manga_prompts.py` runs without errors.

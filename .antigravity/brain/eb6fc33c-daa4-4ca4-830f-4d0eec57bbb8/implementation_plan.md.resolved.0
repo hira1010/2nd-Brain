@@ -1,0 +1,22 @@
+# Fix Startup Issue Plan
+
+## Goal Description
+The application fails to open correctly ("開かない"). Investigation revealed that [layoutGenerator.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/manga/layoutGenerator.js) was moved to `src/utils/manga/` but some references (like in the reproduction script) were not updated. I need to ensure all imports are correct and the app launches without errors.
+
+## User Review Required
+None.
+
+## Proposed Changes
+### Root
+#### [MODIFY] [reproduce_issue.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/reproduce_issue.js)
+- Update import path for `generateLayoutFromStory` from `./src/utils/layoutGenerator.js` to `./src/utils/manga/layoutGenerator.js`.
+
+### Source
+#### [MODIFY] [src/hooks/useLayoutGeneration.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/hooks/useLayoutGeneration.js)
+- Verify and update import path if incorrect.
+
+## Verification Plan
+### Automated Tests
+- Run `node reproduce_issue.js` to confirm core logic works.
+- Run `npm run build` to ensure no build-time errors.
+- Run `npm run dev` and check browser for runtime errors (indirectly via user or logs if possible).

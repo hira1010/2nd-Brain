@@ -1,0 +1,32 @@
+# Implementation Plan - EP06.1 Compound Interest Explanation
+
+## User Review Required
+>
+> [!IMPORTANT]
+> This plan changes the flow of EP06 P30.5 from starting with "Future Chronology" to "Compound Interest" to match the user's request and image.
+
+## Proposed Changes
+
+### Story / Prompts
+
+#### [MODIFY] [EP06_複利の魔法_P26-30.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/完成フォルダ/EP06_複利の魔法_P26-30.md)
+
+- Update P30.5 Panel 3 dialogue: Change "Start with Future Chronology" to "Start with Compound Interest".
+
+#### [NEW] [EP06.1_複利の解説.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/完成フォルダ/EP06.1_複利の解説.md)
+
+- Create a 4-page explanation episode.
+- **Visuals:** Remi in established outfit (Black Lace Camisole + Cleavage).
+- **Structure:**
+  - **Page 1 (Definition):** "Eighth wonder of the world". Visualizing the concept. Telops defining it.
+  - **Page 2 (Comparison):** Simple vs Compound. Graph/Visual contrast.
+  - **Page 3 (Mechanism):** Rule of 72 or Snowball effect.
+  - **Page 4 (Conclusion):** "Time is the key".
+
+## Verification Plan
+
+### Manual Verification
+
+- Check that EP06 P30.5 connects logically to EP06.1.
+- Verify Remi's outfit strings are correct.
+- Verify Telop/Narration text is included.

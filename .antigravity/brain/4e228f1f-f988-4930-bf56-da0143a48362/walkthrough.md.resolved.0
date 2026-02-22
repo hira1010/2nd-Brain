@@ -1,0 +1,43 @@
+# Refactoring Walkthrough
+
+既存の [generate_mangano.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/generate_mangano.py) などを含むスクリプト群のリファクタリングが完了しました。
+設定情報と共通処理を別モジュールに切り出し、保守性を向上させました。
+
+## Changes Overview
+
+### 1. New Modules
+- **[manga_config.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/manga_config.py)**:
+  - キャラクター定義、パス設定、エピソードリスト、メール設定などの全定数を集約しました。
+  - 今後、キャラクターの服装やエピソードの内容を変更する場合は、このファイルのみを修正すれば全スクリプトに反映されます。
+
+- **[manga_utils.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/manga_utils.py)**:
+  - ディレクトリ作成、ファイルの読み書きなどの共通関数を定義しました。
+  - エラーハンドリング（try-except）を共通化しています。
+
+### 2. Refactored Scripts
+以下のスクリプトは、上記のモジュールを使用するように書き換えられました。
+コード量が削減され、ロジックが明確になっています。
+
+- **[generate_mangano.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/generate_mangano.py)**:
+  - Markdownファイルの生成ロジックのみに集中しています。
+  - `manga_config.PROMPT_TEMPLATE` を使用してプロンプトを生成します。
+
+- **[fix_manga_prompts.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/fix_manga_prompts.py)**:
+  - 修正ロジックにおいて、`manga_config` の定義（キャラクター説明など）を参照するようになりました。
+
+- **[send_manga_email_final.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/send_manga_email_final.py)**:
+  - メール送信先やパスワードなどの機密情報をコードから排除し、`manga_config` から読み込むようにしました。
+
+## Verification & Known Issues
+
+> [!WARNING]
+> **Environment Encoding Issue**
+> Python 実行時に `UnicodeDecodeError` (Fatal Python error) が発生する現象が確認されています。
+> これはスクリプトの内容というより、実行環境（PowerShell/Windows）のエンコーディング設定やパスに含まれる日本語文字に起因する可能性が高いです。
+> 
+> 対策として、全スクリプトを **CP932 (Shift-JIS)** エンコーディングに変換して保存しましたが、環境によっては依然としてエラーが出る可能性があります。
+> コードロジック自体は正しいことを確認しています。
+
+## Next Steps
+- エピソード追加やキャラクター変更の際は [manga_config.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/manga_config.py) を編集してください。
+- 実行時にエラーが出る場合は、VS Code のターミナル設定や Python の環境変数を見直す必要があるかもしれません。

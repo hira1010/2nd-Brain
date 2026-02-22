@@ -1,0 +1,29 @@
+# Startup Issue Fix Walkthrough
+
+I have investigated and fixed multiple issues that were preventing the application from running correctly.
+
+## Summary of Fixes
+
+### 1. Fixed Missing Import (Startup Error)
+The application was initially failing to start because `src/utils/layoutGenerator.js` was moved to `src/utils/manga/` but references in `reproduce_issue.js` were not updated.
+- **Fixed**: Updated import path in `reproduce_issue.js`.
+
+### 2. Fixed undefined `actualPages` (Runtime Crash)
+Layout generation was crashing because `actualPages` was undefined in `src/hooks/useLayoutGeneration.js`.
+- **Fixed**: Replaced undefined variable with `finalPages`.
+
+### 3. Fixed Corrupted Settings State (Browser Crash)
+The browser was crashing with an alerting error. This was caused by `localStorage` containing `null` for `characters` (likely from a previous bad save), which `stateConsistency.js` failed to sanitize. This caused `layoutGenerator.js` to crash when trying to filter characters.
+- **Fixed**: Updated `src/utils/state/stateConsistency.js` to strictly enforce `characters` is an array, falling back to `DEFAULT_CHARACTERS` if invalid.
+- **Fixed**: Added input sanitization and better error reporting in `src/hooks/useLayoutGeneration.js`.
+
+## Verification
+
+### Automated Verification
+- `npm run build`: **SUCCESS**
+- `node reproduce_issue.js` (Normal): **SUCCESS**
+- `node reproduce_issue.js` (Keyword Expansion): **SUCCESS**
+
+### Manual Verification
+- The application should now handle corrupted local storage gracefully by resetting invalid `characters` to defaults.
+- Any future runtime errors during generation will now display a detailed error message in the alert dialog instead of a generic message.

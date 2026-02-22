@@ -1,0 +1,6 @@
+{
+  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
+  "summary": "Consolidated all project workflows (Sync, Refactor, Commit) into a single, unified shortcut '5'. Removed redundant individual shortcuts to streamline the developer experience. Updated `commit_all.ps1` to include `smart_refactor.py` and simplified `GEMINI.md`.",
+  "updatedAt": "2026-02-19T13:25:11.035446700Z",
+  "version": "2"
+}

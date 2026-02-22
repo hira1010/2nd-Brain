@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康動画 - ループ再生</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #1e1e1e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #005a9e;
+        }
+
+        .status {
+            color: #4ec9b0;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🏃‍♀️ 健康エクササイズ動画（ループ再生）</h1>
+        <video id="healthVideo" controls loop autoplay muted>
+            <source src="../videos/reference_video.mp4" type="video/mp4">
+            お使いのブラウザは動画タグをサポートしていません。
+        </video>
+        <div class="controls">
+            <button onclick="togglePlay()">▶️ 再生/一時停止</button>
+            <button onclick="toggleMute()">🔇 音量オン/オフ</button>
+            <button onclick="restart()">🔄 最初から再生</button>
+        </div>
+        <div class="status" id="status">
+            ✅ ループ再生モード有効
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('healthVideo');
+        const status = document.getElementById('status');
+
+        function togglePlay() {
+            if (video.paused) {
+                video.play();
+                status.textContent = '▶️ 再生中';
+            } else {
+                video.pause();
+                status.textContent = '⏸️ 一時停止中';
+            }
+        }
+
+        function toggleMute() {
+            video.muted = !video.muted;
+            status.textContent = video.muted ? '🔇 ミュート中' : '🔊 音量オン';
+        }
+
+        function restart() {
+            video.currentTime = 0;
+            video.play();
+            status.textContent = '🔄 最初から再生';
+        }
+
+        // ビデオイベント
+        video.addEventListener('play', () => {
+            status.textContent = '▶️ 再生中 (ループモード有効)';
+        });
+
+        video.addEventListener('pause', () => {
+            status.textContent = '⏸️ 一時停止中';
+        });
+
+        video.addEventListener('ended', () => {
+            status.textContent = '🔄 ループ中...';
+        });
+    </script>
+</body>
+
+</html>

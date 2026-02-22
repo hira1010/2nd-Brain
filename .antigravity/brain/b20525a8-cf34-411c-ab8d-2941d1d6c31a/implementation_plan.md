@@ -1,0 +1,39 @@
+# Implementation Plan - Update Tanaka Visual & Restore EP05
+
+## Goal Description
+
+Update the visual description of the character "Tanaka" in the manga prompts based on the user-provided reference image. Additionally, complete the missing pages (P23-24) of Episode 05, using Tanaka's new visual for the "Rabbit" character in the allegory.
+
+## User Review Required
+
+- **Tanaka's New Visual Lock**:
+  - "Messy brown hair, slightly unkempt, arrogance, dark suit with unbuttoned collar, smirk."
+- **EP05 P23-24 Plot**:
+  - P23: Tanaka (Rabbit) getting high on short-term gains (the "Swamp").
+  - P24: The inevitable crash. Rabbit loses everything while Tortoise keeps going.
+
+## Proposed Changes
+
+### Story Content Restoration
+
+#### [NEW] [EP02_搾取の連鎖_P6-10.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/01_ストーリー/EP02_搾取の連鎖_P6-10.md)
+
+- Restore from `04_漫談動画` version.
+- **Update Visuals**: Apply "Messy Brown Hair, Dark Suit, Arrogant Smirk" to Tanaka in P7, P8, P9, P10.
+
+#### [NEW] [EP03_誘惑の囁き_P11-15.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/01_ストーリー/EP03_誘惑の囁き_P11-15.md)
+
+- Restore from `04_漫談動画` version.
+- **Update Visuals**: Apply Tanaka's new visual to P11, P12.
+
+#### [MODIFY] [EP05_カメの歩み_P21-25.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/01_ストーリー/EP05_カメの歩み_P21-25.md)
+
+- **Update P22**: Change "The Rabbit" visual to match Tanaka's new lock.
+- **Add P23**: Scene showing Tanaka/Rabbit gambling and celebrating premature victory.
+- **Add P24**: Scene showing the market crash/Rabbit's despair.
+- **Update P25**: Ensure continuity.
+
+## Verification Plan
+
+1. **Visual Consistency Check**: Verify Tanaka's description matches the image: "Messy brown hair, unbuttoned suit, arrogant face".
+2. **Narrative Flow**: Ensure P21 -> P22 -> P23 -> P24 -> P25 flows logically as a complete "Tortoise vs. Rabbit" lesson.

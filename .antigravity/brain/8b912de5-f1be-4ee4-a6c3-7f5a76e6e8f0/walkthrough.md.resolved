@@ -1,0 +1,23 @@
+# Netlify公開・GitHub連携設定 完了
+
+Webサイト（wrestling-game）をNetlifyで公開するための準備が整いました。
+
+## 実施した内容
+
+1. **設定ファイルの作成**: [netlify.toml](file:///c:/Users/hirak/Desktop/2nd-Brain/netlify.toml) をリポジトリ直下に作成し、公開ディレクトリを `14_HP作成スキル/wrestling-game` に指定しました。
+2. **GitHubへの反映**: 設定ファイルをGitHubのリポジトリにプッシュしました。
+
+## Netlify側で必要な最終操作（ユーザー様作業）
+
+以下の手順をブラウザで行うことで、公開が完了し、今後のGitHubプッシュ時に自動更新されるようになります。
+
+1. **[Netlify](https://app.netlify.com/) にログイン** してください。
+2. **「Add new site」** ボタンをクリックし、**「Import an existing project」** を選択します。
+3. **「GitHub」** を選択し、リポジトリ **`2nd-Brain`** をバックエンドとして選択します。
+4. **設定の確認**: 
+   - `netlify.toml` がプッシュされているため、`Base directory` や `Publish directory` は自動的に設定されます。
+   - もし手動設定が必要な場合は、`Publish directory` を `14_HP作成スキル/wrestling-game` に設定してください。
+5. **「Deploy site」** をクリックして公開を開始します。
+
+> [!TIP]
+> 公開後は、配布されたURLにアクセスして正しく表示されるか確認してください。今後、`2nd-Brain` リポジトリにコードをプッシュするだけで、自動的にNetlify上のサイトも更新されます。

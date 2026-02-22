@@ -1,0 +1,127 @@
+﻿# Episode 02: 搾取�E連鎁E(P6-10)
+
+## TIP惁E��
+
+| 頁E�� | 冁E�� |
+| :--- | :--- |
+| EP | 2 |
+| タイトル | 搾取�E連鎁E|
+| 解説 | 手取りへの攻撁E��、同僚田中のFX自慢、E|
+
+---
+
+## 6 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep02_p6_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Yuto: (NAVY BUSINESS SUIT, white shirt). (Short Black hair). Tired expression. **VISUAL LOCK**.
+- Zouzei-man: (Massive purple monster made of tax forms/papers). (Glowing purple eyes). (Predatory sharp claws). **VISUAL LOCK**.
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Over-the-Shoulder] Yuto looking at his pay stub (Salary Statement), hands trembling. Absolute shock on face.
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Action] Zouzei-man's massive claw snatching half of the pay stub, tearing it violently. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '社会保険料だー�E�E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Still Life] Detailed 2D rendering of the torn salary paper on a dark desk. Lighting emphasizes the 'Net Pay' (Te-dori) being small.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 7 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep02_p7_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Yuto: (NAVY BUSINESS SUIT).
+- Tanaka: (Messy brown hair, suit with loose tie). (Arrogant smirk). **VISUAL LOCK**.
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Medium Shot] Tanaka approaching Yuto in the office corridor, walking with a swagger.
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Focus] Tanaka shoving his phone screen in Yuto's face. Glowing green FX chart. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: 'まだ手取りで消耗してん�E�E�E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Extreme Close-up] Tanaka's sneering mouth and eyes. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '�E�笑！E
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 8 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep02_p8_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Tanaka: (Messy brown hair, suit).
+- Yuto: (NAVY BUSINESS SUIT).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Mid Shot] Tanaka bragging, pointing to himself with a thumb. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '俺は昨夜だけで10丁E��ぁE��ぜ、EnギャンブルじゃなぁE��技術だよ、E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Reaction] Yuto looking down at his own hands, fists clenching. He looks conflicted.
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Symbolism] A golden carrot dangling on a fishing hook in front of Yuto's face.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 9 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep02_p9_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Tanaka: (Arrogant smirk).
+- Yuto: (NAVY BUSINESS SUIT).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Low Angle] Tanaka laughing loudly, head thrown back. Background filled with floating currency symbols (¥, $, €).
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [Internal Monologue] Yuto's eyes shadowed. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '一発送E��……\n僕にもできるのか！E
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Silhouette] Yuto's shadow growing and warping into a sinister, greedy shape on the wall.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+---
+
+## 10 ペ�Eジ目プロンプト (v15.5 Edge Obliterator - Refined)
+
+```javascript
+generate_image(
+  ImageName: "remi_ep02_p10_final_v2",
+  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+
+CHARACTERS:
+- Tanaka: (Suit).
+- Yuto: (NAVY BUSINESS SUIT).
+
+[PANEL 1 - 40% height]: FULL WIDTH FILL. [Close-up] Tanaka giving a confident thumbs up. **STRICT SPEECH BUBBLE WITH JAPANESE TEXT**: '入金しろよ、優斗、En人生変わるぜ、E
+[PANEL 2 - 35% height]: FULL WIDTH FILL. [POV] Yuto looking at his banking app on phone. Balance is "Low".
+[PANEL 3 - 25% height]: FULL WIDTH FILL. [Extreme Close-up] Yuto's finger hovering over a glowing 'TRANSFER' (Furikomi) button. Sweat dripping.
+
+STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading, Masterpiece quality. OBLITERATE ALL CANVAS MARGINS. ALL ART MUST BE FULL BLEED.
+**NEGATIVE PROMPT**: metadata at top, ImageName at top, filename at top, 12:17 at top, title at top, gibberish text, hallucinated letters, technical labels, architecture text, panel labels, white borders, margins.
+"
+)
+```
+
+作�E日: 2026-02-08
+スチE�Eタス: P6-10 v15.5 Edge Obliterator 完備 (Character Lock + Drama Boost)

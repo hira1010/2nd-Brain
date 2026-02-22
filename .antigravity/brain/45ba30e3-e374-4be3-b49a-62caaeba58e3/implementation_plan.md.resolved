@@ -1,0 +1,48 @@
+# Refactoring Implementation Plan
+
+## User Review Required
+> [!IMPORTANT]
+> - I will move [_update_themes.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/_update_themes.py) and [read_file.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/read_file.py) from `マンガノ\01_長編_希望の投資\_System_Tools` to `マンガノ\_system_scripts` to centralize all automation tools.
+> - I will delete [read_file.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/read_file.py) as its functionality will be merged into [manga_utils.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/manga_utils.py).
+> - I will fix the "mojibake" (garbled text) in [generate_mangano.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/generate_mangano.py) by guessing the intended content. Please verify if the Japanese text is correct after the fix.
+
+## Proposed Changes
+
+### Scripts Directory: `マンガノ\_system_scripts`
+
+#### [MODIFY] [manga_utils.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/manga_utils.py)
+- Incorporate robust encoding detection from [read_file.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/read_file.py) into [load_text_file](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/manga_utils.py#38-46).
+- Add type hints and docstrings.
+- Ensure consistent error handling.
+
+#### [MODIFY] [manga_config.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/manga_config.py)
+- Replace Unicode escape sequences (e.g., `\u9577\u7de8...`) with readable Japanese characters used in Python 3 source code (UTF-8).
+- Update `BASE_DIR` calculation to be relative to the script location, making it more robust.
+
+#### [MODIFY] [generate_mangano.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/generate_mangano.py)
+- Fix garbled Japanese text (mojibake) in the markdown template.
+- Update to use `manga_utils.load_text_file` / [save_text_file](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/manga_utils.py#26-36) references if needed.
+
+#### [NEW] [update_themes.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/update_themes.py)
+- This is the refactored version of [_update_themes.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/_update_themes.py).
+- Will use `manga_config` for directory paths and `manga_utils` for file I/O.
+- Clean up the logic and add comments.
+
+#### [MODIFY] [fix_manga_prompts.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/fix_manga_prompts.py)
+- Refactor to use `manga_utils` for safe file reading/writing.
+
+### Cleanup
+
+#### [DELETE] `マンガノ\01_長編_希望の投資\_System_Tools`
+- Delete [_update_themes.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/_update_themes.py) and [read_file.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/read_file.py) after successful refactoring and move.
+- Remove the directory if empty.
+
+## Verification Plan
+
+### Automated Tests
+- I will run each script with a `--dry-run` or similar non-destructive check if available, or just run them and verify the output (since I'm checking file integrity).
+- Specifically for [update_themes.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/01_%E9%95%B7%E7%B7%A8_%E5%B8%8C%E6%9C%9B%E3%81%AE%E6%8A%95%E8%B3%87/_System_Tools/_update_themes.py), I will verify it can locate the files defined in [manga_config.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/manga_config.py).
+
+### Manual Verification
+- I will ask you to review the [task.md](file:///C:/Users/hirak/.gemini/antigravity/brain/45ba30e3-e374-4be3-b49a-62caaeba58e3/task.md) updates.
+- I will verify that the "mojibake" is fixed by reading the file content of [generate_mangano.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%83%AC%E3%83%9F%E6%8A%95%E8%B3%87%E6%BC%AB%E7%94%BB/%E3%83%9E%E3%83%B3%E3%82%AC%E3%83%8E/_system_scripts/generate_mangano.py).

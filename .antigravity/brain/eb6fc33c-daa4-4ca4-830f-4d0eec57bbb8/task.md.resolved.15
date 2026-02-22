@@ -1,0 +1,9 @@
+# General Codebase Refactoring
+
+- [ ] Analyze Codebase <!-- id: 0 -->
+    - [ ] Identify large components <!-- id: 1 -->
+    - [x] Change Backup Prompt to "Action Trigger" (Aggressive) <!-- id: 28 -->
+    - [x] Remove page margins (Aggressive "Zero Padding" instruction) <!-- id: 29 -->
+    - [x] Disable text/dialogue bubble rendering <!-- id: 30 -->
+- [ ] Refactor Styles <!-- id: 5 -->
+- [ ] Verify Functionality <!-- id: 6 -->

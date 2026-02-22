@@ -1,0 +1,19 @@
+# Refactoring & Fixes Walkthrough
+
+I have completed the requested general refactoring and prompt improvements.
+
+## 1. Refactoring (Codebase Improvements)
+To improve maintainability without changing functionality:
+- **Cleaned Utilities**: Removed the redundant [mangaCore.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/manga/mangaCore.js) file and fixed all import paths.
+- **Improved State Logic**: Extracted data saving/loading logic into a new [usePersistence.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/hooks/usePersistence.js) hook. This separates "storage" from "app state", making the code cleaner.
+- **Component Styling**: Extracted inline styles from [DialogueList.jsx](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/components/editor/DialogueList.jsx) into a dedicated [DialogueList.css](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/components/editor/DialogueList.css) file for better organization.
+- **Cleanup**: Removed unused test files ([test_repro_yonkoma.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/test_repro_yonkoma.js)).
+
+## 2. Prompt Fixes (Margins & Generation)
+- **Zero Margins**: Added strict "ZERO MARGINS / FULL BLEED" instructions to the prompt to eliminate white borders on the left/right.
+- **Action Trigger**: The backup prompt now aggressively commands the AI to "IMMEDIATELY start generating" to prevent it from waiting.
+- **No Text**: Explicitly forbade speech bubbles to keep the artwork clean.
+
+## Verification
+- **Build Status**: `npm run build` completed successfully.
+- **Functionality**: The app logic remains identical, but the internal structure is more robust.

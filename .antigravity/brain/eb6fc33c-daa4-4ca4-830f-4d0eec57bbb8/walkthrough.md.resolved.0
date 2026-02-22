@@ -1,0 +1,29 @@
+# Startup Issue Fix Walkthrough
+
+I have investigated the "doesn't open" issue and made the following fixes.
+
+## Changes
+
+### Fixed Missing Import
+The [reproduce_issue.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/reproduce_issue.js) script was failing because [layoutGenerator.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/manga/layoutGenerator.js) had been moved to `src/utils/manga/`. I updated the import path.
+
+- **File**: `reproduce_issue.js`
+- **Change**: Updated import to `src/utils/manga/layoutGenerator.js`
+
+### Fixed Runtime Error
+I found a critical bug in `src/hooks/useLayoutGeneration.js` where an undefined variable `actualPages` was being used. This would cause the application to crash when generating a layout.
+
+- **File**: `src/hooks/useLayoutGeneration.js`
+- **Change**: Replaced `actualPages` with `finalPages`.
+
+## Verification Results
+
+### Build Verification
+Ran `npm run build` and it completed successfully.
+
+### Reproduction Script
+Ran `node reproduce_issue.js` and it now passes successfully, confirming the core layout generation logic is working.
+
+```
+SUCCESS: Metadata length is 12.
+```

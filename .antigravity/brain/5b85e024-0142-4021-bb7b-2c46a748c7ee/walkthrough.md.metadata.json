@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
+  "summary": "コードベースの全体的なリファクタリング結果の報告。共通基盤（manga_config, manga_utils）の構築、コード品質の標準化、および検証中に発生した環境依存のPython実行時エラーとその対策についてまとめています。",
+  "updatedAt": "2026-02-08T00:23:06.280266400Z"
+}

@@ -1,0 +1,20 @@
+# Walkthrough - EP08.5 Refactoring
+
+## Changes
+
+### 1. Character Visuals (Visual Lock)
+- **Remi:** Updated to strictly follow the character sheet.
+    - Before: `((Black Lace Camisole))`
+    - After: `((Black Lace High-neck Camisole))`
+- **Yuto:** Updated to strictly follow the character sheet.
+    - Added: `((White Shirt))`
+
+### 2. Formatting
+- Standardized `generate_image` blocks with consistent spacing and indentation.
+- Removed conflicting negative prompts (e.g., removed `((High-neck))` from negative prompts).
+
+## Verification Results
+
+### Manual Verification
+- [x] **Visual Check:** Remi and Yuto now have correct visual tags in all 4 pages (40.5-A to 40.5-D).
+- [x] **Content Check:** Dialogue and panel descriptions remain exactly as provided (no story changes).

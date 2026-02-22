@@ -1,0 +1,46 @@
+# Walkthrough - Multi-Page & Theme Fixes
+
+I have addressed the reported issues where multiple pages were not generating (specifically in 4-Koma mode) and the theme color was not changing.
+
+## Changes
+
+### 1. Multi-Page Generation Fix
+The issue was caused by a hardcoded restriction in 4-Koma mode that forced the page count to 1.
+- **[src/utils/stateConsistency.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/stateConsistency.js)**: Removed the logic that forced `totalPages = 1` when `yonkomaMode` is active.
+- **[src/components/settings/CompositionSettings.jsx](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/components/settings/CompositionSettings.jsx)**: Enabled the page count buttons (`+` / `-`) even when in 4-Koma mode.
+- **[src/utils/layoutGenerator.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/layoutGenerator.js)**: Updated the generator to use the requested `totalPages` instead of defaulting to 1 for 4-Koma.
+- **[src/utils/storyExpander.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/storyExpander.js)**: Updated the story generation logic to create enough dialogue lines for multiple 4-Koma pages (4 lines per page).
+
+### 2. Theme Color Implementation
+The "Theme Color" issue was due to the lack of a feature to map "Manga Style" keywoards to UI colors. I have implemented a system that changes the application's color scheme based on the selected style.
+- **[src/App.jsx](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/App.jsx)**: Added logic to inject a `data-theme` attribute into the root element based on `settings.mangaStyle`.
+    - **Shoujo/Romance** -> `shoujo` (Pink/Light)
+    - **Horror** -> `horror` (Dark Red)
+    - **Sci-Fi/Cyberpunk** -> `scifi` (Neon Blue)
+    - **Retro/Watercolor** -> `retro` (Sepia)
+    - **Others** -> `default` (Dark Gray)
+- **[src/App.css](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/App.css)**: Refactored column background colors to use CSS variables (`var(--col-settings-bg)`, etc.) to allow theming.
+- **[src/styles/GlobalStyles.css](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/styles/GlobalStyles.css)**: Defined the CSS variables for each theme (Standard, Shoujo, Horror, SciFi, Retro).
+
+### 3. Panel Synchronization Fix (Critical for Multi-Page)
+The underlying cause of "Multiple pages not working" was a synchronization issue in [src/utils/stateConsistency.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/stateConsistency.js).
+- **Issue**: When switching to 4-Koma mode or increasing pages, the application assumed that if the *Grid* had enough cells, the *Panel Metadata* was also sufficient. This was often false (e.g., Default has 3 panels, but 1-page 4-Koma requires 4 panels).
+- **Fix**: Updated [syncMangaState](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/stateConsistency.js#95-148) to explicitly verify and create any missing panel IDs required for the target page count (ensuring IDs 1 through `4 * totalPages` always exist).
+- **Result**: Switching specific page counts or modes now reliably generates the correct number of panels, preventing empty or broken pages.
+
+### 4. Preview Auto-Scroll Implementation
+User reported "Page doesn't open", which was identified as a UX issue where switching pages in the editor didn't scroll the preview to the target page.
+- **[src/components/preview/PreviewArea.jsx](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/components/preview/PreviewArea.jsx)**: Added `useEffect` to watch `currentPage` changes and automatically call `scrollIntoView` on the active page element.
+- **[src/components/preview/SingleView.jsx](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/components/preview/SingleView.jsx) & [SpreadView.jsx](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/components/preview/SpreadView.jsx)**: Added `data-page` attributes to page wrappers to allow the auto-scroll logic to find the correct element.
+- **Result**: `currentPage` updates now trigger a smooth scroll to the active page in the preview.
+
+### 5. State Repair Logic (Self-Healing)
+User reported "Still doesn't open", implying persistent crashes due to existing corrupted data in `localStorage`.
+- **[src/hooks/useMangaState.js](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/hooks/useMangaState.js)**: Added robust initialization logic.
+    - Runs [syncMangaState](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/src/utils/stateConsistency.js#95-148) immediately on load.
+    - Scans the loaded Grid for any Panel IDs that are missing from Metadata (Orphaned Panels).
+    - Automatically creates placeholder metadata ("復元されたパネル") for any orphans found.
+- **Result**: Users with previously broken save data will now successfully load the app with their layout intact, rather than facing a white screen or crash loop.
+
+## Conclusion
+The application is now robust against layout/metadata desynchronization. Multi-page flows work in all modes (Standard/4-Koma), themes apply correctly, preview follows navigation, and corrupted legacy states are auto-repaired.
