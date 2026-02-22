@@ -62,6 +62,19 @@ def run_script(script_args):
 def main():
     logger.info("=== Antigravity Unified Shortcut [5] Started ===")
 
+    # Step -1: Git Pull (もう一台のPCの変更を最初に取り込む)
+    logger.info("--- [Step 0/3] Git Pull from GitHub ---")
+    pull_result = subprocess.run(
+        ["git", "pull", "origin", "main"],
+        cwd=str(ROOT_DIR),
+        capture_output=True,
+        text=True
+    )
+    if pull_result.returncode == 0:
+        logger.info(f"✅ Git pull succeeded: {pull_result.stdout.strip()}")
+    else:
+        logger.warning(f"⚠️ Git pull failed (continuing anyway): {pull_result.stderr.strip()}")
+
     # Step 0: Sync Antigravity (Pull from Repo to System)
     # PC間同期のため、最新のリポジトリデータをシステム側に反映する
     sync_antigravity = ROOT_DIR / "18_システム" / "sync_antigravity.py"
