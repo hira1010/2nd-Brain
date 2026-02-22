@@ -1,0 +1,49 @@
+# Implementation Plan - Auto Diet Record Update
+
+The goal is to automate the extraction of weight and health data from screenshots and update [01_ダイエット/記録.md](file:///c:/Users/hirak/Desktop/2nd-Brain/01_%E3%83%80%E3%82%A4%E3%82%A8%E3%83%83%E3%83%88/%E8%A8%98%E9%8C%B2.md) automatically, preventing these screenshots from being misclassified into the Manga folder.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **Existing Sorter Conflict**: I could not find the script currently moving files to the Manga folder. It might be an external tool or outside the `2nd-Brain` scope. This new script will attempt to process diet screenshots *before* or *independently* of the existing sorter. If the existing sorter is very fast, there might be a race condition.
+>
+> **Tesseract Path**: The script assumes `tesseract.exe` is in the system PATH. If not, we may need to specify its path.
+
+## Proposed Changes
+
+### [System Scripts]
+
+#### [NEW] [scripts/auto_diet_screenshot.py](file:///c:/Users/hirak/Desktop/2nd-Brain/scripts/auto_diet_screenshot.py)
+- **Functionality**:
+    - Scans a target directory (default: Desktop) for new images.
+    - Uses `pytesseract` to perform OCR on the image.
+    - Checks for keywords: "体重", "kg", "体脂肪", "BMI".
+    - If keywords are found:
+        1. Parses the text to extract: Weight, Body Fat %, Date (if available, else today).
+        2. Appends the data to [01_ダイエット/記録.md](file:///c:/Users/hirak/Desktop/2nd-Brain/01_%E3%83%80%E3%82%A4%E3%82%A8%E3%83%83%E3%83%88/%E8%A8%98%E9%8C%B2.md) in the "Timeline" section.
+        3. Updates the "Weekly Trend" table.
+        4. Moves the image to `01_ダイエット/assets/screenshots/` to prevent it from being moved to Manga.
+        5. Sends a Windows Toast notification.
+
+#### [MODIFY] [scripts/watch_antigravity.ps1](file:///c:/Users/hirak/Desktop/2nd-Brain/scripts/watch_antigravity.ps1)
+- **Change**: Add a file system watcher for the Desktop (or configured folder) to trigger the python script when a new image is saved.
+- **Alternative**: Create a separate standalone watcher `scripts/watch_diet_screenshots.ps1` to avoid complicating the main process watcher. **Decision: Create separate watcher.**
+
+#### [NEW] [scripts/watch_diet.ps1](file:///c:/Users/hirak/Desktop/2nd-Brain/scripts/watch_diet.ps1)
+- A dedicated PowerShell script that:
+    1. Watches `C:\Users\hirak\Desktop` (and potentially `Downloads`).
+    2. Filters for image files (`*.png`, `*.jpg`, `*.jpeg`).
+    3. When a file is created, waits a moment (to ensure write finish), then runs `python scripts/auto_diet_screenshot.py <filepath>`.
+
+## Verification Plan
+
+### Manual Verification
+- **Test 1**: Take a screenshot of the "Health Planet" or similar app screen (or use a sample image).
+- **Test 2**: Save it to Desktop.
+- **Expectation**:
+    - The `watch_diet.ps1` detects the file.
+    - `auto_diet_screenshot.py` runs.
+    - Toast notification appears: "Diet Data Extracted: 94.0kg".
+    - `01_ダイエット/記録.md` is updated with the new entry.
+    - The image is moved to `01_ダイエット/assets/screenshots/`.
+    - The image does *not* go to the Manga folder.

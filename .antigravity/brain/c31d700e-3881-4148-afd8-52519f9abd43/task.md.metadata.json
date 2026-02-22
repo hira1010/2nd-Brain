@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_TASK",
+  "summary": "Netlifyへの公開とGitHub自動連携、およびセーブ時のエラー解決のためのタスクリストです。",
+  "updatedAt": "2026-02-22T00:45:40.243803200Z"
+}

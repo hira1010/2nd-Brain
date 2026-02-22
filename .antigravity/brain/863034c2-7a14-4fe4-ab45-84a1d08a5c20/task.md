@@ -1,0 +1,37 @@
+# Task: Refining Remi's Outfit Consistency
+
+- [x] Analyze outfit discrepancy
+  - [x] Check EP04.6 content
+  - [x] Check 00_全体マップ.md content
+  - [x] Compare with 02_設定編
+- [x] Fix EP04.6
+  - [x] Change "Blazer" to "Suit Jacket"
+  - [x] Ensure "Black Lace High-neck Camisole" is present and correct
+- [x] Verify global settings (Optional but recommended)
+  - [x] Update 02_設定編 to reflect "High-neck" if missing
+- [x] Address EP06.5 Feedback (User reported outfit mismatch)
+  - [x] Update EP06.5 prompt to `((Black Lace High-neck Top))` (v3) -> **REVERTED**
+  - [x] Fix mojibake in `character_sheet.md` and sync with new prompt
+  - [x] Update `02_設定編` to use "Top" instead of "Camisole" -> **REVERTED**
+  - [x] **Correction**: Removed `High-neck` from all files (v4) to match V-neck reference.
+- [x] Refine EP06.5 Visuals & Dialogue
+  - [x] Update Panel 1 to "Tiny Snowball vs Avalanche" (v5)
+  - [x] Update Dialogue to clearly explain the interest rate difference (v5)
+- [x] Fix Missing Eye Color
+  - [x] Add `((Sharp Red Eyes))` to EP06.5 and EP04.6 prompts (v6)
+- [x] Fix EP07 Typos (Mojibake) & Visuals
+  - [x] Analyze EP07 content (File was corrupted/unreadable)
+  - [x] Fix corrupted text (mojibake) -> **RECONSTRUCTED**
+  - [x] Apply standardized Remi outfit (Red Eyes, Camisole, NO High-neck)
+  - [x] Fix Missing Yuto in P33
+- [x] Fix EP08 Tanaka Visuals
+  - [x] Retrieve Tanaka's Visual Lock from EP02
+  - [x] Apply Correct Visual Lock to EP08
+  - [x] Update character_sheet.md with Tanaka
+- [x] Expand EP08.5 (Dollar Cost Averaging)
+  - [x] Add "Shield" visual metaphor
+  - [x] Add "Apple" diagram (High price=few, Low price=many)
+  - [x] Explain DCA logic in dialogue
+- [x] Fix EP08.5 Visuals & Expand Content
+  - [x] Fix Clothes/Hair (Business Attire, Negative Prompts)
+  - [x] Add New Page: "This is Dollar Cost Averaging" dialogue

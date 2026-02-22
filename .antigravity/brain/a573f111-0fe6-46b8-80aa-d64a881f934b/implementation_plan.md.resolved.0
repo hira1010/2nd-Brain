@@ -1,0 +1,44 @@
+# 画像生成プロンプト修正計画
+
+## 概要
+ユーザーから報告された「変な英語が出る（画像内にプロンプトの指示文が描画されてしまう）」問題を解決するため、全EPファイルのプロンプト形式を変更します。
+
+## 問題の原因
+`ARCHITECTURE: ...` や `STYLE: ...` といったラベル付きの記述が、画像生成AIによって「画像内に描くべきタイトルや説明テキスト」として解釈されている可能性が高いです。
+
+## 修正方針
+
+1. **指示ラベルの削除**: `ARCHITECTURE:`, `CHARACTERS:`, `STYLE:` などのラベルを削除し、純粋な描写文として記述します。
+2. **強力な否定命令の追加**: プロンプト冒頭に `((NO TEXT))`, `((NO WORDS))` などを追加します。
+3. **田中ビジュアルの適用**: ユーザー指定の田中ビジュアルを全ファイルに適用します。
+
+## 変更前後の比較
+
+### 変更前
+```
+ARCHITECTURE: [v15.5 EDGE OBLITERATOR] ...
+CHARACTERS:
+- Tanaka: ...
+[PANEL 1]: ...
+STYLE: ...
+```
+
+### 変更後
+```
+((NO TEXT, NO WORDS, NO LABELS)).
+(Vertical Portrait, A4 Ratio).
+(High-end 2D Anime Style).
+
+[Scene Description]:
+Tanaka (Messy wavy sandy brown hair, Gray business suit, open collar, Confident arrogant smirk) is ...
+
+[Panel 1]: ...
+```
+
+## 対象ファイル
+- EP01〜EP23 (全23ファイル)
+
+## 実行手順
+1. EP02で新しい形式をテスト修正
+2. ユーザー確認（もし可能なら）
+3. 残りの全ファイルに一括適用

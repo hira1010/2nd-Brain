@@ -22,8 +22,12 @@ from lib import utils, config
 
 logger = utils.initialize_script("commit_all")
 
-def run_script(script_path: Path):
-    """外部スクリプトを Python プロセスとして実行する。"""
+def run_script(script_args):
+    """外部スクリプトを Python プロセスとして実行する。args はリスト形式。"""
+    if isinstance(script_args, Path):
+        script_args = [str(script_args)]
+    
+    script_path = Path(script_args[0])
     logger.info(f"--- Running: {script_path.name} ---")
     if not script_path.exists():
         logger.error(f"Script not found: {script_path}")
@@ -34,7 +38,7 @@ def run_script(script_path: Path):
         env["PYTHONUTF8"] = "1"
         # -X utf8 を付与して文字化けを防止
         result = subprocess.run(
-            [sys.executable, "-X", "utf8", str(script_path)],
+            [sys.executable, "-X", "utf8"] + script_args,
             env=env,
             capture_output=True,
             text=True,
@@ -58,6 +62,11 @@ def run_script(script_path: Path):
 def main():
     logger.info("=== Antigravity Unified Shortcut [5] Started ===")
 
+    # Step 0: Sync Antigravity (Pull from Repo to System)
+    # PC間同期のため、最新のリポジトリデータをシステム側に反映する
+    sync_antigravity = ROOT_DIR / "18_システム" / "sync_antigravity.py"
+    run_script([str(sync_antigravity), "--mode", "pull"])
+
     # Step 1: Sync Data (失敗しても継続)
     sync_assets = ROOT_DIR / "18_システム" / "sync_assets.py"
     sync_weight = ROOT_DIR / "18_システム" / "sync_weight.py"
@@ -72,6 +81,10 @@ def main():
     # Step 2.5: Auto Format (Markdown Lint Fix)
     fix_lint = ROOT_DIR / "18_システム" / "fix_manga_lint.py"
     run_script(fix_lint)
+
+    # Step 2.9: Sync Antigravity (Push from System to Repo)
+    # 現在のコンテキストをリポジトリ用フォルダにコピー
+    run_script([str(sync_antigravity), "--mode", "push"])
 
     # Step 3: Git Commit & Push
     logger.info("--- [Step 3/3] Git Management ---")

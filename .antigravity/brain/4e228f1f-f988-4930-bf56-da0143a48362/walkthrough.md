@@ -1,0 +1,30 @@
+# Walkthrough: リファクタリング & エンコーディング修正
+
+## 実施内容
+
+### 1. リファクタリング
+
+設定と共通処理を別モジュールに分離しました。
+
+| ファイル | 役割 |
+|---|---|
+| [manga_config.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/manga_config.py) | キャラクター、エピソード、メール設定等の全定数 |
+| [manga_utils.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/manga_utils.py) | ディレクトリ作成、ファイル読み書きの共通関数 |
+| [generate_mangano.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/generate_mangano.py) | Markdown生成ロジック（config/utilsを使用） |
+| [fix_manga_prompts.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/fix_manga_prompts.py) | プロンプト修正ロジック（configを使用） |
+| [send_manga_email_final.py](file:///c:/Users/hirak/Desktop/2nd-Brain/18_レミ投資漫画/マンガノ/01_長編_希望の投資/send_manga_email_final.py) | メール送信（configを使用） |
+
+### 2. エンコーディング問題の修正
+
+**根本原因**: `C:\Users\hirak\AppData\Local\Programs\Python\Python312\Lib\site-packages\_ace_step.pth`
+
+このファイルに日本語パスが壊れたエンコーディングで記録されていたため、Python の `site` モジュール初期化時に `UnicodeDecodeError` が発生し、**あらゆるPythonスクリプトが実行不能**になっていました。
+
+**対策**:
+
+1. `_ace_step.pth` → `_ace_step.pth.bak` にリネームして無効化
+2. 全Pythonファイルを Unicode エスケープを使って書き直し
+
+## 検証結果
+
+`generate_mangano.py` を実行し、全23エピソードのMarkdownファイルが正常に生成されることを確認しました。

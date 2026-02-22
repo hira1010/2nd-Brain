@@ -1,0 +1,19 @@
+# 画風の復元とセリフ形式の標準化（再修正版）
+
+## 概要
+EP16以降で画風が崩れ、セリフに不要な要素が含まれ、さらにプロンプト内の英単語が画像に印字される問題が発生しました。
+これらを解決し、EP15以前のクリーンなアニメ画風を完全再現します。
+
+## 修正内容
+1. **画風の修正とテキスト漏れ防止 (Style)**
+    - `Style: Premium manga, cinematic lighting, masterpiece.` 形式に完全固定します。
+    - **重要**: Style行に `SPLIT CONTRAST` などの説明的な英単語を含めると、AIが画像内にその文字を描いてしまうため、一切の追加キーワードを排除します。
+2. **セリフ形式の修正 (Speech Bubble)**
+    - キャラ名ラベル（優斗「...」）を削除。
+    - カギカッコ（「」）を削除。
+    - 例: `STRICT SPEECH BUBBLE WITH JAPANESE TEXT: 優斗、あの時……レミさんに会っていれば……`
+3. **Negative Promptの強化**
+    - `English text, background text, descriptive text, prompt words` を追加し、指示語の混入を強力に防ぎます。
+
+## 対象範囲
+- EP16から順次、すべてのプロンプトをこの「純粋化ルール」で再構成し、チャットに出力します。

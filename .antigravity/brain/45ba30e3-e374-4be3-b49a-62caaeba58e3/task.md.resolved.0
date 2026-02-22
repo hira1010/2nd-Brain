@@ -1,0 +1,8 @@
+# Refactoring Plan
+
+- [ ] Identify all Python scripts and analyze their quality <!-- id: 0 -->
+- [ ] Create a refactoring plan for Python scripts <!-- id: 1 -->
+- [ ] Refactor Python scripts (improve modularity, add types, clean up) <!-- id: 2 -->
+- [ ] Review folder structure and identify inconsistencies <!-- id: 3 -->
+- [ ] Propose and execute folder structure improvements (if needed) <!-- id: 4 -->
+- [ ] Verify functionality remains unchanged <!-- id: 5 -->

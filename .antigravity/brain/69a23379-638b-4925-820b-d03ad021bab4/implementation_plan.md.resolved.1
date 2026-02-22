@@ -1,0 +1,19 @@
+# Implementation Plan - Master Prompt Architect のワークフロー化
+
+保存した高品質プロンプト [07_Master_Prompt_Architect.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/01_Prompts/%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88%E7%94%9F%E6%88%90/07_Master_Prompt_Architect.md) を、スラッシュコマンド（ワークフロー）として呼び出せるように設定します。
+
+## 変更内容
+
+### [.agent/workflows/](file:///c:/Users/hirak/Desktop/2nd-Brain/.agent/workflows/)
+
+#### [NEW] [master-prompt-arch.md](file:///c:/Users/hirak/Desktop/2nd-Brain/.agent/workflows/master-prompt-arch.md)
+
+このファイルを作成し、以下の手順を定義します：
+1. [07_Master_Prompt_Architect.md](file:///c:/Users/hirak/Desktop/2nd-Brain/18_%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/01_Prompts/%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88%E7%94%9F%E6%88%90/07_Master_Prompt_Architect.md) を読み込む。
+2. ユーザーの要望が抽象的な場合は、ヒアリングを行う。
+3. プロンプト内の「Workflow (Your Process)」に従い、最適化されたプロンプトを出力する。
+
+## 検証計画
+
+### 手動確認
+- `/master-prompt-arch` コマンドでワークフローが起動し、正しいファイルが参照されるかを確認します。

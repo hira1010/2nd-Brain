@@ -1,0 +1,6 @@
+{
+  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
+  "summary": "Refactoring plan for the Manga Generation System (Python). Focuses on code modernization, separating templates from code, and updating the system to use the new A4 Vertical format.",
+  "updatedAt": "2026-02-12T02:41:50.826380Z",
+  "version": "1"
+}
