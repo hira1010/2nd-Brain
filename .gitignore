@@ -1,0 +1,11 @@
+# Obsidian workspace state (PC固有なので同期しない)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 同期プラグインのキャッシュ
+.obsidian/plugins/obsidian-git/data.json
