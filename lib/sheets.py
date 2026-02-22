@@ -1,7 +1,8 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from io import StringIO
-from typing import Optional, List, Dict
+from pathlib import Path
+from typing import List, Optional, Sequence
 
 import pandas as pd
 import requests
@@ -10,22 +11,26 @@ from . import utils, config
 
 
 CSV_TIMEOUT_SECONDS = 30
+DEFAULT_SCOPE: Sequence[str] = (
+    "https://spreadsheets.google.com/feeds",
+    "https://www.googleapis.com/auth/drive",
+)
 logger = utils.setup_logger("lib.sheets")
 
 
 class GSheetClient:
     """Class to handle authenticated access to Google Sheets via gspread."""
-    
-    def __init__(self, credentials_file: str = str(config.CREDENTIALS_FILE)):
-        self.credentials_file = credentials_file
-        self.scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+
+    def __init__(self, credentials_file: str = str(config.CREDENTIALS_FILE), scope: Sequence[str] = DEFAULT_SCOPE):
+        self.credentials_file = Path(credentials_file)
+        self.scope = tuple(scope)
         self.client = None
 
     def _authorize(self):
         """Authorize and return the gspread client."""
         if self.client is None:
             try:
-                creds = ServiceAccountCredentials.from_json_keyfile_name(self.credentials_file, self.scope)
+                creds = ServiceAccountCredentials.from_json_keyfile_name(str(self.credentials_file), list(self.scope))
                 self.client = gspread.authorize(creds)
             except Exception as e:
                 logger.error("Failed to authorize Google Sheets API: %s", e)

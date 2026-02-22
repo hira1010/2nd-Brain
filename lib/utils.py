@@ -5,6 +5,8 @@ from typing import Optional, Union
 
 from . import config
 
+_LOGGER = logging.getLogger(__name__)
+
 
 def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
     """Create a stdout logger once per logger name."""
@@ -28,8 +30,10 @@ def initialize_script(name: str) -> logging.Logger:
     import io
     if sys.platform == "win32":
         try:
-            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+            if hasattr(sys.stdout, "buffer") and getattr(sys.stdout, "encoding", "").lower() != "utf-8":
+                sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+            if hasattr(sys.stderr, "buffer") and getattr(sys.stderr, "encoding", "").lower() != "utf-8":
+                sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
         except Exception:
             pass
     return setup_logger(name)
@@ -43,7 +47,7 @@ class FileIO:
         try:
             return Path(path).read_text(encoding=encoding)
         except Exception as exc:
-            logging.getLogger(__name__).error("Failed to read file: %s (%s)", path, exc)
+            _LOGGER.error("Failed to read file: %s (%s)", path, exc)
             return None
 
     @staticmethod
@@ -58,7 +62,7 @@ class FileIO:
             target.write_text(content, encoding=encoding)
             return True
         except Exception as exc:
-            logging.getLogger(__name__).error("Failed to write file: %s (%s)", path, exc)
+            _LOGGER.error("Failed to write file: %s (%s)", path, exc)
             return False
 
 
