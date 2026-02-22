@@ -8,7 +8,7 @@ import os
 import re
 import sys
 from dataclasses import dataclass
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 import pandas as pd
 
@@ -28,6 +28,7 @@ TOTAL_ROW = 14
 GROWTH_RATE_ROW = 15
 ASSET_ROW = 16
 TARGET_TABLE_COLUMN = 11  # Markdown table "26" column
+SUMMARY_VALUES_COUNT = 3
 
 logger = utils.setup_logger("sync_assets")
 
@@ -103,6 +104,19 @@ def update_table_cell(line: str, value: str, bold: bool = True) -> str:
     return "|".join(parts)
 
 
+def is_table_header_line(line: str) -> bool:
+    """更新対象テーブルのヘッダー行かどうかを判定。"""
+    return "17" in line and "26" in line
+
+
+def get_first_cell(line: str) -> str:
+    """Markdown表行の先頭セルを取得。"""
+    parts = line.split("|")
+    if len(parts) <= 1:
+        return ""
+    return parts[1].strip().replace("*", "")
+
+
 def is_month_row(first_cell: str) -> Optional[int]:
     """先頭セルから月番号を抽出。"""
     m = re.match(r"^\s*(\d{1,2})\D*$", first_cell.strip())
@@ -123,6 +137,11 @@ def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
     lines = content.splitlines()
     in_table = False
     month_rows_seen = 0
+    summary_values: List[tuple[str, bool]] = [
+        (snapshot.total, True),
+        (snapshot.growth_rate, False),
+        (snapshot.asset, True),
+    ]
     summary_phase = 0
 
     for idx, line in enumerate(lines):
@@ -136,9 +155,9 @@ def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
         if len(parts) <= TARGET_TABLE_COLUMN:
             continue
 
-        first_cell = parts[1].strip().replace("*", "")
+        first_cell = get_first_cell(line)
 
-        if "17" in line and "26" in line:
+        if is_table_header_line(line):
             in_table = True
             month_rows_seen = 0
             summary_phase = 0
@@ -155,17 +174,12 @@ def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
                 summary_phase = 1
             continue
 
-        if summary_phase == 1:
-            lines[idx] = update_table_cell(line, snapshot.total, bold=True)
-            summary_phase = 2
-            continue
-        if summary_phase == 2:
-            lines[idx] = update_table_cell(line, snapshot.growth_rate, bold=False)
-            summary_phase = 3
-            continue
-        if summary_phase == 3:
-            lines[idx] = update_table_cell(line, snapshot.asset, bold=True)
-            in_table = False
+        if 1 <= summary_phase <= SUMMARY_VALUES_COUNT:
+            value, bold = summary_values[summary_phase - 1]
+            lines[idx] = update_table_cell(line, value, bold=bold)
+            summary_phase += 1
+            if summary_phase > SUMMARY_VALUES_COUNT:
+                in_table = False
 
     return "\n".join(lines)
 

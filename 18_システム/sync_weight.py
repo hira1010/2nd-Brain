@@ -36,6 +36,7 @@ BODY_FAT_RE = re.compile(r"体脂肪:\s*([0-9.]+)%")
 VISCERAL_FAT_RE = re.compile(r"内臓脂肪:\s*([0-9.]+)")
 
 logger = utils.setup_logger("sync_weight")
+MetricMap = Dict[str, str]
 
 
 @dataclass(frozen=True)
@@ -112,6 +113,11 @@ def parse_existing_records(content: str) -> List[WeightRecord]:
     return sorted(records, key=lambda r: r.sort_key, reverse=True)
 
 
+def weekly_average(records: List[WeightRecord]) -> float:
+    """直近7件（不足時は利用可能分）の平均体重を返す。"""
+    return statistics.mean([r.weight for r in records[:7]])
+
+
 def generate_advice(records: List[WeightRecord]) -> str:
     """最新データに基づいたアドバイス文を生成します。"""
     if len(records) < 2:
@@ -120,7 +126,7 @@ def generate_advice(records: List[WeightRecord]) -> str:
     latest = records[0]
     previous = records[1]
     diff = latest.weight - previous.weight
-    week_avg = statistics.mean([r.weight for r in records[:7]])
+    week_avg = weekly_average(records)
 
     advice_lines = [
         "## 🎯 今日の振り返りとアドバイス\n",
@@ -172,7 +178,7 @@ def cell_at(row: pd.Series, index: int) -> str:
     return to_cell_text(row.iloc[index])
 
 
-def extract_latest_measurement(df: pd.DataFrame) -> Optional[Tuple[str, str, Dict[str, str]]]:
+def extract_latest_measurement(df: pd.DataFrame) -> Optional[Tuple[str, str, MetricMap]]:
     """スプレッドシートから最新1行の体重データを抽出します。"""
     valid_data = df[df.iloc[:, 0].notna() & df.iloc[:, 3].notna()]
     if valid_data.empty:
@@ -203,24 +209,27 @@ def extract_latest_measurement(df: pd.DataFrame) -> Optional[Tuple[str, str, Dic
     return date_text, weight_text, metrics
 
 
+def build_measurement_rows(metrics: MetricMap) -> List[str]:
+    """体組成テーブル（4行）を作成。"""
+    return [
+        f"| 体脂肪 | {with_percent(metrics['fat'])} | 皮下脂肪 | {with_percent(metrics['subq'])} |",
+        f"| 骨格筋 | {with_percent(metrics['muscle'])} | 内臓脂肪 | {metrics['visceral']} |",
+        f"| 代謝 | {metrics['bmr']} | 体内年齢 | {metrics['age']} |",
+        f"| BMI | {metrics['bmi']} | 血圧 | {metrics['bp']} |",
+    ]
+
+
 def build_timeline_entry(
     last_date: str,
     last_weight: str,
-    metrics: Dict[str, str],
+    metrics: MetricMap,
     existing_content: str,
 ) -> str:
     """新しい日次エントリ本文を作成します。"""
     new_entry = [format_header(last_date, last_weight), ""]
     new_entry.append("| 指標 | 値 | 指標 | 値 |")
     new_entry.append("| :--- | :--- | :--- | :--- |")
-    new_entry.append(
-        f"| 体脂肪 | {with_percent(metrics['fat'])} | 皮下脂肪 | {with_percent(metrics['subq'])} |"
-    )
-    new_entry.append(
-        f"| 骨格筋 | {with_percent(metrics['muscle'])} | 内臓脂肪 | {metrics['visceral']} |"
-    )
-    new_entry.append(f"| 代謝 | {metrics['bmr']} | 体内年齢 | {metrics['age']} |")
-    new_entry.append(f"| BMI | {metrics['bmi']} | 血圧 | {metrics['bp']} |")
+    new_entry.extend(build_measurement_rows(metrics))
     new_entry.append("")
 
     temp_record = WeightRecord(last_date, float(last_weight))
@@ -230,6 +239,16 @@ def build_timeline_entry(
     new_entry.append("")
     new_entry.append("---")
     return "\n".join(new_entry)
+
+
+def append_mermaid_value(content: str, key: str, value: str) -> str:
+    """Mermaidの指定キー配列へ末尾追加する。"""
+    pattern = rf"{re.escape(key)} \[(.*?)\]"
+    match = re.search(pattern, content)
+    if not match:
+        return content
+    current = match.group(1)
+    return content.replace(f"{key} [{current}]", f"{key} [{current}, {value}]")
 
 
 def update_mermaid_chart(content: str, date_str: str, weight_val: str) -> str:
@@ -242,20 +261,8 @@ def update_mermaid_chart(content: str, date_str: str, weight_val: str) -> str:
     if date_str in current_dates:
         return content
 
-    content = content.replace(
-        f"x-axis [{current_dates}]",
-        f"x-axis [{current_dates}, {date_str}]",
-    )
-
-    line_match = re.search(r"line \[(.*?)\]", content)
-    if not line_match:
-        return content
-
-    current_vals = line_match.group(1)
-    return content.replace(
-        f"line [{current_vals}]",
-        f"line [{current_vals}, {weight_val}]",
-    )
+    content = append_mermaid_value(content, "x-axis", date_str)
+    return append_mermaid_value(content, "line", weight_val)
 
 
 def update_summary_section(content: str, records: List[WeightRecord]) -> str:
@@ -266,7 +273,7 @@ def update_summary_section(content: str, records: List[WeightRecord]) -> str:
     latest = records[0]
     previous = records[1] if len(records) > 1 else latest
     diff = latest.weight - previous.weight
-    week_avg = statistics.mean([r.weight for r in records[:7]])
+    week_avg = weekly_average(records)
 
     content = re.sub(
         r"## 🧘‍♂️ 今日の振り返り \(\d+/\d+\)",
