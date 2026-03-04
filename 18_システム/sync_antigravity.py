@@ -56,6 +56,13 @@ def sync_data(
         print(f"    Successfully synced {sync_dir}")
 
 
+def resolve_sync_bases(user_profile: Path, script_path: Path) -> tuple[Path, Path]:
+    """Resolve system and repository antigravity base directories."""
+    system_base = user_profile / ".gemini" / "antigravity"
+    repo_base = script_path.resolve().parent.parent / ".antigravity"
+    return system_base, repo_base
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Sync Antigravity context data.")
     parser.add_argument(
@@ -72,8 +79,7 @@ def main() -> int:
     args = parser.parse_args()
 
     user_profile = Path(os.environ["USERPROFILE"])
-    system_base = user_profile / ".gemini" / "antigravity"
-    repo_base = Path(__file__).resolve().parent.parent / ".antigravity"
+    system_base, repo_base = resolve_sync_bases(user_profile, Path(__file__))
 
     if args.mode == "push":
         sync_data(system_base, repo_base, dry_run=args.dry_run)

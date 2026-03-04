@@ -4,18 +4,19 @@
 Googleスプレッドシートの2026年列を読み取り、Markdownテーブルを更新します。
 """
 
-import os
 import re
 import sys
 from dataclasses import dataclass
-from enum import Enum
 from typing import Dict, List, Optional
 
 import pandas as pd
 
-LIB_PARENT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if LIB_PARENT not in sys.path:
-    sys.path.append(LIB_PARENT)
+import os
+
+# プロジェクトルートをパスに追加
+_ROOT = os.path.dirname(os.path.abspath(__file__))
+if os.path.dirname(_ROOT) not in sys.path:
+    sys.path.insert(0, os.path.dirname(_ROOT))
 
 from lib import config, sheets, utils
 
@@ -24,211 +25,76 @@ GID = "709056658"
 MD_FILE_PATH = config.STOCKS_DIR / "配当金・資産推移.md"
 
 YEAR_2026_COLUMN = 10  # Spreadsheet column K
-MONTH_START_ROW = 2
-TOTAL_ROW = 14
-GROWTH_RATE_ROW = 15
-ASSET_ROW = 16
 TARGET_TABLE_COLUMN = 11  # Markdown table "26" column
-SUMMARY_ROWS: List[tuple[str, bool]] = [
-    ("total", True),
-    ("growth_rate", False),
-    ("asset", True),
-]
 
-
-class TablePhase(Enum):
-    """State machine for markdown table parsing."""
-
-    BEFORE_HEADER = 0
-    IN_MONTH_ROWS = 1
-    IN_SUMMARY_ROWS = 2
-    DONE = 3
-
-logger = utils.setup_logger("sync_assets")
-
+logger = utils.initialize_script("sync_assets")
 
 @dataclass(frozen=True)
 class AssetSnapshot:
-    """同期対象の年次スナップショット。"""
-
     months: Dict[int, str]
     total: str
     growth_rate: str
     asset: str
 
-
-def format_count(value: object) -> str:
-    """配当金などの整数値を文字列化。0/欠損は '-'。"""
-    if pd.isna(value):
-        return "-"
+def format_val(val: object, is_percent: bool = False) -> str:
+    if pd.isna(val) or str(val).strip() in ("0", "0%"): return "-"
+    s = str(val).strip().replace("%", "")
     try:
-        num = float(value)
-    except (TypeError, ValueError):
-        return str(value)
-    if num == 0:
-        return "-"
-    return str(int(num))
-
-
-def format_percentage(value: object) -> str:
-    """増加率を '9%' 形式で返す。欠損は '-'。"""
-    if pd.isna(value):
-        return "-"
-    text = str(value).replace("%", "").strip()
-    try:
-        return f"{int(float(text))}%"
-    except (TypeError, ValueError):
-        return str(value)
-
-
-def format_asset(value: object) -> str:
-    """資産の表示値を返す。欠損は '-'。"""
-    if pd.isna(value):
-        return "-"
-    return str(value).strip()
-
-
-def read_cell(df: pd.DataFrame, row: int, col: int) -> object:
-    """範囲外アクセスを '-' にフォールバック。"""
-    try:
-        return df.iloc[row, col]
-    except IndexError:
-        return pd.NA
-
-
-def extract_snapshot(df: pd.DataFrame) -> AssetSnapshot:
-    """2026年列から月次/サマリー値を抽出。"""
-    months: Dict[int, str] = {}
-    for month in range(1, 13):
-        row = MONTH_START_ROW + (month - 1)
-        months[month] = format_count(read_cell(df, row, YEAR_2026_COLUMN))
-
-    total = format_count(read_cell(df, TOTAL_ROW, YEAR_2026_COLUMN))
-    growth_rate = format_percentage(read_cell(df, GROWTH_RATE_ROW, YEAR_2026_COLUMN))
-    asset = format_asset(read_cell(df, ASSET_ROW, YEAR_2026_COLUMN))
-    return AssetSnapshot(months=months, total=total, growth_rate=growth_rate, asset=asset)
-
+        return f"{int(float(s))}%" if is_percent else str(int(float(s)))
+    except ValueError:
+        return s
 
 def update_table_cell(line: str, value: str, bold: bool = True) -> str:
-    """Markdown表の対象列を更新。"""
     parts = line.split("|")
-    if len(parts) <= TARGET_TABLE_COLUMN:
-        return line
+    if len(parts) <= TARGET_TABLE_COLUMN: return line
     parts[TARGET_TABLE_COLUMN] = f" **{value}** " if bold else f" {value} "
     return "|".join(parts)
 
-
-def is_table_header_line(line: str) -> bool:
-    """更新対象テーブルのヘッダー行かどうかを判定。"""
-    return "17" in line and "26" in line
-
-
-def get_first_cell(line: str) -> str:
-    """Markdown表行の先頭セルを取得。"""
-    parts = line.split("|")
-    if len(parts) <= 1:
-        return ""
-    return parts[1].strip().replace("*", "")
-
-
-def is_month_row(first_cell: str) -> Optional[int]:
-    """先頭セルから月番号を抽出。"""
-    m = re.match(r"^\s*(\d{1,2})\D*$", first_cell.strip())
-    if not m:
-        return None
-    month = int(m.group(1))
-    if 1 <= month <= 12:
-        return month
-    return None
-
-
-def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
-    """
-    年次テーブルを更新。
-    文字列見出しに依存せず、月行の直後3行を
-    `total -> growth_rate -> asset` とみなして更新する。
-    """
-    lines = content.splitlines()
-    phase = TablePhase.BEFORE_HEADER
-    month_rows_seen = 0
-    summary_values: List[tuple[str, bool]] = [
-        (getattr(snapshot, field), bold) for field, bold in SUMMARY_ROWS
-    ]
-    summary_phase = 0
-
-    for idx, line in enumerate(lines):
-        stripped = line.strip()
-
-        if not stripped.startswith("|"):
-            if phase != TablePhase.DONE:
-                phase = TablePhase.BEFORE_HEADER
-            continue
-
-        parts = line.split("|")
-        if len(parts) <= TARGET_TABLE_COLUMN:
-            continue
-
-        first_cell = get_first_cell(line)
-
-        if is_table_header_line(line):
-            phase = TablePhase.IN_MONTH_ROWS
-            month_rows_seen = 0
-            summary_phase = 0
-            continue
-
-        if phase not in (TablePhase.IN_MONTH_ROWS, TablePhase.IN_SUMMARY_ROWS):
-            continue
-
-        month = is_month_row(first_cell)
-        if month is not None:
-            lines[idx] = update_table_cell(line, snapshot.months[month], bold=True)
-            month_rows_seen += 1
-            if month_rows_seen == 12:
-                phase = TablePhase.IN_SUMMARY_ROWS
-                summary_phase = 1
-            continue
-
-        if phase == TablePhase.IN_SUMMARY_ROWS and 1 <= summary_phase <= len(summary_values):
-            value, bold = summary_values[summary_phase - 1]
-            lines[idx] = update_table_cell(line, value, bold=bold)
-            summary_phase += 1
-            if summary_phase > len(summary_values):
-                phase = TablePhase.DONE
-
-    return "\n".join(lines)
-
-
-def sync() -> bool:
-    """資産データを同期してMarkdownへ反映。"""
-    logger.info("資産データ同期開始: %s", MD_FILE_PATH)
-
-    df = sheets.fetch_csv_from_google_sheets(SHEET_ID, GID)
-    if df is None:
-        return False
-
-    snapshot = extract_snapshot(df)
-    logger.info(
-        "抽出値: 資産=%s, 増加率=%s, 合計=%s",
-        snapshot.asset,
-        snapshot.growth_rate,
-        snapshot.total,
-    )
-
-    content = utils.FileIO.read_text(MD_FILE_PATH)
-    if content is None:
-        return False
-
-    updated = update_markdown_table(content, snapshot)
-    if not utils.FileIO.write_text(MD_FILE_PATH, updated):
-        return False
-
-    logger.info("資産データ同期が完了しました。")
-    return True
-
-
 def main() -> int:
-    return 0 if sync() else 1
+    logger.info("資産データ同期開始")
+    df = sheets.fetch_csv_from_google_sheets(SHEET_ID, GID)
+    content = utils.FileIO.read_text(MD_FILE_PATH)
+    if df is None or content is None: return 1
 
+    # データ抽出
+    months = {m: format_val(df.iloc[m + 1, YEAR_2026_COLUMN]) for m in range(1, 13)}
+    total = format_val(df.iloc[14, YEAR_2026_COLUMN])
+    growth = format_val(df.iloc[15, YEAR_2026_COLUMN], is_percent=True)
+    asset = str(df.iloc[16, YEAR_2026_COLUMN]).strip()
+
+    # Markdown更新 (ステートマシンを廃止し、より直感的に)
+    lines = content.splitlines()
+    in_target_table = False
+    month_count = 0
+
+    for i, line in enumerate(lines):
+        if "17" in line and "26" in line:
+            in_target_table = True; month_count = 0; continue
+        if not in_target_table or not line.strip().startswith("|"):
+            if month_count >= 15: in_target_table = False # 合計/増加率/資産の3行後
+            continue
+        
+        # 月別行の判定 (先頭セルが数字)
+        first_cell = line.split("|")[1].strip().replace("*", "")
+        m = re.match(r"^(\d{1,2})", first_cell)
+        if m:
+            ml_idx = int(m.group(1))
+            lines[i] = update_table_cell(line, months[ml_idx])
+            month_count += 1
+        elif month_count == 12: # 合計行
+            lines[i] = update_table_cell(line, total)
+            month_count += 1
+        elif month_count == 13: # 増加率
+            lines[i] = update_table_cell(line, growth, bold=False)
+            month_count += 1
+        elif month_count == 14: # 資産
+            lines[i] = update_table_cell(line, asset)
+            month_count += 1
+
+    if utils.FileIO.write_text(MD_FILE_PATH, "\n".join(lines)):
+        logger.info("同期完了")
+        return 0
+    return 1
 
 if __name__ == "__main__":
     raise SystemExit(main())

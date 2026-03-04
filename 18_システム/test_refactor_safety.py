@@ -44,6 +44,13 @@ class TestSyncAntigravityHelpers(unittest.TestCase):
             )
             self.assertEqual(existing, ["brain", "knowledge"])
 
+    def test_resolve_sync_bases(self):
+        user_profile = Path(r"C:\Users\demo")
+        script_path = Path(r"C:\repo\project\18_システム\sync_antigravity.py")
+        system_base, repo_base = SYNC_ANTIGRAVITY.resolve_sync_bases(user_profile, script_path)
+        self.assertEqual(system_base, user_profile / ".gemini" / "antigravity")
+        self.assertEqual(repo_base, Path(r"C:\repo\project\.antigravity"))
+
 
 if __name__ == "__main__":
     unittest.main()
