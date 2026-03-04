@@ -21,13 +21,7 @@ logger = manga_utils.setup_logger("smart_refactor")
 
 DEFAULT_CATEGORY = "Uncategorized"
 TEMPLATE_NAME = "manga_prompt.md"
-DEFAULT_DIALOGUES: Dict[str, str] = {
-    "Intro": "Dialogue Intro",
-    "Teach": "Dialogue Teach",
-    "Desc": "Dialogue Desc",
-    "Action": "Dialogue Action",
-}
-
+DATE_FORMAT = "%Y-%m-%d"
 
 class MangaRefactorer:
     """Handle prompt refactoring for one file or a batch of files."""
@@ -54,7 +48,7 @@ class MangaRefactorer:
             extracted_dialogues = manga_utils.get_dialogues(
                 content, episode.title, episode.desc
             )
-            dialogues = {**DEFAULT_DIALOGUES, **extracted_dialogues}
+            dialogues = {**manga_utils.DEFAULT_DIALOGUES, **extracted_dialogues}
             new_content = self._generate_content(episode, dialogues)
         except Exception as exc:
             logger.error("Error preparing refactor for %s: %s", path, exc)
@@ -105,23 +99,29 @@ class MangaRefactorer:
             return None
 
         scene = random.choice(manga_config.SCENES)
+        payload = self._build_template_payload(episode, dialogues, scene)
         try:
-            return template_content.format(
-                NO=episode.no,
-                NO_CLEAN=episode.no.lstrip("0") or "0",
-                TITLE=episode.title,
-                DESC=episode.desc,
-                CATEGORY=episode.category,
-                SCENE=scene,
-                DIALOGUE_INTRO=dialogues["Intro"],
-                DIALOGUE_TEACH=dialogues["Teach"],
-                DIALOGUE_DESC=dialogues["Desc"],
-                DIALOGUE_ACTION=dialogues["Action"],
-                TODAY=datetime.now().strftime("%Y-%m-%d"),
-            )
+            return template_content.format(**payload)
         except KeyError as exc:
             logger.error("Template placeholder missing: %s", exc)
             return None
+
+    def _build_template_payload(
+        self, episode: MangaEpisode, dialogues: Dict[str, str], scene: str
+    ) -> Dict[str, str]:
+        return {
+            "NO": episode.no,
+            "NO_CLEAN": episode.no.lstrip("0") or "0",
+            "TITLE": episode.title,
+            "DESC": episode.desc,
+            "CATEGORY": episode.category,
+            "SCENE": scene,
+            "DIALOGUE_INTRO": dialogues["Intro"],
+            "DIALOGUE_TEACH": dialogues["Teach"],
+            "DIALOGUE_DESC": dialogues["Desc"],
+            "DIALOGUE_ACTION": dialogues["Action"],
+            "TODAY": datetime.now().strftime(DATE_FORMAT),
+        }
 
     def iter_target_files(self) -> Iterator[Path]:
         """Yield markdown files from configured target directories."""

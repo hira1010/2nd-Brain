@@ -5,7 +5,7 @@ Provides logging, text extraction, and sanitization helper functions.
 
 import logging
 import re
-from typing import Dict
+from typing import Dict, Match, Optional
 
 # Regex Patterns
 _NO_RE = re.compile(r"\|\s*No\s*\|\s*(\d+)\s*\|")
@@ -16,6 +16,15 @@ _HEADER_EPISODE_NO_RE = re.compile(r"#\s*Episode\s*(\d+)", re.IGNORECASE)
 _SPEECH_BUBBLE_RE = re.compile(r"(?:STRICT SPEECH BUBBLE|says)\s*[:\.]?\s*['\"](.*?)['\"]")
 
 _SAFE_FILENAME_RE = re.compile(r'[\\/*?:"<>|]')
+
+_DEFAULT_NO = "00"
+_DEFAULT_TITLE = "Unknown"
+DEFAULT_DIALOGUES: Dict[str, str] = {
+    "Intro": "Dialogue Intro",
+    "Teach": "Dialogue Teach",
+    "Desc": "Dialogue Desc",
+    "Action": "Dialogue Action",
+}
 
 def setup_logger(name: str) -> logging.Logger:
     """
@@ -32,35 +41,43 @@ def setup_logger(name: str) -> logging.Logger:
 
 logger = setup_logger("manga_utils")
 
+
+def _first_match(*matches: Optional[Match[str]]) -> Optional[Match[str]]:
+    for match in matches:
+        if match:
+            return match
+    return None
+
+
+def _clean_dialogue(text: str) -> str:
+    return text.strip().strip('"').strip("'")
+
+
+def _extract_episode_no(content: str) -> str:
+    match = _first_match(_NO_RE.search(content), _HEADER_EPISODE_NO_RE.search(content))
+    return match.group(1) if match else _DEFAULT_NO
+
+
+def _extract_title(content: str) -> str:
+    match = _first_match(_TITLE_RE.search(content), _HEADER_TITLE_RE.search(content))
+    return match.group(1).strip() if match else _DEFAULT_TITLE
+
+
+def _extract_desc(content: str) -> str:
+    match = _DESC_RE.search(content)
+    return match.group(1).strip() if match else ""
+
+
 def extract_info_from_md(content: str) -> Dict[str, str]:
     """
     Extracts metadata (No, Title, etc.) from the markdown content.
     """
-    info: Dict[str, str] = {}
-    
-    # Extract No
-    no_match = _NO_RE.search(content)
-    # If not found in table, try header "Episode X"
-    if not no_match:
-        header_no_match = _HEADER_EPISODE_NO_RE.search(content)
-        info['no'] = header_no_match.group(1) if header_no_match else "00"
-    else:
-        info['no'] = no_match.group(1)
-    
-    # Extract Title
-    title_match = _TITLE_RE.search(content)
-    if title_match:
-        info['title'] = title_match.group(1).strip()
-    else:
-        # Fallback: try to find it in the header
-        header_match = _HEADER_TITLE_RE.search(content)
-        info['title'] = header_match.group(1).strip() if header_match else "Unknown"
+    return {
+        "no": _extract_episode_no(content),
+        "title": _extract_title(content),
+        "desc": _extract_desc(content),
+    }
 
-    # Extract Description
-    desc_match = _DESC_RE.search(content)
-    info['desc'] = desc_match.group(1).strip() if desc_match else ""
-
-    return info
 
 def get_dialogues(content: str, _title: str, _desc: str) -> Dict[str, str]:
     """
@@ -69,16 +86,7 @@ def get_dialogues(content: str, _title: str, _desc: str) -> Dict[str, str]:
     We use a best-effort approach.
     """
     # Default placeholders
-    dialogues = {
-        "Intro": "Dialogue Intro",
-        "Teach": "Dialogue Teach",
-        "Desc": "Dialogue Desc",
-        "Action": "Dialogue Action"
-    }
-
-    # Helper to clean extracted dialogue
-    def clean(text: str) -> str:
-        return text.strip().strip('"').strip("'")
+    dialogues = dict(DEFAULT_DIALOGUES)
 
     # Trying to extract roughly based on position or context keywords if standard regex fails
     # Standard format usually has 'Remi says "..."' or 'STRICT SPEECH BUBBLE: "..."'
@@ -89,10 +97,10 @@ def get_dialogues(content: str, _title: str, _desc: str) -> Dict[str, str]:
     
     if len(bubbles) >= 4:
         # If we found enough bubbles, assume they correspond to the 4 key slots
-        dialogues["Intro"] = clean(bubbles[0])
-        dialogues["Teach"] = clean(bubbles[1]) # Usually 2nd bubble on page 1
-        dialogues["Desc"] = clean(bubbles[2])  # Page 2 start
-        dialogues["Action"] = clean(bubbles[-1]) # Last one usually Yuto
+        dialogues["Intro"] = _clean_dialogue(bubbles[0])
+        dialogues["Teach"] = _clean_dialogue(bubbles[1]) # Usually 2nd bubble on page 1
+        dialogues["Desc"] = _clean_dialogue(bubbles[2])  # Page 2 start
+        dialogues["Action"] = _clean_dialogue(bubbles[-1]) # Last one usually Yuto
     
     return dialogues
 

@@ -37,6 +37,20 @@ VISCERAL_FAT_RE = re.compile(r"内臓脂肪:\s*([0-9.]+)")
 
 logger = utils.setup_logger("sync_weight")
 MetricMap = Dict[str, str]
+DATE_COL = 0
+BP_UPPER_COL = 1
+BP_LOWER_COL = 2
+VALIDATION_COL = 3
+WEIGHT_COL = 4
+METRIC_COLUMN_MAP: Dict[str, int] = {
+    "fat": 6,
+    "subq": 8,
+    "muscle": 10,
+    "visceral": 12,
+    "bmr": 14,
+    "age": 16,
+    "bmi": 18,
+}
 
 
 @dataclass(frozen=True)
@@ -99,18 +113,17 @@ def parse_existing_records(content: str) -> List[WeightRecord]:
         section_end = next_match.start() if next_match else len(content)
         section = content[section_start:section_end]
 
-        body_fat = None
-        visceral_fat = None
-        bf_match = BODY_FAT_RE.search(section)
-        if bf_match:
-            body_fat = float(bf_match.group(1))
-        vf_match = VISCERAL_FAT_RE.search(section)
-        if vf_match:
-            visceral_fat = float(vf_match.group(1))
+        body_fat = _extract_optional_float(section, BODY_FAT_RE)
+        visceral_fat = _extract_optional_float(section, VISCERAL_FAT_RE)
 
         records.append(WeightRecord(date_str, weight, None, body_fat, visceral_fat))
 
     return sorted(records, key=lambda r: r.sort_key, reverse=True)
+
+
+def _extract_optional_float(text: str, pattern: re.Pattern[str]) -> Optional[float]:
+    match = pattern.search(text)
+    return float(match.group(1)) if match else None
 
 
 def weekly_average(records: List[WeightRecord]) -> float:
@@ -178,35 +191,36 @@ def cell_at(row: pd.Series, index: int) -> str:
     return to_cell_text(row.iloc[index])
 
 
+def _extract_blood_pressure(row: pd.Series) -> str:
+    upper = cell_at(row, BP_UPPER_COL)
+    lower = cell_at(row, BP_LOWER_COL)
+    if upper == "-" or lower == "-":
+        return "-"
+    return f"{upper}/{lower}"
+
+
+def _extract_metrics(row: pd.Series) -> MetricMap:
+    metrics: MetricMap = {name: cell_at(row, idx) for name, idx in METRIC_COLUMN_MAP.items()}
+    metrics["bp"] = _extract_blood_pressure(row)
+    return metrics
+
+
 def extract_latest_measurement(df: pd.DataFrame) -> Optional[Tuple[str, str, MetricMap]]:
     """スプレッドシートから最新1行の体重データを抽出します。"""
-    valid_data = df[df.iloc[:, 0].notna() & df.iloc[:, 3].notna()]
+    valid_data = df[df.iloc[:, DATE_COL].notna() & df.iloc[:, VALIDATION_COL].notna()]
     if valid_data.empty:
         return None
 
     row = valid_data.iloc[-1]
-    date_text = normalize_date(str(row.iloc[0]))
+    date_text = normalize_date(str(row.iloc[DATE_COL]))
 
     try:
-        weight_text = f"{float(str(row.iloc[3])):.1f}"
-    except (TypeError, ValueError):
+        # Weight column index is validated against the current sheet layout.
+        weight_text = f"{float(str(row.iloc[WEIGHT_COL])):.1f}"
+    except (TypeError, ValueError, IndexError):
         return None
 
-    upper = cell_at(row, 1)
-    lower = cell_at(row, 2)
-    blood_pressure = f"{upper}/{lower}" if upper != "-" and lower != "-" else "-"
-
-    metrics = {
-        "fat": cell_at(row, 5),
-        "subq": cell_at(row, 7),
-        "muscle": cell_at(row, 9),
-        "visceral": cell_at(row, 11),
-        "bmr": cell_at(row, 13),
-        "age": cell_at(row, 15),
-        "bmi": cell_at(row, 17),
-        "bp": blood_pressure,
-    }
-    return date_text, weight_text, metrics
+    return date_text, weight_text, _extract_metrics(row)
 
 
 def build_measurement_rows(metrics: MetricMap) -> List[str]:

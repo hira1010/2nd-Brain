@@ -2,6 +2,8 @@ import importlib.util
 import unittest
 from pathlib import Path
 
+import pandas as pd
+
 
 def load_module(module_name: str, file_path: Path):
     spec = importlib.util.spec_from_file_location(module_name, file_path)
@@ -41,6 +43,28 @@ class TestSyncWeight(unittest.TestCase):
 
         updated_again = SYNC_WEIGHT.update_mermaid_chart(updated, "2/17", "92.8")
         self.assertEqual(updated, updated_again)
+
+    def test_extract_latest_measurement_maps_expected_columns(self):
+        rows = [
+            ["2/16", "120", "80", "ok", "93.6", "", "29.0", "", "20.0", "", "30.0", "", "15", "", "1900", "", "56", "", "29.0"],
+            ["2/17", "121", "81", "ok", "92.8", "", "28.3", "", "20.1", "", "30.6", "", "16", "", "1962", "", "57", "", "29.3"],
+        ]
+        df = pd.DataFrame(rows)
+
+        extracted = SYNC_WEIGHT.extract_latest_measurement(df)
+        self.assertIsNotNone(extracted)
+        date_text, weight_text, metrics = extracted
+
+        self.assertEqual(date_text, "2/17")
+        self.assertEqual(weight_text, "92.8")
+        self.assertEqual(metrics["bp"], "121/81")
+        self.assertEqual(metrics["fat"], "28.3")
+        self.assertEqual(metrics["subq"], "20.1")
+        self.assertEqual(metrics["muscle"], "30.6")
+        self.assertEqual(metrics["visceral"], "16")
+        self.assertEqual(metrics["bmr"], "1962")
+        self.assertEqual(metrics["age"], "57")
+        self.assertEqual(metrics["bmi"], "29.3")
 
 
 class TestSyncAssets(unittest.TestCase):

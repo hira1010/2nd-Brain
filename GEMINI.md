@@ -1,5 +1,17 @@
 # GEMINI Instructions | 🚀 Turbo Mode: Enabled (Auto Run/Accept)
 
+> [!IMPORTANT]
+> **【最強の完全自動化設定】適用済み**
+>
+> - **Agent Mode**: Agent-driven
+> - **Terminal Execution**: Turbo
+> - **Allowed List**: *
+> - **Denied List**: (空欄)
+> - **Review Policy**: No Review
+> - **Browser JS**: Always Allow
+> - **Auto Continue**: ON
+> - **Quick Settings**: Always Proceed
+
 ## 🚀 ショートカット (Shortcuts)
 
 - **5**: 全部入り (同期 & リファクタリング & コミット) (`python scripts/commit_all.py`)

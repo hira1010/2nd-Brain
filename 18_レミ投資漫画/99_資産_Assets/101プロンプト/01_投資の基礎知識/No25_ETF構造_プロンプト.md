@@ -1,46 +1,59 @@
-# Episode 25: ETF構造 (Grimoire Page)
+# Episode 25: ETF構造
 
 ## TIPS情報
 
 | 項目 | 内容 |
 | :--- | :--- |
 | EP | 25 |
-| タイトル | 上場投資信託 (ETF)：構造の自動最適化 |
-| 解説 | 4Pの「Paper(構造)」に焦点を当て、ETFが持つ市場の透明性と、自動的な銘柄入れ替えによる不敗の艦隊化を解説。 |
+| タイトル | ETF構造 |
+| 解説 |  |
 
 ---
 
-## ページ目 (ETF Structure - The Untiring Fleet)
+## Page 1 (The Hook)
 
 ```javascript
 generate_image(
-  ImageName: "remi_etf_structure_v15_5_jp",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+  ImageName: "remi_ep25_p1_v1",
+  Prompt: "((Vertical Portrait A4 Ratio)), ((Long Strip Format)), ((Manga Page Layout)). ((NO TEXT, NO WORDS, NO LABELS)). (High Quality Manga Layout). (Full Bleed).
 
-CHARACTERS:
+[Scene]:
+Remi: ((Crimson Red Suit Jacket)), ((Black Lace High-neck Camisole)), ((Tight Red Skirt)). (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face). **VISUAL LOCK**.
+Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slightly messy). **VISUAL LOCK**.
 
-- Remi: ((Very Long Silver Hair:1.5)), ((Hime-cut)), ((Intense Glowing Red Eyes:1.6)), ((Black Lace Camisole:1.8)), ((Deep Cleavage:1.5)), ((Crimson Red Suit Jacket)). **NO SHIRT, NO TIE, NO COLLAR**. (Pose: Explaining with authority, gesturing toward a complex digital cube displaying corporate logos). **VISUAL LOCK**.
-- Yuto: ((Navy Blue Suit:1.3)), ((White Shirt)), ((Blue Tie)). (Pose: Watching the digital display with interest). **VISUAL LOCK**.
+[Panel 1]: Stylish cafe with warm lighting and wooden furniture. Remi stands calmly next to a large holographic display showing 'ETF構造'. Unlike usual, the screen shows a simple balanced symbol. Yuto looks puzzled.
+[Panel 2]: Close-up. Remi's face, mysterious. **STRICT SPEECH BUBBLE**: 'Dialogue Intro'
+[Panel 3]: Visualization. A clear comparison or balanced symbolic image representing the core concept of 'ETF構造'. Remi points to the correct/positive side. **STRICT SPEECH BUBBLE**: 'Dialogue Teach'
 
-[COMPOSITION - 3 PANELS]:
+(Style: Premium Digital Anime, Mathematical surrealism, Cosmic scales, Glowing geometric patterns).
 
-- [PANEL 1 - 40% height]: Screen says '上場投資信託 (ETF)'.
-  Remi Speech: '第三のP「Paper(構造)」。市場を丸ごと買う、透明な拠点よ。'
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
+"
+)
+```
 
-- [PANEL 2 - 35% height]: Visualization of a cube being optimized.
-  Remi Speech: '脱落する企業は捨て、勝者を入れる。銘柄選びは不要よ。'
+## Page 2 (The Insight)
 
-- [PANEL 3 - 25% height]: Heroic close-up of Remi.
-  Remi Speech: '優秀な船長が艦隊を最適化し続ける。君は実りを受け取りなさい。'
+```javascript
+generate_image(
+  ImageName: "remi_ep25_p2_v1",
+  Prompt: "((Vertical Portrait A4 Ratio)), ((Long Strip Format)), ((Manga Page Layout)). ((NO TEXT, NO WORDS, NO LABELS)). (High Quality Manga Layout). (Full Bleed).
 
-STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Dynamic cinematic lighting, Sharp Cel Shading.
+[Scene]:
+Remi: ((Crimson Red Suit Jacket)), ((Black Lace High-neck Camisole)), ((Tight Red Skirt)). (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face). **VISUAL LOCK**.
+Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slightly messy). **VISUAL LOCK**.
 
-**NEVER RENDER TINY TEXT**. ALL TEXT MUST BE **EXTRA LARGE AND BOLD**.
-**NEGATIVE PROMPT**: ((clipped top:2.0)), ((cropped head:2.0)), (white margins:3.0), ((glasses:2.5)), (white shirt on remi:2.5), (collared shirt on remi:2.5), typo, error text, tiny text, overcrowded text, messy layout, blurry text.
+[Panel 1]: Visual Manifestation. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'ETF構造'. It shines brighter than the Background elements. **STRICT SPEECH BUBBLE**: 'Dialogue Desc'
+[Panel 2]: Contrast Scene. Remi stands in a split world. On her left, a chaotic storm representing 'Risk/Confusion'. On her right, a peaceful, golden garden representing 'ETF構造'. She calmly points towards the peace.
+[Panel 3]: Realization. Yuto looking enlightened and relieved. **STRICT SPEECH BUBBLE**: 'Dialogue Action'
+
+(Style: Premium Digital Anime, Breathtaking miracle, Particle effects, Divine lighting).
+
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
 "
 )
 ```
 
 ---
-作成日: 2026-02-20
-ステータス: ETF構造・格言集 完成
+
+Created: 2026-03-04

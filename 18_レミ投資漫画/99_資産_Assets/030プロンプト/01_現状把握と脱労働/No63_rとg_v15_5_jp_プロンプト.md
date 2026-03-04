@@ -1,49 +1,59 @@
-# Episode 63: r > g (The Formula of Wealth)
+# Episode 63: r
 
 ## TIPS情報
 
 | 項目 | 内容 |
 | :--- | :--- |
 | EP | 63 |
-| タイトル | 資本の勝利：r > g の真実 |
-| 解説 | トマ・ピケティの「r > g」を視覚化。労働（g）より資本（r）の成長が速いという残酷な真実と、投資家側へ回る必要性を説く。 |
+| タイトル | r |
+| 解説 |  |
 
 ---
 
-## ページ目 (The Formula of Inequality - Pitching for the 'r' Side)
+## Page 1 (The Hook)
 
 ```javascript
 generate_image(
-  ImageName: "remi_r_is_greater_than_g_v15_5_jp",
-  Prompt: "ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIXEL MARGINS. 110% OVERFILL. **VERTICAL PORTRAIT ORIENTATION. 12:17 RATIO.**
+  ImageName: "remi_ep63_p1_v1",
+  Prompt: "((Vertical Portrait A4 Ratio)), ((Long Strip Format)), ((Manga Page Layout)). ((NO TEXT, NO WORDS, NO LABELS)). (High Quality Manga Layout). (Full Bleed).
 
-CHARACTERS:
+[Scene]:
+Remi: ((Crimson Red Suit Jacket)), ((Black Lace High-neck Camisole)), ((Tight Red Skirt)). (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face). **VISUAL LOCK**.
+Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slightly messy). **VISUAL LOCK**.
 
-- Remi: ((Very Long Silver Hair:1.5)), ((Hime-cut)), ((Intense Glowing Red Eyes:1.6)), ((Black Lace Camisole:1.8)), ((Deep Cleavage:1.5)), ((Crimson Red Suit Jacket)). **NO SHIRT, NO TIE, NO COLLAR**. (Pose: Confident, pointing to a glowing sunrise over the city). **VISUAL LOCK**.
-- Yuto: ((Navy Blue Suit:1.3)). (Pose: Standing tall, looking towards the horizon with determination). **VISUAL LOCK**.
+[Panel 1]: Luxurious lounge bar with night city view. Remi stands calmly next to a large holographic display showing 'r'. Unlike usual, the screen shows a simple balanced symbol. Yuto looks puzzled.
+[Panel 2]: Close-up. Remi's face, mysterious. **STRICT SPEECH BUBBLE**: 'Dialogue Intro'
+[Panel 3]: Visualization. A clear comparison or balanced symbolic image representing the core concept of 'r'. Remi points to the correct/positive side. **STRICT SPEECH BUBBLE**: 'Dialogue Teach'
 
-[COMPOSITION - 3 PANELS]:
+(Style: Premium Digital Anime, Mathematical surrealism, Cosmic scales, Glowing geometric patterns).
 
-- [PANEL 1 - 40% height]: Yuto opening a bank account on his phone. In the background, a sunset over a modern city.
-  Remi Speech: '「五公五民」……一揆を起こせない現代の僕らがすべきことは、賢くなることだ。'
-  Yuto Speech: '怒ることじゃない。行動することだ……。'
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
+"
+)
+```
 
-- [PANEL 2 - 35% height]: Silhouette of Remi and Yuto facing a massive sun labeled 'r > g'.
-  Remi Speech: '労働による僅かな昇給(g)より、資産による収益(r)が勝る。これが世界のルールよ。'
-  Yuto Speech: '資産による収益(r)を手にする。僕は今日、その地平へ踏み出したんだ。'
+## Page 2 (The Insight)
 
-- [PANEL 3 - 25% height]: Heroic close-up of Remi's intense red eyes.
-  Remi Speech: 'ようこそ、「r」の世界へ。君の資産という軍隊を、今日からどう動かすかしら？'
+```javascript
+generate_image(
+  ImageName: "remi_ep63_p2_v1",
+  Prompt: "((Vertical Portrait A4 Ratio)), ((Long Strip Format)), ((Manga Page Layout)). ((NO TEXT, NO WORDS, NO LABELS)). (High Quality Manga Layout). (Full Bleed).
 
-STYLE: [PREMIUM DIGITAL MANGA]. High-end 2D Anime, Crisp linework, Vibrant colors, Cel Shading.
+[Scene]:
+Remi: ((Crimson Red Suit Jacket)), ((Black Lace High-neck Camisole)), ((Tight Red Skirt)). (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face). **VISUAL LOCK**.
+Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slightly messy). **VISUAL LOCK**.
 
-**FONT: Traditional Japanese Manga Font (Antic Gothic / アンチック体)**. 
-**NEVER RENDER TINY TEXT**. ALL TEXT MUST BE **EXTRA LARGE AND BOLD**.
-**CORRECT JAPANESE GRAMMAR**: Ensure no repeated particles like 'をを' or 'のの'. Use '手にする' instead of '結む'.
+[Panel 1]: Visual Manifestation. Close up on Remi holding a small, glowing sphere of light or symbol that represents 'r'. It shines brighter than the Background elements. **STRICT SPEECH BUBBLE**: 'Dialogue Desc'
+[Panel 2]: Contrast Scene. Remi stands in a split world. On her left, a chaotic storm representing 'Risk/Confusion'. On her right, a peaceful, golden garden representing 'r'. She calmly points towards the peace.
+[Panel 3]: Realization. Yuto looking enlightened and relieved. **STRICT SPEECH BUBBLE**: 'Dialogue Action'
+
+(Style: Premium Digital Anime, Breathtaking miracle, Particle effects, Divine lighting).
+
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
 "
 )
 ```
 
 ---
-作成日: 2026-02-20
-ステータス: r > g・格言集 誤字修正完了
+
+Created: 2026-03-04

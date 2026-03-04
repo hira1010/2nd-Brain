@@ -8,6 +8,7 @@ import os
 import re
 import sys
 from dataclasses import dataclass
+from enum import Enum
 from typing import Dict, List, Optional
 
 import pandas as pd
@@ -28,7 +29,20 @@ TOTAL_ROW = 14
 GROWTH_RATE_ROW = 15
 ASSET_ROW = 16
 TARGET_TABLE_COLUMN = 11  # Markdown table "26" column
-SUMMARY_VALUES_COUNT = 3
+SUMMARY_ROWS: List[tuple[str, bool]] = [
+    ("total", True),
+    ("growth_rate", False),
+    ("asset", True),
+]
+
+
+class TablePhase(Enum):
+    """State machine for markdown table parsing."""
+
+    BEFORE_HEADER = 0
+    IN_MONTH_ROWS = 1
+    IN_SUMMARY_ROWS = 2
+    DONE = 3
 
 logger = utils.setup_logger("sync_assets")
 
@@ -135,12 +149,10 @@ def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
     `total -> growth_rate -> asset` とみなして更新する。
     """
     lines = content.splitlines()
-    in_table = False
+    phase = TablePhase.BEFORE_HEADER
     month_rows_seen = 0
     summary_values: List[tuple[str, bool]] = [
-        (snapshot.total, True),
-        (snapshot.growth_rate, False),
-        (snapshot.asset, True),
+        (getattr(snapshot, field), bold) for field, bold in SUMMARY_ROWS
     ]
     summary_phase = 0
 
@@ -148,7 +160,8 @@ def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
         stripped = line.strip()
 
         if not stripped.startswith("|"):
-            in_table = False
+            if phase != TablePhase.DONE:
+                phase = TablePhase.BEFORE_HEADER
             continue
 
         parts = line.split("|")
@@ -158,12 +171,12 @@ def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
         first_cell = get_first_cell(line)
 
         if is_table_header_line(line):
-            in_table = True
+            phase = TablePhase.IN_MONTH_ROWS
             month_rows_seen = 0
             summary_phase = 0
             continue
 
-        if not in_table:
+        if phase not in (TablePhase.IN_MONTH_ROWS, TablePhase.IN_SUMMARY_ROWS):
             continue
 
         month = is_month_row(first_cell)
@@ -171,15 +184,16 @@ def update_markdown_table(content: str, snapshot: AssetSnapshot) -> str:
             lines[idx] = update_table_cell(line, snapshot.months[month], bold=True)
             month_rows_seen += 1
             if month_rows_seen == 12:
+                phase = TablePhase.IN_SUMMARY_ROWS
                 summary_phase = 1
             continue
 
-        if 1 <= summary_phase <= SUMMARY_VALUES_COUNT:
+        if phase == TablePhase.IN_SUMMARY_ROWS and 1 <= summary_phase <= len(summary_values):
             value, bold = summary_values[summary_phase - 1]
             lines[idx] = update_table_cell(line, value, bold=bold)
             summary_phase += 1
-            if summary_phase > SUMMARY_VALUES_COUNT:
-                in_table = False
+            if summary_phase > len(summary_values):
+                phase = TablePhase.DONE
 
     return "\n".join(lines)
 

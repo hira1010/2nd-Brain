@@ -6,17 +6,21 @@ Delegates to smart_refactor.py for batch processing.
 from _smart_refactor_runner import run_smart_refactor_all
 
 
-def main() -> None:
-    print("=" * 70)
+SEPARATOR = "=" * 70
+
+
+def main() -> int:
+    print(SEPARATOR)
     print("Bulk Manga Prompt Refactor (Core Logic: smart_refactor.py)")
-    print("=" * 70)
+    print(SEPARATOR)
 
     run_smart_refactor_all()
 
-    print("\n" + "=" * 70)
+    print("\n" + SEPARATOR)
     print("Done")
-    print("=" * 70)
+    print(SEPARATOR)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

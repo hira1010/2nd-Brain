@@ -2,17 +2,19 @@
 
 ## 👩‍🏫 レミ (Remi)
 
-**Visual Lock Prompt:**
-`((Very Long Silver Hair:1.5)), ((Hime-cut)), ((Intense Glowing Red Eyes:1.6)), ((Cool Beauty Face))`
-`((Crimson Red Suit Jacket:1.4)), ((Black Lace Camisole:1.3)), ((Tight Red Skirt)), ((Black Pantyhose))`
-**Negative Prompt Key:** `red hair on remi, brown hair on remi, short hair on remi, white shirt, white blouse, collared shirt, white collar, clothes under jacket except lace, ((naked:3.0)), ((topless:3.0)), ((undressed:3.0))`
+**Visual Lock Prompt (【絶対的正解】透明感あふれる美形アニメモデル):**
+`((High-quality 2D Anime Style:1.8)), ((Extremely Pale White Skin:1.6)), ((Translucent and clear skin:1.4)).`
+`((Very Long Silver Hair:1.5)), ((Large and intelligent Red Eyes:1.6)), ((Cool and Elegant beauty)).`
+`((Vibrant Crimson Red Jacket)), ((Black Lace Inner)), ((Thin and clean character lines)).`
+**Negative Prompt Key:** `((realistic:2.0)), ((3D:2.0)), ((tanned skin:2.0)), ((muscular:2.0)), ((rugged)), ((shadows on face)), ((thick lines)), ((old)), wrinkles, western face.`
 
 ## 🧑‍🎓 優斗 (Yuto)
 
-**Visual Lock Prompt:**
-`((Short Black hair, silky straight, flat hairstyle, low hair volume, neat style))`
-`((Navy Blue Suit:1.3)), ((White Shirt)), ((Blue Tie:1.3))`
-`((Bare Hands))`
+**Visual Lock Prompt (【絶対的正解】色白・スレンダー・美青年モデル):**
+`((High-quality 2D Anime Style:1.8)), ((Extremely Pale White Skin:1.6)), ((Slender and Delicate features:1.5)), ((Bishounen face:1.4)).`
+`((Silky Navy Blue hair:1.6)), ((Large sparkling Blue eyes:1.6)), ((Intellectual and earnest gaze)).`
+`((Navy Blue Business Suit)), ((White Shirt)), ((Blue Tie)). ((Clean-shaven, NO muscles, NO tan)).`
+**Negative Prompt Key:** `((muscular:2.0)), ((rugged:2.0)), ((dark skin:2.0)), ((tanned skin:2.0)), ((beard)), ((old)), ((realistic:2.0)), ((3D:2.0)), ((manly features:1.5)).`
 
 ## 😈 田中 (Tanaka) - ギャンブル投機家
 
