@@ -1,8 +1,9 @@
+import io
 import logging
 import re
 import sys
 from pathlib import Path
-from typing import Optional, Union
+from typing import IO, Any, Optional, Union, cast
 
 from . import config
 
@@ -11,14 +12,20 @@ PathLike = Union[str, Path]
 
 
 def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
-    """Create a stdout logger once per logger name."""
+    """指定された名前のロガーを作成し、標準出力へのハンドラを設定します。
+    
+    Args:
+        name: ロガーの名前
+        level: ログレベル (デフォルト: logging.INFO)
+        
+    Returns:
+        設定済みの logging.Logger オブジェクト
+    """
     logger = logging.getLogger(name)
     if logger.handlers:
         return logger
 
     handler = logging.StreamHandler(sys.stdout)
-    # Windows環境での日本語化防止のため、エンコーディングを指定したいがStreamHandlerは通常sys.stdoutを使う
-    # initialize_script で一括設定を行う
     formatter = logging.Formatter("[%(levelname)s] %(name)s: %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
@@ -28,25 +35,39 @@ def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
 
 
 def initialize_script(name: str) -> logging.Logger:
-    """Initialize environment for Windows UTF-8 and returns a logger."""
-    import io
-
+    """Windows環境でのUTF-8出力を保証し、ロガーを初期化します。
+    
+    Args:
+        name: 初期化するスクリプトの名前
+        
+    Returns:
+        初期化されたロガーオブジェクト
+    """
     if sys.platform == "win32":
         try:
-            if hasattr(sys.stdout, "buffer") and getattr(sys.stdout, "encoding", "").lower() != "utf-8":
-                sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-            if hasattr(sys.stderr, "buffer") and getattr(sys.stderr, "encoding", "").lower() != "utf-8":
-                sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
-        except Exception:
-            pass
+            sys.stdout = cast(IO[str], _ensure_utf8_stream(sys.stdout))
+            sys.stderr = cast(IO[str], _ensure_utf8_stream(sys.stderr))
+        except Exception as exc:
+            _LOGGER.debug("Failed to set UTF-8 encoding for streams: %s", exc)
     return setup_logger(name)
 
 
+def _ensure_utf8_stream(stream: Any) -> Any:
+    """ストリームがUTF-8でない場合、TextIOWrapperでラップして返します。"""
+    if hasattr(stream, "buffer") and getattr(stream, "encoding", "").lower() != "utf-8":
+        try:
+            return io.TextIOWrapper(stream.buffer, encoding="utf-8")
+        except (AttributeError, io.UnsupportedOperation):
+            return stream
+    return stream
+
+
 class FileIO:
-    """Simple file IO wrapper with UTF-8 defaults and safe errors."""
+    """UTF-8をデフォルトとした汎用的なファイル入出力ラッパー。"""
 
     @staticmethod
     def read_text(path: PathLike, encoding: str = config.DEFAULT_ENCODING) -> Optional[str]:
+        """ファイルをテキストとして読み込みます。失敗した場合は None を返します。"""
         try:
             return Path(path).read_text(encoding=encoding)
         except Exception as exc:
@@ -60,6 +81,7 @@ class FileIO:
         encoding: str = config.DEFAULT_ENCODING,
         make_backup: bool = False,
     ) -> bool:
+        """テキストをファイルに書き込みます。ディレクトリがない場合は自動作成します。"""
         try:
             target = Path(path)
             if make_backup and target.exists():
@@ -75,7 +97,7 @@ class FileIO:
 
 
 def get_safe_filename(text: str) -> str:
-    """Remove unsafe characters for Windows file names."""
+    """Windowsで不適切な文字を除去した安全なファイル名を返します。"""
     safe_text = re.sub(r"[\\/*?:\"<>|]", "", text)
     safe_text = safe_text.replace(" ", "_").strip()
     return safe_text or "output_file"
