@@ -37,8 +37,17 @@ HEADER_TEMPLATE = """ARCHITECTURE: [v15.5 EDGE OBLITERATOR] FULL BLEED. ZERO PIX
 {noise}
 
 ### Style: Premium manga, cinematic lighting, masterpiece, sharp focus, high contrast. 12:17 ratio. **CORE**: OBLITERATE ALL CANVAS MARGINS. FULL BLEED.
-**NEGATIVE PROMPT**: white edges, side bars, pillarbox, letterbox, black bars, gutter, split screen, frame, border, text labels, low quality, blurry, margins, padding, cropped.
+
+### STRICT QUALITY CONTROL - ZERO TOLERANCE:
+1. **ZERO DUPLICATE TEXT**: Every line of dialogue must appear ONLY ONCE. Multiple bubbles for the same sentence are strictly forbidden. If a sentence is long, use ONE large bubble.
+2. **ZERO TYPOS**: Double-check every character. Ensure 'あなたの' is not 'あなの', 'もろい' is not 'なろい'. Verification of Japanese spelling is mandatory.
+3. **ONE BUBBLE PER PANEL**: Unless explicitly requested otherwise, use exactly ONE speech bubble per panel to prevent fragmentation and repetition.
+4. **CONSISTENT TYPOGRAPHY**: Standard weight ONLY. No bold fonts. High resolution (CRISP/SHARP) is mandatory for clarity.
+
+**NEGATIVE PROMPT**: duplicate bubbles, repetitive text, typos, misspelling, fragmented sentences, bold font, thick lines, blur, margins, borders, frames.
 """
+
+
 
 # Episodes List
 EPISODES = [
