@@ -43,4 +43,7 @@ CREDENTIALS_FILE = ROOT_DIR / "credentials.json"
 DIET_SHEET_ID = "1-5kRLKDWkEHd7BKwXqnft0_fISJ4KnDXLf1CAGEKHyc"
 ASSETS_SHEET_ID = "1lnN_z84DLknNWbQX0YWzHiyn5Ea_Hue9TbxQeHSe3HA"
 
+# External Tools
+STABILITY_MATRIX_EXE = Path(r"c:\Users\hirak\Desktop\StabilityMatrix.exe")
+
 DEFAULT_ENCODING = "utf-8"
