@@ -21,13 +21,13 @@ generate_image(
 Remi: ((Crimson Red Suit Jacket)), ((Black Lace High-neck Camisole)), ((Tight Red Skirt)). (Silver Long Hair, Hime-cut), (Sharp Red Eyes, Cool Beauty Face). **VISUAL LOCK**.
 Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slightly messy). **VISUAL LOCK**.
 
-[Panel 1]: Bright meeting room with a large whiteboard. Remi stands calmly next to a large holographic display showing 'FIRE'. Unlike usual, the screen shows a simple balanced symbol. Yuto looks puzzled.
+[Panel 1]: Quiet library or study room with bookshelves. Remi stands calmly next to a large holographic display showing 'FIRE'. Unlike usual, the screen shows a simple balanced symbol. Yuto looks puzzled.
 [Panel 2]: Close-up. Remi's face, mysterious. **STRICT SPEECH BUBBLE**: 'Dialogue Intro'
 [Panel 3]: Visualization. A clear comparison or balanced symbolic image representing the core concept of 'FIRE'. Remi points to the correct/positive side. **STRICT SPEECH BUBBLE**: 'Dialogue Teach'
 
-(Style: Premium Digital Anime, Mathematical surrealism, Cosmic scales, Glowing geometric patterns).
+(Style: Premium Digital Anime, Mathematical surrealism, Cosmic scales, Glowing geometric patterns). **HIGH QUALITY TEXT: CRISP, SHARP, NO PUNCTUATION**.
 
-**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform, (punctuation:1.5), (comma:1.5), (period:1.5).
 "
 )
 ```

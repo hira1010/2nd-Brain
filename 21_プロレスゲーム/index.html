@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3D Pro-Wrestling: Virtual Pro 2 Tribute</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="game-container"></div>
+
+    <!-- UI Overlay -->
+    <div id="ui-overlay">
+        <!-- Virtual Stick -->
+        <div id="joystick-container">
+            <div id="joystick-base">
+                <div id="joystick-handle"></div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div id="action-buttons">
+            <div class="button-row">
+                <button id="btn-strike" class="game-btn strike">打撃</button>
+                <button id="btn-dash" class="game-btn dash">ダッシュ</button>
+                <button id="btn-throw" class="game-btn throw">投げ</button>
+            </div>
+            <div class="button-row">
+                <button id="btn-defend" class="game-btn defend">受け身</button>
+                <button id="btn-joint" class="game-btn joint">関節技</button>
+                <button id="btn-special" class="game-btn special">必殺技</button>
+            </div>
+        </div>
+
+        <!-- Special Gauge -->
+        <div id="gauge-container">
+            <div id="special-gauge"></div>
+        </div>
+
+        <!-- Cut-ins -->
+        <div id="announcer-cutin" class="hidden">
+            <img src="assets/announcer.png" alt="Announcer">
+        </div>
+        <div id="crowd-cutin" class="hidden">
+            <img src="assets/crowd.png" alt="Crowd">
+        </div>
+
+        <!-- Message -->
+        <div id="game-message"></div>
+
+        <!-- Fall / Pin System -->
+        <div id="fall-container" class="hidden">
+            <button id="btn-fall" class="game-btn fall">フォール</button>
+            <div id="fall-count"></div>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="game.js"></script>
+</body>
+
+</html>

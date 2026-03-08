@@ -1,0 +1,232 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    user-select: none;
+    touch-action: none;
+}
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+#ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Joystick */
+#joystick-container {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    width: 150px;
+    height: 150px;
+    pointer-events: auto;
+}
+
+#joystick-base {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    position: relative;
+    backdrop-filter: blur(5px);
+}
+
+#joystick-handle {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 30% 30%, #fff, #888);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Action Buttons */
+#action-buttons {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+}
+
+.game-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    transition: transform 0.1s, filter 0.2s;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.game-btn:active {
+    transform: scale(0.9);
+    filter: brightness(1.3);
+}
+
+.strike {
+    background: linear-gradient(135deg, #ff4d4d, #b30000);
+}
+
+.dash {
+    background: linear-gradient(135deg, #ff944d, #b35900);
+}
+
+.throw {
+    background: linear-gradient(135deg, #4dff4d, #00b300);
+}
+
+.defend {
+    background: linear-gradient(135deg, #4d94ff, #0059b3);
+}
+
+.joint {
+    background: linear-gradient(135deg, #944dff, #5900b3);
+}
+
+.fall {
+    background: linear-gradient(135deg, #ffffff, #888);
+    color: #000;
+    position: absolute;
+    bottom: 120px;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+#fall-count {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 20px #f00, 0 0 40px #000;
+    z-index: 200;
+}
+
+.special {
+    background: linear-gradient(135deg, #ffd700, #daa520);
+    animation: gold-glow 2s infinite alternate;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes gold-glow {
+    from {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.2);
+        filter: brightness(1);
+    }
+
+    to {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 1), inset 0 0 15px rgba(255, 255, 255, 0.5);
+        filter: brightness(1.5);
+    }
+}
+
+/* Special Gauge */
+#gauge-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #555;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#special-gauge {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, #1e90ff, #ffd700);
+    transition: width 0.3s;
+}
+
+/* Cut-ins */
+#announcer-cutin {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 200px;
+    z-index: 100;
+}
+
+#announcer-cutin img {
+    width: 100%;
+    height: auto;
+}
+
+#crowd-cutin {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    z-index: 90;
+}
+
+#crowd-cutin img {
+    width: 100%;
+    height: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Effects */
+.shake {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}

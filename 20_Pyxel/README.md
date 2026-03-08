@@ -1,6 +1,6 @@
-# 20_AI生成 (AI Generation)
+# 20_Pyxel (Pyxel)
 
-このフォルダは、Stability Matrixおよびその他のAI生成ツールを管理・操作するための場所です。
+このフォルダは、Pyxelおよびその他のAI生成ツールを管理・操作するための場所です。
 
 ## 📁 構成
 
@@ -14,7 +14,7 @@
 以下のコマンドで、Stability Matrixをバックグラウンドで起動できます。
 
 ```powershell
-python 20_AI生成/stability_matrix_controller.py --start
+python 20_Pyxel/stability_matrix_controller.py --start
 ```
 
 ### 状態確認
@@ -22,7 +22,7 @@ python 20_AI生成/stability_matrix_controller.py --start
 現在Stability Matrixが起動しているかどうかを確認します。
 
 ```powershell
-python 20_AI生成/stability_matrix_controller.py --status
+python 20_Pyxel/stability_matrix_controller.py --status
 ```
 
 ## 🛠️ 設定の変更

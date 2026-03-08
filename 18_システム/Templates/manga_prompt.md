@@ -25,8 +25,8 @@ Yuto: ((Navy Blue Suit)), (White Shirt), ((Blue Tie)). (Short Black hair, slight
 [Panel 2]: Close-up. Remi's face, mysterious. **STRICT SPEECH BUBBLE**: '{DIALOGUE_INTRO}'
 [Panel 3]: Visualization. A clear comparison or balanced symbolic image representing the core concept of '{TITLE}'. Remi points to the correct/positive side. **STRICT SPEECH BUBBLE**: '{DIALOGUE_TEACH}'
 
-(Style: Premium Digital Anime, Mathematical surrealism, Cosmic scales, Glowing geometric patterns).
-**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform.
+(Style: Premium Digital Anime, Mathematical surrealism, Cosmic scales, Glowing geometric patterns). **HIGH QUALITY TEXT: CRISP, SHARP, NO PUNCTUATION**.
+**NEGATIVE PROMPT**: text, title, alphabet, signature, watermark, username, speech bubble, chat bubble, quote, writing, caption, english text, error, glitch, noise, jpeg artifacts, borders, white frame, architectural text, white shirt, collared shirt, blouse, ((black dress)), ((black clothes)), ribbon, school uniform, (punctuation:1.5), (comma:1.5), (period:1.5).
 "
 )
 ```
