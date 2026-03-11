@@ -5,6 +5,9 @@ let players = { p1: null, p2: null };
 let ring, ropes = [], crowd;
 let specialGauge = 0;
 let isSpecialExecuting = false;
+let hitStop = 0;
+let particles = [];
+
 
 // Input state
 const input = {
@@ -40,13 +43,21 @@ function init() {
     spotlight.castShadow = true;
     scene.add(spotlight);
 
-    // Ring (真青なマット)
+    // Ring (真青なマット - より質感高く)
     const ringGeo = new THREE.BoxGeometry(10, 0.5, 10);
-    const ringMat = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+    const ringMat = new THREE.MeshStandardMaterial({ 
+        color: 0x0000ff,
+        roughness: 0.8,
+        metalness: 0.2
+    });
     ring = new THREE.Mesh(ringGeo, ringMat);
     ring.position.y = -0.25;
     ring.receiveShadow = true;
     scene.add(ring);
+
+    // Crowd (観客席の追加)
+    createCrowd();
+
 
     // Ropes (黒の3本線)
     const ropeMat = new THREE.MeshPhongMaterial({ color: 0x000000 });
@@ -179,11 +190,75 @@ function onWindowResize() {
 function animate() {
     requestAnimationFrame(animate);
     const delta = clock.getDelta();
+    const elapsed = clock.getElapsedTime();
+    
+    if (hitStop > 0) {
+        hitStop -= delta;
+        return;
+    }
+
+    updateCrowd(elapsed);
+    updateParticles(delta);
     updatePhysics(delta);
     updateCamera();
     updateUI();
     renderer.render(scene, camera);
 }
+
+
+function updateParticles(delta) {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.life -= delta;
+        if (p.life <= 0) {
+            scene.remove(p.mesh);
+            particles.splice(i, 1);
+        } else {
+            p.mesh.position.add(p.velocity.clone().multiplyScalar(delta));
+            p.mesh.scale.multiplyScalar(0.95);
+        }
+    }
+}
+
+function createHitEffect(pos, color = 0xffff00) {
+    for (let i = 0; i < 10; i++) {
+        const geo = new THREE.SphereGeometry(0.1, 4, 4);
+        const mat = new THREE.MeshBasicMaterial({ color });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.copy(pos);
+        scene.add(mesh);
+        particles.push({
+            mesh,
+            velocity: new THREE.Vector3((Math.random() - 0.5) * 5, Math.random() * 5, (Math.random() - 0.5) * 5),
+            life: 0.5
+        });
+    }
+}
+
+function createCrowd() {
+    crowd = new THREE.Group();
+    const crowdGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+    for (let i = 0; i < 500; i++) {
+        const mat = new THREE.MeshStandardMaterial({ color: Math.random() > 0.5 ? 0x444444 : 0x222222 });
+        const p = new THREE.Mesh(crowdGeo, mat);
+        
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 7 + Math.random() * 5;
+        p.position.set(Math.cos(angle) * radius, Math.random() * 3, Math.sin(angle) * radius);
+        p.initialY = p.position.y;
+        crowd.add(p);
+    }
+    scene.add(crowd);
+}
+
+function updateCrowd(time) {
+    if (!crowd) return;
+    crowd.children.forEach((p, i) => {
+        p.position.y = p.initialY + Math.sin(time * 5 + i) * 0.1;
+    });
+}
+
+
 
 function updatePhysics(delta) {
     const p1 = players.p1;
@@ -215,10 +290,19 @@ function updatePhysics(delta) {
 
     if (input.btns.strike && Date.now() - p1.lastAttackTime > 500) {
         p1.lastAttackTime = Date.now();
-        shakeMatt(); // 強攻撃演出
+        const dist = p1.mesh.position.distanceTo(players.p2.mesh.position);
+        if (dist < 1.8) {
+            hitStop = 0.1;
+            createHitEffect(players.p2.mesh.position.clone().add(new THREE.Vector3(0, 1.2, 0)));
+            shakeMatt();
+            // 相手を少し吹っ飛ばす
+            const dir = players.p2.mesh.position.clone().sub(p1.mesh.position).normalize();
+            players.p2.mesh.position.add(dir.multiplyScalar(0.5));
+        }
     }
     if (input.btns.special && specialGauge >= 100) executeSpecial();
 }
+
 
 function updateCamera() {
     if (isSpecialExecuting) {
