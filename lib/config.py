@@ -46,4 +46,8 @@ ASSETS_SHEET_ID = "1lnN_z84DLknNWbQX0YWzHiyn5Ea_Hue9TbxQeHSe3HA"
 # External Tools
 STABILITY_MATRIX_EXE = Path(r"c:\Users\hirak\Desktop\StabilityMatrix.exe")
 
+# ComfyUI API (21_ComfyUI)
+COMFYUI_HOST: str = "127.0.0.1"
+COMFYUI_PORT: int = 8188
+
 DEFAULT_ENCODING = "utf-8"
