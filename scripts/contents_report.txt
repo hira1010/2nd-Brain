@@ -1,0 +1,92 @@
+=== note作成用プロンプト ===
+Total files: 0
+Total size: 0 bytes
+
+=== note作成用プロンプト ===
+Total files: 7
+Total size: 45575 bytes
+Latest modification: 2026-03-15 17:06:58.130260
+Sample files:
+  - content-make\01_繧ｿ繝ｼ繧ｱ繧吶ャ繝亥・譫舌ヵ繧壹Ο繝ｳ繝輔ｚ繝・md (5823 bytes)
+  - content-make\02_繧ｳ繝ｳ繧ｻ繝輔ｚ繝郁ｨｭ險医ヵ繧壹Ο繝ｳ繝輔ｚ繝・md (4989 bytes)
+  - content-make\03_蝠・刀讒区・險ｭ險医ヵ繧壹Ο繝ｳ繝輔ｚ繝・md (6088 bytes)
+  - content-make\04_譛ｬ譁・濤遲・ヵ繧壹Ο繝ｳ繝輔ｚ繝・md (6252 bytes)
+  - content-make\05_蜩∬ｳｪ讀懆ｨｼ繝輔ｚ繝ｭ繝ｳ繝輔ｚ繝・md (7370 bytes)
+
+=== ポスト作成プロンプト ===
+Total files: 0
+Total size: 0 bytes
+
+=== ポスト作成プロンプト ===
+Total files: 4
+Total size: 39377 bytes
+Latest modification: 2026-03-15 17:06:59.002248
+Sample files:
+  - post\01_繝帙ｚ繧ｹ繝井ｽ懈・繝輔ｚ繝ｭ繝ｳ繝輔ｚ繝・md (8946 bytes)
+  - post\02_蜩∬ｳｪ繝√ぉ繝・け繝輔ｚ繝ｭ繝ｳ繝輔ｚ繝・md (7216 bytes)
+  - post\03_謗｡轤ｹ隧穂ｾ｡繝輔ｚ繝ｭ繝ｳ繝輔ｚ繝・md (8510 bytes)
+  - post\繝翫Ξ繝・す繧兩莨ｸ縺ｲ繧吶ｋ繝帙ｚ繧ｹ繝医・蝙・md (14705 bytes)
+
+=== 18_システム ===
+Total files: 118
+Total size: 5792278 bytes
+Latest modification: 2026-03-16 09:11:46.927863
+Sample files:
+  - 00_Architecture_Overview.md (2527 bytes)
+  - Active_Context.md (4667 bytes)
+  - dialogues.json (18231 bytes)
+  - fix_manga_lint.py (3366 bytes)
+  - generate_bgm.js (2928 bytes)
+
+=== 18_レミ投資漫画 ===
+Total files: 1119
+Total size: 14069242 bytes
+Latest modification: 2026-03-16 09:11:51.845312
+Sample files:
+  - 00_全体マップ.md (6066 bytes)
+  - 99_資産_Assets\Manga_Production_Guide.md (4475 bytes)
+  - 99_資産_Assets\レミ_お仕事待ってるわ.png (697385 bytes)
+  - 99_資産_Assets\030プロンプト\01_現状把握と脱労働\No09_お金の価値は下がる_プロンプト.md (3358 bytes)
+  - 99_資産_Assets\030プロンプト\01_現状把握と脱労働\No10.5_手取り18万の真実_プロンプト.md (3216 bytes)
+
+=== 20_Godot_Pyxel ===
+Total files: 5
+Total size: 464942 bytes
+Latest modification: 2026-03-15 09:44:08.437000
+Sample files:
+  - 20_Godot_Pyxel.html (70837 bytes)
+  - 20_Godot_Pyxel.pyxapp (179191 bytes)
+  - ChaosTennis.zip (5106 bytes)
+  - FireTennis.zip (104904 bytes)
+  - FireTennis_Final.zip (104904 bytes)
+
+=== 20_Pyxel ===
+Total files: 3
+Total size: 13448 bytes
+Latest modification: 2026-03-08 18:19:31.617000
+Sample files:
+  - README.md (1292 bytes)
+  - stability_matrix_controller.py (2033 bytes)
+  - pyxel_fight\main.py (10123 bytes)
+
+=== 21_ComfyUI ===
+Total files: 4
+Total size: 29649 bytes
+Latest modification: 2026-03-16 09:11:47.096555
+Sample files:
+  - comfyui_controller.py (9507 bytes)
+  - danbooru_prompt_fetcher.py (11212 bytes)
+  - inpainting_workflow.json (6397 bytes)
+  - README.md (2533 bytes)
+
+=== 21_プロレスゲーム ===
+Total files: 10
+Total size: 3794048 bytes
+Latest modification: 2026-03-11 09:33:11.336000
+Sample files:
+  - game.js (12877 bytes)
+  - index.html (2177 bytes)
+  - main.py (18008 bytes)
+  - README.md (2751 bytes)
+  - style.css (4426 bytes)
+
