@@ -1,7 +1,7 @@
 import json
 import os
 
-base_dir = r"c:\Users\hirak\Desktop\2nd-Brain\25_RPGツクールフォルダ\data"
+base_dir = r"c:\Users\hirak\Desktop\2nd-Brain\05_RPG制作\data"
 
 with open(os.path.join(base_dir, "Map002.json"), "r", encoding="utf-8") as f:
     map2 = json.load(f)

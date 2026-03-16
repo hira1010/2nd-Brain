@@ -1,0 +1,13 @@
+[
+  {
+    "id": "char_ai_1",
+    "name": "アイ",
+    "age": "17",
+    "height": "158cm",
+    "personality": "クールで少し毒舌だが、実は世話焼き",
+    "prompt": "Master Visual Anchor: (Short BLACK hair:1.5), (Amber/Brown eyes:1.4), (Calm but sharp expression:1.2). Wearing a (Navy blue school blazer:1.3), (Red necktie:1.3), (Beige cardigan:1.2). NO GLOVES.",
+    "backbone": "高校2年生。レミの従姉妹。学校では優等生だが、放課後は喫茶店でアルバイトをしている。",
+    "catchphrase": "「...それ、非効率的ですよ？」",
+    "selected": true
+  }
+]
