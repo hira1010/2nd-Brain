@@ -9,10 +9,7 @@ default airi_talking = False
 default airi_chest_jiggle = 0.0
 default airi_touch_count = 0
 default airi_blush = 0.0
-default airi_stress = 0.0
-default airi_sweat = 0.0
-default airi_tremble = 0.0
-default airi_breath_boost = 0.0
+
 init python:
     import math
 
@@ -116,14 +113,9 @@ init python:
         return bool(renpy.store.airi_talking or renpy.music.get_playing(channel="voice"))
 
     def trigger_chest_touch():
-        renpy.store.airi_chest_jiggle = 1.52
+        renpy.store.airi_chest_jiggle = 1.42
         renpy.store.airi_touch_count += 1
-        renpy.store.airi_blush = min(1.0, 0.24 + (renpy.store.airi_touch_count * 0.17))
-        renpy.store.airi_stress = min(1.0, 0.16 + (renpy.store.airi_touch_count * 0.14))
-        renpy.store.airi_sweat = min(1.0, 0.10 + (renpy.store.airi_touch_count * 0.12))
-        renpy.store.airi_tremble = min(1.0, 0.08 + (renpy.store.airi_touch_count * 0.11))
-        renpy.store.airi_breath_boost = min(1.0, 0.16 + (renpy.store.airi_touch_count * 0.13))
-        renpy.sound.play("audio/sfx/touch_soft.wav", channel="sound")
+        renpy.store.airi_blush = min(0.92, 0.18 + (renpy.store.airi_touch_count * 0.16))
         renpy.restart_interaction()
 
     def blink_strength(st, offset):
@@ -216,64 +208,19 @@ init python:
 
         def blush_motion(trans, st, at):
             blush = float(renpy.store.airi_blush)
-            stress = float(renpy.store.airi_stress)
-            pulse = abs(math.sin((st * 3.1) + (tilt * 0.03))) * blush
+            pulse = abs(math.sin(st * 2.6)) * blush
             trans.xpos = cx
             trans.ypos = cy
             trans.anchor = (0.5, 0.5)
             trans.transform_anchor = True
             trans.subpixel = True
-            trans.alpha = min(0.52, (blush * 0.30) + (pulse * 0.14) + (stress * 0.08))
-            trans.xzoom = 1.0 + (pulse * 0.10) + (stress * 0.03)
-            trans.yzoom = 1.0 + (pulse * 0.06) + (stress * 0.02)
+            trans.alpha = min(0.24, (blush * 0.20) + (pulse * 0.04))
+            trans.xzoom = 1.0 + (pulse * 0.04)
+            trans.yzoom = 1.0 + (pulse * 0.02)
             trans.rotate = tilt
             return 0.016
 
         return blush_motion
-
-    def make_stress_line_motion(rect):
-        _, _, width, height = rect
-        cx = width / 2.0
-        cy = height / 2.0
-
-        def stress_line_motion(trans, st, at):
-            stress = float(renpy.store.airi_stress)
-            tremble = float(renpy.store.airi_tremble)
-            trans.xpos = cx
-            trans.ypos = cy
-            trans.anchor = (0.5, 0.5)
-            trans.transform_anchor = True
-            trans.subpixel = True
-            trans.alpha = min(0.72, max(0.0, (stress - 0.18) * 0.92))
-            trans.xzoom = 1.0 + (stress * 0.04)
-            trans.yzoom = 1.0 + (stress * 0.16)
-            trans.xoffset = int(math.sin((st * 18.0) + width) * tremble * 1.2)
-            trans.yoffset = int(stress * 1.8)
-            return 0.016
-
-        return stress_line_motion
-
-    def make_sweat_motion(width, height, phase=0.0):
-        cx = width / 2.0
-        cy = height / 2.0
-
-        def sweat_motion(trans, st, at):
-            sweat = float(renpy.store.airi_sweat)
-            tremble = float(renpy.store.airi_tremble)
-            drip = (math.sin((st * 2.6) + phase) + 1.0) * 0.5
-            trans.xpos = cx
-            trans.ypos = cy
-            trans.anchor = (0.5, 0.5)
-            trans.transform_anchor = True
-            trans.subpixel = True
-            trans.alpha = min(0.76, (sweat * 0.46) + (drip * 0.18))
-            trans.xzoom = 1.0 + (drip * 0.10)
-            trans.yzoom = 1.0 + (drip * 0.22)
-            trans.xoffset = int(math.sin((st * 14.0) + phase) * tremble * 0.9)
-            trans.yoffset = int((drip * 2.4) + (sweat * 1.8))
-            return 0.016
-
-        return sweat_motion
 
     def make_chest_motion(rect, spec):
         _, _, width, height = rect
@@ -302,23 +249,19 @@ init python:
 
         return chest_motion
 
-    def make_breath_puff_motion(spec, delay=0.0):
+    def make_breath_puff_motion(spec):
         offset = spec.get("blink_offset", 0.0)
 
         def breath_puff_motion(trans, st, at):
-            breath_boost = float(renpy.store.airi_breath_boost)
-            local_time = st + delay
-            exhale = 0.0 if airi_speaking() else exhale_strength(local_time, offset)
-            exhale = max(exhale, breath_boost * 0.22)
-            exhale *= 0.78 + (breath_boost * 0.60)
+            exhale = 0.0 if airi_speaking() else exhale_strength(st, offset)
             trans.anchor = (0.0, 0.5)
             trans.transform_anchor = True
             trans.subpixel = True
-            trans.alpha = min(0.52, exhale * 0.42)
-            trans.xzoom = 0.82 + (exhale * 1.14)
-            trans.yzoom = 0.72 + (exhale * 1.42)
-            trans.xoffset = int(exhale * (20 + (delay * 8)))
-            trans.yoffset = int(-5 - (exhale * (18 + (delay * 4))))
+            trans.alpha = exhale * 0.26
+            trans.xzoom = 0.80 + (exhale * 0.90)
+            trans.yzoom = 0.70 + (exhale * 1.20)
+            trans.xoffset = int(exhale * 18)
+            trans.yoffset = int(-4 - (exhale * 16))
             return 0.016
 
         return breath_puff_motion
@@ -336,36 +279,23 @@ init python:
             breath_wave = breath_strength(st, phase)
             exhale = exhale_strength(st, phase)
             blush = float(renpy.store.airi_blush)
-            stress = float(renpy.store.airi_stress)
-            tremble = float(renpy.store.airi_tremble)
-            breath_boost = float(renpy.store.airi_breath_boost)
             sway = math.sin(st * 1.22 + phase) * sway_strength
             front = breath_wave - 0.5
-            jitter = math.sin((st * 26.0) + phase) * tremble
-            shake = math.cos((st * 19.0) + phase) * tremble
 
             if renpy.store.airi_chest_jiggle > 0.0:
                 renpy.store.airi_chest_jiggle = max(0.0, renpy.store.airi_chest_jiggle - 0.009)
-            if renpy.store.airi_stress > 0.0:
-                renpy.store.airi_stress = max(0.0, renpy.store.airi_stress - 0.004)
-            if renpy.store.airi_sweat > 0.0:
-                renpy.store.airi_sweat = max(0.0, renpy.store.airi_sweat - 0.003)
-            if renpy.store.airi_tremble > 0.0:
-                renpy.store.airi_tremble = max(0.0, renpy.store.airi_tremble - 0.0045)
-            if renpy.store.airi_breath_boost > 0.0:
-                renpy.store.airi_breath_boost = max(0.0, renpy.store.airi_breath_boost - 0.004)
 
             trans.xalign = xalign
             trans.yalign = 1.0
             trans.anchor = (0.5, 1.0)
             trans.transform_anchor = True
             trans.subpixel = True
-            trans.zoom = base_scale + (front * front_sway) + (math.sin(st * 1.38 + phase) * 0.0018) + (breath_boost * 0.0016)
-            trans.xzoom = 1.0 + (front * 0.0048)
-            trans.yzoom = 1.0 - (front * 0.0106)
-            trans.xoffset = int((sway * 1.8) - (blush * 0.7) + (jitter * 1.2))
-            trans.yoffset = int(-42 + base_yoffset - (front * 6.1) - (exhale * 2.8) - (talk * 0.65) - (breath_boost * 2.2) + (math.cos(st * 1.08 + phase) * 1.0) + (shake * 0.8))
-            trans.rotate = (front * -0.22) + (sway * 0.12) + (jitter * 0.09) + (stress * 0.02)
+            trans.zoom = base_scale + (front * front_sway) + (math.sin(st * 1.38 + phase) * 0.0018)
+            trans.xzoom = 1.0 + (front * 0.0038)
+            trans.yzoom = 1.0 - (front * 0.0088)
+            trans.xoffset = int((sway * 1.5) - (blush * 0.5))
+            trans.yoffset = int(-42 + base_yoffset - (front * 5.4) - (exhale * 1.8) - (talk * 0.45) + (math.cos(st * 1.08 + phase) * 0.9))
+            trans.rotate = (front * -0.18) + (sway * 0.10)
             return 0.016
 
         return sprite_motion
@@ -379,35 +309,17 @@ init python:
         chest_rect = spec["chest"]
         chest_file = spec.get("chest_file")
         breath_pos = (mouth_rect[0] + mouth_rect[2] + 8, mouth_rect[1] - 6)
-        stress_rect = (max(0, eye_rect[0] - 10), max(0, eye_rect[1] - 14), eye_rect[2] + 20, 18)
-        sweat_a_pos = (max(0, eye_rect[0] - 18), eye_rect[1] - 4)
-        sweat_b_pos = (mouth_rect[0] + mouth_rect[2] + 18, mouth_rect[1] - 32)
-        stress_display = LiveComposite(
-            (stress_rect[2], stress_rect[3]),
-            (0, 2), Solid("#2b1722", xysize=(stress_rect[2], 2)),
-            (8, 8), Solid("#3b2230", xysize=(stress_rect[2] - 16, 2)),
-            (20, 14), Solid("#23121a", xysize=(max(18, stress_rect[2] - 40), 1)),
-        )
-        sweat_display = LiveComposite(
-            (12, 24),
-            (4, 0), Solid("#eff8ff", xysize=(4, 14)),
-            (2, 10), Solid("#d9efff", xysize=(8, 10)),
-        )
 
         return Transform(
             LiveComposite(
                 (640, 640),
                 (0, 0), spec["file"],
                 (chest_rect[0], chest_rect[1]), Transform(chest_file, function=make_chest_motion(chest_rect, spec)),
-                (blush_left[0], blush_left[1]), Transform(Solid("#ff6f93", xysize=(blush_left[2], blush_left[3])), function=make_blush_motion(blush_left, -6.0)),
-                (blush_right[0], blush_right[1]), Transform(Solid("#ff6f93", xysize=(blush_right[2], blush_right[3])), function=make_blush_motion(blush_right, 6.0)),
+                (blush_left[0], blush_left[1]), Transform(Solid("#ff8b9e", xysize=(blush_left[2], blush_left[3])), function=make_blush_motion(blush_left, -6.0)),
+                (blush_right[0], blush_right[1]), Transform(Solid("#ff8b9e", xysize=(blush_right[2], blush_right[3])), function=make_blush_motion(blush_right, 6.0)),
                 (eye_rect[0], eye_rect[1]), Transform(Crop(eye_rect, spec["file"]), function=make_eye_motion(eye_rect, spec["blink_offset"])),
-                (stress_rect[0], stress_rect[1]), Transform(stress_display, function=make_stress_line_motion(stress_rect)),
                 (mouth_rect[0], mouth_rect[1]), Transform(Crop(mouth_rect, spec["file"]), function=make_mouth_motion(mouth_rect, spec)),
-                (sweat_a_pos[0], sweat_a_pos[1]), Transform(sweat_display, function=make_sweat_motion(12, 24, spec["blink_offset"])),
-                (sweat_b_pos[0], sweat_b_pos[1]), Transform(sweat_display, function=make_sweat_motion(12, 24, spec["blink_offset"] + 0.9)),
-                (breath_pos[0], breath_pos[1]), Transform(Text("~", size=30, color="#f4fbff"), function=make_breath_puff_motion(spec, 0.0)),
-                (breath_pos[0] + 10, breath_pos[1] + 5), Transform(Text("~", size=22, color="#e8f8ff"), function=make_breath_puff_motion(spec, 0.55)),
+                (breath_pos[0], breath_pos[1]), Transform(Text("~", size=26, color="#f4fbff"), function=make_breath_puff_motion(spec)),
             ),
             function=make_sprite_motion(spec),
         )
@@ -467,95 +379,57 @@ label chest_touch_loop:
 
         if result == "continue":
             $ airi_chest_jiggle = 0.0
-            $ airi_blush = max(0.16, airi_blush - 0.18) if airi_touch_count else 0.0
-            $ airi_stress = max(0.0, airi_stress - 0.22)
-            $ airi_sweat = max(0.0, airi_sweat - 0.16)
-            $ airi_tremble = max(0.0, airi_tremble - 0.18)
-            $ airi_breath_boost = max(0.0, airi_breath_boost - 0.20)
+            $ airi_blush = max(0.10, airi_blush - 0.16) if airi_touch_count else 0.0
             show expression build_airi_sprite("neutral") as airi
             with Dissolve(0.12)
             return
 
         if airi_touch_count == 1:
-            $ airi_blush = max(airi_blush, 0.42)
-            $ airi_stress = max(airi_stress, 0.18)
+            $ airi_blush = max(airi_blush, 0.34)
             show expression build_airi_sprite("shame") as airi
             with Dissolve(0.08)
-            with hpunch
             voice "audio/voice/chest_s0.ogg"
             a "ひゃっ……。"
         elif airi_touch_count == 2:
-            $ airi_blush = max(airi_blush, 0.58)
-            $ airi_stress = max(airi_stress, 0.28)
-            $ airi_sweat = max(airi_sweat, 0.18)
+            $ airi_blush = max(airi_blush, 0.50)
             show expression build_airi_sprite("shame") as airi
             with Dissolve(0.08)
-            with hpunch
             voice "audio/voice/chest_s0b.ogg"
             a "ちょ、ちょっと……急に触らないでください。"
         elif airi_touch_count == 3:
-            $ airi_blush = max(airi_blush, 0.72)
-            $ airi_stress = max(airi_stress, 0.36)
-            $ airi_sweat = max(airi_sweat, 0.28)
-            $ airi_tremble = max(airi_tremble, 0.24)
+            $ airi_blush = max(airi_blush, 0.66)
             show expression build_airi_sprite("shame") as airi
             with Dissolve(0.08)
-            with hpunch
             voice "audio/voice/chest_s1.ogg"
             a "んっ……動きの確認でも、近すぎます。"
         elif airi_touch_count == 4:
-            $ airi_blush = max(airi_blush, 0.64)
-            $ airi_stress = max(airi_stress, 0.52)
-            $ airi_sweat = max(airi_sweat, 0.42)
-            $ airi_tremble = max(airi_tremble, 0.34)
-            $ airi_breath_boost = max(airi_breath_boost, 0.40)
+            $ airi_blush = max(airi_blush, 0.42)
             show expression build_airi_sprite("angry") as airi
             with Dissolve(0.08)
-            play sound "audio/sfx/cloth_shift.wav"
-            with vpunch
             voice "audio/voice/chest_s1b.ogg"
-            a "も、もう十分見えたはずです……。顔まで熱くなるので、見ないでください。"
+            a "も、もう十分見えたはずです……。"
         elif airi_touch_count == 5:
-            $ airi_blush = max(airi_blush, 0.82)
-            $ airi_stress = max(airi_stress, 0.62)
-            $ airi_sweat = max(airi_sweat, 0.52)
-            $ airi_tremble = max(airi_tremble, 0.44)
-            $ airi_breath_boost = max(airi_breath_boost, 0.56)
+            $ airi_blush = max(airi_blush, 0.58)
             show expression build_airi_sprite("shame") as airi
             with Dissolve(0.08)
-            play sound "audio/sfx/cloth_shift.wav"
-            with vpunch
             voice "audio/voice/chest_s2.ogg"
-            a "んっ……まだ触るんですか。そんなに確認しなくても、反応は全部顔に出てます……。"
+            a "んっ……まだ触るんですか。そんなに確認しなくても、動いてます……。"
         elif airi_touch_count == 6:
-            $ airi_blush = max(airi_blush, 0.90)
-            $ airi_stress = max(airi_stress, 0.72)
-            $ airi_sweat = max(airi_sweat, 0.62)
-            $ airi_tremble = max(airi_tremble, 0.54)
-            $ airi_breath_boost = max(airi_breath_boost, 0.68)
-            show expression build_airi_sprite("angry") as airi
+            $ airi_blush = max(airi_blush, 0.64)
+            show expression build_airi_sprite("shame") as airi
             with Dissolve(0.08)
-            play sound "audio/sfx/cloth_shift.wav"
-            with vpunch
             voice "audio/voice/chest_s2b.ogg"
-            a "ち、近いです……息まで乱れるので、少し離れてください。"
+            a "ち、近いです……でも、反応はちゃんと見えてるはずです。"
         else:
-            $ airi_blush = 0.92
-            $ airi_stress = 0.80
-            $ airi_sweat = 0.70
-            $ airi_tremble = 0.60
-            $ airi_breath_boost = 0.74
+            $ airi_blush = 0.68
             if airi_touch_count % 2 == 0:
                 show expression build_airi_sprite("angry") as airi
                 with Dissolve(0.08)
-                play sound "audio/sfx/cloth_shift.wav"
-                with vpunch
                 voice "audio/voice/reject_01.ogg"
-                a "だ、だめですって……そんなに何回も触らないでください。表情まで崩れます。"
+                a "だ、だめですって……そんなに何回も触らないでください。"
             else:
                 show expression build_airi_sprite("shame") as airi
                 with Dissolve(0.08)
-                with hpunch
                 voice "audio/voice/chest_s1.ogg"
                 a "んっ……もう、反応を見たいのはわかりましたから……。"
 
@@ -565,10 +439,7 @@ label start:
     $ airi_chest_jiggle = 0.0
     $ airi_touch_count = 0
     $ airi_blush = 0.0
-    $ airi_stress = 0.0
-    $ airi_sweat = 0.0
-    $ airi_tremble = 0.0
-    $ airi_breath_boost = 0.0
+
     scene expression Solid("#101723")
     with fade
 
@@ -699,9 +570,6 @@ label ending_editable:
     a "……最後だけ、バニーにしました。締めはこれくらい振り切った方が、覚えてもらえますから。"
     n "設計が残れば、次の場面はもっと軽く作れる。"
     return
-
-
-
 
 
 
