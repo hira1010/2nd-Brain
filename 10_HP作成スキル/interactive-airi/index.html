@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>広瀬愛理 インタラクティブ・プロトタイプ</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="game-container">
+        <!-- 背景レイヤー -->
+        <div id="background"></div>
+        
+        <!-- キャラクターレイヤー -->
+        <div id="character-container">
+          <img id="character-neutral" class="character-image active" src="/assets/airi_neutral.png" alt="Airi Neutral" />
+          <img id="character-shame" class="character-image" src="/assets/airi_shame.png" alt="Airi Shame" />
+          <img id="character-angry" class="character-image" src="/assets/airi_angry.png" alt="Airi Angry" />
+        </div>
+
+        <!-- インタラクション判定用透明レイヤー -->
+        <div id="interaction-layers">
+          <div id="zone-head" class="interaction-zone" title="頭を撫でる"></div>
+          <div id="zone-chest" class="interaction-zone" title="胸に触れる"></div>
+          <div id="zone-body" class="interaction-zone" title="体に触れる"></div>
+        </div>
+
+        <!-- メッセージウィンドウ -->
+        <div id="message-window">
+          <div id="character-name">広瀬 愛理</div>
+          <div id="message-text">...あ、掃除中ですが、何かご用でしょうか？</div>
+        </div>
+      </div>
+
+      <!-- カスタムマウスカーソル -->
+      <div id="custom-cursor">
+        <img src="/assets/hand_cursor.png" alt="Hand Cursor" />
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
