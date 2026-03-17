@@ -1,0 +1,112 @@
+# -----------------------------------------------------
+# Ren'Py Script - One Scene Visual Novel Prototype
+# -----------------------------------------------------
+
+define n = Character(None)
+define a = Character("広瀬 愛理", color="#f0a35f")
+
+default trust = 0
+
+image airi neutral = "images/airi_neutral.png"
+image airi angry = "images/airi_angry.png"
+image airi shame = "images/airi_shame.png"
+
+transform airi_stage:
+    xalign 0.5
+    yalign 1.0
+    yoffset 24
+    zoom 0.92
+    easein 0.25 yoffset 0
+
+label start:
+    $ trust = 0
+
+    scene expression Solid("#101723")
+    with fade
+
+    centered "{size=+16}放課後プロトタイプ{/size}\n{size=-8}一場面だけの Ren'Py デモ{/size}"
+
+    scene expression Solid("#29496f")
+    with dissolve
+
+    show airi neutral at airi_stage
+    with dissolve
+
+    n "夕暮れの準備室。"
+    a "来てくれたんですね。今日中に、一本だけでも遊べる形にしたくて。"
+    a "立ち絵、会話、選択肢。短くても、その三つが揃えば、ちゃんとゲームに見えます。"
+
+    menu:
+        "どう返す？"
+
+        "演出を先に固めよう":
+            $ trust += 1
+            show airi shame at airi_stage
+            with dissolve
+            a "演出から入るの、好きです。切り替わる瞬間って、それだけで記憶に残りますから。"
+
+        "構造を先に固めよう":
+            show airi angry at airi_stage
+            with dissolve
+            a "堅いですね。でも、その順番のほうが後で崩れにくいのは、ちゃんと分かります。"
+
+    scene expression Solid("#55315a")
+    with fade
+
+    show airi neutral at airi_stage
+    with dissolve
+
+    n "窓の外で、最後の光が青から紫へ変わっていく。"
+    a "じゃあ最後に確認です。今夜のゴール、どっちにしますか？"
+
+    menu:
+        "今夜のゴールを決める"
+
+        "一往復だけでも最後まで遊べるようにする":
+            $ trust += 1
+            jump ending_playable
+
+        "素材をあとから差し替えやすい形まで整える":
+            jump ending_editable
+
+label ending_playable:
+    scene expression Solid("#12292d")
+    with fade
+
+    show airi shame at airi_stage
+    with dissolve
+
+    a "それが一番強いです。短くても、触れれば企画の芯が見えます。"
+
+    if trust >= 2:
+        show airi neutral at airi_stage
+        with dissolve
+        a "今日の返し、かなり好きでした。次は背景と音も載せて、ちゃんと一本にしましょう。"
+    else:
+        show airi angry at airi_stage
+        with dissolve
+        a "でも次は、見た目ももう少し盛ってくださいね。そこ、期待してますから。"
+
+    n "一つの場面だけでも、物語は始められる。"
+    return
+
+label ending_editable:
+    scene expression Solid("#12292d")
+    with fade
+
+    show airi neutral at airi_stage
+    with dissolve
+
+    a "堅実でいいと思います。台詞と絵を後から差し替えられたら、次が一気に速くなります。"
+
+    if trust >= 1:
+        show airi shame at airi_stage
+        with dissolve
+        a "……その上で、次はちゃんと演出も欲しいです。欲張りですか？"
+    else:
+        show airi angry at airi_stage
+        with dissolve
+        a "合理的すぎます。でも、嫌いじゃないです。"
+
+    n "設計が残れば、次の場面はもっと軽く作れる。"
+    return

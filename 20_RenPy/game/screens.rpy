@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Initialization
 ################################################################################
 
@@ -95,66 +95,83 @@ style frame:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
+transform say_window_in:
+    alpha 0.0
+    yoffset 16
+    ease 0.16 alpha 1.0 yoffset 0
+
+transform choice_stack_in:
+    alpha 0.0
+    yoffset 20
+    ease 0.18 alpha 1.0 yoffset 0
+
+transform choice_button_in(delay=0.0):
+    alpha 0.0
+    xoffset 24
+    pause delay
+    ease 0.16 alpha 1.0 xoffset 0
+
 screen say(who, what):
 
     window:
         id "window"
+        style "say_window"
+        at say_window_in
+
+        add Solid("#f0a35f", xysize=(4, 102)) xpos 176 ypos 18
 
         if who is not None:
-
-            window:
-                style "namebox"
-                text who id "who"
-
-        text what id "what"
+            text who id "who" style "say_who"
+            text what id "what" style "say_dialogue"
+        else:
+            text what id "what" style "say_narration"
 
 
-    ## If there's a side image, display it above the text. Do not display on the
-    ## phone variant - there's no room.
-    if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
-
-
-style window is default
+style say_window is default
 style say_label is default
 style say_dialogue is default
 style say_thought is say_dialogue
+style say_narration is say_dialogue
 
 style namebox is default
 style namebox_label is say_label
 
 
-style window:
+style say_window:
     xalign 0.5
     xfill True
-    yalign gui.textbox_yalign
-    ysize gui.textbox_height
+    yalign 1.0
+    ysize 170
+    background Solid("#060b12da")
+    top_padding 16
+    bottom_padding 22
+    left_padding 0
+    right_padding 0
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+style say_who is default:
+    font gui.name_text_font
+    size 33
+    color "#f0a35f"
+    xpos 198
+    ypos 12
+    outlines [(2, "#00000098", 0, 0)]
 
-style namebox:
-    xpos gui.name_xpos
-    xanchor gui.name_xalign
-    xsize gui.namebox_width
-    ypos gui.name_ypos
-    ysize gui.namebox_height
-
-    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
-    padding gui.namebox_borders.padding
-
-style say_label:
-    properties gui.text_properties("name", accent=True)
-    xalign gui.name_xalign
-    yalign 0.5
+style say_label is say_who
 
 style say_dialogue:
-    properties gui.text_properties("dialogue")
-
-    xpos gui.dialogue_xpos
-    xsize gui.dialogue_width
-    ypos gui.dialogue_ypos
-
+    font gui.text_font
+    size 26
+    color "#f4f4f5"
+    xpos 198
+    ypos 56
+    xsize 862
+    line_spacing 3
     adjust_spacing False
+    outlines [(2, "#00000070", 0, 0)]
+
+style say_narration is say_dialogue:
+    ypos 38
+    color "#e6e7ec"
 
 
 ## Input screen ################################################################
@@ -204,8 +221,11 @@ screen choice(items):
     style_prefix "choice"
 
     vbox:
-        for i in items:
-            textbutton i.caption action i.action
+        style "choice_vbox"
+        at choice_stack_in
+
+        for index, i in enumerate(items):
+            textbutton i.caption action i.action at choice_button_in(index * 0.04)
 
 
 style choice_vbox is vbox
@@ -214,16 +234,28 @@ style choice_button_text is button_text
 
 style choice_vbox:
     xalign 0.5
-    ypos 270
-    yanchor 0.5
+    ypos 216
+    spacing 14
 
-    spacing gui.choice_spacing
+style choice_button:
+    xminimum 700
+    xmaximum 800
+    yminimum 58
+    left_padding 34
+    right_padding 34
+    top_padding 14
+    bottom_padding 14
+    background Solid("#091018d8")
+    hover_background Solid("#213651ee")
 
-style choice_button is default:
-    properties gui.button_properties("choice_button")
-
-style choice_button_text is default:
-    properties gui.text_properties("choice_button")
+style choice_button_text:
+    font gui.text_font
+    size 26
+    xalign 0.5
+    textalign 0.5
+    color "#f1f1f1"
+    hover_color "#ffffff"
+    outlines [(2, "#00000070", 0, 0)]
 
 
 ## Quick Menu screen ###########################################################
@@ -238,20 +270,24 @@ screen quick_menu():
 
     if quick_menu:
 
-        hbox:
-            style_prefix "quick"
-
+        frame:
+            style "quick_frame"
             xalign 0.5
             yalign 1.0
+            yoffset -6
 
-            textbutton _("Back") action Rollback()
-            textbutton _("History") action ShowMenu('history')
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Save") action ShowMenu('save')
-            textbutton _("Q.Save") action QuickSave()
-            textbutton _("Q.Load") action QuickLoad()
-            textbutton _("Prefs") action ShowMenu('preferences')
+            hbox:
+                style_prefix "quick"
+                spacing 16
+
+                textbutton _("Back") action Rollback()
+                textbutton _("History") action ShowMenu('history')
+                textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
+                textbutton _("Auto") action Preference("auto-forward", "toggle")
+                textbutton _("Save") action ShowMenu('save')
+                textbutton _("Q.Save") action QuickSave()
+                textbutton _("Q.Load") action QuickLoad()
+                textbutton _("Prefs") action ShowMenu('preferences')
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
@@ -261,14 +297,27 @@ init python:
 
 default quick_menu = True
 
+style quick_frame is default
 style quick_button is default
 style quick_button_text is button_text
 
+style quick_frame:
+    background Solid("#06080cb0")
+    padding (18, 6)
+
 style quick_button:
-    properties gui.button_properties("quick_button")
+    background None
+    hover_background None
+    left_padding 0
+    right_padding 0
+    top_padding 2
+    bottom_padding 2
 
 style quick_button_text:
-    properties gui.text_properties("quick_button")
+    font gui.interface_text_font
+    size 17
+    color "#c4c7cf"
+    hover_color "#ffffff"
 
 
 ################################################################################
@@ -1536,3 +1585,5 @@ style slider_pref_slider:
 style main_menu_vbox:
     variant "small"
     xsize 900
+
+

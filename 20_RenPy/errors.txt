@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 63: invalid syntax. Perhaps you forgot a comma?
+    "chest": (182, 284, 292, 234)
+                 ^^^^^
+
+Ren'Py Version: Ren'Py 8.5.2.26010301
+Tue Mar 17 16:15:51 2026

@@ -13,10 +13,7 @@
 ## The _() surrounding the string marks it as eligible for translation.
 
 # カスタムマウスカーソルの設定
-define config.mouse = { 'default' : [ ('gui/cursor.png', 0, 0) ] }
-
-# カスタムマウスカーソルの設定
-define config.mouse = { 'default' : [ ('gui/cursor.png', 0, 0) ] }
+define config.mouse = { 'default' : [ ('gui/cursor.png', 36, 4) ] }
 
 define config.name = _("Airi Interactive Prototype")
 
@@ -62,7 +59,7 @@ define build.version = "7.0"
 
 define config.has_sound = True
 define config.has_music = True
-define config.has_voice = False
+define config.has_voice = True
 
 
 ## To allow the user to play a test sound on the sound or voice channel,
@@ -115,7 +112,7 @@ define config.end_game_transition = None
 ## After the game has started, this can be changed with the "window show",
 ## "window hide", and "window auto" statements.
 
-define config.window = "auto"
+define config.window = "show"
 
 
 ## Transitions used to show and hide the dialogue window
@@ -224,3 +221,7 @@ define build.itch_project = "renpytom/the-question"
 
 # Enable the console.
 define config.console = True
+
+
+
+
