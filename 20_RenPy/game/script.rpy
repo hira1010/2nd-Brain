@@ -23,19 +23,22 @@ init python:
             "mouth": (292, 250, 58, 18),
             "blush_left": (224, 216, 58, 16),
             "blush_right": (356, 216, 58, 16),
-            "chest": (268, 336, 104, 56),
-            "chest_anchor": (0.50, 0.46),
+            "chest": (286, 346, 68, 32),
+            "chest_anchor": (0.50, 0.44),
             "chest_mask": "images/chest_mask_neutral.png",
             "chest_file": "images/airi_neutral_chest.png",
+            "hair": (150, 34, 340, 292),
+            "hair_sway": 1.10,
+            "hair_front_file": "images/parts/neutral/hair_front.png",
             "blink_offset": 0.8,
             "scale": 0.92,
             "xalign": 0.50,
             "base_yoffset": 0,
-            "sway": 1.28,
+            "sway": 2.05,
             "mouth_open": 0.32,
             "mouth_shift": 1.50,
             "idle_mouth": 0.18,
-            "front_sway": 0.0062,
+            "front_sway": 0.0108,
             "touch_wobble": 1.62,
             "touch_bounce": 2.38,
         },
@@ -45,19 +48,22 @@ init python:
             "mouth": (278, 328, 88, 22),
             "blush_left": (212, 236, 66, 22),
             "blush_right": (362, 236, 66, 22),
-            "chest": (260, 392, 120, 68),
-            "chest_anchor": (0.50, 0.42),
+            "chest": (286, 404, 72, 36),
+            "chest_anchor": (0.50, 0.40),
             "chest_mask": "images/chest_mask_angry.png",
             "chest_file": "images/airi_angry_chest.png",
+            "hair": (118, 20, 402, 284),
+            "hair_sway": 1.22,
+            "hair_front_file": "images/parts/angry/hair_front.png",
             "blink_offset": 1.9,
             "scale": 0.72,
             "xalign": 0.52,
             "base_yoffset": 18,
-            "sway": 0.90,
+            "sway": 1.60,
             "mouth_open": 0.25,
             "mouth_shift": 1.20,
             "idle_mouth": 0.12,
-            "front_sway": 0.0044,
+            "front_sway": 0.0082,
             "touch_wobble": 1.38,
             "touch_bounce": 1.94,
         },
@@ -67,19 +73,22 @@ init python:
             "mouth": (340, 278, 56, 18),
             "blush_left": (274, 232, 70, 24),
             "blush_right": (386, 232, 70, 24),
-            "chest": (300, 388, 104, 62),
-            "chest_anchor": (0.50, 0.42),
+            "chest": (322, 402, 64, 36),
+            "chest_anchor": (0.50, 0.40),
             "chest_mask": "images/chest_mask_shame.png",
             "chest_file": "images/airi_shame_chest.png",
+            "hair": (154, 34, 338, 292),
+            "hair_sway": 1.34,
+            "hair_front_file": "images/parts/shame/hair_front.png",
             "blink_offset": 2.8,
             "scale": 0.84,
             "xalign": 0.54,
             "base_yoffset": 6,
-            "sway": 1.08,
+            "sway": 1.82,
             "mouth_open": 0.28,
             "mouth_shift": 1.40,
             "idle_mouth": 0.16,
-            "front_sway": 0.0052,
+            "front_sway": 0.0096,
             "touch_wobble": 1.74,
             "touch_bounce": 2.56,
         },
@@ -89,19 +98,22 @@ init python:
             "mouth": (340, 278, 56, 18),
             "blush_left": (274, 232, 70, 24),
             "blush_right": (386, 232, 70, 24),
-            "chest": (300, 388, 104, 62),
-            "chest_anchor": (0.50, 0.42),
+            "chest": (322, 402, 64, 36),
+            "chest_anchor": (0.50, 0.40),
             "chest_mask": "images/chest_mask_shame.png",
             "chest_file": "images/airi_bunny_chest.png",
+            "hair": (154, 22, 338, 314),
+            "hair_sway": 1.42,
+            "hair_front_file": "images/parts/bunny/hair_front.png",
             "blink_offset": 3.2,
             "scale": 0.84,
             "xalign": 0.54,
             "base_yoffset": 6,
-            "sway": 1.08,
+            "sway": 1.82,
             "mouth_open": 0.30,
             "mouth_shift": 1.45,
             "idle_mouth": 0.16,
-            "front_sway": 0.0052,
+            "front_sway": 0.0096,
             "touch_wobble": 1.74,
             "touch_bounce": 2.56,
         },
@@ -275,29 +287,51 @@ init python:
 
         return sweat_motion
 
+    def make_hair_front_motion(spec):
+        phase = spec.get("blink_offset", 0.0)
+        hair_sway = spec.get("hair_sway", 1.0)
+
+        def hair_front_motion(trans, st, at):
+            sway = math.sin((st * 1.56) + phase) * hair_sway
+            lag = math.sin((st * 2.12) + phase + 0.7) * hair_sway
+            breath = breath_strength(st, phase) - 0.5
+            trans.xpos = 320
+            trans.ypos = 192
+            trans.anchor = (0.5, 0.30)
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.xoffset = int(sway * 1.4)
+            trans.yoffset = int(abs(lag) * 0.5 - (breath * 0.3))
+            trans.rotate = (sway * 0.14) + (lag * 0.05)
+            trans.xzoom = 1.0 + (lag * 0.0018)
+            trans.yzoom = 1.0 + (abs(lag) * 0.0024)
+            trans.alpha = 0.998
+            return 0.016
+
+        return hair_front_motion
+
     def make_chest_motion(rect, spec):
         _, _, width, height = rect
-        anchor_x, anchor_y = spec.get("chest_anchor", (0.5, 0.18))
+        anchor_x, anchor_y = spec.get("chest_anchor", (0.5, 0.40))
         cx = width * anchor_x
         cy = height * anchor_y
-        touch_wobble = spec.get("touch_wobble", 1.0)
         touch_bounce = spec.get("touch_bounce", 1.0)
         phase = spec.get("blink_offset", 0.0)
 
         def chest_motion(trans, st, at):
-            wobble, pulse, impact = touch_response(float(renpy.store.airi_chest_jiggle))
+            _, pulse, impact = touch_response(float(renpy.store.airi_chest_jiggle))
             breath = breath_strength(st, phase) - 0.5
             trans.xpos = cx
             trans.ypos = cy
             trans.anchor = (anchor_x, anchor_y)
             trans.transform_anchor = True
             trans.subpixel = True
-            trans.xzoom = 1.0 + (breath * 0.004) + (pulse * 0.090 * touch_bounce) + (impact * 0.16)
-            trans.yzoom = 1.0 + (breath * 0.003) + (pulse * 0.042 * touch_bounce) + (impact * 0.09)
-            trans.xoffset = int(wobble * 1.1 * touch_wobble)
-            trans.yoffset = int(-(pulse * 3.6 * touch_bounce) - (impact * 6.6))
-            trans.rotate = wobble * -0.10 * touch_wobble
-            trans.alpha = 0.996
+            trans.xzoom = 1.0 + (breath * 0.0015) + (pulse * 0.020 * touch_bounce) + (impact * 0.032)
+            trans.yzoom = 1.0 + (breath * 0.0012) + (pulse * 0.012 * touch_bounce) + (impact * 0.020)
+            trans.xoffset = 0
+            trans.yoffset = int(-(pulse * 1.4 * touch_bounce) - (impact * 2.2))
+            trans.rotate = 0.0
+            trans.alpha = 0.998
             return 0.016
 
         return chest_motion
@@ -339,7 +373,8 @@ init python:
             stress = float(renpy.store.airi_stress)
             tremble = float(renpy.store.airi_tremble)
             breath_boost = float(renpy.store.airi_breath_boost)
-            sway = math.sin(st * 1.22 + phase) * sway_strength
+            sway = math.sin((st * 1.34) + phase) * sway_strength
+            sway_alt = math.cos((st * 0.92) + phase) * sway_strength
             front = breath_wave - 0.5
             jitter = math.sin((st * 26.0) + phase) * tremble
             shake = math.cos((st * 19.0) + phase) * tremble
@@ -360,12 +395,12 @@ init python:
             trans.anchor = (0.5, 1.0)
             trans.transform_anchor = True
             trans.subpixel = True
-            trans.zoom = base_scale + (front * front_sway) + (math.sin(st * 1.38 + phase) * 0.0018) + (breath_boost * 0.0016)
-            trans.xzoom = 1.0 + (front * 0.0048)
-            trans.yzoom = 1.0 - (front * 0.0106)
-            trans.xoffset = int((sway * 1.8) - (blush * 0.7) + (jitter * 1.2))
-            trans.yoffset = int(-42 + base_yoffset - (front * 6.1) - (exhale * 2.8) - (talk * 0.65) - (breath_boost * 2.2) + (math.cos(st * 1.08 + phase) * 1.0) + (shake * 0.8))
-            trans.rotate = (front * -0.22) + (sway * 0.12) + (jitter * 0.09) + (stress * 0.02)
+            trans.zoom = base_scale + (front * front_sway) + (math.sin((st * 1.56) + phase) * 0.0036) + (breath_boost * 0.0022)
+            trans.xzoom = 1.0 + (front * 0.0074)
+            trans.yzoom = 1.0 - (front * 0.0142)
+            trans.xoffset = int((sway * 2.8) + (sway_alt * 0.8) - (blush * 0.7) + (jitter * 1.2))
+            trans.yoffset = int(-42 + base_yoffset - (front * 8.6) - (exhale * 3.2) - (talk * 0.9) - (breath_boost * 2.8) + (math.cos((st * 1.10) + phase) * 1.8) + (shake * 0.8))
+            trans.rotate = (front * -0.34) + (sway * 0.18) + (sway_alt * 0.04) + (jitter * 0.09) + (stress * 0.02)
             return 0.016
 
         return sprite_motion
@@ -378,39 +413,157 @@ init python:
         blush_right = spec["blush_right"]
         chest_rect = spec["chest"]
         chest_file = spec.get("chest_file")
+        full_file = spec["file"]
+        fg_file = full_file.replace(".png", "_fg.png")
+        bg_file = full_file.replace(".png", "_bg.png")
+        base_file = fg_file if renpy.loadable(fg_file) else full_file
         breath_pos = (mouth_rect[0] + mouth_rect[2] + 8, mouth_rect[1] - 6)
-        stress_rect = (max(0, eye_rect[0] - 10), max(0, eye_rect[1] - 14), eye_rect[2] + 20, 18)
         sweat_a_pos = (max(0, eye_rect[0] - 18), eye_rect[1] - 4)
         sweat_b_pos = (mouth_rect[0] + mouth_rect[2] + 18, mouth_rect[1] - 32)
-        stress_display = LiveComposite(
-            (stress_rect[2], stress_rect[3]),
-            (0, 2), Solid("#2b1722", xysize=(stress_rect[2], 2)),
-            (8, 8), Solid("#3b2230", xysize=(stress_rect[2] - 16, 2)),
-            (20, 14), Solid("#23121a", xysize=(max(18, stress_rect[2] - 40), 1)),
-        )
         sweat_display = LiveComposite(
             (12, 24),
             (4, 0), Solid("#eff8ff", xysize=(4, 14)),
             (2, 10), Solid("#d9efff", xysize=(8, 10)),
         )
 
-        return Transform(
-            LiveComposite(
-                (640, 640),
-                (0, 0), spec["file"],
-                (chest_rect[0], chest_rect[1]), Transform(chest_file, function=make_chest_motion(chest_rect, spec)),
-                (blush_left[0], blush_left[1]), Transform(Solid("#ff6f93", xysize=(blush_left[2], blush_left[3])), function=make_blush_motion(blush_left, -6.0)),
-                (blush_right[0], blush_right[1]), Transform(Solid("#ff6f93", xysize=(blush_right[2], blush_right[3])), function=make_blush_motion(blush_right, 6.0)),
-                (eye_rect[0], eye_rect[1]), Transform(Crop(eye_rect, spec["file"]), function=make_eye_motion(eye_rect, spec["blink_offset"])),
-                (stress_rect[0], stress_rect[1]), Transform(stress_display, function=make_stress_line_motion(stress_rect)),
-                (mouth_rect[0], mouth_rect[1]), Transform(Crop(mouth_rect, spec["file"]), function=make_mouth_motion(mouth_rect, spec)),
-                (sweat_a_pos[0], sweat_a_pos[1]), Transform(sweat_display, function=make_sweat_motion(12, 24, spec["blink_offset"])),
-                (sweat_b_pos[0], sweat_b_pos[1]), Transform(sweat_display, function=make_sweat_motion(12, 24, spec["blink_offset"] + 0.9)),
-                (breath_pos[0], breath_pos[1]), Transform(Text("~", size=30, color="#f4fbff"), function=make_breath_puff_motion(spec, 0.0)),
-                (breath_pos[0] + 10, breath_pos[1] + 5), Transform(Text("~", size=22, color="#e8f8ff"), function=make_breath_puff_motion(spec, 0.55)),
-            ),
+        composite_args = [
+            (640, 640),
+            (0, 0), base_file,
+        ]
+        composite_args.extend([
+            (chest_rect[0], chest_rect[1]), Transform(chest_file, function=make_chest_motion(chest_rect, spec)),
+            (blush_left[0], blush_left[1]), Transform(Solid("#ff6f93", xysize=(blush_left[2], blush_left[3])), function=make_blush_motion(blush_left, -6.0)),
+            (blush_right[0], blush_right[1]), Transform(Solid("#ff6f93", xysize=(blush_right[2], blush_right[3])), function=make_blush_motion(blush_right, 6.0)),
+            (eye_rect[0], eye_rect[1]), Transform(Crop(eye_rect, full_file), function=make_eye_motion(eye_rect, spec["blink_offset"])),
+            (mouth_rect[0], mouth_rect[1]), Transform(Crop(mouth_rect, full_file), function=make_mouth_motion(mouth_rect, spec)),
+            (sweat_a_pos[0], sweat_a_pos[1]), Transform(sweat_display, function=make_sweat_motion(12, 24, spec["blink_offset"])),
+            (sweat_b_pos[0], sweat_b_pos[1]), Transform(sweat_display, function=make_sweat_motion(12, 24, spec["blink_offset"] + 0.9)),
+            (breath_pos[0], breath_pos[1]), Transform(Text("~", size=30, color="#f4fbff"), function=make_breath_puff_motion(spec, 0.0)),
+            (breath_pos[0] + 10, breath_pos[1] + 5), Transform(Text("~", size=22, color="#e8f8ff"), function=make_breath_puff_motion(spec, 0.55)),
+        ])
+
+        character_display = Transform(
+            LiveComposite(*composite_args),
             function=make_sprite_motion(spec),
         )
+
+        if renpy.loadable(bg_file) and renpy.loadable(fg_file):
+            return LiveComposite(
+                (640, 640),
+                (0, 0), bg_file,
+                (0, 0), character_display,
+            )
+
+        return character_display
+    AIRI_PARTS_REQUIRED = ("legs", "torso", "head")
+    AIRI_PARTS_OPTIONAL = ("eyes", "mouth", "hair_front", "fx_front")
+
+    def airi_part_path(pose_name, part_name):
+        return "images/parts/{}/{}.png".format(pose_name, part_name)
+
+    def airi_part_set_available(pose_name):
+        return all(renpy.loadable(airi_part_path(pose_name, part_name)) for part_name in AIRI_PARTS_REQUIRED)
+
+    def make_rig_part_motion(spec, anchor=(0.5, 0.5), sway_gain=1.0, breath_gain=1.0, rotate_gain=1.0, talk_gain=0.0):
+        phase = spec.get("blink_offset", 0.0)
+        sway_strength = spec.get("sway", 1.0)
+
+        def rig_part_motion(trans, st, at):
+            breath = breath_strength(st, phase) - 0.5
+            sway = math.sin((st * 1.22) + phase) * sway_strength
+            talk = mouth_strength(st) if airi_speaking() else 0.0
+            tremble = float(renpy.store.airi_tremble)
+            trans.anchor = anchor
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.xoffset = int((sway * sway_gain) + (math.sin((st * 24.0) + phase) * tremble * 0.3))
+            trans.yoffset = int((-breath * breath_gain) - (talk * talk_gain))
+            trans.rotate = (breath * -0.12 * rotate_gain) + (sway * 0.04 * rotate_gain)
+            return 0.016
+
+        return rig_part_motion
+
+    def make_rig_eye_motion(spec):
+        phase = spec.get("blink_offset", 0.0)
+
+        def rig_eye_motion(trans, st, at):
+            blink = blink_strength(st, phase)
+            trans.anchor = (0.5, 0.28)
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.yzoom = max(0.01, 1.0 - (blink * 0.992))
+            trans.xzoom = 1.0 + (blink * 0.105)
+            trans.yoffset = int(blink * 2.0)
+            return 0.016
+
+        return rig_eye_motion
+
+    def make_rig_mouth_motion(spec):
+        phase = spec.get("blink_offset", 0.0)
+        open_scale = spec.get("mouth_open", 0.22)
+        shift_scale = spec.get("mouth_shift", 1.0)
+        idle_scale = spec.get("idle_mouth", 0.08)
+
+        def rig_mouth_motion(trans, st, at):
+            voice_amount = mouth_strength(st) if airi_speaking() else 0.0
+            breath_wave = breath_strength(st, phase)
+            idle_amount = ((0.45 + (breath_wave * 0.75)) * idle_scale) if not airi_speaking() else (breath_wave * 0.05)
+            open_amount = voice_amount + idle_amount
+            trans.anchor = (0.5, 0.44)
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.yzoom = 1.0 + (open_amount * (open_scale * 1.20))
+            trans.xzoom = 1.0 - (open_amount * min(0.12, open_scale * 0.45))
+            trans.yoffset = int(open_amount * shift_scale * 1.8)
+            return 0.016
+
+        return rig_mouth_motion
+
+    def build_airi_rig(pose_name):
+        spec = AIRI_SPECS[pose_name]
+        layers = [
+            ((0, 0), Transform(airi_part_path(pose_name, "legs"), function=make_rig_part_motion(spec, anchor=(0.5, 0.92), sway_gain=0.2, breath_gain=0.6, rotate_gain=0.2))),
+            ((0, 0), Transform(airi_part_path(pose_name, "torso"), function=make_rig_part_motion(spec, anchor=(0.5, 0.58), sway_gain=0.8, breath_gain=2.4, rotate_gain=0.8, talk_gain=0.3))),
+            ((0, 0), Transform(airi_part_path(pose_name, "head"), function=make_rig_part_motion(spec, anchor=(0.5, 0.30), sway_gain=1.1, breath_gain=1.4, rotate_gain=1.0))),
+        ]
+
+        if renpy.loadable(airi_part_path(pose_name, "hair_front")):
+            layers.append(((0, 0), Transform(airi_part_path(pose_name, "hair_front"), function=make_rig_part_motion(spec, anchor=(0.5, 0.32), sway_gain=1.3, breath_gain=0.8, rotate_gain=1.2))))
+
+        if renpy.loadable(airi_part_path(pose_name, "eyes")):
+            layers.append(((0, 0), Transform(airi_part_path(pose_name, "eyes"), function=make_rig_eye_motion(spec))))
+
+        if renpy.loadable(airi_part_path(pose_name, "mouth")):
+            layers.append(((0, 0), Transform(airi_part_path(pose_name, "mouth"), function=make_rig_mouth_motion(spec))))
+
+        if renpy.loadable(airi_part_path(pose_name, "fx_front")):
+            layers.append(((0, 0), airi_part_path(pose_name, "fx_front")))
+
+        composite_args = [(640, 640)]
+        for position, displayable in layers:
+            composite_args.extend([position, displayable])
+
+        return Transform(
+            LiveComposite(*composite_args),
+            function=make_sprite_motion(spec),
+        )
+
+    def build_airi_display(pose_name):
+        if airi_part_set_available(pose_name):
+            return build_airi_rig(pose_name)
+        return build_airi_sprite(pose_name)
+
+    def build_sprite_zip_demo():
+        frames = []
+        for _ in range(12):
+            for idx in range(8):
+                frames.extend([
+                    "images/generated/sprite_demo_frame{:03d}.png".format(idx),
+                    1.0 / 12.0,
+                ])
+        return Animation(*frames)
+
+    sprite_zip_demo_displayable = build_sprite_zip_demo()
     a = Character("広瀬 愛理", color="#f0a35f", callback=airi_callback)
 
 screen chest_touch_demo():
@@ -472,14 +625,14 @@ label chest_touch_loop:
             $ airi_sweat = max(0.0, airi_sweat - 0.16)
             $ airi_tremble = max(0.0, airi_tremble - 0.18)
             $ airi_breath_boost = max(0.0, airi_breath_boost - 0.20)
-            show expression build_airi_sprite("neutral") as airi
+            show expression build_airi_display("neutral") as airi
             with Dissolve(0.12)
             return
 
         if airi_touch_count == 1:
             $ airi_blush = max(airi_blush, 0.42)
             $ airi_stress = max(airi_stress, 0.18)
-            show expression build_airi_sprite("shame") as airi
+            show expression build_airi_display("shame") as airi
             with Dissolve(0.08)
             with hpunch
             voice "audio/voice/chest_s0.ogg"
@@ -488,7 +641,7 @@ label chest_touch_loop:
             $ airi_blush = max(airi_blush, 0.58)
             $ airi_stress = max(airi_stress, 0.28)
             $ airi_sweat = max(airi_sweat, 0.18)
-            show expression build_airi_sprite("shame") as airi
+            show expression build_airi_display("shame") as airi
             with Dissolve(0.08)
             with hpunch
             voice "audio/voice/chest_s0b.ogg"
@@ -498,7 +651,7 @@ label chest_touch_loop:
             $ airi_stress = max(airi_stress, 0.36)
             $ airi_sweat = max(airi_sweat, 0.28)
             $ airi_tremble = max(airi_tremble, 0.24)
-            show expression build_airi_sprite("shame") as airi
+            show expression build_airi_display("shame") as airi
             with Dissolve(0.08)
             with hpunch
             voice "audio/voice/chest_s1.ogg"
@@ -509,7 +662,7 @@ label chest_touch_loop:
             $ airi_sweat = max(airi_sweat, 0.42)
             $ airi_tremble = max(airi_tremble, 0.34)
             $ airi_breath_boost = max(airi_breath_boost, 0.40)
-            show expression build_airi_sprite("angry") as airi
+            show expression build_airi_display("angry") as airi
             with Dissolve(0.08)
             play sound "audio/sfx/cloth_shift.wav"
             with vpunch
@@ -521,7 +674,7 @@ label chest_touch_loop:
             $ airi_sweat = max(airi_sweat, 0.52)
             $ airi_tremble = max(airi_tremble, 0.44)
             $ airi_breath_boost = max(airi_breath_boost, 0.56)
-            show expression build_airi_sprite("shame") as airi
+            show expression build_airi_display("shame") as airi
             with Dissolve(0.08)
             play sound "audio/sfx/cloth_shift.wav"
             with vpunch
@@ -533,7 +686,7 @@ label chest_touch_loop:
             $ airi_sweat = max(airi_sweat, 0.62)
             $ airi_tremble = max(airi_tremble, 0.54)
             $ airi_breath_boost = max(airi_breath_boost, 0.68)
-            show expression build_airi_sprite("angry") as airi
+            show expression build_airi_display("angry") as airi
             with Dissolve(0.08)
             play sound "audio/sfx/cloth_shift.wav"
             with vpunch
@@ -546,14 +699,14 @@ label chest_touch_loop:
             $ airi_tremble = 0.60
             $ airi_breath_boost = 0.74
             if airi_touch_count % 2 == 0:
-                show expression build_airi_sprite("angry") as airi
+                show expression build_airi_display("angry") as airi
                 with Dissolve(0.08)
                 play sound "audio/sfx/cloth_shift.wav"
                 with vpunch
                 voice "audio/voice/reject_01.ogg"
                 a "だ、だめですって……そんなに何回も触らないでください。表情まで崩れます。"
             else:
-                show expression build_airi_sprite("shame") as airi
+                show expression build_airi_display("shame") as airi
                 with Dissolve(0.08)
                 with hpunch
                 voice "audio/voice/chest_s1.ogg"
@@ -574,10 +727,21 @@ label start:
 
     centered "{size=+16}放課後プロトタイプ{/size}\n{size=-8}瞬き・口パク・胸タッチつき一場面デモ{/size}"
 
+    voice "audio/voice/voicevox_paon_dayo.wav"
+    n "パオンだよ"
+
+    if renpy.loadable("images/generated/sprite_demo_frame000.png"):
+        scene black
+        show expression sprite_zip_demo_displayable as sprite_zip_demo
+        with dissolve
+        $ renpy.pause(8.0, hard=True)
+        hide sprite_zip_demo
+        with dissolve
+
     scene expression Solid("#29496f")
     with dissolve
 
-    show expression build_airi_sprite("neutral") as airi
+    show expression build_airi_display("neutral") as airi
     with dissolve
 
     n "夕暮れの準備室。"
@@ -603,14 +767,14 @@ label start:
         "演出を先に固める":
             $ trust += 1
             $ airi_blush = 0.36
-            show expression build_airi_sprite("shame") as airi
+            show expression build_airi_display("shame") as airi
             with dissolve
             voice "audio/voice/airi_scene_04.ogg"
             a "演出から入るの、好きです。切り替わる瞬間だけで、空気まで変わりますから。"
 
         "構造を先に固める":
             $ airi_blush = 0.08
-            show expression build_airi_sprite("angry") as airi
+            show expression build_airi_display("angry") as airi
             with dissolve
             voice "audio/voice/airi_scene_05.ogg"
             a "先に骨組みを作るんですね。堅いですけど、そのほうが後で崩れません。"
@@ -619,7 +783,7 @@ label start:
     with fade
 
     $ airi_blush = 0.10
-    show expression build_airi_sprite("neutral") as airi
+    show expression build_airi_display("neutral") as airi
     with dissolve
 
     n "窓の外で、最後の光が青から紫へ変わっていく。"
@@ -641,7 +805,7 @@ label ending_playable:
     with fade
 
     $ airi_blush = 0.38
-    show expression build_airi_sprite("shame") as airi
+    show expression build_airi_display("shame") as airi
     with dissolve
 
     voice "audio/voice/airi_scene_07.ogg"
@@ -649,19 +813,19 @@ label ending_playable:
 
     if trust >= 2:
         $ airi_blush = 0.14
-        show expression build_airi_sprite("neutral") as airi
+        show expression build_airi_display("neutral") as airi
         with dissolve
         voice "audio/voice/body_01.ogg"
         a "次は背景と音も足して、本当に一本にしましょう。"
     else:
         $ airi_blush = 0.06
-        show expression build_airi_sprite("angry") as airi
+        show expression build_airi_display("angry") as airi
         with dissolve
         voice "audio/voice/head_02.ogg"
         a "でも次は、見た目ももう少し攻めてくださいね。そこ、期待してますから。"
 
     $ airi_blush = 0.60
-    show expression build_airi_sprite("bunny") as airi
+    show expression build_airi_display("bunny") as airi
     with dissolve
     voice "audio/voice/max_stage.ogg"
     a "……最後だけ、バニーにしました。締めはこれくらい振り切った方が、覚えてもらえますから。"
@@ -673,7 +837,7 @@ label ending_editable:
     with fade
 
     $ airi_blush = 0.12
-    show expression build_airi_sprite("neutral") as airi
+    show expression build_airi_display("neutral") as airi
     with dissolve
 
     voice "audio/voice/body_02.ogg"
@@ -681,24 +845,38 @@ label ending_editable:
 
     if trust >= 1:
         $ airi_blush = 0.42
-        show expression build_airi_sprite("shame") as airi
+        show expression build_airi_display("shame") as airi
         with dissolve
         voice "audio/voice/max_stage.ogg"
         a "……その上で、次はちゃんと演出も盛ってください。約束です。"
     else:
         $ airi_blush = 0.04
-        show expression build_airi_sprite("angry") as airi
+        show expression build_airi_display("angry") as airi
         with dissolve
         voice "audio/voice/chest_s2.ogg"
         a "合理的すぎます。でも、その判断は嫌いじゃないです。"
 
     $ airi_blush = 0.60
-    show expression build_airi_sprite("bunny") as airi
+    show expression build_airi_display("bunny") as airi
     with dissolve
     voice "audio/voice/chest_s2b.ogg"
     a "……最後だけ、バニーにしました。締めはこれくらい振り切った方が、覚えてもらえますから。"
     n "設計が残れば、次の場面はもっと軽く作れる。"
     return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

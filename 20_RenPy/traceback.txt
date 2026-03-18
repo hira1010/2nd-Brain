@@ -1,42 +1,32 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-While running game code:
-  File "game/script.rpy", line 361, in script
-    text_size 24
-  File "game/script.rpy", line 361, in <module>
-    text_size 24
-             ^^^
-  File "game/script.rpy", line 248, in build_airi_sprite
-    exhale = 0.0 if airi_speaking() else exhale_strength(st, offset)
-                                                                    
-NameError: name 'make_breath_puff_motion' is not defined
+After initialization, but before game start.
+OSError: [Errno 22] Invalid argument
 
 -- Full Traceback ------------------------------------------------------------
 
 Traceback (most recent call last):
-  File "game/script.rpy", line 361, in script
-    text_size 24
-  File "renpy/ast.py", line 1357, in execute
-    show_imspec(self.imspec, atl=getattr(self, "atl", None))
-    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "renpy/ast.py", line 705, in show_imspec
-    expression = renpy.python.py_eval(expression)
-                 ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
-  File "renpy/python.py", line 1305, in py_eval
-    return py_eval_bytecode(code, globals, locals)
-           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
-  File "renpy/python.py", line 1298, in py_eval_bytecode
-    return eval(bytecode, globals, locals)
-           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "game/script.rpy", line 361, in <module>
-    text_size 24
-             ^^^
-  File "game/script.rpy", line 248, in build_airi_sprite
-    exhale = 0.0 if airi_speaking() else exhale_strength(st, offset)
-                                                                    
-NameError: name 'make_breath_puff_motion' is not defined
+  File "renpy/bootstrap.py", line 401, in bootstrap
+    renpy.main.main()
+    ~~~~~~~~~~~~~~~^^
+  File "renpy/main.py", line 591, in main
+    run(restart)
+    ~~~^^^^^^^^^
+  File "renpy/main.py", line 92, in run
+    if not renpy.arguments.post_init():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^ 
+  File "renpy/arguments.py", line 355, in post_init
+    return commands[command]()
+           ~~~~~~~~~~~~~~~~~^^
+  File "renpy/lint.py", line 1100, in lint
+    print("\ufeff" + renpy.version + " lint report, generated at: " + time.ctime())
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "renpy/log.py", line 256, in write
+    self.real_file.flush()
+    ~~~~~~~~~~~~~~~~~~~~^^
+OSError: [Errno 22] Invalid argument
 
 Windows-11-10.0.26300-SP0 AMD64
 Ren'Py 8.5.2.26010301
 Airi Interactive Prototype 7.0
-Tue Mar 17 16:15:30 2026
+Tue Mar 17 21:01:47 2026
