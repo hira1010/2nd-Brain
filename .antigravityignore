@@ -9,3 +9,9 @@
 .vscode/
 .gitignore
 .antigravityignore
+changes.txt
+file_list.txt
+search_results.txt
+search_script.py
+status_list.txt
+verify_check.py
