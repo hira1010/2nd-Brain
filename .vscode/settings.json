@@ -1,0 +1,23 @@
+{
+  "files.exclude": {
+    ".antigravityignore": true,
+    ".gitignore": true,
+    ".gitmessage.txt": true,
+    ".markdownlint.json": true,
+    "GEMINI.md": true,
+    "netlify.toml": true,
+    "skills-lock.json": true,
+    "SOUL.md": true,
+    "_cleanup_temp": true,
+    "_system_scripts": true,
+    ".antigravity": true,
+    ".goose": true,
+    ".obsidian": true,
+    "changes.txt": true,
+    "file_list.txt": true,
+    "search_results.txt": true,
+    "search_script.py": true,
+    "status_list.txt": true,
+    "verify_check.py": true
+  }
+}
