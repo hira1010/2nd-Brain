@@ -60,3 +60,5 @@ node_modules/
 dist/
 build/
 .git_denied_backup/
+
+nw.dll
