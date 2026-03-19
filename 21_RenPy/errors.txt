@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 415: invalid syntax
+    chest_file = spec.get("chest_file")        breath_pos = (mouth_rect[0] + mouth_rect[2] + 8, mouth_rect[1] - 6)
+                                                   ^^^^^^^^^^
+
+Ren'Py Version: Ren'Py 8.5.2.26010301
+Tue Mar 17 18:40:04 2026

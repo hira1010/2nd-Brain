@@ -1,0 +1,32 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+After initialization, but before game start.
+OSError: [Errno 22] Invalid argument
+
+-- Full Traceback ------------------------------------------------------------
+
+Traceback (most recent call last):
+  File "renpy/bootstrap.py", line 401, in bootstrap
+    renpy.main.main()
+    ~~~~~~~~~~~~~~~^^
+  File "renpy/main.py", line 591, in main
+    run(restart)
+    ~~~^^^^^^^^^
+  File "renpy/main.py", line 92, in run
+    if not renpy.arguments.post_init():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^ 
+  File "renpy/arguments.py", line 355, in post_init
+    return commands[command]()
+           ~~~~~~~~~~~~~~~~~^^
+  File "renpy/lint.py", line 1100, in lint
+    print("\ufeff" + renpy.version + " lint report, generated at: " + time.ctime())
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "renpy/log.py", line 256, in write
+    self.real_file.flush()
+    ~~~~~~~~~~~~~~~~~~~~^^
+OSError: [Errno 22] Invalid argument
+
+Windows-11-10.0.26300-SP0 AMD64
+Ren'Py 8.5.2.26010301
+Airi Interactive Prototype 7.0
+Tue Mar 17 21:01:47 2026

@@ -17,7 +17,7 @@ sys.path.append(str(ROOT_DIR))
 from lib import utils
 
 logger = utils.initialize_script("commit_all")
-SYSTEM_DIR = ROOT_DIR / "18_システム"
+SYSTEM_DIR = ROOT_DIR / "_システム"
 SCRIPTS_DIR = ROOT_DIR / "scripts"
 REMOTE_NAME = "origin"
 BRANCH_NAME = "main"

@@ -20,10 +20,14 @@ logger = utils.initialize_script("standardize_characters")
 # 標準化されたキャラクターブロック
 NEW_CHARS = """### Characters:
 - Remi: (Crimson RED blazer, Black lace top). (Silky SILVER hair), (RED eyes). NO GLOVES. (ONLY ONE Remi per panel).
-- Yuto: (Traditional SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. (ONLY ONE Yuto per panel)."""
+- Yuto: (Traditional SOLID BLACK Gakuran school uniform, gold buttons). (Short Black hair). BARE HANDS. (ONLY ONE Yuto per panel).
+- Ai: (Navy blue school blazer, Red necktie, Beige cardigan). (Short BLACK hair), (Amber eyes). NO GLOVES. (ONLY ONE Ai per panel).
+- Hibiki: (Long straight BLACK hair), (BROWN eyes). (Adult woman).
+- Suguru: (Messy DARK GREEN hair), (BLUE eyes). (Brown hoodie or Gakuran).
+- Manager: (Short WHITE hair, Smiling slit eyes). (White shirt, Black apron, Black bow tie)."""
 
 # 正規表現パターン
-PATTERN = r"### Characters:\s*\n\s*- Remi:.*?\n\s*- Yuto:.*?(?=(\n\s*\n|\n\s*\[))"
+PATTERN = r"### Characters:\s*\n\s*- Remi:.*?\n\s*- Yuto:.*?\n\s*- Ai:.*?\n\s*- Hibiki:.*?\n\s*- Suguru:.*?\n\s*- Manager:.*?(?=(\n\s*\n|\n\s*\[))"
 
 def main():
     logger.info("Scanning files in %s...", config.MANGA_DIR)

@@ -1,0 +1,171 @@
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #1a1a1a;
+  cursor: none; /* デフォルトカーソルを隠す */
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-container {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, #2c3e50, #000); /* 暫定背景 */
+  z-index: 1;
+}
+
+#character-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none; /* 画像自体はクリックを透過 */
+}
+
+.character-image {
+  position: absolute;
+  max-width: 100%;
+  max-height: 110%; /* 少し大きめに表示 */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+}
+
+.character-image.active {
+  opacity: 1;
+}
+
+#interaction-layers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+.interaction-zone {
+  position: absolute;
+  /* background: rgba(255, 0, 0, 0.2); デバッグ用 */
+  cursor: none;
+}
+
+/* ゾーンの座標定義（アセットのサイズに合わせて調整が必要） */
+#zone-head {
+  top: 10%;
+  left: 42%;
+  width: 16%;
+  height: 20%;
+  border-radius: 50%;
+}
+
+#zone-chest {
+  top: 35%;
+  left: 40%;
+  width: 20%;
+  height: 15%;
+}
+
+#zone-body {
+  top: 50%;
+  left: 35%;
+  width: 30%;
+  height: 40%;
+}
+
+#message-window {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 150px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #555;
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(5px);
+}
+
+#character-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #e67e22;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+#message-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px; /* 手のサイズ */
+  height: 150px;
+  pointer-events: none; /* カーソル自体が判定を邪魔しないように */
+  z-index: 100;
+  transform: translate(-20%, -20%); /* 指先がカーソル位置に来るように微調整 */
+  transition: transform 0.05s linear, opacity 0.2s;
+}
+
+#custom-cursor img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5)); */
+}
+
+/* ホバー時の「手」のアニメーション */
+.interaction-zone:hover ~ #custom-cursor {
+  transform: translate(-20%, -20%) scale(1.1) rotate(5deg);
+}

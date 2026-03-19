@@ -1,0 +1,8 @@
+--- Unicode Normalization Duplicates ---
+'note作成用プロンプト' and 'note作成用プロンプト'
+'ポスト作成プロンプト' and 'ポスト作成プロンプト'
+
+--- Index Number Duplicates ---
+'18_システム' and '18_レミ投資漫画'
+'20_Godot_Pyxel' and '20_Pyxel'
+'21_ComfyUI' and '21_プロレスゲーム'

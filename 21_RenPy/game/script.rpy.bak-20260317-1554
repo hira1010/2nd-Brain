@@ -1,0 +1,490 @@
+# -----------------------------------------------------
+# Ren'Py Script - Animated One Scene Prototype
+# -----------------------------------------------------
+
+define n = Character(None)
+
+default trust = 0
+default airi_talking = False
+default airi_chest_jiggle = 0.0
+default airi_touch_count = 0
+default airi_blush = 0.0
+
+init python:
+    import math
+
+    AIRI_SPECS = {
+        "neutral": {
+            "file": "images/airi_neutral.png",
+            "eyes": (220, 170, 172, 34),
+            "mouth": (292, 250, 58, 18),
+            "blush_left": (224, 216, 58, 16),
+            "blush_right": (356, 216, 58, 16),
+            "blink_offset": 0.8,
+            "scale": 0.92,
+            "xalign": 0.50,
+            "base_yoffset": 0,
+            "sway": 0.85,
+            "mouth_open": 0.24,
+            "mouth_shift": 1.1,
+            "touch_wobble": 1.28,
+            "touch_bounce": 1.82,
+        },
+        "angry": {
+            "file": "images/airi_angry.png",
+            "eyes": (188, 166, 230, 34),
+            "mouth": (278, 328, 88, 22),
+            "blush_left": (212, 236, 66, 22),
+            "blush_right": (362, 236, 66, 22),
+            "blink_offset": 1.9,
+            "scale": 0.72,
+            "xalign": 0.52,
+            "base_yoffset": 18,
+            "sway": 0.55,
+            "mouth_open": 0.18,
+            "mouth_shift": 0.8,
+            "touch_wobble": 1.10,
+            "touch_bounce": 1.46,
+        },
+        "shame": {
+            "file": "images/airi_shame.png",
+            "eyes": (276, 188, 156, 34),
+            "mouth": (340, 278, 56, 18),
+            "blush_left": (274, 232, 70, 24),
+            "blush_right": (386, 232, 70, 24),
+            "blink_offset": 2.8,
+            "scale": 0.84,
+            "xalign": 0.54,
+            "base_yoffset": 6,
+            "sway": 0.72,
+            "mouth_open": 0.20,
+            "mouth_shift": 0.9,
+            "touch_wobble": 1.18,
+            "touch_bounce": 1.62,
+        },
+        "bunny": {
+            "file": "images/airi_bunny.png",
+            "eyes": (276, 188, 156, 34),
+            "mouth": (340, 278, 56, 18),
+            "blush_left": (274, 232, 70, 24),
+            "blush_right": (386, 232, 70, 24),
+            "blink_offset": 3.2,
+            "scale": 0.84,
+            "xalign": 0.54,
+            "base_yoffset": 6,
+            "sway": 0.72,
+            "mouth_open": 0.22,
+            "mouth_shift": 1.0,
+            "touch_wobble": 1.18,
+            "touch_bounce": 1.62,
+        },
+    }
+
+    def airi_callback(event, interact=True, **kwargs):
+        if event in ("begin", "show"):
+            renpy.store.airi_talking = True
+        elif event in ("end", "slow_done"):
+            renpy.store.airi_talking = False
+
+    def airi_speaking():
+        return bool(renpy.store.airi_talking or renpy.music.get_playing(channel="voice"))
+
+    def trigger_chest_touch():
+        renpy.store.airi_chest_jiggle = 1.18
+        renpy.store.airi_touch_count += 1
+        renpy.store.airi_blush = min(0.92, 0.18 + (renpy.store.airi_touch_count * 0.16))
+        renpy.restart_interaction()
+
+    def blink_strength(st, offset):
+        phase = ((st * 1.05) + offset) % 4.6
+        if 3.18 <= phase < 3.26:
+            return (phase - 3.18) / 0.08
+        if 3.26 <= phase < 3.38:
+            return 1.0 - ((phase - 3.26) / 0.12)
+        if 3.56 <= phase < 3.61:
+            return (phase - 3.56) / 0.05
+        if 3.61 <= phase < 3.69:
+            return 1.0 - ((phase - 3.61) / 0.08)
+        return 0.0
+
+    def mouth_strength(st):
+        beat = abs(math.sin(st * 10.5))
+        accent = abs(math.sin(st * 4.3))
+        return min(1.0, (beat * 0.75) + (accent * 0.35))
+
+    def breath_strength(st, offset):
+        return (math.sin((st * 1.12) + offset) + 1.0) * 0.5
+
+    def exhale_strength(st, offset):
+        pulse = max(0.0, math.sin((st * 1.12) + offset - 0.35))
+        return pulse ** 2.6
+
+    def touch_response(timer):
+        if timer <= 0.0:
+            return 0.0, 0.0, 0.0
+
+        progress = 1.18 - timer
+        envelope = timer * timer
+        wobble = math.sin(progress * 21.5) * envelope
+        pulse = abs(math.cos(progress * 17.0)) * envelope
+        impact = max(0.0, min(1.0, (timer - 0.84) / 0.34))
+        impact = impact * impact
+        return wobble, pulse, impact
+
+    def make_eye_motion(rect, offset):
+        _, _, width, height = rect
+        cx = width / 2.0
+        cy = height / 2.0
+
+        def eye_motion(trans, st, at):
+            blink = blink_strength(st, offset)
+            trans.xpos = cx
+            trans.ypos = cy
+            trans.anchor = (0.5, 0.5)
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.yzoom = max(0.08, 1.0 - (blink * 0.94))
+            trans.xzoom = 1.0 + (blink * 0.02)
+            return 0.016
+
+        return eye_motion
+
+    def make_mouth_motion(rect, spec):
+        _, _, width, height = rect
+        cx = width / 2.0
+        cy = height / 2.0
+        open_scale = spec.get("mouth_open", 0.22)
+        shift_scale = spec.get("mouth_shift", 1.0)
+
+        def mouth_motion(trans, st, at):
+            open_amount = mouth_strength(st) if airi_speaking() else 0.0
+            trans.xpos = cx
+            trans.ypos = cy
+            trans.anchor = (0.5, 0.5)
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.yzoom = 1.0 + (open_amount * open_scale)
+            trans.xzoom = 1.0 - (open_amount * min(0.08, open_scale * 0.34))
+            trans.yoffset = int(open_amount * shift_scale)
+            trans.alpha = 0.95 + (open_amount * 0.05)
+            return 0.016
+
+        return mouth_motion
+
+    def make_blush_motion(rect, tilt=0.0):
+        _, _, width, height = rect
+        cx = width / 2.0
+        cy = height / 2.0
+
+        def blush_motion(trans, st, at):
+            blush = float(renpy.store.airi_blush)
+            pulse = abs(math.sin(st * 2.6)) * blush
+            trans.xpos = cx
+            trans.ypos = cy
+            trans.anchor = (0.5, 0.5)
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.alpha = min(0.24, (blush * 0.20) + (pulse * 0.04))
+            trans.xzoom = 1.0 + (pulse * 0.04)
+            trans.yzoom = 1.0 + (pulse * 0.02)
+            trans.rotate = tilt
+            return 0.016
+
+        return blush_motion
+
+    def make_sprite_motion(spec):
+        base_scale = spec["scale"]
+        xalign = spec["xalign"]
+        base_yoffset = spec["base_yoffset"]
+        phase = spec["blink_offset"]
+        sway_strength = spec.get("sway", 1.0)
+        touch_wobble = spec.get("touch_wobble", 0.6)
+        touch_bounce = spec.get("touch_bounce", 0.8)
+        front_sway = spec.get("front_sway", 0.0068)
+
+        def sprite_motion(trans, st, at):
+            talk = mouth_strength(st) if airi_speaking() else 0.0
+            breath_wave = breath_strength(st, phase)
+            exhale = exhale_strength(st, phase)
+            blush = float(renpy.store.airi_blush)
+            wobble, pulse, impact = touch_response(float(renpy.store.airi_chest_jiggle))
+            sway = math.sin(st * 0.92 + phase) * sway_strength
+            front = breath_wave - 0.5
+
+            if renpy.store.airi_chest_jiggle > 0.0:
+                renpy.store.airi_chest_jiggle = max(0.0, renpy.store.airi_chest_jiggle - 0.009)
+
+            trans.xalign = xalign
+            trans.yalign = 1.0
+            trans.anchor = (0.5, 1.0)
+            trans.transform_anchor = True
+            trans.subpixel = True
+            trans.zoom = base_scale + (front * front_sway) + (pulse * 0.0098 * touch_bounce) + (impact * 0.020)
+            trans.xzoom = 1.0 + (front * 0.0045) + (pulse * 0.015 * touch_bounce) + (impact * 0.024)
+            trans.yzoom = 1.0 - (front * 0.010) - (pulse * 0.013 * touch_bounce) - (impact * 0.034)
+            trans.xoffset = int((sway * 1.2) + (wobble * 5.2 * touch_wobble) - (blush * 0.9))
+            trans.yoffset = int(-42 + base_yoffset - (front * 7.0) - (exhale * 1.5) - (talk * 0.4) - (pulse * 4.8 * touch_bounce) - (impact * 11.0))
+            trans.rotate = (front * -0.35) + (wobble * -0.18 * touch_wobble) + (impact * -0.6)
+            return 0.016
+
+        return sprite_motion
+
+    def build_airi_sprite(pose_name):
+        spec = AIRI_SPECS[pose_name]
+        eye_rect = spec["eyes"]
+        mouth_rect = spec["mouth"]
+        blush_left = spec["blush_left"]
+        blush_right = spec["blush_right"]
+        breath_pos = (mouth_rect[0] + mouth_rect[2] + 8, mouth_rect[1] - 6)
+
+        return Transform(
+            LiveComposite(
+                (640, 640),
+                (0, 0), spec["file"],
+                (blush_left[0], blush_left[1]), Transform(Solid("#ff8b9e", xysize=(blush_left[2], blush_left[3])), function=make_blush_motion(blush_left, -6.0)),
+                (blush_right[0], blush_right[1]), Transform(Solid("#ff8b9e", xysize=(blush_right[2], blush_right[3])), function=make_blush_motion(blush_right, 6.0)),
+                (eye_rect[0], eye_rect[1]), Transform(Crop(eye_rect, spec["file"]), function=make_eye_motion(eye_rect, spec["blink_offset"])),
+                (mouth_rect[0], mouth_rect[1]), Transform(Crop(mouth_rect, spec["file"]), function=make_mouth_motion(mouth_rect, spec)),
+                (breath_pos[0], breath_pos[1]), Transform(Text("~", size=26, color="#f4fbff"), function=make_breath_puff_motion(spec)),
+            ),
+            function=make_sprite_motion(spec),
+        )
+
+    a = Character("広瀬 愛理", color="#f0a35f", callback=airi_callback)
+
+screen chest_touch_demo():
+    modal True
+    zorder 100
+
+    frame:
+        xalign 0.5
+        ypos 24
+        padding (18, 12)
+        background Solid("#09111acc")
+
+        vbox:
+            spacing 4
+            text "胸元に触れると揺れます。" size 24 color "#f4d0b8"
+            text "触って確認したら右下から進みます。" size 18 color "#e8eef5"
+
+    button:
+        xpos 572
+        ypos 312
+        xsize 152
+        ysize 114
+        background None
+        hover_background Solid("#ffffff10")
+        action [Function(trigger_chest_touch), Return("chest")]
+
+    frame:
+        xpos 72
+        ypos 624
+        padding (18, 10)
+        background Solid("#09111ab8")
+
+        text "胸元をクリック" size 22 color "#f3f5f8"
+
+    frame:
+        xpos 1018
+        ypos 612
+        padding (12, 10)
+        background Solid("#09111acc")
+
+        textbutton "続ける":
+            action Return("continue")
+            xminimum 170
+            yminimum 48
+            text_size 24
+            text_color "#f3f6fb"
+            background Solid("#223448e8")
+            hover_background Solid("#365273f0")
+
+label chest_touch_loop:
+    while True:
+        call screen chest_touch_demo
+        $ result = _return
+
+        if result == "continue":
+            $ airi_chest_jiggle = 0.0
+            $ airi_blush = max(0.10, airi_blush - 0.16) if airi_touch_count else 0.0
+            show expression build_airi_sprite("neutral") as airi
+            with Dissolve(0.12)
+            return
+
+        if airi_touch_count == 1:
+            $ airi_blush = max(airi_blush, 0.34)
+            show expression build_airi_sprite("shame") as airi
+            with Dissolve(0.08)
+            voice "audio/voice/chest_s0.ogg"
+            a "ひゃっ……。"
+        elif airi_touch_count == 2:
+            $ airi_blush = max(airi_blush, 0.50)
+            show expression build_airi_sprite("shame") as airi
+            with Dissolve(0.08)
+            voice "audio/voice/chest_s0b.ogg"
+            a "ちょ、ちょっと……急に触らないでください。"
+        elif airi_touch_count == 3:
+            $ airi_blush = max(airi_blush, 0.66)
+            show expression build_airi_sprite("shame") as airi
+            with Dissolve(0.08)
+            voice "audio/voice/chest_s1.ogg"
+            a "んっ……動きの確認でも、近すぎます。"
+        elif airi_touch_count == 4:
+            $ airi_blush = max(airi_blush, 0.42)
+            show expression build_airi_sprite("angry") as airi
+            with Dissolve(0.08)
+            voice "audio/voice/chest_s1b.ogg"
+            a "も、もう十分見えたはずです……。"
+        else:
+            $ airi_touch_count = 4
+            $ airi_blush = 0.52
+            show expression build_airi_sprite("angry") as airi
+            with Dissolve(0.08)
+            voice "audio/voice/reject_01.ogg"
+            a "だ、だめです。確認はここまでにしてください。"
+
+label start:
+    $ trust = 0
+    $ airi_talking = False
+    $ airi_chest_jiggle = 0.0
+    $ airi_touch_count = 0
+    $ airi_blush = 0.0
+
+    scene expression Solid("#101723")
+    with fade
+
+    centered "{size=+16}放課後プロトタイプ{/size}\n{size=-8}瞬き・口パク・胸タッチつき一場面デモ{/size}"
+
+    scene expression Solid("#29496f")
+    with dissolve
+
+    show expression build_airi_sprite("neutral") as airi
+    with dissolve
+
+    n "夕暮れの準備室。"
+    voice "audio/voice/airi_scene_01.ogg"
+    a "……来てくれたんですね。"
+    voice "audio/voice/airi_scene_02.ogg"
+    a "今日中に、一場面だけでも遊べる形にしたくて。"
+    n "愛理は胸元で指を組み、こちらをまっすぐ見返した。"
+    voice "audio/voice/airi_scene_03.ogg"
+    a "短くても、立ち絵と会話と選択肢が揃えば、ちゃんと作品になります。"
+    voice "audio/voice/head_01.ogg"
+    a "……その、動きの確認ならできます。ほどほどにしてくださいね。"
+
+    $ quick_menu = False
+    window hide
+    call chest_touch_loop
+    window show
+    $ quick_menu = True
+
+    menu:
+        "どう進める？"
+
+        "演出を先に固める":
+            $ trust += 1
+            $ airi_blush = 0.36
+            show expression build_airi_sprite("shame") as airi
+            with dissolve
+            voice "audio/voice/airi_scene_04.ogg"
+            a "演出から入るの、好きです。切り替わる瞬間だけで、空気まで変わりますから。"
+
+        "構造を先に固める":
+            $ airi_blush = 0.08
+            show expression build_airi_sprite("angry") as airi
+            with dissolve
+            voice "audio/voice/airi_scene_05.ogg"
+            a "先に骨組みを作るんですね。堅いですけど、そのほうが後で崩れません。"
+
+    scene expression Solid("#55315a")
+    with fade
+
+    $ airi_blush = 0.10
+    show expression build_airi_sprite("neutral") as airi
+    with dissolve
+
+    n "窓の外で、最後の光が青から紫へ変わっていく。"
+    voice "audio/voice/airi_scene_06.ogg"
+    a "じゃあ最後に確認です。今夜のゴール、どっちにしますか？"
+
+    menu:
+        "今夜のゴールを決める"
+
+        "一往復だけでも最後まで遊べるようにする":
+            $ trust += 1
+            jump ending_playable
+
+        "素材をあとから差し替えやすい形まで整える":
+            jump ending_editable
+
+label ending_playable:
+    scene expression Solid("#12292d")
+    with fade
+
+    $ airi_blush = 0.38
+    show expression build_airi_sprite("shame") as airi
+    with dissolve
+
+    voice "audio/voice/airi_scene_07.ogg"
+    a "それが一番強いです。短くても、触れれば企画の芯が見えます。"
+
+    if trust >= 2:
+        $ airi_blush = 0.14
+        show expression build_airi_sprite("neutral") as airi
+        with dissolve
+        voice "audio/voice/body_01.ogg"
+        a "次は背景と音も足して、本当に一本にしましょう。"
+    else:
+        $ airi_blush = 0.06
+        show expression build_airi_sprite("angry") as airi
+        with dissolve
+        voice "audio/voice/head_02.ogg"
+        a "でも次は、見た目ももう少し攻めてくださいね。そこ、期待してますから。"
+
+    $ airi_blush = 0.60
+    show expression build_airi_sprite("bunny") as airi
+    with dissolve
+    voice "audio/voice/max_stage.ogg"
+    a "……最後だけ、バニーにしました。締めはこれくらい振り切った方が、覚えてもらえますから。"
+    n "一つの場面だけでも、物語は始められる。"
+    return
+
+label ending_editable:
+    scene expression Solid("#12292d")
+    with fade
+
+    $ airi_blush = 0.12
+    show expression build_airi_sprite("neutral") as airi
+    with dissolve
+
+    voice "audio/voice/body_02.ogg"
+    a "堅実でいいと思います。台詞と絵を差し替えやすくしておけば、次が一気に速くなります。"
+
+    if trust >= 1:
+        $ airi_blush = 0.42
+        show expression build_airi_sprite("shame") as airi
+        with dissolve
+        voice "audio/voice/max_stage.ogg"
+        a "……その上で、次はちゃんと演出も盛ってください。約束です。"
+    else:
+        $ airi_blush = 0.04
+        show expression build_airi_sprite("angry") as airi
+        with dissolve
+        voice "audio/voice/chest_s2.ogg"
+        a "合理的すぎます。でも、その判断は嫌いじゃないです。"
+
+    $ airi_blush = 0.60
+    show expression build_airi_sprite("bunny") as airi
+    with dissolve
+    voice "audio/voice/max_stage.ogg"
+    a "……最後だけ、バニーにしました。締めはこれくらい振り切った方が、覚えてもらえますから。"
+    n "設計が残れば、次の場面はもっと軽く作れる。"
+    return
+
+
+
+
+
+
+
+
