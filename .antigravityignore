@@ -7,8 +7,14 @@
 00_システム/
 .obsidian/
 .vscode/
-.gitignore
 .antigravityignore
+.gitignore
+.gitmessage.txt
+.markdownlint.json
+GEMINI.md
+netlify.toml
+skills-lock.json
+SOUL.md
 changes.txt
 file_list.txt
 search_results.txt

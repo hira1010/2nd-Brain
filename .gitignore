@@ -68,6 +68,16 @@ _system_scripts/
 .obsidian/
 .antigravity/
 
+# 設定・ドキュメント類 (Config / Docs)
+.antigravityignore
+.gitignore
+.gitmessage.txt
+.markdownlint.json
+GEMINI.md
+netlify.toml
+skills-lock.json
+SOUL.md
+
 # 一時作業ファイル (Temporary working files)
 changes.txt
 file_list.txt
