@@ -159,6 +159,24 @@ def download_image(filename: str, subfolder: str = "", image_type: str = "output
     return response.content
 
 
+def upload_image(image_path: Path, overwrite: bool = False) -> Dict[str, Any]:
+    """
+    画像を ComfyUI にアップロードする。
+
+    Args:
+        image_path: アップロードする画像のパス
+        overwrite: すでに存在する場合に上書きするかどうか
+
+    Returns:
+        ComfyUI からのレスポンス（ファイル名などを含む）
+    """
+    files = {"image": open(image_path, "rb")}
+    data = {"overwrite": str(overwrite).lower()}
+    response = requests.post(f"{BASE_URL}/upload/image", files=files, data=data, timeout=30)
+    response.raise_for_status()
+    return response.json()
+
+
 # ====================================================================
 # WebSocket リアルタイム監視
 # ====================================================================

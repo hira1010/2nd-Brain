@@ -1,0 +1,128 @@
+{
+  "last_node_id": 20,
+  "last_link_id": 50,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [10, 10],
+      "size": [315, 98],
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [31]},
+        {"name": "CLIP", "type": "CLIP", "links": [32, 33]},
+        {"name": "VAE", "type": "VAE", "links": [34, 46]}
+      ],
+      "widgets_values": ["dreamshaper_8.safetensors"]
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [10, 200],
+      "size": [315, 314],
+      "title": "元絵（ここにドラッグ）",
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [35, 36]}
+      ],
+      "widgets_values": ["example.png", "image"]
+    },
+    {
+      "id": 3,
+      "type": "CLIPTextEncode",
+      "pos": [350, 10],
+      "size": [400, 150],
+      "title": "脱衣後の状態 (例: nude, bra)",
+      "inputs": [{"name": "clip", "type": "CLIP", "link": 32}],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [42]}],
+      "widgets_values": ["(nude:1.5), (full body:1.2), (high blushing:1.2), masterpiece, best quality"]
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [350, 200],
+      "size": [400, 150],
+      "title": "ネガティブ",
+      "inputs": [{"name": "clip", "type": "CLIP", "link": 33}],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [43]}],
+      "widgets_values": ["lowres, bad anatomy, bad hands, text, blurry, (clothes, shirt, dress, jacket:1.5)"]
+    },
+    {
+      "id": 10,
+      "type": "APersonMaskGenerator",
+      "pos": [10, 600],
+      "size": [315, 200],
+      "title": "自動服選択装置",
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 35}],
+      "outputs": [
+        {"name": "masks", "type": "MASK", "links": []},
+        {"name": "face_masks", "type": "MASK", "links": []},
+        {"name": "background_masks", "type": "MASK", "links": []},
+        {"name": "body_masks", "type": "MASK", "links": []},
+        {"name": "clothes_masks", "type": "MASK", "links": [41]}
+      ],
+      "widgets_values": ["face", true, true, true, true]
+    },
+    {
+      "id": 12,
+      "type": "VAEEncodeForInpaint",
+      "pos": [780, 50],
+      "size": [315, 122],
+      "title": "インペイント準備",
+      "inputs": [
+        {"name": "pixels", "type": "IMAGE", "link": 36},
+        {"name": "vae", "type": "VAE", "link": 34},
+        {"name": "mask", "type": "MASK", "link": 41}
+      ],
+      "outputs": [{"name": "LATENT", "type": "LATENT", "links": [44]}],
+      "widgets_values": [6]
+    },
+    {
+      "id": 13,
+      "type": "KSampler",
+      "pos": [1120, 50],
+      "size": [315, 262],
+      "title": "サンプラー",
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 31},
+        {"name": "positive", "type": "CONDITIONING", "link": 42},
+        {"name": "negative", "type": "CONDITIONING", "link": 43},
+        {"name": "latent_image", "type": "LATENT", "link": 44}
+      ],
+      "outputs": [{"name": "LATENT", "type": "LATENT", "links": [45]}],
+      "widgets_values": [0, "randomize", 25, 7.5, "euler_ancestral", "karras", 1.0]
+    },
+    {
+      "id": 14,
+      "type": "VAEDecode",
+      "pos": [1460, 50],
+      "size": [210, 46],
+      "inputs": [
+        {"name": "samples", "type": "LATENT", "link": 45},
+        {"name": "vae", "type": "VAE", "link": 46}
+      ],
+      "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [47]}]
+    },
+    {
+      "id": 15,
+      "type": "SaveImage",
+      "pos": [1460, 150],
+      "size": [210, 270],
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 47}],
+      "widgets_values": ["ultimate_undress"]
+    }
+  ],
+  "links": [
+    [31, 1, 0, 13, 0, "MODEL"],
+    [32, 1, 1, 3, 0, "CLIP"],
+    [33, 1, 1, 4, 0, "CLIP"],
+    [34, 1, 2, 12, 1, "VAE"],
+    [35, 2, 0, 10, 0, "IMAGE"],
+    [36, 2, 0, 12, 0, "IMAGE"],
+    [41, 10, 4, 12, 2, "MASK"],
+    [42, 3, 0, 13, 1, "CONDITIONING"],
+    [43, 4, 0, 13, 2, "CONDITIONING"],
+    [44, 12, 0, 13, 3, "LATENT"],
+    [45, 13, 0, 14, 0, "LATENT"],
+    [46, 1, 2, 14, 1, "VAE"],
+    [47, 14, 0, 15, 0, "IMAGE"]
+  ]
+}
