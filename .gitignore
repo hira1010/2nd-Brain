@@ -61,6 +61,13 @@ dist/
 build/
 .git_denied_backup/
 
+# システム・一時フォルダ (System / Temp folders)
+_cleanup_temp/
+_system_scripts/
+.goose/
+.obsidian/
+.antigravity/
+
 # 一時作業ファイル (Temporary working files)
 changes.txt
 file_list.txt

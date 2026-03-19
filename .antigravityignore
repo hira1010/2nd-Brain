@@ -15,3 +15,7 @@ search_results.txt
 search_script.py
 status_list.txt
 verify_check.py
+_cleanup_temp/
+_system_scripts/
+.goose/
+.antigravity/
