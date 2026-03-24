@@ -61,7 +61,6 @@ dist/
 build/
 .git_denied_backup/
 
-<<<<<<< HEAD
 # システム・一時フォルダ (System / Temp folders)
 _cleanup_temp/
 _system_scripts/
@@ -86,6 +85,4 @@ search_results.txt
 search_script.py
 status_list.txt
 verify_check.py
-=======
 nw.dll
->>>>>>> 6cb6e560c44c4ae6dc62d00a445c6115635f5b1b

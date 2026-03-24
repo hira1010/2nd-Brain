@@ -1,0 +1,120 @@
+const fs = require('fs');
+const path = require('path');
+
+const projectPath = './data';
+const cePath = path.join(projectPath, 'CommonEvents.json');
+const skPath = path.join(projectPath, 'Skills.json');
+const clPath = path.join(projectPath, 'Classes.json');
+
+// --- 1. Modify CommonEvents.json ---
+let ceData = JSON.parse(fs.readFileSync(cePath, 'utf8'));
+
+if (!Array.isArray(ceData)) { ceData = [null]; }
+while(ceData.length <= 4) { ceData.push(null); }
+
+// Event to actually perform the throw (like a Skill)
+ceData[2] = {
+  "id": 2,
+  "name": "ABS実行：バーン投げ",
+  "list": [
+    // 変数1 = プレイヤーの画面X
+    { "code": 122, "indent": 0, "parameters": [1, 1, 0, 3, 4, 1, 0] },
+    // 変数2 = プレイヤーの画面Y
+    { "code": 122, "indent": 0, "parameters": [2, 2, 0, 3, 4, 2, 0] },
+    // Yを少し上にずらす(中心にするため) -24
+    { "code": 122, "indent": 0, "parameters": [2, 2, 2, 0, 24] },
+    // ピクチャの表示
+    { "code": 231, "indent": 0, "parameters": [2, "12.バーン", 1, 1, 1, 2, 100, 100, 255, 0] },
+    
+    // プレイヤーの向きを取得し、変数を変更
+    // 条件分岐: プレイヤーが下を向いている (2)
+    { "code": 111, "indent": 0, "parameters": [14, 0, 2] },
+    { "code": 122, "indent": 1, "parameters": [2, 2, 1, 0, 144] }, // Y += 144 (3 tiles)
+    { "code": 0, "indent": 1, "parameters": [] },
+    // プレイヤーが左を向いている (4)
+    { "code": 111, "indent": 0, "parameters": [14, 0, 4] },
+    { "code": 122, "indent": 1, "parameters": [1, 1, 2, 0, 144] }, // X -= 144
+    { "code": 0, "indent": 1, "parameters": [] },
+    // プレイヤーが右を向いている (6)
+    { "code": 111, "indent": 0, "parameters": [14, 0, 6] },
+    { "code": 122, "indent": 1, "parameters": [1, 1, 1, 0, 144] }, // X += 144
+    { "code": 0, "indent": 1, "parameters": [] },
+    // プレイヤーが上を向いている (8)
+    { "code": 111, "indent": 0, "parameters": [14, 0, 8] },
+    { "code": 122, "indent": 1, "parameters": [2, 2, 2, 0, 144] }, // Y -= 144
+    { "code": 0, "indent": 1, "parameters": [] },
+    
+    // ピクチャの移動
+    { "code": 232, "indent": 0, "parameters": [2, 1, 1, 1, 2, 100, 100, 255, 0, 15, true] },
+    
+    // 当たり判定 (スクリプトで前方のイベントをチェック)
+    { "code": 355, "indent": 0, "parameters": [ "let tx = $gamePlayer.x, ty = $gamePlayer.y;"] },
+    { "code": 655, "indent": 0, "parameters": [ "let d = $gamePlayer.direction();"] },
+    { "code": 655, "indent": 0, "parameters": [ "if(d===2)ty+=1; if(d===4)tx-=1; if(d===6)tx+=1; if(d===8)ty-=1;"] },
+    { "code": 655, "indent": 0, "parameters": [ "$gameMap.events().forEach(e => {"] },
+    { "code": 655, "indent": 0, "parameters": [ "  if(Math.abs(e.x - tx) <= 1 && Math.abs(e.y - ty) <= 1 && e.event().meta.Enemy) {"] },
+    { "code": 655, "indent": 0, "parameters": [ "     $gameSelfSwitches.setValue([$gameMap.mapId(), e.eventId(), 'A'], true);"] },
+    { "code": 655, "indent": 0, "parameters": [ "     e.requestAnimation(1);"] },
+    { "code": 655, "indent": 0, "parameters": [ "  }"] },
+    { "code": 655, "indent": 0, "parameters": [ "});"] },
+    
+    // ピクチャの消去
+    { "code": 235, "indent": 0, "parameters": [2] },
+    { "code": 0, "indent": 0, "parameters": [] }
+  ],
+  "switchId": 1,
+  "trigger": 0
+};
+
+// ABS Event Listner (Parallel Process)
+ceData[3] = {
+  "id": 3,
+  "name": "ABS監視：キー入力",
+  "list": [
+    // ボタン[PageDown]が押されているか
+    { "code": 111, "indent": 0, "parameters": [11, "pagedown"] },
+    { "code": 117, "indent": 1, "parameters": [2] }, // コモンイベント2を呼び出す
+    { "code": 0, "indent": 1, "parameters": [] },
+    // 待機
+    { "code": 212, "indent": 0, "parameters": [5] },
+    { "code": 0, "indent": 0, "parameters": [] }
+  ],
+  "switchId": 1, // スイッチ1番がONの時に並列処理
+  "trigger": 2 // 2 = 並列処理 (Parallel)
+};
+
+fs.writeFileSync(cePath, JSON.stringify(ceData));
+console.log('Common events (Throw and Listener) updated.');
+
+// --- 2. Modify Skills.json ---
+let skData = JSON.parse(fs.readFileSync(skPath, 'utf8'));
+const newSkillId = skData.length;
+skData.push({
+  "id": newSkillId,
+  "animationId": 0, 
+  "damage": { "critical": true, "elementId": -1, "formula": "a.atk * 4 - b.def * 2", "type": 1, "variance": 20 },
+  "description": "マップ上で使用すると前方にオノマトペを投げます。",
+  "effects": [
+    // 使用効果として コモンイベント2 （投げる処理）を呼び出す
+    { "code": 44, "dataId": 2, "value1": 1, "value2": 0 }
+  ],
+  "hitType": 1, "iconIndex": 76, 
+  "message1": "はオノマトペを投げた！", "message2": "", "messageType": 1,
+  "mpCost": 5, "name": "マップ投擲スキル", "note": "", "occasion": 0, // 常時 (Always) 
+  "repeats": 1,
+  "requiredWtypeId1": 0, "requiredWtypeId2": 0, "scope": 0, // なし (None / Common event only)
+  "speed": 0, "stypeId": 1, "successRate": 100, "tpCost": 0, "tpGain": 10
+});
+
+fs.writeFileSync(skPath, JSON.stringify(skData));
+console.log('Skill created. ID:', newSkillId);
+
+// --- 3. Modify Classes.json ---
+let clData = JSON.parse(fs.readFileSync(clPath, 'utf8'));
+if (clData[1]) {
+    clData[1].learnings.push({ "level": 1, "note": "", "skillId": newSkillId });
+}
+fs.writeFileSync(clPath, JSON.stringify(clData));
+console.log('Skill added to Class 1.');
+
+console.log('Setup script finished successfully!');

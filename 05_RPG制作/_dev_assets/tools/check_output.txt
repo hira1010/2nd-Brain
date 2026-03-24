@@ -1,0 +1,26 @@
+=== タイルセット一覧 ===
+ID=1 name=Overworld
+ID=2 name=Outside
+ID=3 name=Inside
+ID=4 name=Dungeon
+ID=5 name=SF Outside
+ID=6 name=SF Inside
+
+=== スタート情報 ===
+startMapId=1 x=8 y=6
+
+=== Map002 ===
+tilesetId=4
+encounterList=[{'regionSet': [], 'troopId': 1, 'weight': 10}, {'regionSet': [], 'troopId': 2, 'weight': 10}, {'regionSet': [], 'troopId': 3, 'weight': 5}]
+events = ['扉 (出口)', '隠された鍵', 'ガレキ']
+
+=== Map001 ===
+tilesetId=1
+encounterList=[]
+events = ['宝箱 (オノマトペ)']
+
+=== オノマトペ武器 ===
+ID=1 name=ドカバキハンマー
+ID=2 name=シュバシュバ刀
+ID=51 name=ピカピカ剣
+ID=52 name=ゴロゴロ杖

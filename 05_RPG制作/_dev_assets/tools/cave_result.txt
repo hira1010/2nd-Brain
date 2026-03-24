@@ -1,0 +1,10 @@
+Map001に洞窟の入り口を追加しました！
+  イベント位置: x=8, y=3 (前にプレイヤーが立って決定キーで洞窟に入る)
+  移動先: Map002 (x=8, y=8)
+  イベント一覧:
+    ID=0 name=宝箱 (オノマトペ) pos=(8,8)
+    ID=1 name=武器 (シュバシュバ刀) pos=(4,4)
+    ID=2 name=洞窟の入り口 pos=(8,3)
+
+Map002 encounterList: [{'regionSet': [], 'troopId': 1, 'weight': 10}, {'regionSet': [], 'troopId': 2, 'weight': 10}, {'regionSet': [], 'troopId': 3, 'weight': 5}]
+Map002 encounterStep: 15

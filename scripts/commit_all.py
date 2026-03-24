@@ -133,8 +133,9 @@ def commit_and_push_if_needed() -> None:
 
 
 def main() -> int:
-    logger.info("=== Shortcut [5]: 機能そのまま全体リファクタリング ===")
+    logger.info("=== Shortcut [5]: 全体同期 & リファクタリング & バックアップ ===")
 
+    # Step [0/5] Git Pull
     logger.info(PULL_STEP_LABEL)
     pull_result = run_git_command(["git", "pull", REMOTE_NAME, BRANCH_NAME], capture_output=True)
     _log_completed_process(
@@ -143,16 +144,30 @@ def main() -> int:
         failure_prefix="Git pull failed (continuing anyway)",
     )
 
+    # Step [1/5] Bilateral Pull from Google Drive (New)
+    logger.info("--- [Step 1/5] Bilateral Pull from Google Drive ---")
+    pull_drive_script = SCRIPTS_DIR / "pull_from_drive.py"
+    run_script([str(pull_drive_script)])
+
+    # Step [2/5] Refactor Pipeline
+    logger.info("--- [Step 2/5] Refactor Pipeline ---")
     run_refactor_pipeline()
+
+    # Step [3/5] Git Push
     commit_and_push_if_needed()
 
-    # Step [4/4] Google Drive Sync (Added)
+    # Step [4/5] Google Drive Backup Sync
     logger.info(DRIVE_STEP_LABEL)
     sync_script = SCRIPTS_DIR / "sync_to_drive.py"
     if run_script([str(sync_script)]):
         logger.info("Google Drive synchronization completed successfully!")
     else:
         logger.warning("Google Drive sync failed. Please check G:/ mount status.")
+
+    # Step [5/5] Verify Workspace Updates (New)
+    logger.info("--- [Step 5/5] Verify Workspace Updates ---")
+    verify_script = SCRIPTS_DIR / "verify_all_updates.py"
+    run_script([str(verify_script)])
 
     logger.info("All tasks finished.")
     return 0
