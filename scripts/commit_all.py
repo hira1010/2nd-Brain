@@ -133,7 +133,7 @@ def commit_and_push_if_needed() -> None:
 
 
 def main() -> int:
-    logger.info("=== Shortcut [5]: 全体同期 & リファクタリング & バックアップ ===")
+    logger.info("=== Shortcut [5]: 全体同期 & リファクタリング & クリーンアップ ===")
 
     # Step [0/5] Git Pull
     logger.info(PULL_STEP_LABEL)
@@ -164,10 +164,15 @@ def main() -> int:
     else:
         logger.warning("Google Drive sync failed. Please check G:/ mount status.")
 
-    # Step [5/5] Verify Workspace Updates (New)
-    logger.info("--- [Step 5/5] Verify Workspace Updates ---")
+    # Step [5/6] Verify Workspace Updates
+    logger.info("--- [Step 5/6] Verify Workspace Updates ---")
     verify_script = SCRIPTS_DIR / "verify_all_updates.py"
     run_script([str(verify_script)])
+
+    # Step [6/6] Cleanup Temp Files (New)
+    logger.info("--- [Step 6/6] Cleanup Temp Files ---")
+    cleanup_script = SCRIPTS_DIR / "cleanup_temp.py"
+    run_script([str(cleanup_script)])
 
     logger.info("All tasks finished.")
     return 0

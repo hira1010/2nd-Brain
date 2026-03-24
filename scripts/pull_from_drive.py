@@ -31,10 +31,12 @@ def pull_directory(dirname: str):
         logger.info(f"Source {dirname} not found on Drive. Skipping.")
         return
 
-    logger.info(f"Checking {dirname} for updates from Drive...")
+    logger.info(f"Mirroring {dirname} from Drive (Downloads + Local Clean)...")
     
-    # We use a simple timestamp comparison helper
     files_pulled = 0
+    items_deleted = 0
+    
+    # --- Step 1: Download newer/missing files ---
     for root, dirs, files in os.walk(src):
         rel_path = os.path.relpath(root, src)
         dest_dir = dst / rel_path
@@ -49,11 +51,32 @@ def pull_directory(dirname: str):
             if not dst_file.exists() or src_file.stat().st_mtime > dst_file.stat().st_mtime:
                 shutil.copy2(src_file, dst_file)
                 files_pulled += 1
+
+    # --- Step 2: Delete local items not on Drive (Mirror) ---
+    for root, dirs, files in os.walk(dst, topdown=False):
+        rel_path = os.path.relpath(root, dst)
+        src_root = src / rel_path
+        
+        # Check files
+        for f in files:
+            local_file = Path(root) / f
+            remote_file = src_root / f
+            if not remote_file.exists():
+                local_file.unlink()
+                items_deleted += 1
                 
-    if files_pulled > 0:
-        logger.info(f"Pulled {files_pulled} newer files for {dirname}.")
+        # Check directories
+        for d in dirs:
+            local_dir = Path(root) / d
+            remote_dir = src_root / d
+            if not remote_dir.exists():
+                shutil.rmtree(local_dir)
+                items_deleted += 1
+                
+    if files_pulled > 0 or items_deleted > 0:
+        logger.info(f"Result: Pulled {files_pulled} files, Deleted {items_deleted} local discrepancies.")
     else:
-        logger.info(f"{dirname} is already up-to-date with Drive.")
+        logger.info(f"{dirname} is already perfectly mirrored with Drive.")
 
 def main():
     if not BACKUP_DEST.exists():

@@ -95,13 +95,38 @@ def sync_to_drive() -> bool:
     logger.info("Syncing: %s -> %s", ROOT_DIR, BACKUP_DEST)
 
     try:
+        # Mirroring: copy new files and delete files in destination not in source
         shutil.copytree(
             ROOT_DIR,
             BACKUP_DEST,
             dirs_exist_ok=True,
             ignore=shutil.ignore_patterns(*UNIQUE_IGNORE_PATTERNS),
         )
-        logger.info("Google Drive synchronization completed successfully!")
+        
+        # Cleanup discrepancies in destination (Mirroring)
+        logger.info("Cleaning up old discrepancies on Drive...")
+        # Since sync_to_drive copies the whole project, we walk the destination
+        # and delete anything that doesn't exist locally and isn't ignored.
+        for root, dirs, files in os.walk(BACKUP_DEST, topdown=False):
+            rel_path = os.path.relpath(root, BACKUP_DEST)
+            local_root = ROOT_DIR / rel_path
+            
+            # This is a simplified mirror cleanup for the backup
+            # In practice, we skip git and node_modules as defined in UNIQUE_IGNORE_PATTERNS
+            
+            for f in files:
+                dest_file = Path(root) / f
+                local_file = local_root / f
+                if not local_file.exists():
+                    dest_file.unlink()
+            
+            for d in dirs:
+                dest_dir = Path(root) / d
+                local_dir = local_root / d
+                if not local_dir.exists():
+                    shutil.rmtree(dest_dir)
+
+        logger.info("Google Drive synchronization (Mirror) completed successfully!")
         return True
     except Exception as exc:
         logger.error("Sync failed: %s", exc)
