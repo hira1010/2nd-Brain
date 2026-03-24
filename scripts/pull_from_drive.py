@@ -20,7 +20,9 @@ SYNC_DIRS = [
     "05_RPG制作",
     "02_漫画",
     "12_レミ投資漫画",
-    "24_RPGツクールMCP"
+    "24_RPGツクールMCP",
+    "04_Remotion",
+    "13_Pyxel_Godot"
 ]
 
 def pull_directory(dirname: str):
