@@ -1,6 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
-  "summary": "Plan to implement Gmail monitoring to fetch diet photos. Requires User to generate an App Password.",
-  "updatedAt": "2026-02-14T04:00:57.630594800Z",
-  "version": "1"
-}

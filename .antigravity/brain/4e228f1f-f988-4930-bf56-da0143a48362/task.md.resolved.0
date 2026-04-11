@@ -1,9 +1,0 @@
-# Refactoring Task
-
-- [ ] Analyze existing code (generate_mangano.py, fix_manga_prompts.py, etc.) <!-- id: 0 -->
-- [ ] Create implementation plan <!-- id: 1 -->
-- [ ] Refactor code <!-- id: 2 -->
-    - [ ] Extract configuration <!-- id: 3 -->
-    - [ ] Modularize functions <!-- id: 4 -->
-    - [ ] Improve error handling and logging <!-- id: 5 -->
-- [ ] Verify changes <!-- id: 6 -->

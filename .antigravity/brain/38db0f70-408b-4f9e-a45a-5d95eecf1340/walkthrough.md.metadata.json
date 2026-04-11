@@ -1,5 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
-  "summary": "全体的なコードのリファクタリング結果の報告です。共有ライブラリの導入により、コードの重複が削減され、保守性が向上しました。Windows環境でのUTF-8対応も強化されています。",
-  "updatedAt": "2026-02-19T02:52:40.427221500Z"
-}

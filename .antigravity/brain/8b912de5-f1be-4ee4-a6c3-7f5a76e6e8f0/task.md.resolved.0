@@ -1,8 +1,0 @@
-# Netlify公開タスク
-
-- [ ] 公開対象サイトの確認 [/]
-- [ ] implementation_plan.md の作成 [/]
-- [ ] GitHubリポジトリの状態確認 [ ]
-- [ ] Netlify連携用設定ファイル（netlify.toml）の作成 [ ]
-- [ ] Netlifyでの操作手順の案内 [ ]
-- [ ] 公開の確認 [ ]

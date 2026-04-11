@@ -1,5 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
-  "summary": "Proposal to create a 'Manzai Video Generation' global skill/workflow. This involves refactoring the existing `generate_manzai_audio.py` into a reusable system script and creating a workflow file `.agent/workflows/manzai-gen.md` to automate the process.",
-  "updatedAt": "2026-02-10T15:43:47.312963200Z"
-}

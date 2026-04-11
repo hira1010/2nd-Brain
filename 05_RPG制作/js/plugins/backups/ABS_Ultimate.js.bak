@@ -1,0 +1,393 @@
+/*:
+ * @target MZ
+ * @plugindesc ABS_Ultimate v5.2 (超安定化版)
+ * @author Antigravity
+ * @help
+ * 【オノマトペ・シューター】ABSシステム Ultimate (Safety Edition)
+ * 
+ * すべての処理に安全性チェックを追加し、エラー停止を極限まで防ぎます。
+ */
+
+(() => {
+  "use strict";
+
+  // =========================================================================
+  // 1. 初期設定
+  // =========================================================================
+  Input.keyMapper[81] = "prevW";
+  Input.keyMapper[87] = "nextW";
+  Input.keyMapper[65] = "shield";
+  Input.keyMapper[88] = "shield";
+
+  window.ABS = window.ABS || {};
+  ABS.State = ABS.State || { nextId: 1 };
+
+  // データ定義 (武器など)
+  ABS.Data = ABS.Data || {
+    1: { name: "通常弾", text: "バン！", pic: "12.バーン", pwr: 1, range: 6, cd: 15, itemId: 1 },
+    2: { name: "連射弾", text: "ダダダ！", pic: "12.バーン", pwr: 0.5, range: 8, cd: 5, itemId: 2 },
+    // 他のデータはABS_Support.jsで補完されることを期待
+  };
+
+  // =========================================================================
+  // 2. 超強力アセット欠損ガード (安定化の要)
+  // =========================================================================
+  
+  // 音声ファイルの読み込みエラーによるRetry画面の抑制
+  const _AM_createBuffer = AudioManager.createBuffer;
+  AudioManager.createBuffer = function(folder, name) {
+    try {
+      const buffer = _AM_createBuffer.call(this, folder, name);
+      if (buffer) {
+          buffer.addLoadListener(() => {
+              if (buffer.isError()) {
+                  console.warn("AUDIO MISSING (Skipped):", folder + "/" + name);
+                  buffer._error = null; // エラー状態をリセットして停止を防ぐ
+              }
+          });
+      }
+      return buffer;
+    } catch (e) {
+      console.error("Audio Load Error Catch:", e);
+      return null;
+    }
+  };
+
+  // 画像ファイルの読み込みエラーによるRetry画面の抑制
+  const _IM_loadBitmap = ImageManager.loadBitmap;
+  ImageManager.loadBitmap = function(folder, name) {
+    try {
+      if (!name) return _IM_loadBitmap.call(this, folder, name);
+      const bitmap = _IM_loadBitmap.call(this, folder, name);
+      if (bitmap) {
+        bitmap.addLoadListener(() => {
+            if (bitmap.isError()) {
+                console.warn("IMAGE MISSING (Skipped):", folder + name);
+                bitmap._error = null;
+                if (bitmap.resize) bitmap.resize(1, 1);
+            }
+        });
+      }
+      return bitmap;
+    } catch (e) {
+      console.error("Image Load Error Catch:", e);
+      return ImageManager.loadEmptyBitmap();
+    }
+  };
+
+  // =========================================================================
+  // 3. データ管理 (ABS.M) - 安全性重視
+  // =========================================================================
+  ABS.M = {
+    init: function () {
+      ABS.State = {
+        nextId: 1, cooldown: 0, invin: 0, pS: [], eS: [], onomas: [], stop: 0
+      };
+      const p = $gamePlayer;
+      if (p) {
+        p._sHp = 100; p._spG = 50; p._isG = false;
+      }
+    },
+
+    update: function () {
+      // 基本的なオブジェクトが存在しない場合は何もしない
+      if (!$gameMap || !$gamePlayer || !ABS.State) return;
+      if (ABS.State.stop > 0) return;
+
+      if (ABS.State.cooldown > 0) ABS.State.cooldown--;
+      if (ABS.State.invin > 0) ABS.State.invin--;
+      
+      this.updateProjectiles(ABS.State.pS);
+      this.updateProjectiles(ABS.State.eS);
+      this.updateOnomas();
+      this.updateInput();
+      
+      // 衝突判定
+      ABS.C?.check?.();
+    },
+
+    updateInput: function () {
+      const p = $gamePlayer;
+      if (!p) return;
+
+      if (!p._isG) {
+        if (Input.isTriggered("ok") || TouchInput.isTriggered()) this.atk();
+        if (Input.isTriggered("prevW")) this.changeW(-1);
+        if (Input.isTriggered("nextW")) this.changeW(1);
+      }
+      
+      p._isG = (Input.isPressed("shield") && (p._spG || 0) > 0);
+      if (p._isG) {
+        p._spG = Math.max(0, (p._spG || 0) - 0.5);
+      } else {
+        p._spG = Math.min(50, (p._spG || 0) + 0.2);
+      }
+    },
+
+    atk: function () {
+      if (ABS.State.cooldown > 0) return;
+      const p = $gamePlayer;
+      const weaponId = $gameVariables?.value(5) || 1;
+      const weaponData = ABS.Data[weaponId] || ABS.Data[1];
+      
+      const d = p.direction();
+      let tx = p.x, ty = p.y;
+      const range = weaponData.range || 5;
+      const speed = weaponData.speed || 0.2;
+      
+      if (d === 2) ty += range;
+      else if (d === 4) tx -= range;
+      else if (d === 6) tx += range;
+      else if (d === 8) ty -= range;
+      
+      ABS.State.pS.push({
+        id: ABS.State.nextId++, x: p.x, y: p.y,
+        tx: tx, ty: ty, pic: weaponData.pic, speed: speed,
+        power: weaponData.pwr || 1, life: 60, frame: 0,
+        curX: p.x, curY: p.y,
+        name: weaponData.text || "バン！", anim: weaponData.itemId || 1,
+        hits: [],
+        scale: weaponData.scale || 1
+      });
+      
+      ABS.State.cooldown = weaponData.cd || 12;
+      
+      if (weaponData.se) {
+        AudioManager.playSe({ name: weaponData.se, volume: 90, pitch: 110, pan: 0 });
+      }
+    },
+
+    changeW: function (n) {
+      let id = $gameVariables?.value(5) || 1;
+      id += n;
+      if (id < 1) id = 7;
+      if (id > 7) id = 1;
+      $gameVariables?.setValue(5, id);
+      AudioManager.playSe({ name: "Equip1", volume: 80, pitch: 120, pan: 0 });
+    },
+
+    updateProjectiles: function (list) {
+      if (!list) return;
+      for (let i = list.length - 1; i >= 0; i--) {
+        const d = list[i];
+        d.frame++;
+        const rate = d.frame / 60;
+        d.curX = d.x + (d.tx - d.x) * rate;
+        d.curY = d.y + (d.ty - d.y) * rate;
+        if (d.frame >= 60) list.splice(i, 1);
+      }
+    },
+
+    updateOnomas: function () {
+      const list = ABS.State.onomas;
+      if (!list) return;
+      for (let i = list.length - 1; i >= 0; i--) {
+        list[i].life--;
+        if (list[i].life <= 0) list.splice(i, 1);
+      }
+    }
+  };
+
+  // =========================================================================
+  // 4. AIと衝突判定
+  // =========================================================================
+  ABS.AI = {
+    update: function (e) {
+      if (!e || e._erased || !e.note || !e.note.includes("<ABS>")) return;
+      if (Math.random() < 0.02) this.fire(e);
+    },
+    fire: function (e) {
+      if (!ABS.State || !ABS.State.eS) return;
+      const p = $gamePlayer;
+      const dist = Math.sqrt(Math.pow(e.x - p.x, 2) + Math.pow(e.y - p.y, 2));
+      if (dist < 8) {
+        ABS.State.eS.push({
+          id: ABS.State.nextId++, x: e.x, y: e.y,
+          tx: p.x, ty: p.y, pic: "12.バーン",
+          speed: 0.1, power: 1, life: 60, frame: 0,
+          curX: e.x, curY: e.y,
+          scale: 0.5
+        });
+      }
+    }
+  };
+
+  ABS.C = {
+    check: function () {
+      const p = $gamePlayer;
+      if (!p || !ABS.State) return;
+
+      // 敵へのヒット
+      ABS.State.pS.forEach(d => {
+        $gameMap.events().forEach(e => {
+          if (e && e.note && e.note.includes("<ABS>") && !e._erased && !d.hits.includes(e.eventId())) {
+            const dist = Math.sqrt(Math.pow(d.curX - e.x, 2) + Math.pow(d.curY - e.y, 2));
+            if (dist < 0.8) {
+              this.hitE(d, e);
+              d.hits.push(e.eventId());
+            }
+          }
+        });
+      });
+
+      // プレイヤーへのヒット
+      ABS.State.eS.forEach((d, i, arr) => {
+        const dist = Math.sqrt(Math.pow(d.curX - p.x, 2) + Math.pow(d.curY - p.y, 2));
+        if (dist < 0.6) {
+          this.hitP(d);
+          arr.splice(i, 1);
+        }
+      });
+    },
+    hitE: function (d, e) {
+       e._hp = (e._hp || 3) - (d.power || 1);
+       $gameTemp?.reserveAnimation(e, d.anim || 1);
+       ABS.onoma(e.x, e.y - 0.5, d.name, "red");
+       if (e._hp <= 0) {
+         e.erase();
+         ABS.onoma(e.x, e.y, "撃破！！", "yellow", "ウニフラ");
+       }
+    },
+    hitP: function (d) {
+      const p = $gamePlayer;
+      if (p._isG) {
+        p._spG = Math.max(0, (p._spG || 0) - 10);
+        AudioManager.playSe({ name: "Shield1", volume: 100, pitch: 150, pan: 0 });
+        return;
+      }
+      p._sHp = (p._sHp || 100) - 10;
+      if (p._sHp <= 0) {
+        SceneManager.goto(Scene_Gameover);
+      }
+    }
+  };
+
+  // =========================================================================
+  // 5. 描画システム
+  // =========================================================================
+  function Sprite_AbsHud() { this.initialize(...arguments); }
+  Sprite_AbsHud.prototype = Object.create(Sprite.prototype);
+  Sprite_AbsHud.prototype.constructor = Sprite_AbsHud;
+  Sprite_AbsHud.prototype.initialize = function() {
+    Sprite.prototype.initialize.call(this);
+    this.bitmap = new Bitmap(400, 150);
+  };
+  Sprite_AbsHud.prototype.update = function() {
+    Sprite.prototype.update.call(this);
+    if (!$gamePlayer) return;
+    this.bitmap.clear();
+    const hp = $gamePlayer._sHp || 0;
+    const sp = $gamePlayer._spG || 0;
+    this.bitmap.fillRect(20, 20, 200, 10, "#333");
+    this.bitmap.fillRect(20, 20, 200 * (hp / 100), 10, "red");
+    this.bitmap.fillRect(20, 40, 200, 10, "#333");
+    this.bitmap.fillRect(20, 40, 200 * (sp / 50), 10, "cyan");
+  };
+
+  // =========================================================================
+  // 6. シーン統合
+  // =========================================================================
+  const _Scene_Map_createSpriteset = Scene_Map.prototype.createSpriteset;
+  Scene_Map.prototype.createSpriteset = function() {
+    _Scene_Map_createSpriteset.call(this);
+    this._absS = { p: {}, e: {}, o: {} };
+    this._absL = { 
+        p: new Sprite(), e: new Sprite(), o: new Sprite() 
+    };
+    if (this._spriteset) {
+        this._spriteset.addChild(this._absL.p);
+        this._spriteset.addChild(this._absL.e);
+        this._spriteset.addChild(this._absL.o);
+    }
+    this._absHud = new Sprite_AbsHud();
+    this.addChild(this._absHud);
+  };
+
+  const _Scene_Map_update = Scene_Map.prototype.update;
+  Scene_Map.prototype.update = function() {
+    _Scene_Map_update.call(this);
+    if (!this.isActive() || SceneManager.isSceneChanging()) return;
+    
+    ABS.M.update();
+    this.renderABS();
+    
+    if ($gameMap && $gameMap.events) {
+        $gameMap.events().forEach(e => {
+            if (e) ABS.AI.update(e);
+        });
+    }
+  };
+
+  Scene_Map.prototype.renderABS = function () {
+    if (!ABS.State) return;
+    this.renderProj(ABS.State.pS, this._absS.p, this._absL.p);
+    this.renderProj(ABS.State.eS, this._absS.e, this._absL.e);
+    this.renderO(ABS.State.onomas, this._absS.o, this._absL.o);
+  };
+
+  Scene_Map.prototype.renderProj = function (list, map, layer) {
+    if (!list || !layer) return;
+    const active = new Set();
+    list.forEach(d => {
+      active.add(d.id);
+      if (!map[d.id]) {
+        const s = new Sprite();
+        s.bitmap = ImageManager.loadPicture(d.pic || "12.バーン");
+        s.anchor.x = s.anchor.y = 0.5;
+        s.scale.x = s.scale.y = d.scale || 1.0;
+        map[d.id] = s; layer.addChild(s);
+      }
+      const s = map[d.id];
+      s.x = $gameMap.adjustX(d.curX) * 48 + 24;
+      s.y = $gameMap.adjustY(d.curY) * 48 + 24;
+    });
+    Object.keys(map).forEach(id => {
+      if (!active.has(Number(id))) {
+        layer.removeChild(map[id]);
+        delete map[id];
+      }
+    });
+  };
+
+  Scene_Map.prototype.renderO = function (list, map, layer) {
+    if (!list || !layer) return;
+    const active = new Set();
+    list.forEach(d => {
+      active.add(d.id);
+      if (!map[d.id]) {
+        const s = new Sprite();
+        s.bitmap = new Bitmap(200, 60);
+        s.bitmap.fontSize = d.fs || 18;
+        s.bitmap.drawText(d.text, 0, 0, 200, 60, "center");
+        map[d.id] = s; layer.addChild(s);
+      }
+      const s = map[d.id];
+      s.x = $gameMap.adjustX(d.x) * 48 + 24;
+      s.y = $gameMap.adjustY(d.y) * 48 + 24;
+      s.y -= (60 - d.life) * 0.5;
+      s.opacity = d.life * 4;
+    });
+    Object.keys(map).forEach(id => {
+      if (!active.has(Number(id))) {
+        layer.removeChild(map[id]);
+        delete map[id];
+      }
+    });
+  };
+
+  // =========================================================================
+  // 7. システム統合
+  // =========================================================================
+  ABS.onoma = function (x, y, t, c, p, fs) { 
+    if (ABS.State && ABS.State.onomas) {
+        ABS.State.onomas.push({ id: ABS.State.nextId++, x: x, y: y, text: t, color: c, pic: p, life: 60, fs: fs }); 
+    }
+  };
+
+  const _DM_setup = DataManager.setupNewGame;
+  DataManager.setupNewGame = function () {
+    _DM_setup.call(this);
+    ABS.M.init();
+  };
+
+})();

@@ -1,0 +1,30 @@
+{
+  "@types/node": {
+    "current": "20.19.37",
+    "wanted": "20.19.37",
+    "latest": "25.5.0",
+    "dependent": "my-video",
+    "location": "C:\\Users\\hirak\\Desktop\\2nd-Brain\\04_Remotion\\my-video\\node_modules\\@types\\node"
+  },
+  "@types/react": {
+    "current": "18.3.28",
+    "wanted": "18.3.28",
+    "latest": "19.2.14",
+    "dependent": "my-video",
+    "location": "C:\\Users\\hirak\\Desktop\\2nd-Brain\\04_Remotion\\my-video\\node_modules\\@types\\react"
+  },
+  "budoux": {
+    "current": "0.6.4",
+    "wanted": "0.6.4",
+    "latest": "0.8.0",
+    "dependent": "my-video",
+    "location": "C:\\Users\\hirak\\Desktop\\2nd-Brain\\04_Remotion\\my-video\\node_modules\\budoux"
+  },
+  "concurrently": {
+    "current": "8.2.2",
+    "wanted": "8.2.2",
+    "latest": "9.2.1",
+    "dependent": "my-video",
+    "location": "C:\\Users\\hirak\\Desktop\\2nd-Brain\\04_Remotion\\my-video\\node_modules\\concurrently"
+  }
+}

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Shortcut 5 runner: keep behavior while refactoring, then commit and push.
+Includes updates for Remotion (NPM), Pyxel (Python), and Ren'Py (Check).
 """
 
 import os
@@ -21,9 +22,9 @@ SYSTEM_DIR = ROOT_DIR / "_システム"
 SCRIPTS_DIR = ROOT_DIR / "scripts"
 REMOTE_NAME = "origin"
 BRANCH_NAME = "main"
-PULL_STEP_LABEL = "--- [Step 0/3] Git Pull from GitHub ---"
-GIT_STEP_LABEL = "--- [Step 3/3] Git Management ---"
-DRIVE_STEP_LABEL = "--- [Step 4/4] Google Drive Backup Sync ---"
+PULL_STEP_LABEL = "--- [Step 0/7] Git Pull from GitHub ---"
+GIT_STEP_LABEL = "--- [Step 5/7] Git Management ---"
+DRIVE_STEP_LABEL = "--- [Step 6/7] Google Drive Backup Sync ---"
 ScriptArgs = Union[Path, Sequence[str]]
 
 
@@ -70,7 +71,7 @@ def run_script(script_args: ScriptArgs) -> bool:
         return True
     except Exception as exc:  # pragma: no cover - defensive guard
         logger.error("Exception running script %s: %s", script_path.name, exc)
-        return False
+    return False
 
 
 def run_git_command(
@@ -91,10 +92,67 @@ def _log_completed_process(result: subprocess.CompletedProcess, success_prefix: 
         logger.warning("%s: %s", failure_prefix, (result.stderr or "").strip())
 
 
+def run_npm_updates() -> None:
+    """
+    Step [1/7]: Update NPM packages for specific projects if needed.
+    """
+    logger.info("--- [Step 1/7] NPM Updates (Remotion etc.) ---")
+    remotion_dir = ROOT_DIR / "04_Remotion" / "my-video"
+    if remotion_dir.exists():
+        logger.info("Updating Remotion project: %s", remotion_dir)
+        try:
+            # npm update を実行
+            env = os.environ.copy()
+            env["PYTHONUTF8"] = "1"
+            subprocess.run(
+                ["npm", "update"],
+                cwd=str(remotion_dir),
+                env=env,
+                check=False,
+            )
+            logger.info("NPM update for Remotion completed.")
+        except Exception as exc:
+            logger.warning("NPM update failed for Remotion: %s", exc)
+    else:
+        logger.info("Remotion project directory not found, skipping npm update.")
+
+
+def run_python_updates() -> None:
+    """
+    Step [2/7]: Update Python packages like Pyxel.
+    """
+    logger.info("--- [Step 2/7] Python Updates (Pyxel etc.) ---")
+    try:
+        logger.info("Checking/Updating Pyxel...")
+        env = os.environ.copy()
+        env["PYTHONUTF8"] = "1"
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "-U", "pyxel"],
+            env=env,
+            check=False,
+        )
+        logger.info("Pyxel update check completed.")
+    except Exception as exc:
+        logger.warning("Python update failed: %s", exc)
+
+
+def run_renpy_check() -> None:
+    """
+    Step [3/7]: Check Ren'Py version.
+    """
+    logger.info("--- [Step 3/7] Ren'Py Version Check ---")
+    logger.info("Checking Ren'Py status in 12_Pyxel_Godot/RenPy...")
+    renpy_dir = ROOT_DIR / "12_Pyxel_Godot" / "RenPy"
+    if renpy_dir.exists():
+        logger.info("Ren'Py project found. Please use Ren'Py Launcher to check for updates.")
+        logger.info("Latest Version (as of March 2026): 8.3.2 / 7.7.2")
+    else:
+        logger.info("Ren'Py directory not found, skipping check.")
+
+
 def run_refactor_pipeline() -> None:
     """
-    Shortcut [5]:
-    Execute refactor scripts intended to preserve behavior.
+    Step [4/7]: Execute refactor scripts intended to preserve behavior.
     """
     smart_refactor = SYSTEM_DIR / "smart_refactor.py"
     fix_lint = SYSTEM_DIR / "fix_manga_lint.py"
@@ -103,7 +161,19 @@ def run_refactor_pipeline() -> None:
     run_script(fix_lint)
 
 
+def run_rpg_tests() -> bool:
+    """
+    Step [4.5/7] Antigravity Self-Check: Run comprehensive quality checks.
+    """
+    logger.info("--- [Step 4.5/7] Antigravity Self-Check ---")
+    check_script = SCRIPTS_DIR / "antigravity_check.py"
+    return run_script(check_script)
+
+
 def commit_and_push_if_needed() -> None:
+    """
+    Step [5/7]: Git Add, Commit and Push changes.
+    """
     logger.info(GIT_STEP_LABEL)
     run_git_command(["git", "add", "-A"])
 
@@ -133,9 +203,8 @@ def commit_and_push_if_needed() -> None:
 
 
 def main() -> int:
-    logger.info("=== Shortcut [5]: 全体同期 & リファクタリング & クリーンアップ ===")
+    logger.info("=== Shortcut [5]: 機能そのまま全体リファクタリング & アップデート & 同期 ===")
 
-    # Step [0/5] Git Pull
     logger.info(PULL_STEP_LABEL)
     pull_result = run_git_command(["git", "pull", REMOTE_NAME, BRANCH_NAME], capture_output=True)
     _log_completed_process(
@@ -144,19 +213,28 @@ def main() -> int:
         failure_prefix="Git pull failed (continuing anyway)",
     )
 
-    # Step [1/5] Bilateral Pull from Google Drive (New)
-    logger.info("--- [Step 1/5] Bilateral Pull from Google Drive ---")
-    pull_drive_script = SCRIPTS_DIR / "pull_from_drive.py"
-    run_script([str(pull_drive_script)])
+    # Step [1/7] NPM
+    run_npm_updates()
 
-    # Step [2/5] Refactor Pipeline
-    logger.info("--- [Step 2/5] Refactor Pipeline ---")
+    # Step [2/7] Python
+    run_python_updates()
+
+    # Step [3/7] RenPy
+    run_renpy_check()
+
+    # Step [4/7] Refactor
+    logger.info("--- [Step 4/7] Refactoring ---")
     run_refactor_pipeline()
 
-    # Step [3/5] Git Push
+    # Step [4.5/7] Safety Checks
+    if not run_rpg_tests():
+        logger.error("Commit aborted due to RPG tests failure.")
+        return 1
+
+    # Step [5/7] Git
     commit_and_push_if_needed()
 
-    # Step [4/5] Google Drive Backup Sync
+    # Step [6/7] Google Drive Sync
     logger.info(DRIVE_STEP_LABEL)
     sync_script = SCRIPTS_DIR / "sync_to_drive.py"
     if run_script([str(sync_script)]):
@@ -164,17 +242,7 @@ def main() -> int:
     else:
         logger.warning("Google Drive sync failed. Please check G:/ mount status.")
 
-    # Step [5/6] Verify Workspace Updates
-    logger.info("--- [Step 5/6] Verify Workspace Updates ---")
-    verify_script = SCRIPTS_DIR / "verify_all_updates.py"
-    run_script([str(verify_script)])
-
-    # Step [6/6] Cleanup Temp Files (New)
-    logger.info("--- [Step 6/6] Cleanup Temp Files ---")
-    cleanup_script = SCRIPTS_DIR / "cleanup_temp.py"
-    run_script([str(cleanup_script)])
-
-    logger.info("All tasks finished.")
+    logger.info("=== Shortcut [5] All tasks finished successfully! ===")
     return 0
 
 

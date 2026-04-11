@@ -1,4 +1,0 @@
-Date: 3/1
-Weight: 61
-Upper BP: 165
-Lower BP: 101

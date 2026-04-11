@@ -1,5 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
-  "summary": "ストーリーフォルダ統合計画。作成済みフォルダのEP01-EP15をルートへ移動し、全エピソード（EP01～EP23 + .5エピソード）を一つのフォルダに統合する計画。",
-  "updatedAt": "2026-02-11T04:28:32.132836700Z"
-}

@@ -1,8 +1,0 @@
-# Tasks
-
-- [ ] Investigate startup failure [/]
-    - [ ] Explore project structure and check [package.json](file:///c:/Users/hirak/Desktop/%E6%BC%AB%E7%94%BB/package.json) [ ]
-    - [ ] Check for missing dependencies (`node_modules`) [ ]
-    - [ ] Attempt to run the development server and capture errors [ ]
-- [ ] Fix identified issues [ ]
-- [ ] Verify the application starts successfully [ ]

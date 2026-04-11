@@ -1,5 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
-  "summary": "Plan to refactor project structure by consolidating episodes into `01_ストーリー`, hiding system scripts in `_System_Tools`, and removing redundant bridge files.",
-  "updatedAt": "2026-02-12T13:15:23.934996100Z"
-}

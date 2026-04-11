@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 """
 Google Drive Synchronization Script
-Sync local 2nd-Brain to G:\マイドライブ\2nd-Brain_Backup
+Sync local 2nd-Brain to G:\マイドライブ\2nd-Brain
 """
 
 import shutil
+import os
 import sys
 from pathlib import Path
 from typing import Iterable
@@ -20,7 +21,8 @@ logger = utils.setup_logger("sync_to_drive")
 
 # 同期先の設定
 DRIVE_BASE = Path("G:/マイドライブ")
-BACKUP_DEST = DRIVE_BASE / "2nd-Brain_Backup"
+# 同期先を一本化
+BACKUP_DEST = DRIVE_BASE / "2nd-Brain"
 
 # 除外パターン
 IGNORE_PATTERNS = [
@@ -33,8 +35,6 @@ IGNORE_PATTERNS = [
     ".obsidian",
     ".vscode",
     "browser_recordings",
-    "*.mp4",
-    "*.webm",
     "*.bak",
     ".pi",
     ".pochi",

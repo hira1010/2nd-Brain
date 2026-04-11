@@ -1,0 +1,15 @@
+Scanning MZ Database for missing assets...
+Scanning ABS Configuration for missing assets...
+
+[CRITICAL ERROR] The following assets are missing from the project folders:
+  - [Image Missing] Slime (key: battlerName) in Enemies.json[1]
+  - [Image Missing] Ghost (key: battlerName) in Enemies.json[2]
+  - [Image Missing] Slime (key: battlerName) in Enemies.json[7]
+  - [Image Missing] Slime (key: battlerName) in Enemies.json[8]
+  - [Image Missing] Hornet (key: battlerName) in Enemies.json[9]
+  - [Audio Missing] Treasure1 in Map001.json[1][0][0][0]
+  - [Image Missing] BigMonster (key: characterName) in Map010.json[1][0]
+  - [Audio Missing] Skill4 in ABS_Ultimate.js (hardcoded playSe)
+  - [Audio Missing] Guard in ABS_Ultimate.js (hardcoded playSe)
+
+Please fix these missing assets before committing! A missing asset WILL crash the game!

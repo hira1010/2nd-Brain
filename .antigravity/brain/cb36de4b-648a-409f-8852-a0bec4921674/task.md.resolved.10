@@ -1,8 +1,0 @@
-# Task: Automating Screenshot Classification
-
-- [x] Create [scripts/auto_diet_screenshot.py](file:///c:/Users/hirak/Desktop/2nd-Brain/scripts/auto_diet_screenshot.py) for OCR and markdown update <!-- id: 4 -->
-- [x] Create [scripts/watch_diet.ps1](file:///c:/Users/hirak/Desktop/2nd-Brain/scripts/watch_diet.ps1) to monitor Desktop for images <!-- id: 5 -->
-- [/] Update [01_ダイエット/記録.md](file:///c:/Users/hirak/Desktop/2nd-Brain/01_%E3%83%80%E3%82%A4%E3%82%A8%E3%83%83%E3%83%88/%E8%A8%98%E9%8C%B2.md) to include Blood Pressure columns <!-- id: 8 -->
-- [ ] Update [scripts/auto_diet_screenshot.py](file:///c:/Users/hirak/Desktop/2nd-Brain/scripts/auto_diet_screenshot.py) to extract Blood Pressure (SYS/DIA) <!-- id: 9 -->
-- [ ] Register the new watcher task in Windows Task Scheduler (or startup) <!-- id: 6 -->
-- [ ] Verify the automation with a test image <!-- id: 7 -->

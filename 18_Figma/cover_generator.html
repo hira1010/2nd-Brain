@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Cover Generator Pro</title>
+    <!-- 外部ライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- お手本級のフォント: 極太系を追加 -->
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=RocknRoll+One&family=Nikukyu&family=Anton&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #ff007f;
+            --primary-cyan: #00ffff;
+            --accent-gold: #fbbf24;
+            --bg-dark: #070b14;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --manga-black: #1a1a1a;
+            --gold: #fbbf24;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Noto Sans JP', sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- UI Sidebar --- */
+        .sidebar {
+            width: 380px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        h1 { font-size: 1.2rem; color: var(--primary-pink); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px; }
+        .tab-btn { padding: 8px 15px; background: rgba(255,255,255,0.1); border: none; color: white; cursor: pointer; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+        .tab-btn.active { background: var(--primary-pink); }
+
+        .control-section { margin-top: 20px; }
+        .control-group { margin-bottom: 12px; }
+        .control-group label { display: block; font-size: 11px; color: #94a3b8; margin-bottom: 5px; text-transform: uppercase; }
+        input[type="text"], input[type="number"], select, input[type="color"] {
+            width: 100%; padding: 8px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 4px;
+        }
+        .btn-action {
+            width: 100%; padding: 12px; margin-top: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;
+        }
+        .btn-download { background: linear-gradient(to right, #ff007f, #ec4899); color: white; }
+        .btn-add { background: #334155; color: white; }
+
+        /* --- Canvas Area --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, #1e293b, #070b14);
+            position: relative;
+        }
+
+        #canvas-wrapper {
+            position: relative;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            transform-origin: center center;
+            background: #000;
+        }
+
+        /* Orientation Classes */
+        .portrait { width: 700px; height: 980px; }
+        .landscape { width: 1200px; height: 675px; }
+
+        #bg-image {
+            position: absolute; width: 100%; height: 100%; object-fit: cover; top: 0; left: 0; z-index: 0;
+            cursor: move; pointer-events: none; /* 初期状態は操作不可 */
+        }
+        #bg-image.unlocked {
+            pointer-events: auto;
+            outline: 4px solid var(--primary-cyan);
+            z-index: 50; /* 操作中は少し手前に出して掴みやすくする（ただしテキストよりは下） */
+        }
+
+        /* --- Components --- */
+        .draggable {
+            position: absolute;
+            z-index: 100;
+            cursor: move;
+            touch-action: none;
+            user-select: none;
+        }
+        .draggable:hover { outline: 2px dashed var(--primary-cyan); }
+        #canvas-wrapper:not(.locked-canvas) .draggable:hover { outline: 4px solid #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
+        .locked-canvas .draggable { pointer-events: none !important; cursor: default !important; }
+        .locked-canvas .draggable:hover { outline: none !important; box-shadow: none !important; }
+        .locked-canvas #bg-image { pointer-events: none !important; outline: none !important; }
+        .locked-canvas .fix-badge { display: none !important; }
+
+        /* Multi-layer Stroke Typography */
+        .pro-text {
+            font-family: 'Dela Gothic One', cursive;
+            line-height: 1;
+            white-space: nowrap;
+            /* 三重縁取りの魔法 */
+            filter: 
+                drop-shadow(0 0 10px rgba(255,0,127,0.5))
+                drop-shadow(5px 5px 0px rgba(0,0,0,0.8));
+        }
+
+        /* SVG Inner Stroke workaround */
+        .text-content {
+            display: inline-block;
+            -webkit-text-stroke: 12px white;
+            paint-order: stroke fill;
+            color: var(--primary-pink);
+            position: relative;
+        }
+        .text-content::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            -webkit-text-stroke: 0;
+            color: inherit;
+        }
+
+        /* Decorations */
+        .overlay-dots {
+            position: absolute; z-index: 10; width: 100%; height:100%; pointer-events: none;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1.5px, transparent 1.5px);
+            background-size: 15px 15px;
+            mix-blend-mode: overlay;
+        }
+
+        /* 究極のタイポグラフィ (お手本を再現) */
+        .pro-text-ultimate {
+            font-family: 'RocknRoll One', sans-serif;
+            font-weight: 900;
+            color: #fff;
+            filter: 
+                drop-shadow(0 0 5px rgba(0,0,0,0.8))
+                drop-shadow(0 0 15px var(--primary-pink))
+                drop-shadow(0 0 30px var(--primary-pink));
+        }
+        .pro-text-ultimate span {
+            display: inline-block;
+            -webkit-text-stroke: 18px #000;
+            paint-order: stroke fill;
+            position: relative;
+        }
+        .pro-text-ultimate span::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            -webkit-text-stroke: 6px #fff;
+            color: var(--primary-pink);
+        }
+        .pro-text-ultimate span::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            -webkit-text-stroke: 0;
+            color: inherit;
+            z-index: 10;
+        }
+
+        /* 文字内ハート装飾 (CSS版) */
+        .with-heart::after {
+            content: "♥";
+            position: absolute;
+            font-size: 0.3em;
+            color: white;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            text-shadow: 0 0 5px var(--primary-pink);
+        }
+
+        /* エフェクトレイヤー */
+        .effect-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            display: none;
+        }
+        .focus-lines {
+            background: repeating-conic-gradient(from 0deg, transparent 0deg 2deg, rgba(255,255,255,0.1) 2.1deg 4deg);
+            mix-blend-mode: overlay;
+        }
+        .sparkles {
+            background-image: radial-gradient(circle, #fff 1.5px, transparent 1.5px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+        }
+
+        /* Film Strip */
+        .film-strip-container {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 10px 0;
+            position: relative;
+            border-top: 15px solid #000;
+            border-bottom: 15px solid #000;
+        }
+        .film-strip-container::before, .film-strip-container::after {
+            content: "";
+            position: absolute;
+            left: 0; width: 100%; height: 10px;
+            background-image: radial-gradient(circle, #fff 4px, transparent 5px);
+            background-size: 30px 10px;
+        }
+        .film-strip-container::before { top: -12px; }
+        .film-strip-container::after { bottom: -12px; }
+
+        .film-frame {
+            width: 120px; height: 80px; background: #222; border: 1px solid #444; overflow: hidden;
+        }
+        .film-frame img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+
+        /* Phone Mockup Detail */
+        .phone-inner {
+            width: 100%; height: 100%; background: #111; border: 4px solid #444; border-radius: 20px;
+            position: relative; overflow: hidden;
+        }
+        /* 縦書き対応 */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.1em;
+        }
+
+        /* 商業誌風 円形巨大バッジ */
+        .badge-circle-mega {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff007f, #ff66b2);
+            border: 5px solid white;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 950;
+            line-height: 1.1;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .badge-circle-mega .small { font-size: 14px; }
+        .badge-circle-mega .large { font-size: 40px; }
+
+        /* ハーフトーン・ドットパターン（お手本の各所にあるやつ） */
+        .halftone-dots {
+            background-image: radial-gradient(circle, currentColor 20%, transparent 20%);
+            background-size: 10px 10px;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* クレジット表記スタイル */
+        .credit-text {
+            font-size: 14px;
+            color: white;
+            background: rgba(0,0,0,0.8);
+            padding: 2px 10px;
+            border-left: 4px solid var(--primary-pink);
+            font-weight: bold;
+        }
+
+        /* タイトル文字の中のハート装飾用 */
+        .heart-char::after {
+            content: "♥";
+            position: absolute;
+            font-size: 0.4em;
+            color: #ff007f;
+            right: -0.2em;
+            bottom: 0.2em;
+            text-shadow: 0 0 5px white;
+        }
+        .phone-notch {
+            width: 60px; height: 15px; background: #444; position: absolute; top: 0; left: 50%;
+            transform: translateX(-50%); border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10;
+        }
+
+        /* 究極のプロ級タイポグラフィ（さらなる強化） */
+        .ultimate-impact {
+            font-family: 'RocknRoll One', sans-serif;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(255,0,127,0.8),
+                0 0 20px rgba(255,0,127,0.5);
+        }
+        .ultimate-impact span {
+            display: inline-block;
+            -webkit-text-stroke: 20px #000;
+            paint-order: stroke fill;
+            position: relative;
+            transform: skew(-5deg); /* 少し斜めにするのがプロの隠し味 */
+        }
+        .ultimate-impact span::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0;
+            -webkit-text-stroke: 8px #fff;
+            color: var(--primary-pink);
+        }
+
+        .fix-badge {
+            position: absolute; top: -45px; left: 50%; transform: translateX(-50%);
+            background: #ef4444; color: white; padding: 8px 20px;
+            border-radius: 8px; font-size: 14px; font-weight: 900;
+            cursor: pointer; pointer-events: auto; display: none;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+            border: 2px solid white; white-space: nowrap;
+            z-index: 5000;
+        }
+        #canvas-wrapper:not(.locked-canvas) .draggable:hover .fix-badge { display: block; }
+
+        @keyframes pulse-fix {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            50% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+            100% { transform: translateX(-50%) scale(1); opacity: 1; }
+        }
+        .fix-badge { 
+            animation: pulse-fix 1s infinite; 
+            /* 選択時の挙動安定化 */
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Animations */
+        @keyframes flash {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; background: white; }
+            100% { opacity: 1; }
+        }
+        .flash-effect { animation: flash 0.3s ease-in-out; }
+
+        /* Top/Bottom Status Bar */
+        .status-bar {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 10px; text-align: center; font-weight: bold;
+            font-size: 14px; letter-spacing: 2px;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            z-index: 1001; transition: all 0.3s;
+            pointer-events: none; /* ← これが重要！クリックを後ろに通す */
+        }
+        #canvas-wrapper:not(.locked-canvas) + .status-bar {
+            color: #10b981; border-top: 2px solid #10b981;
+            text-shadow: 0 0 10px #10b981;
+        }
+        #canvas-wrapper.locked-canvas + .status-bar {
+            color: #94a3b8; border-top: 2px solid #94a3b8;
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+            50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(16, 185, 129, 0.8); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+        }
+        .editing-pulse { animation: pulse-btn 1.5s infinite; }
+        .editing-pulse { animation: pulse-btn 1.5s infinite; }
+
+        /* Lock Shield Overlay */
+        .lock-shield {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.1); display: none; z-index: 8000;
+            cursor: pointer; align-items: center; justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+        .lock-shield::after {
+            content: "🔒 現在は【固定モード】です。クリックして編集を再開";
+            background: rgba(0,0,0,0.8); color: white; padding: 20px 40px;
+            border-radius: 50px; font-weight: 900; font-size: 20px;
+            border: 3px solid var(--primary-pink); box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        .locked-canvas .lock-shield { display: flex; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h1>COVER GEN PRO</h1>
+        
+        <div class="control-section">
+            <button id="globalLockBtn" class="btn-action" onclick="toggleGlobalLock()" style="background: #10b981; margin-bottom: 5px; font-size: 18px; font-weight: 900; height: 60px; border: 4px solid #fff; box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);">🔓 配置を動かす（編集中）</button>
+            <p id="lockStatusMsg" style="font-size: 11px; color: #10b981; margin-bottom: 20px; font-weight: bold; text-align: center;">↑配置が決まったらこのボタンを押して固定！</p>
+
+            <div class="control-group">
+                <label>画像</label>
+                <input type="file" id="bgInput" accept="image/*">
+            </div>
+            
+            <div class="control-group">
+                <button id="bgLockBtn" class="btn-action btn-add" onclick="toggleBgLock()" style="background: #4b5563; font-weight: 900; margin-bottom: 10px;">🔓 背景（写真）をずらせるようにする</button>
+                <p style="font-size: 10px; color: #94a3b8; margin-bottom: 20px;">※写真を動かしたい時は上のボタンを押し、終わったら再度押してください。</p>
+            </div>
+
+            <div class="control-group">
+                <label>向き</label>
+                <select id="orientSelect" onchange="changeOrient()">
+                    <option value="portrait">縦 (Portrait)</option>
+                    <option value="landscape">横 (Landscape)</option>
+                </select>
+            </div>
+
+            <hr style="opacity: 0.1; margin: 15px 0">
+
+            <div id="elements-list">
+            <button class="btn-action btn-add" onclick="addVerticalText()">＋ 縦書きテキスト</button>
+            <button class="btn-action btn-add" onclick="addUltimateText()">🔥 究極爆盛テキスト</button>
+            <button class="btn-action btn-add" onclick="addSSSBox()">＋ レア称号枠</button>
+            <button class="btn-action btn-add" onclick="addCircleBadge()">＋ 円形デカバッジ</button>
+            <button class="btn-action btn-add" onclick="toggleEffect('focus-lines')">⚡ 集中線を切替</button>
+            <button class="btn-action btn-add" onclick="toggleEffect('sparkles')">✨ キラキラを切替</button>
+            <button class="btn-action btn-add" onclick="applyProPreset()" style="background: var(--primary-pink); margin-top:10px;">★ 全てを黄金比に自動配置</button>
+            <button class="btn-action btn-download" onclick="download()">高解像度出力 (3x PNG)</button>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 11px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; line-height: 1.6;">
+            <strong>【お手本に近づけるコツ】</strong><br>
+            ・<strong>縦書き</strong>: 日本の漫画は「縦書き」が命です。左右に配置しましょう。<br>
+            ・<strong>密度</strong>: 空いたスペースに「円形バッジ」や「クレジット」を詰め込んでください。<br>
+            ・<strong>重なり</strong>: 文字がキャラに少し被るくらいが一番カッコいいです。
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div id="canvas-wrapper" class="portrait">
+            <img id="bg-image" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80" alt="Background">
+            <div class="overlay-dots" style="pointer-events: none;"></div>
+            <div class="effect-layer focus-lines" style="display: block;"></div>
+            <div class="effect-layer sparkles" style="display: block;"></div>
+            <div class="lock-shield" onclick="toggleGlobalLock()"></div>
+
+            <!-- 初期要素（黄金比レイアウト：お手本完全再現版） -->
+            <div class="draggable" style="top: 20px; left: 20px; width: 220px;" id="badge4k">
+                <div class="badge-4k" style="background:rgba(0,0,0,0.7); border:2px solid #fbbf24; color:#fbbf24; padding:5px 10px; border-radius:4px; font-weight:900;">4K ULTRA HD</div>
+            </div>
+
+            <div class="draggable" style="top: 20px; right: 20px;" id="publisher">
+                <div style="background: #ff007f; color: white; padding: 5px 20px; border-radius: 50px; font-weight: 900; border: 3px solid white;">ZOCK-ZOCK 出版</div>
+            </div>
+
+            <!-- メインタイトル：下部に巨大配置 -->
+            <div class="draggable" style="bottom: 40px; left: 50%; transform: translateX(-50%);" id="mainTitleComp">
+                <div class="pro-text" style="font-size: 180px; color: white; filter: drop-shadow(0 0 20px #ff007f);">
+                    <span class="text-content" data-text="限界突破" id="mainTitleText" style="color:#fff; -webkit-text-stroke: 20px #000;">限界突破</span>
+                </div>
+            </div>
+
+            <!-- 縦書き：右側に突き抜ける配置 -->
+            <div class="draggable" style="top: 10px; right: 40px; height: 90%; display: flex; align-items: center;">
+                <div class="pro-text vertical-text" style="font-size: 85px; color: white;">
+                    <span class="text-content" data-text="最新作、解禁。" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)" 
+                    style="-webkit-text-stroke: 12px #000; color: #fff; letter-spacing: 0.2em;">最新作、解禁。</span>
+                </div>
+            </div>
+
+            <!-- 爆盛テキスト：左上 -->
+            <div class="draggable" style="top: 15%; left: 40px;">
+                <div class="ultimate-impact" style="font-size: 100px;">
+                    <span class="with-heart" data-text="洗脳完了" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">洗脳完了</span>
+                </div>
+            </div>
+
+            <!-- 円形バッジ：右下 -->
+            <div class="draggable" style="bottom: 60px; right: 60px; transform: scale(1.2) rotate(-10deg);">
+                <div class="badge-circle-mega">
+                    <div class="small">フルカラー</div>
+                    <div class="large">200P</div>
+                    <div class="small">超え!!</div>
+                </div>
+            </div>
+
+            <!-- サブタイトル帯：上部 -->
+            <div class="draggable" style="top: 0; left: 0; width: 100%;">
+                <div style="background: linear-gradient(to right, rgba(0,255,255,0.8), transparent); color: #000; padding: 10px 40px; font-weight: 950; font-size: 28px; letter-spacing: 2px;">
+                    常識が反転する、禁断の18日間。
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            </div>
+        </div>
+        <div id="mode-status-bar" class="status-bar">🔓 現在は【編集モード】自由に配置を動かせます</div>
+    </main>
+
+    <script>
+        // --- Drag & Drop Setup ---
+        interact('.draggable')
+            .draggable({
+                inertia: true,
+                modifiers: [
+                    interact.modifiers.restrictRect({
+                        restriction: (element) => element.id === 'bg-image' ? 'none' : 'parent',
+                        endOnly: true
+                    })
+                ],
+                listeners: {
+                    move (event) {
+                        const target = event.target;
+                        target.style.zIndex = 1000; // ドラッグ中は最前面へ
+                        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                        target.style.transform = `translate(${x}px, ${y}px)`;
+                        target.setAttribute('data-x', x);
+                        target.setAttribute('data-y', y);
+                        saveLayout(); // 移動するたびに保存
+                    },
+                    end (event) {
+                        const target = event.target;
+                        if(target.id === 'bg-image') {
+                            target.style.zIndex = target.classList.contains('unlocked') ? 50 : 0;
+                        } else {
+                            target.style.zIndex = 100;
+                        }
+                        saveLayout(); // 終了時も念のため保存
+                    }
+                }
+            })
+            .on('doubletap', function (event) {
+                // ダブルクリックで固定
+                if(!document.getElementById('canvas-wrapper').classList.contains('locked-canvas')) {
+                    toggleGlobalLock();
+                }
+            })
+            .resizable({
+                edges: { left: true, right: true, bottom: true, top: true },
+                modifiers: [
+                    interact.modifiers.restrictSize({
+                        min: { width: 100, height: 100 }
+                    })
+                ],
+                listeners: {
+                    move (event) {
+                        let target = event.target;
+                        let x = (parseFloat(target.getAttribute('data-x')) || 0);
+                        let y = (parseFloat(target.getAttribute('data-y')) || 0);
+                        target.style.width = event.rect.width + 'px';
+                        target.style.height = event.rect.height + 'px';
+                        x += event.deltaRect.left;
+                        y += event.deltaRect.top;
+                        target.style.transform = `translate(${x}px, ${y}px)`;
+                        target.setAttribute('data-x', x);
+                        target.setAttribute('data-y', y);
+                    }
+                }
+            });
+
+        const wrapper = document.getElementById('canvas-wrapper');
+        const bgInput = document.getElementById('bgInput');
+        const bgImg = document.getElementById('bg-image');
+
+        bgInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => bgImg.src = ev.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function loadPartImg(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const img = input.parentElement.querySelector('img');
+                    if(img) img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function changeOrient() {
+            wrapper.className = document.getElementById('orientSelect').value;
+        }
+
+        let elementCount = 0;
+        function addText() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.top = '200px'; newDiv.style.left = '200px';
+            newDiv.innerHTML = `
+                <div class="pro-text" style="font-size: 60px; color: white;">
+                    <span class="text-content" data-text="TEXT" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">TEXT</span>
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function addVerticalText() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.top = '50px'; newDiv.style.right = '50px';
+            newDiv.innerHTML = `
+                <div class="pro-text vertical-text" style="font-size: 50px; color: white;">
+                    <span class="text-content" data-text="最新作、解禁。" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)" style="-webkit-text-stroke: 8px #000;">最新作、解禁。</span>
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function addUltimateText() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.top = '300px'; newDiv.style.left = '50px';
+            newDiv.innerHTML = `
+                <div class="pro-text-ultimate">
+                     <span class="with-heart" data-text="洗脳完了" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">洗脳完了</span>
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function toggleEffect(type) {
+            let el = wrapper.querySelector('.' + type);
+            if(!el) {
+                el = document.createElement('div');
+                el.className = 'effect-layer ' + type;
+                wrapper.appendChild(el);
+            }
+            const isVisible = el.style.display === 'block';
+            el.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function addImage() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.top = '300px'; newDiv.style.left = '300px';
+            newDiv.style.width = '250px'; newDiv.style.height = '180px';
+            newDiv.innerHTML = `
+                <div style="width:100%; height:100%; border: 4px solid white; overflow: hidden; background: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
+                    <img style="width: 100%; height: 100%; object-fit: cover;" src="">
+                    <input type="file" style="position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer;" onchange="loadPartImg(this)">
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function addSSSBox() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.width = '200px'; newDiv.style.top = '400px'; newDiv.style.left = '50px';
+            newDiv.innerHTML = `
+                <div style="background:#000; border:2px solid #fff; padding:5px; border-radius:8px; text-align:center; box-shadow: 0 0 20px var(--primary-pink);">
+                    <div style="font-size:60px; font-weight:950; background: linear-gradient(to bottom, #fff, #f0f); -webkit-background-clip: text; color:transparent; line-height:1;" contenteditable="true">SSS</div>
+                    <div style="font-size:14px; color:#fff; font-weight:bold; border-top:1px solid #444; margin-top:5px; padding-top:2px;" contenteditable="true">★ レアカード ★</div>
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function addCollage() {
+            const configs = [
+                { top: 0, left: 0, width: '25%', height: '50%' },
+                { bottom: 0, left: 0, width: '25%', height: '50%' },
+                { top: 0, left: '25%', width: '40%', height: '100%' },
+                { top: 0, right: 0, width: '35%', height: '100%' }
+            ];
+            configs.forEach((c) => {
+                const newDiv = document.createElement('div');
+                newDiv.className = 'draggable';
+                Object.assign(newDiv.style, c);
+                newDiv.innerHTML = `
+                    <div style="width:100%; height:100%; border: 2px solid rgba(255,255,255,0.5); overflow: hidden; background: #222;">
+                        <img style="width: 100%; height: 100%; object-fit: cover;" src="">
+                        <input type="file" style="position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer;" onchange="loadPartImg(this)">
+                    </div>
+                `;
+                wrapper.appendChild(newDiv);
+            });
+        }
+
+        function addFilmStrip() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.width = '100%'; newDiv.style.height = '120px';
+            newDiv.style.top = '0'; newDiv.style.left = '0';
+            newDiv.innerHTML = `
+                <div class="film-strip-container">
+                    <div class="film-frame"><img src=""><input type="file" style="position:absolute;opacity:0;top:0;left:0;width:100%;height:100%;" onchange="loadPartImg(this)"></div>
+                    <div class="film-frame"><img src=""></div>
+                    <div class="film-frame"><img src=""></div>
+                    <div class="film-frame"><img src=""></div>
+                    <div class="film-frame"><img src=""></div>
+                </div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function addPhone() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.width = '240px'; newDiv.style.height = '480px';
+            newDiv.style.bottom = '50px'; newDiv.style.left = '50px';
+            newDiv.innerHTML = `
+                <div class="phone-inner">
+                    <div class="phone-notch"></div>
+                    <img style="width: 100%; height: 100%; object-fit: cover;" src="">
+                    <input type="file" style="position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer;" onchange="loadPartImg(this)">
+                </div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function addCircleBadge() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.bottom = '40px'; newDiv.style.right = '40px';
+            newDiv.innerHTML = `
+                <div class="badge-circle-mega">
+                    <div class="small" contenteditable="true">フルカラー</div>
+                    <div class="large" contenteditable="true">200P</div>
+                    <div class="small" contenteditable="true">超え!!</div>
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+        function addCredit() {
+            elementCount++;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'draggable';
+            newDiv.style.bottom = '20px'; newDiv.style.left = '20px';
+            newDiv.innerHTML = `
+                <div class="credit-text" contenteditable="true">漫画：ちゃんあい / 原作：雑魚まん</div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(newDiv);
+        }
+
+
+        function applyProPreset() {
+            // 現状をクリア
+            const draggables = wrapper.querySelectorAll('.draggable:not(#badge4k):not(#publisher):not(#mainTitleComp)');
+            draggables.forEach(d => d.remove());
+            
+            // 16:9 ランドスケープに強制
+            document.getElementById('orientSelect').value = 'landscape';
+            changeOrient();
+
+            // 特殊エフェクトを有効化
+            toggleEffect('focus-lines');
+            toggleEffect('sparkles');
+
+            // 1. メインタイトル (画面下部にドカンと配置)
+            const mainTitle = document.getElementById('mainTitleComp');
+            mainTitle.style.top = 'auto';
+            mainTitle.style.bottom = '40px';
+            mainTitle.style.left = '50%';
+            mainTitle.style.transform = 'translateX(-50%)';
+            const mainText = document.getElementById('mainTitleText');
+            mainText.style.fontSize = '180px';
+            mainText.style.webkitTextStroke = '20px #000';
+            mainText.parentElement.style.filter = 'drop-shadow(0 0 20px #ff007f)';
+
+            // 2. 巨大な縦書き (右端に突き抜けるように配置)
+            elementCount++;
+            const vText = document.createElement('div');
+            vText.className = 'draggable';
+            vText.style.top = '10px'; vText.style.right = '40px';
+            vText.innerHTML = `
+                <div class="pro-text vertical-text" style="font-size: 85px; color: white; height: 90%; display: flex; align-items: center;">
+                    <span class="text-content" data-text="最新作、解禁。" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)" 
+                    style="-webkit-text-stroke: 12px #000; color: #fff; letter-spacing: 0.2em;">最新作、解禁。</span>
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(vText);
+
+            // 3. 究極爆盛テキスト (左側に中サイズで配置)
+            elementCount++;
+            const ultText = document.createElement('div');
+            ultText.className = 'draggable';
+            ultText.style.top = '25%'; ultText.style.left = '40px';
+            ultText.innerHTML = `
+                <div class="ultimate-impact" style="font-size: 100px;">
+                    <span data-text="洗脳完了" contenteditable="true" oninput="this.setAttribute('data-text', this.innerText)">洗脳完了</span>
+                </div>
+                <div class="fix-badge" onclick="toggleGlobalLock(); event.stopPropagation();">✨ 確定</div>
+            `;
+            wrapper.appendChild(ultText);
+
+            // 4. 円形バッジ (右下に配置)
+            addCircleBadge(); 
+            const badge = wrapper.querySelector('.badge-circle-mega').parentElement;
+            badge.style.bottom = '60px'; badge.style.right = '60px';
+            badge.style.transform = 'scale(1.2) rotate(-10deg)';
+
+            // 5. クレジット (左下に配置)
+            addCredit();
+            const credit = wrapper.querySelector('.credit-text').parentElement;
+            credit.style.bottom = '30px'; credit.style.left = '30px';
+
+            // 6. サブタイトルの帯 (上部に配置)
+            const sub = document.createElement('div');
+            sub.className = 'draggable';
+            sub.style.top = '0'; sub.style.left = '0'; sub.style.width = '100%';
+            sub.innerHTML = `
+                <div style="background: linear-gradient(to right, rgba(0,255,255,0.8), transparent); color: #000; padding: 10px 40px; font-weight: 950; font-size: 28px; letter-spacing: 2px;">
+                    常識が反転する、禁断の18日間。
+                </div>
+            `;
+            wrapper.appendChild(sub);
+            
+            alert("✨黄金比レイアウトを適用しました！\n各パーツの「巨大さ」と「重なり」がお手本に近づく鍵です。\n自動保存されました。");
+            saveLayout();
+        }
+
+        function toggleGlobalLock() {
+            const wrapper = document.getElementById('canvas-wrapper');
+            const btn = document.getElementById('globalLockBtn');
+            const msg = document.getElementById('lockStatusMsg');
+            const statusBar = document.getElementById('mode-status-bar');
+            const isLocked = wrapper.classList.toggle('locked-canvas');
+            
+            if(isLocked) {
+                // 強制的かつ物理的に移動機能をシャットダウン
+                interact('.draggable').draggable(false).resizable(false);
+                interact('#bg-image').draggable(false).resizable(false);
+                
+                btn.innerText = '🔒 全てを固定した（完成！）';
+                btn.style.background = '#4b5563';
+                btn.classList.remove('editing-pulse');
+                
+                if (msg) msg.innerText = '「固定モード」です。文字も写真も動きません。';
+                if (statusBar) {
+                    statusBar.innerText = '🔒 現在は【固定モード】配置は完全にロックされています';
+                    statusBar.style.background = 'rgba(75, 85, 99, 0.8)';
+                }
+                
+                document.querySelectorAll('.draggable').forEach(el => {
+                    el.style.zIndex = 100;
+                    el.style.outline = 'none';
+                });
+                
+                // ガイド用のクラスなどを全て消去し、完全にプレーンな状態へ
+                const badges = document.querySelectorAll('.fix-badge');
+                badges.forEach(b => b.style.display = 'none');
+                
+                showToast("✅ レイアウトを完全ロックしました");
+            } else {
+                // 移動機能を再起動
+                interact('.draggable').draggable(true).resizable(true);
+                interact('#bg-image').draggable(true).resizable(true);
+
+                btn.innerText = '🔓 配置を動かす（調整中）';
+                btn.style.background = '#10b981';
+                btn.classList.add('editing-pulse');
+                
+                if (msg) msg.innerText = '「移動・編集モード」です。自由に配置してください！';
+                if (statusBar) {
+                    statusBar.innerText = '🔓 現在は【編集モード】自由に配置を動かせます';
+                    statusBar.style.background = 'rgba(16, 185, 129, 0.6)';
+                }
+                
+                const badges = document.querySelectorAll('.fix-badge');
+                badges.forEach(b => b.style.display = '');
+
+                showToast("🔓 移動・編集モードになりました");
+            }
+            saveLayout();
+            wrapper.classList.add('flash-effect');
+            setTimeout(() => wrapper.classList.remove('flash-effect'), 300);
+        }
+
+        function showToast(text) {
+            let toast = document.getElementById('toast');
+            if(!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style = `
+                    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+                    background: rgba(0,0,0,0.8); color: white; padding: 12px 24px;
+                    border-radius: 30px; z-index: 10000; font-weight: bold;
+                    pointer-events: none; transition: opacity 0.3s; opacity: 0;
+                    border: 2px solid var(--primary-pink);
+                `;
+                document.body.appendChild(toast);
+            }
+            toast.innerText = text;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        }
+
+        // --- 三重の固定ガードシステム ---
+
+        // 0. 「確定バッジ」の絶対的クリック保証 (アニメーションやフォーカス移動によるクリック漏れを防ぐ)
+        window.addEventListener('pointerdown', (e) => {
+            if(e.target.classList.contains('fix-badge')) {
+                // 押し込んだ瞬間に強制ロック（100%反応）
+                e.preventDefault();
+                e.stopPropagation();
+                if(!document.getElementById('canvas-wrapper').classList.contains('locked-canvas')) {
+                    toggleGlobalLock();
+                }
+            }
+        }, true);
+
+        // 1. キャプチャフェーズでの強制ダブルクリック検知（最優先）
+        window.addEventListener('dblclick', (e) => {
+            console.log("Window Capture DblClick:", e.target);
+            const draggable = e.target.closest('.draggable');
+            const wrapper = e.target.closest('#canvas-wrapper');
+            
+            if (draggable || wrapper) {
+                if(!document.getElementById('canvas-wrapper').classList.contains('locked-canvas')) {
+                    console.log("Forcing Lock via Global Capture...");
+                    toggleGlobalLock();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+        }, true);
+
+        // 2. ロック中に要素を触ろうとした時のガイド
+        document.getElementById('canvas-wrapper').addEventListener('click', (e) => {
+            if(document.getElementById('canvas-wrapper').classList.contains('locked-canvas')) {
+                // シールドクリック時は toggleGlobalLock() が呼ばれるため、ここでは邪魔しない
+                if(e.target.classList.contains('lock-shield')) return;
+                
+                const draggable = e.target.closest('.draggable');
+                if (draggable) {
+                    showToast("🔒 現在は固定モードです。画面をクリックして解除してね！");
+                }
+            }
+        });
+
+        // 3. 各要素への個別イベント付与（既存および新規）
+        function refreshEventListeners() {
+            document.querySelectorAll('.draggable').forEach(el => {
+                if(!el.getAttribute('data-init-v3')) {
+                    // 個別の確定バッジのクリック
+                    const badge = el.querySelector('.fix-badge');
+                    if(badge) {
+                        badge.onclick = (e) => {
+                            e.stopPropagation();
+                            toggleGlobalLock();
+                        };
+                    }
+                    el.setAttribute('data-init-v3', 'true');
+                }
+            });
+        }
+        setInterval(refreshEventListeners, 1000); // 新しく追加された要素にも1秒周期で適用
+
+        function toggleBgLock() {
+            // グローバルロック中は背景操作も不可にするなどの配慮
+            if(document.getElementById('canvas-wrapper').classList.contains('locked-canvas')) {
+                return alert("先に「レイアウトを自由に動かす」ボタンを押してロックを解除してください。");
+            }
+            const bg = document.getElementById('bg-image');
+            const btn = document.getElementById('bgLockBtn');
+            const wrapper = document.getElementById('canvas-wrapper');
+            const isLocked = !bg.classList.contains('unlocked');
+            
+            if(isLocked) {
+                bg.classList.add('unlocked');
+                wrapper.style.outline = '10px solid #ef4444';
+                wrapper.style.outlineOffset = '5px';
+                btn.innerText = '🔒 写真の配置を完了（ロック）';
+                btn.style.background = '#ef4444';
+                btn.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.5)';
+            } else {
+                bg.classList.remove('unlocked');
+                wrapper.style.outline = 'none';
+                btn.innerText = '🔓 背景（写真）をずらせるようにする';
+                btn.style.background = '#4b5563';
+                btn.style.boxShadow = 'none';
+                saveLayout();
+            }
+        }
+
+        function saveLayout() {
+            const elements = [];
+            document.querySelectorAll('.draggable').forEach((el, index) => {
+                elements.push({
+                    index: index,
+                    id: el.id || '',
+                    x: el.getAttribute('data-x') || '0',
+                    y: el.getAttribute('data-y') || '0',
+                    width: el.style.width,
+                    height: el.style.height,
+                    text: el.innerText, // テキスト内容も保存
+                    html: el.innerHTML  // 複雑な構造も保存
+                });
+            });
+            localStorage.setItem('cover_layout', JSON.stringify(elements));
+        }
+
+        function loadLayout() {
+            const data = localStorage.getItem('cover_layout');
+            if(!data) return;
+            const elements = JSON.parse(data);
+            const currentDraggables = document.querySelectorAll('.draggable');
+            
+            elements.forEach((saved, i) => {
+                if(currentDraggables[i]) {
+                    const el = currentDraggables[i];
+                    el.setAttribute('data-x', saved.x);
+                    el.setAttribute('data-y', saved.y);
+                    el.style.transform = `translate(${saved.x}px, ${saved.y}px)`;
+                    if(saved.width) el.style.width = saved.width;
+                    if(saved.height) el.style.height = saved.height;
+                    
+                    // バッジが消えている場合は再注入
+                    if(!el.querySelector('.fix-badge')) {
+                        const badge = document.createElement('div');
+                        badge.className = 'fix-badge';
+                        badge.innerText = '✨ この配置で決定！';
+                        badge.onclick = (e) => { e.stopPropagation(); toggleGlobalLock(); };
+                        el.appendChild(badge);
+                    }
+                }
+            });
+        }
+
+        // ページ読み込み時に復元
+        window.addEventListener('load', loadLayout);
+
+        function download() {
+            if(!bgImg.src) return alert("画像をアップロードしてください");
+            html2canvas(wrapper, { scale: 3, useCORS: true }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `cover_pro_${Date.now()}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>

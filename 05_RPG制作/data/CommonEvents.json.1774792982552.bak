@@ -1,0 +1,38 @@
+[
+null,
+{"id":1,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0},
+{
+  "id": 2,
+  "name": "ABS実行：オノマトペ投擲",
+  "list": [
+    { "code": 355, "indent": 0, "parameters": [ "window.ABS.throwOnoma();"] },
+    { "code": 230, "indent": 0, "parameters": [ 12 ] },
+    { "code": 355, "indent": 0, "parameters": [ "window.ABS.checkHit();"] },
+    { "code": 0, "indent": 0, "parameters": [] }
+  ],
+  "switchId": 1,
+  "trigger": 0
+},
+{
+  "id": 3,
+  "name": "ABS監視：入力・管理",
+  "list": [
+    { "code": 111, "indent": 0, "parameters": [11, "pageup"] },
+    { "code": 117, "indent": 1, "parameters": [2] },
+    { "code": 230, "indent": 1, "parameters": [15] },
+    { "code": 0, "indent": 1, "parameters": [] },
+    { "code": 111, "indent": 0, "parameters": [11, "pagedown"] },
+    { "code": 117, "indent": 1, "parameters": [2] },
+    { "code": 230, "indent": 1, "parameters": [15] },
+    { "code": 0, "indent": 1, "parameters": [] },
+    { "code": 111, "indent": 0, "parameters": [11, "shift"] },
+    { "code": 355, "indent": 1, "parameters": [ "window.ABS.cycleType();"] },
+    { "code": 230, "indent": 1, "parameters": [20] },
+    { "code": 0, "indent": 1, "parameters": [] },
+    { "code": 0, "indent": 0, "parameters": [] }
+  ],
+  "switchId": 1,
+  "trigger": 2
+},
+{"id":4,"list":[{"code":0,"indent":0,"parameters":[]}],"name":"","switchId":1,"trigger":0}
+]

@@ -22,6 +22,15 @@ import { ANIMATION_CONSTANTS, VISUAL_CONSTANTS, PATH_CONSTANTS } from "../consta
  * @param fps - フレームレート
  * @param visual - 表示するビジュアルコンテンツ
  */
+import { getImagePath } from "../utils/path";
+
+/**
+ * シーンビジュアルコンポーネント
+ *
+ * @param frame - 現在のフレーム（シーン内の相対位置）
+ * @param fps - フレームレート
+ * @param visual - 表示するビジュアルコンテンツ
+ */
 export const SceneVisuals: React.FC<SceneVisualsProps> = React.memo(
   ({ frame, fps, visual }) => {
     // アニメーションスタイル計算
@@ -102,17 +111,3 @@ export const SceneVisuals: React.FC<SceneVisualsProps> = React.memo(
 );
 
 SceneVisuals.displayName = "SceneVisuals";
-
-/**
- * 画像パスを取得
- * リアリティ画像かどうかを判定して適切なパスを返す
- *
- * @param src - 画像ファイル名
- * @returns 画像の完全パス
- */
-function getImagePath(src: string): string {
-  const isReality = src.includes("stock_market_pro");
-  return isReality
-    ? `${PATH_CONSTANTS.REALITY_IMAGES_PATH}/${src}`
-    : `${PATH_CONSTANTS.CONTENT_IMAGES_PATH}/${src}`;
-}

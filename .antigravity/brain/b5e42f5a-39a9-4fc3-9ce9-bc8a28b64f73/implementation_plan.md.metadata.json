@@ -1,5 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
-  "summary": "Gmail連携スクリプト `scripts/fetch_gmail_diet.py` にアプリパスワードを設定し、動作確認を行います。",
-  "updatedAt": "2026-02-14T04:22:01.071219600Z"
-}

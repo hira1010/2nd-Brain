@@ -1,6 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
-  "summary": "Create EP06.1_複利の解説.md (4 pages) and update EP06 P30.5.\n1. Update EP06 P30.5: Change \"Start with Future Chronology\" to \"Start with Compound Interest\".\n2. Create EP06.1: 4 pages explaining Compound Interest with Telops.\n   - Page A: Definition of Compound Interest.\n   - Page B: Simple Interest vs Compound Interest.\n   - Page C: The Mechanism (Snowball/Rule of 72).\n   - Page D: Conclusion (Time).",
-  "updatedAt": "2026-02-13T14:21:29.713321300Z",
-  "version": "2"
-}

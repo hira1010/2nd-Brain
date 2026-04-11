@@ -29,10 +29,11 @@ import { VIDEO_CONFIG } from "./config";
 import { Subtitle } from "./components/Subtitle";
 import { Character } from "./components/Character";
 import { SceneVisuals } from "./components/SceneVisuals";
+import { AudioTrack } from "./components/AudioTrack";
 import { useCurrentScript } from "./hooks/useCurrentScript";
 import { useFrameCalculation } from "./hooks/useFrameCalculation";
 import { getAdjustedFrames } from "./utils/frameCalculations";
-import { AUDIO_CONSTANTS, PATH_CONSTANTS } from "./constants";
+import { AUDIO_CONSTANTS } from "./constants";
 
 /**
  * メインビデオコンポーネント
@@ -76,24 +77,12 @@ export const Main: React.FC = () => {
         loop={AUDIO_CONSTANTS.BGM_LOOP}
       />
 
-      {/* 3. 音声シーケンス (VOICEVOX) */}
-      {scriptData.map((line, index) => {
-        const startFrame = getLineStartFrame(index);
-        const voicePath = `${PATH_CONSTANTS.VOICES_PATH}/${line.voiceFile}`;
-
-        return (
-          <Sequence
-            key={`audio-${line.id}`}
-            from={startFrame}
-            durationInFrames={getLineDuration(line)}
-          >
-            <Audio
-              src={staticFile(voicePath)}
-              playbackRate={VIDEO_CONFIG.playbackRate}
-            />
-          </Sequence>
-        );
-      })}
+      {/* 3. 音声トラック (VOICEVOX) */}
+      <AudioTrack
+        scriptData={scriptData}
+        getLineStartFrame={getLineStartFrame}
+        getLineDuration={getLineDuration}
+      />
 
       {/* 4. キャラクター表示 (ずんだもん) */}
       <Character

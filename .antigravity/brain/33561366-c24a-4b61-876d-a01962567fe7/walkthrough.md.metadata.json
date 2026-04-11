@@ -1,5 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
-  "summary": "Walkthrough of the refactoring process for the manga prompt system. Documents the changes to config, utils, and the main refactor script, as well as the verification steps.",
-  "updatedAt": "2026-02-09T12:27:04.262861600Z"
-}

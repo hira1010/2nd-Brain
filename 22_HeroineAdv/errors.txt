@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/screens.rpy", line 21: 'alpha' is not a keyword argument or valid child of the text statement.
+    text "⭐" pos (int(e.x), int(e.y)) size 80 outlines [(2, "#000", 0, 0)] alpha alpha_val rotate e.rotation
+                                                                              ^
+
+Ren'Py Version: Ren'Py 8.5.2.26010301
+Sat Apr 11 16:42:07 2026

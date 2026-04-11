@@ -1,6 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_TASK",
-  "summary": "Task to integrate Drive sync into the commit workflow.",
-  "updatedAt": "2026-02-19T13:12:59.630717Z",
-  "version": "6"
-}

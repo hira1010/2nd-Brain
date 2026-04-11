@@ -1,6 +1,0 @@
-{
-  "artifactType": "ARTIFACT_TYPE_TASK",
-  "summary": "Analyze user's workflow and current scripts to identify potential 'Global Skills' or 'Workflows' to automate repetitive tasks, specifically focusing on manga audio generation and production.",
-  "updatedAt": "2026-02-10T16:18:11.907211300Z",
-  "version": "7"
-}

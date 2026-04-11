@@ -18,17 +18,17 @@
     "editor:build": "cd editor && npm run build"
   },
   "dependencies": {
-    "@remotion/bundler": "^4.0.417",
-    "@remotion/cli": "^4.0.417",
-    "@remotion/google-fonts": "^4.0.417",
-    "@remotion/media": "^4.0.417",
-    "@remotion/player": "^4.0.417",
-    "@remotion/renderer": "^4.0.417",
-    "@remotion/tailwind-v4": "^4.0.417",
+    "@remotion/bundler": "^4.0.436",
+    "@remotion/cli": "^4.0.436",
+    "@remotion/google-fonts": "^4.0.436",
+    "@remotion/media": "^4.0.436",
+    "@remotion/player": "^4.0.436",
+    "@remotion/renderer": "^4.0.436",
+    "@remotion/tailwind-v4": "^4.0.436",
     "budoux": "^0.6.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "remotion": "^4.0.417",
+    "remotion": "^4.0.436",
     "yaml": "^2.3.4"
   },
   "devDependencies": {
