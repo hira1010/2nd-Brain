@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "renpy-mcp": {
+      "command": "c:/Users/hirak/Desktop/2nd-Brain/renpy-mcp/.venv/Scripts/renpy-mcp.exe",
+      "args": [],
+      "env": {
+        "RENPY_SDK_PATH": "C:/Users/hirak/Desktop/eroge/renpy-sdk/renpy-8.5.2-sdk",
+        "RENPY_PROJECT_PATH": "c:/Users/hirak/Desktop/2nd-Brain/22_HeroineAdv"
+      }
+    }
+  }
+}

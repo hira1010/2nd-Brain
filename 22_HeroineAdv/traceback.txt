@@ -1,15 +1,15 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 124, in script
-    $ _return = None
+  File "game/script.rpy", line 11, in script
+    call screen main_interaction
 AttributeError: 'Layout' object has no attribute 'yesno_prompt'
 
 -- Full Traceback ------------------------------------------------------------
 
 Traceback (most recent call last):
-  File "game/script.rpy", line 124, in script
-    $ _return = None
+  File "game/script.rpy", line 11, in script
+    call screen main_interaction
   File "renpy/ast.py", line 2241, in execute
     self.call("execute")
     ~~~~~~~~~^^^^^^^^^^^
@@ -64,4 +64,4 @@ AttributeError: 'Layout' object has no attribute 'yesno_prompt'
 Windows-11-10.0.26300-SP0 AMD64
 Ren'Py 8.5.2.26010301
 ヒロイン密着クリック＆チェキ経済ADV 1.0
-Sat Apr 11 17:18:02 2026
+Sun Apr 12 14:08:17 2026

@@ -2,9 +2,13 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 21: 'alpha' is not a keyword argument or valid child of the text statement.
-    text "⭐" pos (int(e.x), int(e.y)) size 80 outlines [(2, "#000", 0, 0)] alpha alpha_val rotate e.rotation
-                                                                              ^
+File "game/definitions.rpy", line 29: expected 'comma or end of line' not found.
+    repeat 3:
+            ^
+
+File "game/screens.rpy", line 102: 'spacer' is not a keyword argument or valid child of the hbox statement.
+    spacer
+          ^
 
 Ren'Py Version: Ren'Py 8.5.2.26010301
-Sat Apr 11 16:42:07 2026
+Sun Apr 12 13:20:34 2026
