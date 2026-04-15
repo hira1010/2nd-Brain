@@ -1,0 +1,12 @@
+[
+  null,
+  {
+    "id": 1,
+    "members": [{ "enemyId": 1, "x": 408, "y": 436, "hidden": false }],
+    "name": "初期トループ",
+    "pages": [{
+      "conditions": { "actorId": 1, "actorHp": 50, "enemyId": 1, "enemyHp": 50, "gold": 0, "switchId": 1, "turnA": 0, "turnB": 0, "turnEnding": false, "turnValid": false, "enemyValid": false, "actorValid": false, "switchValid": false },
+      "list": [{ "code": 0, "indent": 0, "parameters": [] }]
+    }]
+  }
+]

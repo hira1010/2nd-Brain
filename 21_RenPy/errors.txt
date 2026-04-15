@@ -1,0 +1,16 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+The label start is defined twice, at File "game/backup_original/script.rpyc", line 85:
+and File "game/test_version.rpy", line 87:
+label start:
+
+
+The label take_photo is defined twice, at File "game/backup_original/script.rpyc", line 92:
+and File "game/test_version.rpy", line 93:
+label take_photo:
+
+
+Ren'Py Version: Ren'Py 8.5.2.26010301
+Wed Apr 15 17:41:12 2026

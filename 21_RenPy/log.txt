@@ -1,0 +1,19 @@
+2026-04-15 08:41:10 UTC
+Windows-11-10.0.26300-SP0
+Ren'Py 8.5.2.26010301
+
+Early init took 51 ms
+Loading error handling took 58 ms
+Loading script took 1382 ms
+Loading save slot metadata took 135 ms
+Loading persistent took 0 ms
+
+The label start is defined twice, at File "game/backup_original/script.rpyc", line 85:
+and File "game/test_version.rpy", line 87:
+label start:
+
+
+The label take_photo is defined twice, at File "game/backup_original/script.rpyc", line 92:
+and File "game/test_version.rpy", line 93:
+label take_photo:
+

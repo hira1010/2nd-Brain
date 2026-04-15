@@ -1,0 +1,14 @@
+body {
+    background-color: #000000;
+    overflow: hidden;
+}
+
+canvas {
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+@font-face {
+    font-family: "GameFont";
+    src: url("../fonts/mplus-1m-regular.woff");
+}

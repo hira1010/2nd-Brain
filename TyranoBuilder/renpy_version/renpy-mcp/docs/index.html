@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RenPy MCP + DevTools — 60 AI-Powered Tools for Ren'Py Visual Novel Development</title>
+<meta name="description" content="RenPy MCP + DevTools is an MCP server with 60 tools for Ren'Py visual novel development. Preview scenes, analyze story flow, manage translations, automate testing, and live-debug your game — all through natural language with Claude or any MCP client.">
+<meta name="keywords" content="Ren'Py, RenPy, MCP, Model Context Protocol, visual novel, AI tools, game development, Claude, translation, automated testing, story analysis, live debugging, indie game dev">
+<meta name="author" content="y1">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://renpy-mcp.abyo.net/">
+<meta name="google-site-verification" content="j_38B31_Zs4aYgwSYADEwQkwdIMI8jhr4Dz47VPXUrE" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://renpy-mcp.abyo.net/">
+<meta property="og:title" content="RenPy MCP + DevTools — 60 AI-Powered Tools for Ren'Py Visual Novel Development">
+<meta property="og:description" content="Connect your AI assistant directly to your Ren'Py project. Preview scenes, run tests, analyze story flow, manage translations, and live-debug your visual novel through natural language.">
+<meta property="og:site_name" content="RenPy MCP + DevTools">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RenPy MCP + DevTools — 60 AI Tools for Ren'Py">
+<meta name="twitter:description" content="Preview scenes, analyze stories, manage translations, and live-debug your Ren'Py visual novel through natural language. 60 MCP tools, $5.">
+
+<!-- Structured Data: SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "RenPy MCP + DevTools",
+  "description": "An MCP server with 60 AI-powered tools for Ren'Py visual novel development. Supports scene preview, story analysis, translation management, automated testing, live debugging, web dashboard, and documentation search.",
+  "url": "https://renpy-mcp.abyo.net/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "offers": {
+    "@type": "Offer",
+    "price": "5.00",
+    "priceCurrency": "USD",
+    "url": "https://y1uda.itch.io/renpy-mcp",
+    "availability": "https://schema.org/InStock"
+  },
+  "softwareRequirements": "Ren'Py SDK 8.x, Python 3.11+, MCP-compatible AI client (Claude Code, Claude Desktop)",
+  "featureList": [
+    "Scene screenshot via warp",
+    "Story flow graph generation",
+    "Dead-end detection",
+    "Character map and dialogue statistics",
+    "Automated test execution",
+    "Translation completion tracking",
+    "Auto-translate missing strings",
+    "Rename characters across all files",
+    "Live game debugging via IPC bridge",
+    "Web dashboard with story map, live preview, script editor",
+    "Ren'Py documentation search (89 topics)"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "y1"
+  }
+}
+</script>
+
+<!-- Structured Data: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is RenPy MCP + DevTools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RenPy MCP + DevTools is an MCP (Model Context Protocol) server that connects AI assistants like Claude directly to Ren'Py visual novel projects. It provides 60 tools across 10 categories: project management, visual preview, automated testing, story analysis, asset management, refactoring, translation, live debugging, web dashboard, and documentation search."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What AI clients work with RenPy MCP + DevTools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RenPy MCP + DevTools works with any MCP-compatible AI client, including Claude Code, Claude Desktop, and other tools that support the Model Context Protocol."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the system requirements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You need Ren'Py SDK 8.x, Python 3.11 or later, and an MCP-compatible AI client. RenPy MCP + DevTools runs on Windows, macOS, and Linux."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can RenPy MCP + DevTools take screenshots of my game?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The screenshot_scene tool warps Ren'Py to any script location and captures a real game screenshot automatically. You can describe the scene in natural language and the AI will find the right location."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does RenPy MCP + DevTools support translation management?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. RenPy MCP + DevTools includes 7 translation tools: list_translations shows completion percentages per language, find_untranslated lists missing strings, and auto_translate prepares entries for AI-assisted translation. It supports all languages that Ren'Py handles."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does RenPy MCP + DevTools cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RenPy MCP + DevTools costs $5 USD as a one-time purchase on itch.io. There are no subscriptions or recurring fees."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Structured Data: VideoObject -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "RenPy MCP + DevTools — 60 AI Tools for Ren'Py Visual Novel Development (Demo)",
+  "description": "Demo of RenPy MCP + DevTools showing project setup, story analysis, character mapping, scene screenshot, translation workflow, refactoring, quality checks, and documentation search.",
+  "thumbnailUrl": "https://img.youtube.com/vi/_CCwQP-Ey58/maxresdefault.jpg",
+  "uploadDate": "2026-03-07",
+  "contentUrl": "https://youtu.be/_CCwQP-Ey58",
+  "embedUrl": "https://www.youtube.com/embed/_CCwQP-Ey58"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-card-hover: #1a1a26;
+  --border: #1e1e2e;
+  --text: #e4e4ef;
+  --text-dim: #8888a0;
+  --accent: #ff6b9d;
+  --accent2: #c084fc;
+  --accent3: #60a5fa;
+  --accent4: #34d399;
+  --gradient: linear-gradient(135deg, #ff6b9d, #c084fc, #60a5fa);
+  --font: 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Glow background */
+.glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(150px);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+.glow-1 { background: var(--accent); top: -200px; left: -100px; }
+.glow-2 { background: var(--accent2); top: 40%; right: -200px; }
+.glow-3 { background: var(--accent3); bottom: -100px; left: 30%; }
+
+/* Layout */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10, 10, 15, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+nav .container {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-weight: 800; font-size: 1.2rem;
+  background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-discord {
+  color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s;
+}
+.nav-discord:hover { color: var(--text); }
+.nav-cta {
+  padding: 8px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+  background: var(--gradient); color: #fff; text-decoration: none; transition: opacity 0.2s;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* Hero */
+.hero {
+  padding: 160px 0 100px;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px; border-radius: 99px;
+  background: rgba(192, 132, 252, 0.1);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  color: var(--accent2);
+  font-size: 0.85rem; font-weight: 600;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+.hero h1 .gradient {
+  background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p {
+  font-size: 1.25rem;
+  color: var(--text-dim);
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+.hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border-radius: 12px;
+  font-weight: 600; font-size: 1rem;
+  text-decoration: none; transition: all 0.2s;
+}
+.btn-primary { background: var(--gradient); color: #fff; }
+.btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+.btn-secondary { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg-card-hover); border-color: #333; }
+
+/* Video embed */
+.video-section {
+  max-width: 800px; margin: 60px auto 0;
+}
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+.video-container iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+
+/* Terminal demo */
+.terminal {
+  max-width: 720px; margin: 40px auto 0;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+  text-align: left;
+}
+.terminal-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+}
+.terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+.terminal-dot:nth-child(1) { background: #ff5f57; }
+.terminal-dot:nth-child(2) { background: #febc2e; }
+.terminal-dot:nth-child(3) { background: #28c840; }
+.terminal-bar span { margin-left: 8px; color: var(--text-dim); font-size: 0.8rem; font-family: var(--mono); }
+.terminal-body { padding: 20px 24px; font-family: var(--mono); font-size: 0.85rem; line-height: 1.8; }
+.terminal-body .prompt { color: var(--accent4); }
+.terminal-body .cmd { color: var(--text); }
+.terminal-body .output { color: var(--text-dim); }
+.terminal-body .highlight { color: var(--accent); }
+.terminal-body .highlight2 { color: var(--accent2); }
+.terminal-body .highlight3 { color: var(--accent3); }
+
+/* Stats */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--border); border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; margin: 80px 0;
+}
+.stat {
+  background: var(--bg-card); padding: 32px; text-align: center;
+}
+.stat-number {
+  font-size: 2.5rem; font-weight: 800;
+  background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat-label { color: var(--text-dim); font-size: 0.9rem; margin-top: 4px; }
+
+/* Section */
+section { padding: 80px 0; }
+.section-label {
+  text-transform: uppercase; font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 2px; color: var(--accent2); margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800; margin-bottom: 16px;
+}
+.section-desc { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; }
+
+/* Feature grid */
+.features {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; margin-top: 48px;
+}
+.feature {
+  background: var(--bg-card); padding: 32px;
+  transition: background 0.2s;
+}
+.feature:hover { background: var(--bg-card-hover); }
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 16px;
+}
+.feature h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+.feature p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
+.fi-project { background: rgba(255, 107, 157, 0.1); }
+.fi-preview { background: rgba(96, 165, 250, 0.1); }
+.fi-test { background: rgba(52, 211, 153, 0.1); }
+.fi-analysis { background: rgba(192, 132, 252, 0.1); }
+.fi-asset { background: rgba(251, 191, 36, 0.1); }
+.fi-refactor { background: rgba(244, 114, 182, 0.1); }
+.fi-translate { background: rgba(96, 165, 250, 0.1); }
+.fi-live { background: rgba(52, 211, 153, 0.1); }
+.fi-docs { background: rgba(255, 107, 157, 0.1); }
+.fi-webui { background: rgba(251, 191, 36, 0.1); }
+
+/* Comparison */
+.comparison {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; margin-top: 48px;
+}
+.comparison-card {
+  padding: 32px; border-radius: 16px;
+  border: 1px solid var(--border);
+}
+.comparison-card.before { background: rgba(255, 80, 80, 0.03); }
+.comparison-card.after { background: rgba(52, 211, 153, 0.03); border-color: rgba(52, 211, 153, 0.2); }
+.comparison-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+.comparison-card.before h3 { color: #f87171; }
+.comparison-card.after h3 { color: var(--accent4); }
+.comparison-card ul { list-style: none; }
+.comparison-card li {
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  color: var(--text-dim); font-size: 0.9rem;
+}
+.comparison-card li:last-child { border-bottom: none; }
+.comparison-card.before li::before { content: "\2717  "; color: #f87171; }
+.comparison-card.after li::before { content: "\2713  "; color: var(--accent4); }
+
+/* How it works */
+.steps {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px; margin-top: 48px;
+}
+.step {
+  padding: 32px; border-radius: 16px;
+  background: var(--bg-card); border: 1px solid var(--border);
+}
+.step-number {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1rem;
+  background: var(--gradient); color: #fff;
+  margin-bottom: 16px;
+}
+.step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+.step p { color: var(--text-dim); font-size: 0.9rem; }
+.step code {
+  display: block; margin-top: 12px; padding: 12px;
+  background: rgba(0,0,0,0.3); border-radius: 8px;
+  font-family: var(--mono); font-size: 0.8rem; color: var(--accent4);
+  overflow-x: auto;
+}
+
+/* Architecture */
+.arch-diagram {
+  margin-top: 48px; padding: 40px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; text-align: center;
+  font-family: var(--mono); font-size: 0.85rem;
+}
+.arch-diagram pre {
+  display: inline-block; text-align: left;
+  color: var(--text-dim); line-height: 1.8;
+}
+.arch-diagram .a-accent { color: var(--accent); }
+.arch-diagram .a-accent2 { color: var(--accent2); }
+.arch-diagram .a-accent3 { color: var(--accent3); }
+.arch-diagram .a-accent4 { color: var(--accent4); }
+
+/* FAQ */
+.faq-list { margin-top: 48px; max-width: 800px; }
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: var(--bg-card);
+  transition: background 0.2s;
+}
+.faq-item[open] { background: var(--bg-card-hover); }
+.faq-item summary {
+  padding: 20px 24px;
+  font-weight: 600; font-size: 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::before {
+  content: "+"; margin-right: 12px;
+  color: var(--accent2); font-weight: 800;
+}
+.faq-item[open] summary::before { content: "−"; }
+.faq-item p {
+  padding: 0 24px 20px;
+  color: var(--text-dim); font-size: 0.95rem; line-height: 1.7;
+}
+.faq-item code {
+  font-family: var(--mono); font-size: 0.85em;
+  background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;
+}
+
+/* CTA */
+.cta-section {
+  padding: 100px 0; text-align: center;
+}
+.cta-box {
+  padding: 64px; border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.08), rgba(192,132,252,0.08), rgba(96,165,250,0.08));
+  border: 1px solid rgba(192, 132, 252, 0.15);
+}
+.cta-box h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; }
+.cta-box p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 32px; }
+
+/* Footer */
+footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-dim); font-size: 0.85rem;
+}
+footer a { color: var(--accent2); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 12px; }
+
+/* Showcase */
+.showcase {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 32px; margin-top: 48px;
+}
+.showcase-item {
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  transition: border-color 0.3s;
+}
+.showcase-item:hover { border-color: rgba(192, 132, 252, 0.3); }
+.showcase-item img {
+  width: 100%; height: auto; display: block;
+  border-bottom: 1px solid var(--border);
+}
+.showcase-item .showcase-info { padding: 20px 24px; }
+.showcase-item h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+.showcase-item p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
+.showcase-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 99px;
+  font-size: 0.75rem; font-weight: 600; margin-left: 8px;
+  background: rgba(52, 211, 153, 0.1); color: var(--accent4);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  vertical-align: middle;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .features { grid-template-columns: repeat(2, 1fr); }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .comparison { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .showcase { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .features { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { display: none; }
+  .nav-discord { display: none; }
+  .hero { padding: 120px 0 60px; }
+  .cta-box { padding: 40px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="container">
+    <div class="nav-logo">RenPy MCP + DevTools</div>
+    <ul class="nav-links">
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#web-ui">Web UI</a></li>
+      <li><a href="#how-it-works">Setup</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://discord.gg/N6sSHBGuYX" class="nav-discord" target="_blank" rel="noopener">Discord</a>
+      <a href="https://y1uda.itch.io/renpy-mcp" class="nav-cta" target="_blank" rel="noopener">Get it &mdash; $5</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">60 Tools &middot; 10 Categories &middot; $5 &middot; Open MCP Protocol</div>
+    <h1>AI-Powered Dev Tools<br>for <span class="gradient">Ren'Py</span></h1>
+    <p>Connect your AI assistant directly to your Ren'Py project. Preview, test, analyze, translate, and live-debug your visual novel through natural language.</p>
+    <div class="hero-buttons">
+      <a href="https://y1uda.itch.io/renpy-mcp" class="btn btn-primary" target="_blank" rel="noopener">
+        Get it on itch.io &mdash; $5
+      </a>
+      <a href="#demo" class="btn btn-secondary">Watch Demo</a>
+    </div>
+
+    <!-- Video Demo -->
+    <div class="video-section" id="demo">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/_CCwQP-Ey58" title="RenPy MCP + DevTools Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- Terminal Demo -->
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <span>Claude Code</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">you&gt;</span> <span class="cmd">Show me the character map for my game</span></div>
+        <div><span class="output">&nbsp;</span></div>
+        <div><span class="prompt">mcp&gt;</span> <span class="output">calling</span> <span class="highlight2">character_map</span></div>
+        <div><span class="output">&nbsp;</span></div>
+        <div><span class="output">  <span class="highlight">Sylvie</span> (s) &mdash; 18 lines, appears in: rightaway, game, book, marry</span></div>
+        <div><span class="output">  <span class="highlight">Me</span> (m) &mdash; 22 lines, appears in: rightaway, game, book, marry</span></div>
+        <div><span class="output">  <span class="highlight3">Narrator</span> &mdash; 35 lines, appears in: start, rightaway, marry, later</span></div>
+        <div><span class="output">&nbsp;</span></div>
+        <div><span class="prompt">you&gt;</span> <span class="cmd">How complete are the Japanese translations?</span></div>
+        <div><span class="output">&nbsp;</span></div>
+        <div><span class="prompt">mcp&gt;</span> <span class="output">calling</span> <span class="highlight2">list_translations</span></div>
+        <div><span class="output">&nbsp;</span></div>
+        <div><span class="output">  japanese: <span class="highlight3">495/538</span> translated (<span class="highlight">92.0%</span>)</span></div>
+        <div><span class="output">  korean:&nbsp;&nbsp; <span class="highlight3">80/80</span>&nbsp;&nbsp; translated (<span class="highlight">100%</span>)</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Stats -->
+<div class="container">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-number">60</div>
+      <div class="stat-label">MCP Tools</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">10</div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">89</div>
+      <div class="stat-label">Doc Topics</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">12</div>
+      <div class="stat-label">Live Debug Tools</div>
+    </div>
+  </div>
+</div>
+
+<!-- Before/After -->
+<section>
+  <div class="container">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Ren'Py development is manual.</h2>
+    <p class="section-desc">Every check requires launching the game, clicking through scenes, and reading files by hand. RenPy MCP + DevTools automates the entire loop.</p>
+    <div class="comparison">
+      <div class="comparison-card before">
+        <h3>Without</h3>
+        <ul>
+          <li>Launch game to visually check each scene</li>
+          <li>Click through routes to test story paths</li>
+          <li>Search .rpy files with grep</li>
+          <li>Count translation progress manually</li>
+          <li>Rename characters with find-and-replace across files</li>
+          <li>No way to inspect a running game's state</li>
+        </ul>
+      </div>
+      <div class="comparison-card after">
+        <h3>With</h3>
+        <ul>
+          <li>screenshot_scene captures any scene instantly</li>
+          <li>run_test executes automated test cases</li>
+          <li>search_script with regex across all scripts</li>
+          <li>list_translations shows completion % per language</li>
+          <li>rename_character handles all files in one call</li>
+          <li>live_get_state shows every variable in real time</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything you need, in one server.</h2>
+    <p class="section-desc">60 tools across 10 categories covering every aspect of Ren'Py development, from first script to final build.</p>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon fi-project">&#128736;</div>
+        <h3>Project Management</h3>
+        <p>Lint, compile, build distributions, inspect package configuration. 7 tools to manage your project lifecycle.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-preview">&#127912;</div>
+        <h3>Visual Preview</h3>
+        <p>Screenshot any scene by warping to it. Generate visual galleries of your entire game automatically.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-test">&#9989;</div>
+        <h3>Automated Testing</h3>
+        <p>Run test cases, create new tests, generate pass/fail reports across all story routes.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-analysis">&#128202;</div>
+        <h3>Story Analysis</h3>
+        <p>13 tools: character maps, variable tracking, dead-end detection, dialogue consistency, accessibility checks, and more.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-asset">&#127924;</div>
+        <h3>Asset Management</h3>
+        <p>List all images and audio, find unused assets, verify dimensions match your game resolution.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-refactor">&#128295;</div>
+        <h3>Refactoring</h3>
+        <p>Rename characters and labels across all files with dry-run preview. Extract routes, insert dialogue precisely.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-translate">&#127760;</div>
+        <h3>Translation</h3>
+        <p>View completion per language, find missing strings, generate templates, prepare entries for AI translation.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-live">&#9889;</div>
+        <h3>Live Integration</h3>
+        <p>12 tools for real-time debugging: eval expressions, inspect styles, jump to labels, set variables, take screenshots of the running game.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-docs">&#128214;</div>
+        <h3>Documentation</h3>
+        <p>Search 89 official Ren'Py doc topics directly from your AI assistant. No browser needed.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon fi-webui">&#128421;</div>
+        <h3>Web Dashboard</h3>
+        <p>5 visual tools in your browser: story map, dev dashboard, script editor, heatmap, and asset manager. Click-to-warp navigation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Web UI -->
+<section id="web-ui">
+  <div class="container">
+    <div class="section-label">Visual Development</div>
+    <h2 class="section-title">Built-in Web Dashboard. <span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">No IDE required.</span></h2>
+    <p class="section-desc">5 interactive web tools that open in your browser. Visualize your story, control the running game, edit scripts, and manage assets &mdash; all connected to the live game via IPC bridge.</p>
+    <div class="showcase">
+      <div class="showcase-item">
+        <img src="img/story-map.png" alt="Interactive Story Map showing label connections, jump/call edges, color-coded node types, and click-to-warp navigation" loading="lazy">
+        <div class="showcase-info">
+          <h3>Story Map <span class="showcase-badge">Click to Warp</span></h3>
+          <p>Interactive graph of all labels and connections. Color-coded by type (start, choice, dead-end, orphan). Click any node to warp the running game to that scene with correct visual state.</p>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <img src="img/dashboard.png" alt="Dev Dashboard with live game preview, variable inspector, quick actions for jump/eval/notify" loading="lazy">
+        <div class="showcase-info">
+          <h3>Dev Dashboard <span class="showcase-badge">Live Preview</span></h3>
+          <p>Real-time game state, live screenshot preview (auto-refreshing), variable inspector, and quick actions &mdash; jump to labels, evaluate expressions, send notifications, set variables.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it Works -->
+<section id="how-it-works">
+  <div class="container">
+    <div class="section-label">Setup</div>
+    <h2 class="section-title">Three steps to get started.</h2>
+    <p class="section-desc">Works with Claude Desktop, Claude Code, and any MCP-compatible client.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Install</h3>
+        <p>Download from itch.io, extract, and install with uv or pip.</p>
+        <code>cd renpy-mcp<br>uv venv &amp;&amp; uv pip install -e .</code>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Configure</h3>
+        <p>Add the server to your MCP client config with your SDK path.</p>
+        <code>{<br>&nbsp;&nbsp;"mcpServers": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"renpy-mcp": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"command": "uv",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"args": ["run", "renpy-mcp"],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"env": { "RENPY_SDK_PATH": "..." }<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</code>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Use</h3>
+        <p>Ask your AI assistant to work with your Ren'Py project in natural language.</p>
+        <code>"Set my project to /path/to/game"<br>"Show me the character map"<br>"Take a screenshot of chapter 2"<br>"How complete are translations?"</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-label">Architecture</div>
+    <h2 class="section-title">Two integration modes.</h2>
+    <p class="section-desc">CLI batch for offline analysis, file-based IPC for live game debugging.</p>
+    <div class="arch-diagram">
+      <pre>
+<span class="a-accent2">AI Client</span>          <span class="a-accent">MCP Protocol</span>          <span class="a-accent3">RenPy MCP + DevTools</span>
+(Claude)    &lt;--- JSON-RPC over stdio ---&gt;    (Python)
+                                                 |
+                                          +------+------+
+                                          |             |
+                                   <span class="a-accent4">CLI Batch</span>     <span class="a-accent4">File IPC</span>
+                                   renpy.exe     bridge_script.rpy
+                                   (lint,        (cmd.json &rarr;
+                                    test,         status.json)
+                                    warp,
+                                    compile)
+      </pre>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>What is RenPy MCP + DevTools?</summary>
+        <p>RenPy MCP + DevTools is an MCP (Model Context Protocol) server that connects AI assistants like Claude directly to Ren'Py visual novel projects. It provides 60 tools across 10 categories &mdash; project management, visual preview, automated testing, story analysis, asset management, refactoring, translation, live debugging, web dashboard, and documentation search &mdash; all accessible through natural language.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What AI clients does it work with?</summary>
+        <p>RenPy MCP + DevTools works with any MCP-compatible AI client, including Claude Code, Claude Desktop, and other tools that support the Model Context Protocol. No vendor lock-in.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What are the system requirements?</summary>
+        <p>Ren'Py SDK 8.x, Python 3.11+, and an MCP-compatible AI client. Runs on Windows, macOS, and Linux.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can it take screenshots of my game?</summary>
+        <p>Yes. The <code>screenshot_scene</code> tool warps Ren'Py to any script location and captures a real game screenshot automatically. Describe the scene in natural language and the AI finds the right location.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it support translation management?</summary>
+        <p>Yes. 7 translation tools: <code>list_translations</code> shows completion % per language, <code>find_untranslated</code> lists missing strings, and <code>auto_translate</code> prepares entries for AI-assisted translation. Supports all languages Ren'Py handles.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I debug a running game?</summary>
+        <p>Yes. The live integration suite (12 tools) connects to a running game via a file-based IPC bridge. Evaluate expressions, inspect styles, jump to labels, set variables, and take screenshots &mdash; all while the game runs.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How much does it cost?</summary>
+        <p>$5 USD one-time purchase on itch.io. No subscriptions or recurring fees. Use it on any number of projects.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Start building with AI.</h2>
+      <p>60 tools. One server. Ship your visual novel faster.</p>
+      <div class="hero-buttons">
+        <a href="https://y1uda.itch.io/renpy-mcp" class="btn btn-primary" target="_blank" rel="noopener">
+          Get it on itch.io &mdash; $5
+        </a>
+        <a href="https://discord.gg/N6sSHBGuYX" class="btn btn-secondary" target="_blank" rel="noopener">
+          Join Discord
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://y1uda.itch.io/renpy-mcp" target="_blank" rel="noopener">itch.io</a>
+      <a href="https://discord.gg/N6sSHBGuYX" target="_blank" rel="noopener">Discord</a>
+      <a href="https://youtu.be/_CCwQP-Ey58" target="_blank" rel="noopener">YouTube</a>
+    </div>
+    <p>RenPy MCP + DevTools &mdash; Built for the <a href="https://www.renpy.org/" target="_blank" rel="noopener">Ren'Py</a> community.</p>
+  </div>
+</footer>
+
+</body>
+</html>

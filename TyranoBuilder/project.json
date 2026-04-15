@@ -1,0 +1,10 @@
+{
+    "project_name": "23_HeroineAdv",
+    "ver": "1.0",
+    "media_width": 1280,
+    "media_height": 720,
+    "main_scenario": "scene1.ks",
+    "save_slot": 10,
+    "tyrano_version": "v5",
+    "screen_ratio": "fix"
+}
