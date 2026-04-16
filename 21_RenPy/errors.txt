@@ -13,4 +13,4 @@ label take_photo:
 
 
 Ren'Py Version: Ren'Py 8.5.2.26010301
-Wed Apr 15 17:41:12 2026
+Thu Apr 16 10:14:02 2026
