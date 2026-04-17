@@ -36,6 +36,7 @@ IGNORE_PATTERNS = [
     ".vscode",
     "browser_recordings",
     "*.bak",
+    ".tmp.driveupload",  # Googleドライブが内部で使う一時ファイル（コピー中に消えてエラーになるため除外）
     ".pi",
     ".pochi",
     ".qoder",
