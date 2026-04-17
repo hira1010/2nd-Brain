@@ -2,15 +2,25 @@
 errors listed below, and try again.
 
 
-The label start is defined twice, at File "game/backup_original/script.rpyc", line 85:
-and File "game/test_version.rpy", line 87:
+The label start is defined twice, at File "game/backup_original/script.rpy", line 85:
+and File "game/test_version.rpy", line 195:
 label start:
 
 
-The label take_photo is defined twice, at File "game/backup_original/script.rpyc", line 92:
-and File "game/test_version.rpy", line 93:
+The label take_photo is defined twice, at File "game/backup_original/script.rpy", line 92:
+and File "game/test_version.rpy", line 206:
 label take_photo:
 
 
+The label punishment_start is defined twice, at File "game/backup_original/script.rpy", line 115:
+and File "game/test_version.rpy", line 232:
+label punishment_start:
+
+
+The label open_shop is defined twice, at File "game/backup_original/script.rpy", line 128:
+and File "game/test_version.rpy", line 242:
+label open_shop:
+
+
 Ren'Py Version: Ren'Py 8.5.2.26010301
-Thu Apr 16 10:14:02 2026
+Thu Apr 16 10:43:21 2026

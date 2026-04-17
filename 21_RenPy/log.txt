@@ -1,19 +1,623 @@
-2026-04-16 01:14:00 UTC
+2026-04-17 01:21:31 UTC
 Windows-11-10.0.26300-SP0
 Ren'Py 8.5.2.26010301
 
-Early init took 59 ms
+Early init took 51 ms
 Loading error handling took 54 ms
-Loading script took 1352 ms
-Loading save slot metadata took 124 ms
+Loading script took 1228 ms
+Loading save slot metadata took 90 ms
 Loading persistent took 0 ms
+Running init code took 165 ms
+Loading analysis data took 3 ms
+Analyze and compile ATL took 0 ms
+Reloading save slot metadata took 93 ms
+Dump and make backups took 0 ms
+Cleaning cache took 0 ms
+Making clean stores took 0 ms
+Initial gc took 33 ms
+DPI scale factor: 1.250000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object took 190 ms
+Init translation took 0 ms
+Cleaning stores took 2 ms
+Load screen analysis took 9 ms
+Analyze screens took 0 ms
+Save screen analysis took 0 ms
+Save pyanalysis took 0 ms
+Save bytecode took 0 ms
+﻿Ren'Py 8.5.2.26010301 lint report, generated at: Fri Apr 17 10:21:33 2026
 
-The label start is defined twice, at File "game/backup_original/script.rpyc", line 85:
-and File "game/test_version.rpy", line 87:
-label start:
+
+Obsolete Image Manipulators:
+
+game/test_version.rpy:
+    * line     8 im.Scale
+
+audio/intense/109うっ！？.wav contains non-ASCII characters in its filename.
+(ZIP file distributions can only reliably include ASCII filenames.)
+
+audio/intense/141だしてっ.wav contains non-ASCII characters in its filename.
+
+audio/intense/154ひぎぃぃぃぃぃ.wav contains non-ASCII characters in its filename.
+
+audio/intense/155ひぎぃっ！.wav contains non-ASCII characters in its filename.
+
+audio/intense/172もうだめぇぇぇぇ！！.wav contains non-ASCII characters in its filename.
+
+audio/intense/179やらあああああっ！！.wav contains non-ASCII characters in its filename.
+
+audio/intense/79イグ～～～ッ.wav contains non-ASCII characters in its filename.
+
+audio/intense/83いぐぅぅぅぅぅ！！！.wav contains non-ASCII characters in its filename.
+
+audio/intense/90イ゛グッッ.wav contains non-ASCII characters in its filename.
+
+audio/intense/92イっちゃった….wav contains non-ASCII characters in its filename.
+
+audio/mild/04あ….wav contains non-ASCII characters in its filename.
+
+audio/mild/08あ？.wav contains non-ASCII characters in its filename.
+
+audio/mild/38あっ.wav contains non-ASCII characters in its filename.
+
+audio/mild/46あっ？.wav contains non-ASCII characters in its filename.
+
+audio/mild/48あっ２.wav contains non-ASCII characters in its filename.
+
+audio/mild/54あふ.wav contains non-ASCII characters in its filename.
+
+audio/mild/55あふ….wav contains non-ASCII characters in its filename.
+
+audio/mild/56あふっ.wav contains non-ASCII characters in its filename.
+
+audio/mild/58あへ.wav contains non-ASCII characters in its filename.
+
+audio/mild/60あむ.wav contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__01ア゛.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__02ア！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__03あ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__04あ….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__06あ…っ？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__07ア…ッ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__08あ？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__09ア゛？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__100うぎゅう (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__100うぎゅう.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__101うぎゅう….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__102うく…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__103うく…っ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__104うくぅ…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__105うぐぅっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__106ヴッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__107う゛っ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__107う゛っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__108ウッ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__109うっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__10あ゛？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__110うひぃっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__111うひっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__112うぶっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__113うぷっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__114えぁ…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__116おくきたぁ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__117おくだめぇっ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__117おくだめぇっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__118オッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__119おひぃっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__11あ゛～～～….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__121お゛ほっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__122きてぇ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__125きゃうん！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__126きゃうんっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__128くぅん….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__129くぅん…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__12あ～～～…ん.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__131ここすきぃっ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__132ごめんなさいっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__133これイイッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__135こんなの無理ィ….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__137そこ…っ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__138それすきぃっ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__138それすきぃっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__139それすきっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__13アァ…２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__140だいすきっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__142だめぇ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__143ダメェッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__144なあ゛っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__145な゛あ゛っ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__146はぅぅん.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__147はうっ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__148はふぅ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__149はふぅん.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__14あぁ…２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__150はむっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__151ひ…２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__152ひぃ！ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__152ひぃ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__153ヒィ….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__154ひぎぃぃぃぃぃ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__154ひぎぃぃぃぃぃ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__155ひぎぃっ！ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__155ひぎぃっ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__156ヒッ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__157ひっ！？ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__157ひっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__158フッ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__158フッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__159ふっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__160まって….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__161みて…２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__162みるな！ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__162みるな！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__163みるな…！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__164む～～っっ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__164む～～っっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__166ムグゥ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__167むぐぅ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__168ムリ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__169むり…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__16あぁ…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__170もういやぁっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__171もうだめ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__171もうだめ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__172もうだめぇぇぇぇ！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__173もうダメッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__174もがっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__175もがっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__176やぁっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__177やぁん！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__178やめて…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__179やらあああああっ！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__17ああ…っ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__17ああ…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__180ん….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__182んおおっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__183んお゛お゛っ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__184んくぅっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__185んぐぅっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__186ん゛っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__187ンッ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__188んぶっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__189んへぇ….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__190奥だめっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__191許してぇ….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__192見ちゃだめ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__193見ちゃダメェ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__194見てっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__196見るなぁ…っ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__196見るなぁ…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__197見るなぁ…っ！ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__197見るなぁ…っ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__198無理ィ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__199無理だからぁっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__19あぁっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__20アアッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__21あぁっ？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__22あぁっ２ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__22あぁっ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__23アァン.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__24あぁん…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__26あぁんっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__27あう～～～っっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__28あうううんっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__29あうっ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__30あぅんっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__31あぇ….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__32あぇっ？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__33あぐあぐ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__34あぐぅ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__35あぐぅっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__36あぐぅっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__37あぐっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__38あっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__39アッ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__40あっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__41あっ！？2.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__42ア゛ッ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__43あ゛っ！？２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__44アッ！２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__45ア゛ッ！？２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__46あっ？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__48あっ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__49ア゛ッ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__50あ゛っ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__51あ゛っお゛っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__52あひっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__53あひっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__54あふ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__55あふ….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__56あふっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__57あふん.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__58あへ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__59あへぇ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__60あむ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__61_1あむあむ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__61_2あむあむ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__62あむっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__63アン (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__63アン.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__64あん (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__65アン….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__66い…っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__67いぁっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__68いあ゛っ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__69イかせてぇ！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__70イかせてぇっ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__70イかせてぇっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__71いかせてぇっ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__71いかせてぇっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__72いぎぃっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__73い゛ぎぃっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__75い゛ぎだい゛っっ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__75い゛ぎだい゛っっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__77いぎっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__78いぎゅっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__79イグ～～～ッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__80イグイグイグイグ！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__81イグゥ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__82イグゥゥゥゥゥ！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__83いぐぅぅぅぅぅ！！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__84いぐぅぅぅぅぅ！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__85イグゥッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__86イ゛グッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__87い゛ぐっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__88イクッ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__89いくっ２.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__90イ゛グッッ (1).ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__90イ゛グッッ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__91いっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__92イっちゃった….ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__93いっぱい出してぇ！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__94い゛やあああああ！！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__95いやぁっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__96いやあっ！！！.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__97いやっ.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__98うぎぃ！？.ogg contains non-ASCII characters in its filename.
+
+audio/se/AnyConv.com__99うぎぃっ！？.ogg contains non-ASCII characters in its filename.
+
+audio/sens/114えぁ…っ.wav contains non-ASCII characters in its filename.
+
+audio/sens/131ここすきぃっ.wav contains non-ASCII characters in its filename.
+
+audio/sens/134こんなの初めてっ.wav contains non-ASCII characters in its filename.
+
+audio/sens/136そこ…っ.wav contains non-ASCII characters in its filename.
+
+audio/sens/137そこ…っ！.wav contains non-ASCII characters in its filename.
+
+audio/sens/138それすきぃっ.wav contains non-ASCII characters in its filename.
+
+audio/sens/139それすきっ.wav contains non-ASCII characters in its filename.
+
+audio/sens/140だいすきっ.wav contains non-ASCII characters in its filename.
+
+audio/sens/142だめぇ.wav contains non-ASCII characters in its filename.
+
+audio/sens/149はふぅん.wav contains non-ASCII characters in its filename.
+
+img/pictures/01.ドキドキ.png contains non-ASCII characters in its filename.
+
+img/pictures/014.きゅん.png contains non-ASCII characters in its filename.
+
+img/pictures/015.わくわく.png contains non-ASCII characters in its filename.
+
+img/pictures/016.そわそわ.png contains non-ASCII characters in its filename.
+
+img/pictures/017.ふふつ.png contains non-ASCII characters in its filename.
+
+img/pictures/02.ふわっ.png contains non-ASCII characters in its filename.
+
+img/pictures/03.ドドド.png contains non-ASCII characters in its filename.
+
+img/pictures/04.ちゅちゅ.png contains non-ASCII characters in its filename.
+
+img/pictures/05.ん.png contains non-ASCII characters in its filename.
+
+img/pictures/06.ああっ.png contains non-ASCII characters in its filename.
+
+img/pictures/07.ドキ.png contains non-ASCII characters in its filename.
+
+img/pictures/08.ぐちゅっ.png contains non-ASCII characters in its filename.
+
+img/pictures/09.んっんっ.png contains non-ASCII characters in its filename.
+
+img/pictures/10.ああん.png contains non-ASCII characters in its filename.
+
+img/pictures/11.るんるん.png contains non-ASCII characters in its filename.
+
+img/pictures/12.バーン.png contains non-ASCII characters in its filename.
+
+img/pictures/AI　体重管理.xlsx contains non-ASCII characters in its filename.
+
+img/pictures/FANZAサンプル.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙ひな形.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙アイドルグラドル.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙アイドルグラドル2.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙アイドルグラドル3.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙カラーツインズ.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙ギャル.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙ギャル2.psd contains non-ASCII characters in its filename.
+
+img/pictures/FANZA表紙ギャル3.psd contains non-ASCII characters in its filename.
+
+img/pictures/かくフキ1.png contains non-ASCII characters in its filename.
+
+img/pictures/かくフキ2.png contains non-ASCII characters in its filename.
+
+img/pictures/かくフキ3.png contains non-ASCII characters in its filename.
+
+img/pictures/ぐにょフキ1.png contains non-ASCII characters in its filename.
+
+img/pictures/ぐにょフキ2.png contains non-ASCII characters in its filename.
+
+img/pictures/ぐにょフキ3.png contains non-ASCII characters in its filename.
+
+img/pictures/ぐにょフキ4.png contains non-ASCII characters in its filename.
+
+img/pictures/ぐにょフキ5.png contains non-ASCII characters in its filename.
+
+img/pictures/さけびフキ1.png contains non-ASCII characters in its filename.
+
+img/pictures/まるフキ1.png contains non-ASCII characters in its filename.
+
+img/pictures/まるフキ2.png contains non-ASCII characters in its filename.
+
+img/pictures/まるフキ3.png contains non-ASCII characters in its filename.
+
+img/pictures/まるフキ4.png contains non-ASCII characters in its filename.
+
+img/pictures/まん丸フキ.png contains non-ASCII characters in its filename.
+
+img/pictures/ウニフラ.png contains non-ASCII characters in its filename.
+
+img/pictures/ウニフラ2.png contains non-ASCII characters in its filename.
+
+img/pictures/カクフキ4.png contains non-ASCII characters in its filename.
+
+img/pictures/マンガテンプレコマ枠外周.png contains non-ASCII characters in its filename.
+
+img/pictures/マンガテンプレコマ枠横カット.png contains non-ASCII characters in its filename.
+
+img/pictures/マンガテンプレコマ枠縦カット.png contains non-ASCII characters in its filename.
+
+img/pictures/横線トーン白.png contains non-ASCII characters in its filename.
+
+img/pictures/機械フキダシ1.png contains non-ASCII characters in its filename.
+
+img/pictures/機械フキダシ2.png contains non-ASCII characters in its filename.
+
+img/pictures/機械フキダシ3.png contains non-ASCII characters in its filename.
+
+img/pictures/機械フキダシ4.png contains non-ASCII characters in its filename.
+
+img/pictures/機械フキダシ5.png contains non-ASCII characters in its filename.
+
+img/pictures/機械フキダシ6.png contains non-ASCII characters in its filename.
+
+img/pictures/空白 6コマ コミックストリップ.png contains non-ASCII characters in its filename.
+
+img/pictures/集中.png contains non-ASCII characters in its filename.
+It is advised to set config.check_conflicting_properties to True.
 
 
-The label take_photo is defined twice, at File "game/backup_original/script.rpyc", line 92:
-and File "game/test_version.rpy", line 93:
-label take_photo:
+Statistics:
 
+The game contains 22 dialogue blocks, containing 22 words and 366 characters,
+for an average of 1.0 words and 17 characters per block.
+
+The game contains 1 menus, 4 images, and 4 screens.
+
+
+Lint is not a substitute for thorough testing. Remember to update Ren'Py
+before releasing. New releases fix bugs and improve compatibility.
