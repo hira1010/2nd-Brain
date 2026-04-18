@@ -1,32 +1,32 @@
-2026-04-18 13:01:31 UTC
+2026-04-18 13:14:32 UTC
 Windows-11-10.0.26300-SP0
 Ren'Py 8.5.2.26010301
 
-Early init took 217 ms
-Loading error handling took 217 ms
-Loading script took 2601 ms
-Loading save slot metadata took 454 ms
+Early init took 329 ms
+Loading error handling took 96 ms
+Loading script took 278 ms
+Loading save slot metadata took 207 ms
 Loading persistent took 0 ms
-Running init code took 527 ms
-Loading analysis data took 24 ms
-Analyze and compile ATL took 4 ms
-Reloading save slot metadata took 264 ms
+Running init code took 127 ms
+Loading analysis data took 13 ms
+Analyze and compile ATL took 3 ms
+Reloading save slot metadata took 93 ms
 Dump and make backups took 1 ms
 Cleaning cache took 0 ms
-Making clean stores took 0 ms
-Initial gc took 125 ms
+Making clean stores took 1 ms
+Initial gc took 57 ms
 DPI scale factor: 1.250000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object took 541 ms
-Init translation took 1 ms
+Creating interface object took 495 ms
+Init translation took 2 ms
 Cleaning stores took 0 ms
-Load screen analysis took 53 ms
+Load screen analysis took 26 ms
 Analyze screens took 1 ms
-Save screen analysis took 0 ms
+Save screen analysis took 1 ms
 Save pyanalysis took 0 ms
 Save bytecode took 0 ms
-﻿Ren'Py 8.5.2.26010301 lint report, generated at: Sat Apr 18 22:01:36 2026
+﻿Ren'Py 8.5.2.26010301 lint report, generated at: Sat Apr 18 22:14:34 2026
 
 
 Obsolete Image Manipulators:
@@ -530,8 +530,6 @@ img/pictures/10.ああん.png contains non-ASCII characters in its filename.
 img/pictures/11.るんるん.png contains non-ASCII characters in its filename.
 
 img/pictures/12.バーン.png contains non-ASCII characters in its filename.
-
-img/pictures/AI　体重管理.xlsx contains non-ASCII characters in its filename.
 
 img/pictures/FANZAサンプル.psd contains non-ASCII characters in its filename.
 
