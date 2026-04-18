@@ -65,3 +65,35 @@ style say_label:
 
 style say_dialogue:
     xpos 10 ypos 40
+
+# ---- 終了確認ダイアログ（Ren'Py 8.5系 yesno_prompt 対策） ----
+
+# Ren'Py が内部で呼び出す confirm スクリーンを上書き定義
+screen confirm(message, yes_action, no_action):
+    zorder 200
+    modal True
+
+    add Solid("#000000bb")
+
+    frame:
+        align (0.5, 0.5)
+        padding (40, 30)
+        background Solid("#222233cc")
+        vbox:
+            spacing 20
+            xalign 0.5
+            text message xalign 0.5 size 26 color "#ffffff"
+            hbox:
+                spacing 30
+                xalign 0.5
+                textbutton "はい" action yes_action
+                textbutton "いいえ" action no_action
+
+style confirm_button:
+    background Solid("#ffc0cb88")
+    padding (20, 10)
+
+style confirm_button_text:
+    color "#ffffff"
+    size 24
+    bold True

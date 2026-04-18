@@ -1,32 +1,32 @@
-2026-04-17 01:21:31 UTC
+2026-04-18 13:01:31 UTC
 Windows-11-10.0.26300-SP0
 Ren'Py 8.5.2.26010301
 
-Early init took 51 ms
-Loading error handling took 54 ms
-Loading script took 1228 ms
-Loading save slot metadata took 90 ms
+Early init took 217 ms
+Loading error handling took 217 ms
+Loading script took 2601 ms
+Loading save slot metadata took 454 ms
 Loading persistent took 0 ms
-Running init code took 165 ms
-Loading analysis data took 3 ms
-Analyze and compile ATL took 0 ms
-Reloading save slot metadata took 93 ms
-Dump and make backups took 0 ms
+Running init code took 527 ms
+Loading analysis data took 24 ms
+Analyze and compile ATL took 4 ms
+Reloading save slot metadata took 264 ms
+Dump and make backups took 1 ms
 Cleaning cache took 0 ms
 Making clean stores took 0 ms
-Initial gc took 33 ms
+Initial gc took 125 ms
 DPI scale factor: 1.250000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object took 190 ms
-Init translation took 0 ms
-Cleaning stores took 2 ms
-Load screen analysis took 9 ms
-Analyze screens took 0 ms
+Creating interface object took 541 ms
+Init translation took 1 ms
+Cleaning stores took 0 ms
+Load screen analysis took 53 ms
+Analyze screens took 1 ms
 Save screen analysis took 0 ms
 Save pyanalysis took 0 ms
 Save bytecode took 0 ms
-﻿Ren'Py 8.5.2.26010301 lint report, generated at: Fri Apr 17 10:21:33 2026
+﻿Ren'Py 8.5.2.26010301 lint report, generated at: Sat Apr 18 22:01:36 2026
 
 
 Obsolete Image Manipulators:
@@ -616,7 +616,7 @@ Statistics:
 The game contains 22 dialogue blocks, containing 22 words and 366 characters,
 for an average of 1.0 words and 17 characters per block.
 
-The game contains 1 menus, 4 images, and 4 screens.
+The game contains 1 menus, 4 images, and 5 screens.
 
 
 Lint is not a substitute for thorough testing. Remember to update Ren'Py
