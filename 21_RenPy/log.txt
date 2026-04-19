@@ -1,32 +1,32 @@
-2026-04-18 13:14:32 UTC
+2026-04-19 23:20:20 UTC
 Windows-11-10.0.26300-SP0
 Ren'Py 8.5.2.26010301
 
-Early init took 329 ms
-Loading error handling took 96 ms
-Loading script took 278 ms
-Loading save slot metadata took 207 ms
-Loading persistent took 0 ms
-Running init code took 127 ms
-Loading analysis data took 13 ms
-Analyze and compile ATL took 3 ms
-Reloading save slot metadata took 93 ms
-Dump and make backups took 1 ms
-Cleaning cache took 0 ms
-Making clean stores took 1 ms
-Initial gc took 57 ms
+Early init took 66 ms
+Loading error handling took 91 ms
+Loading script took 1501 ms
+Loading save slot metadata took 162 ms
+Loading persistent took 1 ms
+Running init code took 190 ms
+Loading analysis data took 11 ms
+Analyze and compile ATL took 2 ms
+Reloading save slot metadata took 99 ms
+Dump and make backups took 0 ms
+Cleaning cache took 2 ms
+Making clean stores took 0 ms
+Initial gc took 44 ms
 DPI scale factor: 1.250000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object took 495 ms
-Init translation took 2 ms
+Creating interface object took 262 ms
+Init translation took 1 ms
 Cleaning stores took 0 ms
-Load screen analysis took 26 ms
-Analyze screens took 1 ms
+Load screen analysis took 41 ms
+Analyze screens took 0 ms
 Save screen analysis took 1 ms
 Save pyanalysis took 0 ms
 Save bytecode took 0 ms
-﻿Ren'Py 8.5.2.26010301 lint report, generated at: Sat Apr 18 22:14:34 2026
+﻿Ren'Py 8.5.2.26010301 lint report, generated at: Mon Apr 20 08:20:22 2026
 
 
 Obsolete Image Manipulators:
