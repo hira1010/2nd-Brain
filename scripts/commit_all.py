@@ -109,6 +109,7 @@ def run_npm_updates() -> None:
                 cwd=str(remotion_dir),
                 env=env,
                 check=False,
+                shell=True,
             )
             logger.info("NPM update for Remotion completed.")
         except Exception as exc:

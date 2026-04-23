@@ -13,7 +13,7 @@ RENPY_SDK = Path("C:/Users/hirak/Desktop/eroge/renpy-sdk/renpy-8.5.2-sdk/renpy.e
 
 # 各エンジンプロジェクトパス（実際のフォルダ名に合わせて更新済み）
 PROJECTS = {
-    "RPG_MAKER": ROOT_DIR / "RPGMaker_MZ",
+    "RPG_MAKER": ROOT_DIR / "touch_heroine",
     "RENPY": ROOT_DIR / "21_RenPy",
     "TYRANO": ROOT_DIR / "TyranoBuilder",
     "TWINE": ROOT_DIR / "22_Twine_Web"
@@ -76,7 +76,8 @@ def check_renpy():
     try:
         print("Running Ren'Py Lint...")
         result = subprocess.run([str(RENPY_SDK), str(path), "lint"], capture_output=True, text=True, timeout=30)
-        if "0 blocks" in result.stdout and "14 dialogue blocks" not in result.stdout:
+        stdout = result.stdout or ""
+        if "0 blocks" in stdout and "14 dialogue blocks" not in stdout:
              # ※ dialogue blocks の数はプロジェクトに合わせて調整
              print("[FAIL] Lint output seems suspicious (no dialogue found).")
              success = False
@@ -84,10 +85,11 @@ def check_renpy():
             print("[OK] Ren'Py Lint completed successfully.")
             success = True
     except subprocess.TimeoutExpired:
-        print("❌ Ren'Py Lint timed out.")
+        print("[FAIL] Ren'Py Lint timed out.")
         success = False
     except Exception as e:
-        print(f"❌ Ren'Py Lint encountered an error: {e}")
+        # 絵文字を使わずに出力（cp932エンコードエラー対策）
+        print(f"[ERROR] Ren'Py Lint encountered an error: {str(e)}")
         success = False
     return success
 

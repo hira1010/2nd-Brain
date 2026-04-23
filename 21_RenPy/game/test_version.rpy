@@ -1,10 +1,8 @@
-# ==========================================
-# ヒロインクリッカー - 完全版スクリプト
-# ==========================================
+# Heroine Clicker - Main Script
 
-# ---- 1. 画像定義 ----
+# ---- 1. Image Definitions ----
 
-# 背景を画面サイズ(1280x720)にフィット表示
+# Background (1280x720)
 image bg_classroom = im.Scale("bg_classroom.png", 1280, 720)
 
 # ランク＋快感度に応じて立ち絵が自動で変わる
@@ -63,21 +61,30 @@ transform body_shiver:
     linear 0.05 xoffset -5
     linear 0.05 xoffset 0
 
+# 画面フラッシュ演出
+define flash = Fade(0.1, 0.0, 0.5, color="#fff")
+
+# ---- 3. 変数定義 ----
+
+# キャラクター定義
+define l = Character("レミ", color="#ffc0cb")
+define m = Character("結人", color="#87ceeb")
+
 # ---- 3. 変数定義 ----
 
 default p_intimacy  = 0.0    # 親密度
 default p_pleasure  = 0.0    # 快感値
 default p_rank      = 1      # ランク（1〜3）
 default p_shake_type = None  # 演出の種類
-default p_anger     = 0      # 怒りゲージ（連打防止）
+default p_anger     = 0      # 怒りゲージ
 default p_money     = 0      # 所持金
 
 # アイテム所持フラグ
-default has_vibrator  = False   # バイブ（快感2倍）
-default has_super_vibe = False  # 強力バイブ（快感4倍）
-default has_lotion    = False   # ローション（親密度1.5倍）
-default has_aroma_oil = False   # 高級オイル（親密度3倍）
-default has_camera    = False   # カメラ（写真売価1.5倍）
+default has_vibrator  = False
+default has_super_vibe = False
+default has_lotion    = False
+default has_aroma_oil = False
+default has_camera    = False
 
 # ---- 4. Pythonロジック ----
 
@@ -86,6 +93,8 @@ init python:
         """クリックされた部位に応じてステータスを更新する"""
         global p_intimacy, p_pleasure, p_rank, p_shake_type, p_anger
 
+        # 絶頂中などはクリック無効（必要なら）
+        
         # クリックした場所にハートを表示
         m_pos = renpy.get_mouse_pos()
         renpy.show_screen("heart_layer", x=m_pos[0], y=m_pos[1])
@@ -113,20 +122,23 @@ init python:
             p_intimacy += 5.0 * love_mult
             p_pleasure  += 10.0 * pleas_mult
             if has_vibrator or has_super_vibe:
-                p_pleasure += 5.0 * pleas_mult  # 股間はバイブ追加ボーナス
+                p_pleasure += 5.0 * pleas_mult
             p_shake_type = "shiver"
 
-        # 1クリックで快感値が100を超えたら上限
-        if p_pleasure > 100: p_pleasure = 100.0
+        # 100に達したら絶頂イベントへ
+        if p_pleasure >= 100:
+            p_pleasure = 100.0
+            renpy.jump("lemi_climax")
+            return
 
         # ランクを更新
         if p_intimacy > 100: p_rank = 3
         elif p_intimacy > 40: p_rank = 2
         else: p_rank = 1
 
-        # 怒りゲージを増加（連打するとお仕置き）
+        # 怒りゲージ（連打防止）
         p_anger += 1
-        if p_anger > 20:
+        if p_anger > 25:
             renpy.jump("punishment_start")
             return
 
@@ -157,15 +169,28 @@ screen main_interaction():
 
     # ステータス表示（左上）
     frame:
-        align (0.05, 0.05)
-        background Solid("#00000088")
-        padding (15, 12)
+        align (0.02, 0.02)
+        background Solid("#000000aa")
+        padding (20, 15)
+        xsize 300
         vbox:
-            spacing 5
-            text "★ Rank: [p_rank]"              size 28 color "#ff69b4" bold True
-            text "💕 Love: [p_intimacy:.1f]"       color "#ffffff"  size 22
-            text "🔥 Pleasure: [p_pleasure:.1f]"   color "#ff7799"  size 22
-            text "💰 Money: [p_money]円"            color "#ffe066"  size 22
+            spacing 8
+            text "Lemi" size 32 color "#ffc0cb" bold True font "font.ttf"
+            
+            # 親密度ゲージ
+            vbox:
+                spacing 2
+                text "Love: [p_intimacy:.1f]" size 16 color "#ffffff"
+                bar value p_intimacy range 100.0 xsize 260 ysize 15 left_bar Frame(Solid("#ff69b4")) right_bar Frame(Solid("#444444"))
+            
+            # 快感度ゲージ
+            vbox:
+                spacing 2
+                text "Pleasure: [p_pleasure:.1f]" size 16 color "#ffffff"
+                bar value p_pleasure range 100.0 xsize 260 ysize 15 left_bar Frame(Solid("#ff1493")) right_bar Frame(Solid("#444444"))
+
+            text "Rank: [p_rank]" size 20 color "#ff69b4"
+            text "Money: [p_money]円" size 18 color "#ffe066"
 
     # ---- 当たり判定ボタン（透明） ----
     imagebutton:
@@ -202,11 +227,32 @@ label start:
     $ p_anger = 0
     scene bg_classroom
     if p_intimacy == 0.0:
-        "「……ねえ、何見てるの？」"
-        "クリックしてヒロインと仲良くなろう！"
-        "親密度が上がるとランクアップするよ。"
+        l "「……あんた、さっきから何見てるわけ？」"
+        l "「……別に減るもんじゃないし。好きにすれば」"
+        "（クリックしてレミと仲良くなろう。親密度が上がると反応が変わるよ。）"
     call screen main_interaction
     return
+
+# 絶頂イベント
+label lemi_climax:
+    hide screen main_interaction
+    scene bg_classroom
+    show heroine_main at body_shiver
+    with flash # 画面フラッシュ
+    
+    l "「あ、く……っ！？ ちょっと、今のは……っ！！」"
+    
+    "（レミは激しい快感に震えている……！）"
+    
+    $ p_intimacy += 10.0
+    $ p_pleasure = 0.0
+    $ p_anger = 0
+    
+    l "「……はぁ、はぁ……。あんた、後で覚えてなさいよ……」"
+    
+    "（親密度が10増加した。）"
+    
+    jump start
 
 # 撮影（チェキ）イベント
 label take_photo:
@@ -218,14 +264,17 @@ label take_photo:
     scene bg_classroom
     show heroine_main at bottom_center
 
-    "パシャッ！"
+    "（パシャッ！）"
 
     if p_rank == 3:
-        "すごくいい写真が撮れた！ヒロインも満更でもなさそう。"
+        l "「……別に、あんたになら撮られてもいいけど。変なところには出さないでよね」"
+        "レミは少し照れながらも、カメラに視線をくれた。"
     elif p_rank == 2:
-        "まあまあの写真。もっと仲良くなればいいのに。"
+        l "「……また撮るの？ 好きね、あんたも」"
+        "レミは呆れつつも、拒む様子はない。"
     else:
-        "まだちょっと距離がある…もっとクリックしてみよう！"
+        l "「……何？ 記録でも取ってるわけ。趣味悪いわね」"
+        "まだ冷たい視線を感じる。もっと距離を縮める必要がありそうだ。"
 
     "写真の価値：[final_price]円"
     $ p_money  += final_price
@@ -234,62 +283,64 @@ label take_photo:
 
     jump start
 
-# お仕置きイベント（連打しすぎると発生）
+# お仕置きイベント
 label punishment_start:
     hide screen main_interaction
     $ p_anger = 0
-    "「ちょっと……しつこすぎ。少し頭冷やして」"
-    "（ヒロインが怒り、一時的に操作が封印された！）"
+    l "「……いい加減にして。さっきからしつこすぎるわよ」"
+    l "「少し頭冷やしなさい。……顔、近すぎ」"
+    "（レミを怒らせてしまった！ しばらく操作できない……）"
     $ renpy.pause(5.0)
-    "反省したようだ。"
+    "レミの機嫌が少し直ったようだ。"
     jump start
 
 # ショップ
 label open_shop:
     hide screen main_interaction
-    "ショップ店員「何を買う？」"
+    l "「……何が欲しいの？（所持金：[p_money]円）」"
+    l "「私の許可なく、変なもの持ち込まないでよ」"
     menu:
-        "特製ローション (親密度1.5倍) / 3000円" if not has_lotion:
+        "特製ローション (Love x1.5) / 3000円" if not has_lotion:
             if p_money >= 3000:
                 $ p_money -= 3000
                 $ has_lotion = True
-                "ローションを購入しました。"
+                "ローションを購入した。肌になじみやすそうだ。"
             else:
-                "お金が足りないようだ……。"
+                "お金が足りない。レミに冷ややかな目で見られた……。"
 
-        "低周波バイブ (快感2倍) / 5000円" if not has_vibrator:
+        "低周波バイブ (Pleasure x2.0) / 5000円" if not has_vibrator:
             if p_money >= 5000:
                 $ p_money -= 5000
                 $ has_vibrator = True
-                "バイブを購入しました。開発が捗りそうです。"
+                "バイブを購入した。反応を見るのが楽しみだ。"
             else:
-                "お金が足りないようだ……。"
+                "お金が足りない。"
 
-        "高性能カメラ (写真売価1.5倍) / 10000円" if not has_camera:
+        "高品質カメラ (Money x1.5) / 10000円" if not has_camera:
             if p_money >= 10000:
                 $ p_money -= 10000
                 $ has_camera = True
-                "カメラを購入しました。より良い写真が撮れます。"
+                "カメラを購入した。より細部まで鮮明に映るだろう。"
             else:
-                "お金が足りないようだ……。"
+                "お金が足りない。"
 
-        "高級アロマオイル (親密度3.0倍) / 15000円" if not has_aroma_oil:
+        "高級アロマオイル (Love x3.0) / 15000円" if not has_aroma_oil:
             if p_money >= 15000:
                 $ p_money -= 15000
                 $ has_aroma_oil = True
-                "高級アロマオイルを購入しました！"
+                "高級アロマを購入した。良い香りが漂う……。"
             else:
-                "お金が足りないようだ……。"
+                "お金が足りない。"
 
-        "強力電動マッサージ器 (快感4.0倍) / 20000円" if not has_super_vibe:
+        "強力電動マッサージ器 (Pleasure x4.0) / 20000円" if not has_super_vibe:
             if p_money >= 20000:
                 $ p_money -= 20000
                 $ has_super_vibe = True
-                "強力マッサージ器を購入しました！"
+                "強力マッサージ器を購入した。かなりの威力がありそうだ。"
             else:
-                "お金が足りないようだ……。"
+                "お金が足りない。"
 
-        "もどる":
+        "戻る":
             pass
 
     jump start

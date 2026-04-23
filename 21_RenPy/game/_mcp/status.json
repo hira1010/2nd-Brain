@@ -1,1 +1,1 @@
-{"action": "init", "success": true, "time": 1776640822.0094578, "message": "MCP bridge active", "autoreload": true, "poll_interval": 0.5}
+{"action": "heartbeat", "success": true, "time": 1776642557.454591, "message": "MCP bridge active"}

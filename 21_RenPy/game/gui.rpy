@@ -1,26 +1,26 @@
-# GUIの基本定義
+# GUI configuration
 
-# 文字の色
-define gui.text_color = '#ffffff'
-define gui.accent_color = '#ffc0cb'
-define gui.idle_color = '#aaaaaa'
-define gui.hover_color = '#ffffff'
+# Colors
+define gui.text_color = "#ffffff"
+define gui.accent_color = "#ffc0cb"
+define gui.idle_color = "#aaaaaa"
+define gui.hover_color = "#ffffff"
 
-# メインメニューなどの背景
+# Background
 image gui_background = "bg_classroom.png"
 
-# フォントサイズ
+# Font size
 define gui.text_size = 22
 define gui.label_text_size = 24
 define gui.button_text_size = 22
 
-# ウィンドウの設定
+# Window settings
 define gui.textbox_height = 185
 define gui.textbox_yalign = 1.0
 
-# スタイル定義の補足
+# Styles
 style default:
-    font "font.ttf" # 日本語対応フォントに変更
+    font "font.ttf"
     color gui.text_color
     size gui.text_size
 
@@ -33,7 +33,7 @@ style bar:
     left_bar Solid("#ffc0cb")
     right_bar Solid("#444")
 
-# メインメニュー画面（エラー回避用）
+# Screens
 screen main_menu():
     tag menu
     add "gui_background"
@@ -44,7 +44,6 @@ screen main_menu():
         textbutton "スタート" action Start()
         textbutton "終了" action Quit()
 
-# メッセージウィンドウ（会話用）
 screen say(who, what):
     style_prefix "say"
     window:
@@ -66,15 +65,11 @@ style say_label:
 style say_dialogue:
     xpos 10 ypos 40
 
-# ---- 終了確認ダイアログ（Ren'Py 8.5系 yesno_prompt 対策） ----
-
-# Ren'Py が内部で呼び出す confirm スクリーンを上書き定義
+# Confirm dialog
 screen confirm(message, yes_action, no_action):
     zorder 200
     modal True
-
     add Solid("#000000bb")
-
     frame:
         align (0.5, 0.5)
         padding (40, 30)

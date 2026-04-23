@@ -1,32 +1,33 @@
-2026-04-19 23:20:20 UTC
+2026-04-19 23:48:39 UTC
 Windows-11-10.0.26300-SP0
 Ren'Py 8.5.2.26010301
 
-Early init took 66 ms
-Loading error handling took 91 ms
-Loading script took 1501 ms
-Loading save slot metadata took 162 ms
-Loading persistent took 1 ms
-Running init code took 190 ms
-Loading analysis data took 11 ms
-Analyze and compile ATL took 2 ms
-Reloading save slot metadata took 99 ms
-Dump and make backups took 0 ms
-Cleaning cache took 2 ms
+Early init took 49 ms
+Loading error handling took 17 ms
+Loading script took 138 ms
+Loading save slot metadata took 24 ms
+Loading persistent took 0 ms
+Running init code took 37 ms
+Loading analysis data took 3 ms
+Analyze and compile ATL took 1 ms
+Reloading save slot metadata took 7 ms
+Backing up script files to 'C:\\Users\\hirak\\AppData\\Roaming/RenPy/backups\\21_RenPy':
+Dump and make backups took 2 ms
+Cleaning cache took 0 ms
 Making clean stores took 0 ms
-Initial gc took 44 ms
+Initial gc took 34 ms
 DPI scale factor: 1.250000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object took 262 ms
+Creating interface object took 203 ms
 Init translation took 1 ms
-Cleaning stores took 0 ms
-Load screen analysis took 41 ms
-Analyze screens took 0 ms
-Save screen analysis took 1 ms
+Cleaning stores took 1 ms
+Load screen analysis took 0 ms
+Analyze screens took 8 ms
+Save screen analysis took 12 ms
 Save pyanalysis took 0 ms
-Save bytecode took 0 ms
-﻿Ren'Py 8.5.2.26010301 lint report, generated at: Mon Apr 20 08:20:22 2026
+Save bytecode took 21 ms
+﻿Ren'Py 8.5.2.26010301 lint report, generated at: Mon Apr 20 08:48:40 2026
 
 
 Obsolete Image Manipulators:
@@ -611,8 +612,8 @@ It is advised to set config.check_conflicting_properties to True.
 
 Statistics:
 
-The game contains 22 dialogue blocks, containing 22 words and 366 characters,
-for an average of 1.0 words and 17 characters per block.
+The game contains 31 dialogue blocks, containing 35 words and 642 characters,
+for an average of 1.1 words and 21 characters per block.
 
 The game contains 1 menus, 4 images, and 5 screens.
 
