@@ -153,8 +153,14 @@
         
         if (this._currentLevel !== level) {
             this._currentLevel = level;
-            const files = ["", "kyoko_1_normal", "kyoko_2_blush", "kyoko_3_disheveled", "kyoko_4_undress"];
-            const file = files[level];
+            const filenames = [
+                "", 
+                "kyoko_1_normal", 
+                "kyoko_2_blush", 
+                "kyoko_3_disheveled", 
+                "kyoko_4_undress"
+            ];
+            const file = filenames[level];
             if (file) {
                 this.bitmap = ImageManager.loadPicture(file);
             }
@@ -162,42 +168,50 @@
     };
 
     Sprite_KyokoClicker.prototype.processTouch = function() {
-        if (TouchInput.isTriggered()) {
-            const tx = TouchInput.x;
-            const ty = TouchInput.y;
+        if (!TouchInput.isTriggered()) return;
 
-            const { partId, isWeakPoint } = this.determineHitPart(tx, ty);
-            $gameVariables.setValue(VAR_TARGET_PART, partId);
+        const { partId, isWeakPoint } = this.determineHitPart(TouchInput.x, TouchInput.y);
+        $gameVariables.setValue(VAR_TARGET_PART, partId);
 
-            if ($gameSwitches.value(SW_STEALTH)) {
-                this.applySuspicion(tx, ty);
-            } else {
-                this.applyPleasure(tx, ty, isWeakPoint);
-                $gameTemp.reserveCommonEvent(25); // 汎用演出イベント
-            }
+        if ($gameSwitches.value(SW_STEALTH)) {
+            this.applySuspicion(TouchInput.x, TouchInput.y);
+        } else {
+            this.applyPleasure(TouchInput.x, TouchInput.y, isWeakPoint);
+            $gameTemp.reserveCommonEvent(25); // 汎用演出イベント
         }
     };
 
     Sprite_KyokoClicker.prototype.determineHitPart = function(x, y) {
         // 部位判定ロジック（中心x=408想定）
         const centerX = 408; 
+        const dx = Math.abs(x - centerX);
+        
         let partId = 0;
         let isWeakPoint = false;
 
-        if (y >= 120 && y <= 180 && Math.abs(x - centerX) > 30 && Math.abs(x - centerX) < 80) {
-            partId = 1; // 耳
+        // 耳の判定
+        const isEar = (y >= 120 && y <= 180 && dx > 30 && dx < 80);
+        // 胸の判定
+        const isChest = (y >= 280 && y <= 360 && dx < 60);
+        // 股間の判定
+        const isCrotch = (y >= 460 && y <= 540 && dx < 50);
+
+        if (isEar) {
+            partId = 1;
             isWeakPoint = true;
-        } else if (y >= 280 && y <= 360 && Math.abs(x - centerX) < 60) {
-            partId = 2; // 胸
+        } else if (isChest) {
+            partId = 2;
             isWeakPoint = true;
-        } else if (y >= 460 && y <= 540 && Math.abs(x - centerX) < 50) {
-            partId = 3; // 股間
+        } else if (isCrotch) {
+            partId = 3;
             isWeakPoint = true;
         } else {
+            // 弱点以外のエリア判定
             if (y < 220) partId = 1;
             else if (y < 420) partId = 2;
             else partId = 3;
         }
+        
         return { partId, isWeakPoint };
     };
 
