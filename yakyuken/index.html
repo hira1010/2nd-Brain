@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>究極の野球拳 - プレミアム・エディション</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <div class="container">
+        <header>
+            <h1>野球拳 <span class="subtitle">PREMIUM</span></h1>
+            <div class="status-bar">
+                <div class="stage-info">STAGE: <span id="current-stage">1</span> / <span id="total-stages">---</span></div>
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="image-viewport">
+                <div id="image-container" class="image-container">
+                    <!-- 画像がここに表示されます -->
+                    <img id="main-image" src="" alt="Character">
+                </div>
+                <div id="opponent-hand" class="opponent-hand">
+                    <!-- 相手の手がここに表示されます -->
+                </div>
+                <div id="message-overlay" class="message-overlay">
+                    <span id="result-text">READY?</span>
+                </div>
+            </div>
+
+            <div class="janken-controls">
+                <button class="janken-btn" id="btn-rock" onclick="game.play('rock')">
+                    <span class="icon">✊</span>
+                    <span class="label">グー</span>
+                </button>
+                <button class="janken-btn" id="btn-scissors" onclick="game.play('scissors')">
+                    <span class="icon">✌️</span>
+                    <span class="label">チョキ</span>
+                </button>
+                <button class="janken-btn" id="btn-paper" onclick="game.play('paper')">
+                    <span class="icon">🖐️</span>
+                    <span class="label">パー</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Antigravity Game Studio</p>
+        </footer>
+    </div>
+
+    <!-- 演出用レイヤー -->
+    <div id="flash-effect" class="flash-effect"></div>
+    <canvas id="win-confetti" class="win-confetti"></canvas>
+
+    <script src="filelist.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+レミ：運動会・漫画風プロンプト集（完成版）
+
+※AIにコピーする際は、各項目の「Prompt:」以降をすべて貼り付けてください。
+
+==================================================
+【1. 全力疾走：100m走でトップを独走するシーン】
+==================================================
+
+■ Anime Color（カラー漫画・アニメ風）
+Prompt: Master Visual Anchor: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Elegant and haughty expression. NO red hair, NO brown hair, anime style, manga style, cel shaded, flat color, clean lineart, sprinting on a school athletic track, high speed, dynamic motion blur, white gym t-shirt with red trim, red bloomers, red hachimaki on forehead, sweat glistening, determination, sunny day background.
+
+■ Classic Manga (B&W)（白黒漫画・雑誌風）
+Prompt: Master Visual Anchor: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Elegant and haughty expression. NO red hair, NO brown hair, monochrome, grayscale, manga panel, screentone, ink drawing, action lines, speed lines, sprinting on an athletic track, high speed, dynamic motion, white gym t-shirt, red hachimaki, intense gaze, black and white manga aesthetics.
+
+==================================================
+【2. 応援：メガホンで不敵に笑いながら応援するシーン】
+==================================================
+
+■ Anime Color（カラー漫画・アニメ風）
+Prompt: Master Visual Anchor: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Elegant and haughty expression. NO red hair, NO brown hair, anime style, manga style, cel shaded, flat color, high contrast, clean lineart, standing on school bleachers, holding a red megaphone, shouting encouragement with a smirk, red hachimaki tied around neck, school festival atmosphere, bokeh effect, sunlight.
+
+■ Classic Manga (B&W)（白黒漫画・雑誌風）
+Prompt: Master Visual Anchor: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Elegant and haughty expression. NO red hair, NO brown hair, monochrome, grayscale, manga panel, screentone, ink drawing, speech bubble, standing on bleachers, holding a megaphone, shouting with a smirk, red hachimaki around neck, hatching, manga composition, professional manga art.
+
+==================================================
+【3. 休憩：木陰で優雅に水分補給をするシーン】
+==================================================
+
+■ Anime Color（カラー漫画・アニメ風）
+Prompt: Master Visual Anchor: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Elegant and haughty expression. NO red hair, NO brown hair, anime style, manga style, cel shaded, flat color, clean lineart, resting under a white tent, sitting on a bench, holding a water bottle, a white towel draped over shoulders, slightly messy silver hair, soft sunlight filtering through, elegant but relaxed pose.
+
+■ Classic Manga (B&W)（白黒漫画・雑誌風）
+Prompt: Master Visual Anchor: (Silky SILVER hair:1.5), (Vibrant RED eyes:1.4), (Sharp almond-shaped eyes:1.2). Elegant and haughty expression. NO red hair, NO brown hair, monochrome, grayscale, manga panel, screentone, ink drawing, resting under a tent, sitting on a bench, holding a water bottle, towel over shoulders, slightly messy hair, detailed character art, delicate shading, manga-style lighting.

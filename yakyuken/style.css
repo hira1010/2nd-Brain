@@ -1,0 +1,305 @@
+:root {
+    --primary: #ff4757;
+    --secondary: #2f3542;
+    --accent: #ffa502;
+    --text: #ffffff;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
+    background-color: #000;
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #1e272e 0%, #000 100%);
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #ff4757, #ffa502);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.status-bar {
+    margin-top: 10px;
+}
+
+.stage-info {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #ced4da;
+}
+
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 0;
+}
+
+.image-viewport {
+    flex: 1;
+    position: relative;
+    background: #111;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.1s ease;
+}
+
+.image-viewport.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.image-container.fade-out #main-image {
+    opacity: 0;
+    transform: scale(1.05);
+}
+
+.message-overlay {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    text-align: center;
+    pointer-events: none;
+}
+
+.opponent-hand {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 15;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--accent);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    box-shadow: 0 0 30px rgba(255, 165, 2, 0.5);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+}
+
+.opponent-hand.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+#result-text {
+    font-size: 4rem;
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    opacity: 0;
+    transform: scale(0.5);
+    display: block;
+    transition: all 0.3s ease;
+}
+
+#result-text.win {
+    color: #fff;
+    text-shadow: 
+        0 0 10px #ff4757,
+        0 0 20px #ff4757,
+        0 0 40px #ff4757,
+        0 0 80px #ff4757;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff, 0 0 20px #ff4757, 0 0 30px #ff4757; }
+    to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4757, 0 0 40px #ff4757, 0 0 50px #ff4757; }
+}
+
+#result-text.show {
+    animation: pop-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes pop-in {
+    0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.janken-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.janken-btn {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 15px 5px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.janken-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.janken-btn:active {
+    transform: scale(0.95);
+}
+
+.janken-btn .icon {
+    font-size: 2rem;
+}
+
+.janken-btn .label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+footer {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.7rem;
+    color: #57606f;
+}
+
+/* 演出 */
+.flash-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.flash-effect.active {
+    animation: flash 0.5s ease-out forwards;
+}
+
+@keyframes flash {
+    0% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+.win-confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 90;
+}
+
+.win { color: #ff4757; }
+.lose { color: #1e90ff; }
+.draw { color: #ffa502; }
