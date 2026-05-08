@@ -1,6 +1,0 @@
-pyxel
-pygame
-requests
-numpy
-typing_extensions
-colorama
