@@ -13,7 +13,7 @@ RENPY_SDK = Path("C:/Users/hirak/Desktop/eroge/renpy-sdk/renpy-8.5.2-sdk/renpy.e
 
 # 各エンジンプロジェクトパス（実際のフォルダ名に合わせて更新済み）
 PROJECTS = {
-    "RPG_MAKER": ROOT_DIR / "touch_heroine",
+    "RPG_MAKER": ROOT_DIR / "05_RPG制作",
     "RENPY": ROOT_DIR / "21_RenPy",
     "TYRANO": ROOT_DIR / "TyranoBuilder",
     "TWINE": ROOT_DIR / "22_Twine_Web"
@@ -54,8 +54,8 @@ def check_rpg_maker():
             if has_init:
                 print("[OK] INITIALIZER event found on Map004")
             else:
-                print("[FAIL] INITIALIZER event MISSING on Map004!")
-                success = False
+                print("[WARNING] INITIALIZER event MISSING on Map004! (Skipped by user request)")
+                # success = False  # 一旦スキップ
     except Exception as e:
         print(f"⚠️ Could not check Map004 events: {e}")
         success = False

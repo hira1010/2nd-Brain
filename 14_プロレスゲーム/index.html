@@ -1,65 +1,85 @@
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>3D Pro-Wrestling: Virtual Pro 2 Tribute</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <div id="game-container"></div>
-
-    <!-- UI Overlay -->
-    <div id="ui-overlay">
-        <!-- Virtual Stick -->
-        <div id="joystick-container">
-            <div id="joystick-base">
-                <div id="joystick-handle"></div>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div id="action-buttons">
-            <div class="button-row">
-                <button id="btn-strike" class="game-btn strike">打撃</button>
-                <button id="btn-dash" class="game-btn dash">ダッシュ</button>
-                <button id="btn-throw" class="game-btn throw">投げ</button>
-            </div>
-            <div class="button-row">
-                <button id="btn-defend" class="game-btn defend">受け身</button>
-                <button id="btn-joint" class="game-btn joint">関節技</button>
-                <button id="btn-special" class="game-btn special">必殺技</button>
-            </div>
-        </div>
-
-        <!-- Special Gauge -->
-        <div id="gauge-container">
-            <div id="special-gauge"></div>
-        </div>
-
-        <!-- Cut-ins -->
-        <div id="announcer-cutin" class="hidden">
-            <img src="assets/announcer.png" alt="Announcer">
-        </div>
-        <div id="crowd-cutin" class="hidden">
-            <img src="assets/crowd.png" alt="Crowd">
-        </div>
-
-        <!-- Message -->
-        <div id="game-message"></div>
-
-        <!-- Fall / Pin System -->
-        <div id="fall-container" class="hidden">
-            <button id="btn-fall" class="game-btn fall">フォール</button>
-            <div id="fall-count"></div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Pro Wrestling 3D</title>
+    <style>
+      body { margin: 0; overflow: hidden; background-color: #000; font-family: 'Arial', sans-serif; }
+      canvas { display: block; }
+      #hud {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        pointer-events: none;
+      }
+      .hp-container {
+        width: 35%;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #fff;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+      }
+      .hp-bar {
+        height: 100%;
+        width: 100%;
+        transition: width 0.3s;
+      }
+      #hp-1p { background: linear-gradient(90deg, #00ffff, #0088ff); }
+      #hp-2p { background: linear-gradient(90deg, #ff0088, #ff0000); }
+      .label { color: #fff; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; text-shadow: 0 0 5px #000; font-size: 14px; }
+      #result {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        display: none;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 40px;
+        border: 4px solid #fff;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+      }
+      #result h1 {
+        color: #fff;
+        font-size: 64px;
+        margin: 0 0 20px 0;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+      }
+      #retry-btn {
+        background: #fff;
+        color: #000;
+        border: none;
+        padding: 15px 40px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+      #retry-btn:hover { background: #00ffff; }
+    </style>
+  </head>
+  <body>
+    <div id="hud">
+      <div>
+        <div class="label">Player 1</div>
+        <div class="hp-container"><div id="hp-1p" class="hp-bar"></div></div>
+      </div>
+      <div>
+        <div class="label">CPU</div>
+        <div class="hp-container"><div id="hp-2p" class="hp-bar"></div></div>
+      </div>
     </div>
 
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="game.js"></script>
-</body>
+    <div id="result">
+      <h1 id="result-text">YOU WIN</h1>
+      <button id="retry-btn">Retry Match</button>
+    </div>
 
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
