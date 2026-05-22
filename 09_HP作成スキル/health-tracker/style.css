@@ -17,6 +17,8 @@
     --accent-pink: #ec4899;
     --accent-purple: #a855f7;
     --accent-orange: #f97316;
+    --accent-cyan: #06b6d4;
+    --accent-amber: #f59e0b;
     
     /* フォント設定 */
     --font-family: 'Outfit', 'Noto Sans JP', sans-serif;
@@ -199,7 +201,6 @@ body {
     text-align: center;
 }
 
-/* カレンダー入力の標準カレンダーアイコンを非表示（代わりに独自のアイコンを使用） */
 .date-input::-webkit-calendar-picker-indicator {
     background: transparent;
     bottom: 0;
@@ -244,7 +245,66 @@ body {
     gap: 2rem;
 }
 
-/* セクションの共通タイトル */
+/* 入力エリアのヘッダーデザイン */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.8rem;
+}
+
+.section-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.section-title-wrapper .title-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--accent-purple);
+}
+
+.section-title-wrapper h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* 自動保存中バッジ */
+.autosave-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #a7f3d0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    opacity: 0.6;
+    transition: var(--transition-smooth);
+}
+
+.autosave-badge.saving {
+    opacity: 1;
+    background: rgba(168, 85, 247, 0.2);
+    border-color: var(--accent-purple);
+    color: #e9d5ff;
+}
+
+.autosave-badge.saving .spin-icon {
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* セクションの共通タイトル（ダッシュボード等用） */
 .section-title {
     display: flex;
     align-items: center;
@@ -270,10 +330,20 @@ body {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    margin: 1.8rem 0 1rem 0;
+    margin: 1.8rem 0 1.2rem 0;
     color: var(--text-main);
     font-size: 1.1rem;
     font-weight: 600;
+    border-left: 3px solid transparent;
+    padding-left: 0.6rem;
+}
+
+.form-group-title.vital-theme-border {
+    border-left-color: var(--accent-pink);
+}
+
+.form-group-title.meal-theme-border {
+    border-left-color: var(--accent-orange);
 }
 
 .form-group-title:first-of-type {
@@ -283,6 +353,13 @@ body {
 .form-group-title i {
     width: 1.2rem;
     height: 1.2rem;
+}
+
+.vital-theme-border i {
+    color: var(--accent-pink);
+}
+
+.meal-theme-border i {
     color: var(--accent-orange);
 }
 
@@ -290,7 +367,7 @@ body {
 .meals-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
+    gap: 1.5rem;
 }
 
 /* 入力ラッパー */
@@ -310,7 +387,6 @@ body {
     font-weight: 600;
 }
 
-.input-wrapper textarea, 
 .input-wrapper input[type="text"] {
     background: rgba(15, 23, 42, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -320,15 +396,90 @@ body {
     font-family: var(--font-family);
     font-size: 0.95rem;
     outline: none;
-    resize: none;
     transition: var(--transition-smooth);
 }
 
-.input-wrapper textarea:focus,
 .input-wrapper input[type="text"]:focus {
-    border-color: var(--accent-purple);
+    border-color: var(--accent-pink);
     background: rgba(15, 23, 42, 0.7);
-    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);
+}
+
+/* プルダウンメニュー（select）の装飾 */
+.meal-select {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    color: var(--text-main);
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    padding-right: 2.8rem;
+}
+
+.meal-select:focus {
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+}
+
+/* プルダウン内のoption要素 */
+.meal-select option {
+    background-color: #1e293b;
+    color: var(--text-main);
+    padding: 0.5rem;
+}
+
+/* 栄養情報表示エリア */
+.nutrition-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    min-height: 1.8rem;
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+}
+
+/* 栄養素のミニタグ */
+.nutri-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.nutri-tag.cal {
+    background: rgba(244, 63, 94, 0.15);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    color: #fca5a5;
+}
+
+.nutri-tag.p {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #a7f3d0;
+}
+
+.nutri-tag.f {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #fde68a;
+}
+
+.nutri-tag.c {
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: #a5f3fc;
 }
 
 /* バイタルグリッド */
@@ -450,39 +601,20 @@ body {
     height: 1.1rem;
 }
 
-/* 送信（保存）ボタン */
-.submit-btn {
-    width: 100%;
-    margin-top: 2rem;
-    background: linear-gradient(135deg, var(--accent-emerald) 0%, #047857 100%);
-    border: none;
-    border-radius: 12px;
-    padding: 1rem;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    transition: var(--transition-smooth);
+/* 自動保存の枠線輝きアニメーション */
+.autosave-glow {
+    animation: borderGlow 0.8s ease-out;
 }
 
-.submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
-    filter: brightness(1.1);
-}
-
-.submit-btn:active {
-    transform: translateY(-1px);
-}
-
-.submit-btn i {
-    width: 1.3rem;
-    height: 1.3rem;
+@keyframes borderGlow {
+    0% {
+        border-color: var(--accent-purple);
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    }
+    100% {
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+    }
 }
 
 /* ダッシュボード側 */
@@ -499,7 +631,7 @@ body {
 .summary-widgets {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.2rem;
 }
 
 .widget {
@@ -536,6 +668,11 @@ body {
     color: var(--accent-pink);
 }
 
+.widget-icon.calorie-theme {
+    background: rgba(244, 63, 94, 0.15);
+    color: var(--accent-orange);
+}
+
 .widget-info {
     flex: 1;
     display: flex;
@@ -568,6 +705,67 @@ body {
     border-radius: 10px;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* PFCサマリー用ウィジェット */
+.pfc-summary-widget {
+    align-items: flex-start;
+}
+
+.pfc-summary-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.calorie-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.calorie-total-row .widget-value {
+    color: #fca5a5;
+}
+
+/* PFCバランスの割合バー */
+.pfc-bar-chart {
+    display: flex;
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 0.2rem;
+}
+
+.pfc-segment {
+    height: 100%;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pfc-segment.p-seg {
+    background: var(--accent-emerald);
+}
+
+.pfc-segment.f-seg {
+    background: var(--accent-amber);
+}
+
+.pfc-segment.c-seg {
+    background: var(--accent-cyan);
+}
+
+.pfc-legend-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
+}
+
+.pfc-legend-labels .p-label { color: #a7f3d0; }
+.pfc-legend-labels .f-label { color: #fde68a; }
+.pfc-legend-labels .c-label { color: #a5f3fc; }
 
 /* グラフカード */
 .chart-card {
@@ -654,7 +852,6 @@ body {
     box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
 }
 
-/* カレンダー内の日付表示 */
 .day-number {
     font-weight: 600;
 }
@@ -681,7 +878,6 @@ body {
     padding-right: 0.5rem;
 }
 
-/* スクロールバー装飾 */
 .history-list::-webkit-scrollbar {
     width: 6px;
 }

@@ -50,39 +50,20 @@
         <main class="main-grid">
             <!-- 入力フォームエリア -->
             <section class="input-section glass-panel">
-                <div class="section-title">
-                    <i data-lucide="edit-3"></i>
-                    <h2>今日の記録を入力</h2>
+                <div class="section-header">
+                    <div class="section-title-wrapper">
+                        <i data-lucide="edit-3" class="title-icon"></i>
+                        <h2>今日の記録を入力</h2>
+                    </div>
+                    <div class="autosave-badge" id="autosave-badge">
+                        <i data-lucide="refresh-cw" class="spin-icon"></i>
+                        <span>自動保存中</span>
+                    </div>
                 </div>
 
-                <form id="tracker-form">
-                    <!-- 食事記録グループ -->
-                    <div class="form-group-title">
-                        <i data-lucide="utensils"></i>
-                        <h3>食事の記録</h3>
-                    </div>
-                    
-                    <div class="meals-grid">
-                        <div class="input-wrapper">
-                            <label for="meal-breakfast">朝食</label>
-                            <textarea id="meal-breakfast" rows="2" placeholder="例: トースト、スクランブルエッグ、コーヒー"></textarea>
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="meal-lunch">昼食</label>
-                            <textarea id="meal-lunch" rows="2" placeholder="例: パスタ、サラダ"></textarea>
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="meal-dinner">晩御飯</label>
-                            <textarea id="meal-dinner" rows="2" placeholder="例: 焼き魚、ご飯、味噌汁"></textarea>
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="meal-snack">おやつ</label>
-                            <textarea id="meal-snack" rows="2" placeholder="例: チョコレート、りんご"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- 体重・水分・運動グループ -->
-                    <div class="form-group-title">
+                <form id="tracker-form" onsubmit="return false;">
+                    <!-- バイタル・運動グループ (最上部に移動) -->
+                    <div class="form-group-title vital-theme-border">
                         <i data-lucide="activity"></i>
                         <h3>バイタル＆活動</h3>
                     </div>
@@ -122,11 +103,51 @@
                         </div>
                     </div>
 
-                    <!-- 保存ボタン -->
-                    <button type="submit" id="save-btn" class="submit-btn">
-                        <i data-lucide="save"></i>
-                        <span>記録を保存する</span>
-                    </button>
+                    <!-- 食事記録グループ (下部に移動＆プルダウン化) -->
+                    <div class="form-group-title meal-theme-border">
+                        <i data-lucide="utensils"></i>
+                        <h3>食事の記録 (PFC・カロリー)</h3>
+                    </div>
+                    
+                    <div class="meals-grid select-layout">
+                        <!-- 朝食 -->
+                        <div class="input-wrapper">
+                            <label for="meal-breakfast">朝食</label>
+                            <select id="meal-breakfast" class="meal-select">
+                                <!-- JSでオプションを挿入します -->
+                            </select>
+                            <div id="breakfast-nutrition" class="nutrition-display">
+                                <!-- 栄養素がここに表示されます -->
+                            </div>
+                        </div>
+                        
+                        <!-- 昼食 -->
+                        <div class="input-wrapper">
+                            <label for="meal-lunch">昼食</label>
+                            <select id="meal-lunch" class="meal-select">
+                                <!-- JSでオプションを挿入します -->
+                            </select>
+                            <div id="lunch-nutrition" class="nutrition-display"></div>
+                        </div>
+
+                        <!-- 晩御飯 -->
+                        <div class="input-wrapper">
+                            <label for="meal-dinner">晩御飯</label>
+                            <select id="meal-dinner" class="meal-select">
+                                <!-- JSでオプションを挿入します -->
+                            </select>
+                            <div id="dinner-nutrition" class="nutrition-display"></div>
+                        </div>
+
+                        <!-- おやつ -->
+                        <div class="input-wrapper">
+                            <label for="meal-snack">おやつ</label>
+                            <select id="meal-snack" class="meal-select">
+                                <!-- JSでオプションを挿入します -->
+                            </select>
+                            <div id="snack-nutrition" class="nutrition-display"></div>
+                        </div>
+                    </div>
                 </form>
             </section>
 
@@ -158,6 +179,28 @@
                             <div class="widget-info">
                                 <span class="widget-label">登録体重</span>
                                 <span class="widget-value" id="summary-weight">- kg</span>
+                            </div>
+                        </div>
+                        <!-- 今日の総カロリー＆PFC -->
+                        <div class="widget pfc-summary-widget">
+                            <div class="widget-icon calorie-theme">
+                                <i data-lucide="flame"></i>
+                            </div>
+                            <div class="pfc-summary-content">
+                                <div class="calorie-total-row">
+                                    <span class="widget-label">総摂取カロリー</span>
+                                    <span class="widget-value" id="total-calories">0 kcal</span>
+                                </div>
+                                <div class="pfc-bar-chart">
+                                    <div class="pfc-segment p-seg" id="p-bar" style="width: 0%" title="たんぱく質"></div>
+                                    <div class="pfc-segment f-seg" id="f-bar" style="width: 0%" title="脂質"></div>
+                                    <div class="pfc-segment c-seg" id="c-bar" style="width: 0%" title="炭水化物"></div>
+                                </div>
+                                <div class="pfc-legend-labels">
+                                    <span class="p-label">P: <b id="total-p">0</b>g</span>
+                                    <span class="f-label">F: <b id="total-f">0</b>g</span>
+                                    <span class="c-label">C: <b id="total-c">0</b>g</span>
+                                </div>
                             </div>
                         </div>
                     </div>
