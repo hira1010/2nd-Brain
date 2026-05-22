@@ -439,9 +439,9 @@ function renderMealList(type) {
             const totals = sumNutrition(items);
             nutritionDiv.innerHTML = `
                 <span class="nutri-tag cal">🔥 ${totals.kcal} kcal</span>
-                <span class="nutri-tag p">🥩 たんぱく質: ${round1(totals.p)}g</span>
-                <span class="nutri-tag f">🧈 脂質: ${round1(totals.f)}g</span>
-                <span class="nutri-tag c">🍚 炭水化物: ${round1(totals.c)}g</span>
+                <span class="nutri-tag p">P 🥩 たんぱく質: ${round1(totals.p)}g</span>
+                <span class="nutri-tag f">F 🧈 脂質: ${round1(totals.f)}g</span>
+                <span class="nutri-tag c">C 🍚 炭水化物: ${round1(totals.c)}g</span>
             `;
         }
     }
