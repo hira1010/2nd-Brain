@@ -37,6 +37,12 @@ IGNORE_PATTERNS = [
     "browser_recordings",
     "*.bak",
     ".tmp.driveupload",  # Googleドライブが内部で使う一時ファイル（コピー中に消えてエラーになるため除外）
+    # Unityの一時キャッシュや作業用フォルダ（ファイル数が多くフリーズの原因になるため除外）
+    "Library",
+    "Temp",
+    "Logs",
+    "obj",
+    ".vs",
     ".pi",
     ".pochi",
     ".qoder",

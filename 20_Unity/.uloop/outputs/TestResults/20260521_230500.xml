@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<test-run id="2" testcasecount="21" result="Failed" total="21" passed="19" failed="2" skipped="0" start-time="2026-05-21 14:04:58" end-time="2026-05-21 14:05:00" duration="1.957">
+  <test-suite type="TestSuite" name="My project (5)" fullname="My project (5)" result="Failed" start-time="2026-05-21 14:04:58" end-time="2026-05-21 14:05:00" duration="1.957" total="21" passed="19" failed="2" skipped="0">
+    <test-suite type="TestSuite" name="UnityMcpTextbook.Tests.Editor.dll" fullname="C:/Users/hirak/My project (5)/Library/ScriptAssemblies/UnityMcpTextbook.Tests.Editor.dll" result="Failed" start-time="2026-05-21 14:04:58" end-time="2026-05-21 14:05:00" duration="1.845" total="21" passed="19" failed="2" skipped="0">
+      <test-suite type="TestSuite" name="UnityMcpTextbook" fullname="UnityMcpTextbook" result="Failed" start-time="2026-05-21 14:04:58" end-time="2026-05-21 14:05:00" duration="1.743" total="21" passed="19" failed="2" skipped="0">
+        <test-suite type="TestSuite" name="Tests" fullname="UnityMcpTextbook.Tests" result="Failed" start-time="2026-05-21 14:04:58" end-time="2026-05-21 14:05:00" duration="1.570" total="21" passed="19" failed="2" skipped="0">
+          <test-suite type="TestSuite" name="Editor" fullname="UnityMcpTextbook.Tests.Editor" result="Failed" start-time="2026-05-21 14:04:58" end-time="2026-05-21 14:05:00" duration="1.524" total="21" passed="19" failed="2" skipped="0">
+            <test-suite type="UnityMcpTextbook.Tests.Editor.FoundationTests" name="FoundationTests" fullname="UnityMcpTextbook.Tests.Editor.FoundationTests" result="Passed" start-time="2026-05-21 14:04:58" end-time="2026-05-21 14:04:59" duration="0.124" total="1" passed="1" failed="0" skipped="0">
+              <test-case name="StepOneFoundation_HasNoGameFeatureRequirement" fullname="UnityMcpTextbook.Tests.Editor.FoundationTests.StepOneFoundation_HasNoGameFeatureRequirement" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.010" />
+            </test-suite>
+            <test-suite type="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests" name="MoleSpawnLogicTests" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests" result="Failed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.433" total="8" passed="7" failed="1" skipped="0">
+              <test-case name="GetCurrentHp_ReturnsZeroWhenInactive" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.GetCurrentHp_ReturnsZeroWhenInactive" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.008" />
+              <test-case name="RunAsync_NotifiesMissAfterTinyVisibleDuration" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.RunAsync_NotifiesMissAfterTinyVisibleDuration" result="Failed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.319">
+                <failure>
+                  <message>  Expected: Normal
+  But was:  Poison
+</message>
+                  <stack-trace>at UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests+&lt;&gt;c.&lt;RunAsync_NotifiesMissAfterTinyVisibleDuration&gt;b__3_0 () [0x0015e] in C:\Users\hirak\My project (5)\Assets\Project\Tests\Editor\MoleSpawn\MoleSpawnLogicTests.cs:99
+at Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask`1[TStateMachine].GetResult (System.Int16 token) [0x00000] in .\Library\PackageCache\com.cysharp.unitask@cda068700cce\Runtime\CompilerServices\StateMachineRunner.cs:218
+at Cysharp.Threading.Tasks.UniTaskExtensions+ToCoroutineEnumerator.RunTask (Cysharp.Threading.Tasks.UniTask task) [0x00020] in .\Library\PackageCache\com.cysharp.unitask@cda068700cce\Runtime\UniTaskExtensions.cs:807
+at Cysharp.Threading.Tasks.UniTaskExtensions+ToCoroutineEnumerator.MoveNext () [0x0002b] in .\Library\PackageCache\com.cysharp.unitask@cda068700cce\Runtime\UniTaskExtensions.cs:838
+at UnityEngine.TestTools.TestEnumerator+&lt;Execute&gt;d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@0b7a23ab2e1d\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+</stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="TryHit_DeactivatesActiveHoleAndNotifiesHit" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.TryHit_DeactivatesActiveHoleAndNotifiesHit" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.003" />
+              <test-case name="TrySpawn_ActivatesHoleAndNotifiesAppear" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.TrySpawn_ActivatesHoleAndNotifiesAppear" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.002" />
+              <test-case name="TrySpawn_BossMole_RequiresThreeHitsToDefeat" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.TrySpawn_BossMole_RequiresThreeHitsToDefeat" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.004" />
+              <test-case name="TrySpawn_ClampsToMaxActiveMoles" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.TrySpawn_ClampsToMaxActiveMoles" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.001" />
+              <test-case name="TrySpawn_PoisonMole_AppearsAndDefeatedByOneHit" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.TrySpawn_PoisonMole_AppearsAndDefeatedByOneHit" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.001" />
+              <test-case name="TrySpawn_PoisonMole_GetCurrentHp_ReturnsOneOnSpawn" fullname="UnityMcpTextbook.Tests.Editor.MoleSpawnLogicTests.TrySpawn_PoisonMole_GetCurrentHp_ReturnsOneOnSpawn" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.000" />
+            </test-suite>
+            <test-suite type="UnityMcpTextbook.Tests.Editor.ScoreLogicTests" name="ScoreLogicTests" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests" result="Failed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.106" total="9" passed="8" failed="1" skipped="0">
+              <test-case name="ApplyBossHit_AddsDoubleHitScoreDeltaAndNotifies" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyBossHit_AddsDoubleHitScoreDeltaAndNotifies" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.004" />
+              <test-case name="ApplyHit_AddsHitScoreDeltaAndNotifies" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyHit_AddsHitScoreDeltaAndNotifies" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.001" />
+              <test-case name="ApplyMiss_ClampsScoreAtZero" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyMiss_ClampsScoreAtZero" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.001" />
+              <test-case name="ApplyMiss_ClampsScoreAtZeroAfterScoreWasPositive" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyMiss_ClampsScoreAtZeroAfterScoreWasPositive" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.000" />
+              <test-case name="ApplyMiss_SubtractsMissScoreDeltaAndNotifies" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyMiss_SubtractsMissScoreDeltaAndNotifies" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.001" />
+              <test-case name="ApplyPoisonHit_CustomPoisonDelta_IsApplied" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyPoisonHit_CustomPoisonDelta_IsApplied" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.000" />
+              <test-case name="ApplyPoisonHit_DoesNotNotifyWhenScoreIsAlreadyZero" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyPoisonHit_DoesNotNotifyWhenScoreIsAlreadyZero" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.000" />
+              <test-case name="ApplyPoisonHit_SubtractsPoisonScoreDeltaAndNotifies" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyPoisonHit_SubtractsPoisonScoreDeltaAndNotifies" result="Failed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.004">
+                <failure>
+                  <message>  Expected is &lt;System.Int32[1]&gt;, actual is &lt;System.Collections.Generic.List`1[System.Int32]&gt; with 2 elements
+  Values differ at index [1]
+  Extra:    &lt; 0 &gt;</message>
+                  <stack-trace>at NUnit.Framework.CollectionAssert.AreEqual (System.Collections.IEnumerable expected, System.Collections.IEnumerable actual, System.String message, System.Object[] args) [0x00007] in &lt;f577cd9686154d6ab10efd7e65e64366&gt;:0
+at NUnit.Framework.CollectionAssert.AreEqual (System.Collections.IEnumerable expected, System.Collections.IEnumerable actual) [0x00000] in &lt;f577cd9686154d6ab10efd7e65e64366&gt;:0
+at UnityMcpTextbook.Tests.Editor.ScoreLogicTests.ApplyPoisonHit_SubtractsPoisonScoreDeltaAndNotifies () [0x0004a] in C:\Users\hirak\My project (5)\Assets\Project\Tests\Editor\Score\ScoreLogicTests.cs:108
+</stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="CustomConfig_ChangesHitAndMissDeltas" fullname="UnityMcpTextbook.Tests.Editor.ScoreLogicTests.CustomConfig_ChangesHitAndMissDeltas" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.001" />
+            </test-suite>
+            <test-suite type="UnityMcpTextbook.Tests.Editor.TimerLogicTests" name="TimerLogicTests" fullname="UnityMcpTextbook.Tests.Editor.TimerLogicTests" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:05:00" duration="0.749" total="3" passed="3" failed="0" skipped="0">
+              <test-case name="Constructor_UsesConfiguredTimeLimit" fullname="UnityMcpTextbook.Tests.Editor.TimerLogicTests.Constructor_UsesConfiguredTimeLimit" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:04:59" duration="0.002" />
+              <test-case name="RunAsync_CancellationStopsWithoutTimeUp" fullname="UnityMcpTextbook.Tests.Editor.TimerLogicTests.RunAsync_CancellationStopsWithoutTimeUp" result="Passed" start-time="2026-05-21 14:04:59" end-time="2026-05-21 14:05:00" duration="0.322" />
+              <test-case name="RunAsync_NotifiesCountdownAndTimeUpWithTinyDuration" fullname="UnityMcpTextbook.Tests.Editor.TimerLogicTests.RunAsync_NotifiesCountdownAndTimeUpWithTinyDuration" result="Passed" start-time="2026-05-21 14:05:00" end-time="2026-05-21 14:05:00" duration="0.330" />
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

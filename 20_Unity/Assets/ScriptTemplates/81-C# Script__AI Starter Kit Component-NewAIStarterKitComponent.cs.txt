@@ -1,0 +1,8 @@
+using UnityEngine;
+
+namespace AIStarterKit
+{
+    public sealed class #SCRIPTNAME# : MonoBehaviour
+    {
+    }
+}

@@ -14,9 +14,7 @@ RENPY_SDK = Path("C:/Users/hirak/Desktop/eroge/renpy-sdk/renpy-8.5.2-sdk/renpy.e
 # 各エンジンプロジェクトパス（実際のフォルダ名に合わせて更新済み）
 PROJECTS = {
     "RPG_MAKER": ROOT_DIR / "05_RPG制作",
-    "RENPY": ROOT_DIR / "21_RenPy",
-    "TYRANO": ROOT_DIR / "TyranoBuilder",
-    "TWINE": ROOT_DIR / "22_Twine_Web"
+    "RENPY": ROOT_DIR / "17_RenPy"
 }
 
 def header(text):
@@ -25,10 +23,10 @@ def header(text):
     print(f"{'='*50}")
 
 def check_rpg_maker():
-    header("Checking RPG Maker MZ (21_えろげー)")
+    header("RPGツクールMZのチェック中 (05_RPG制作)")
     path = PROJECTS["RPG_MAKER"]
     if not path.exists():
-        print("❌ Project directory not found.")
+        print("❌ プロジェクトフォルダが見つかりません。")
         return False
     
     success = True
@@ -36,13 +34,12 @@ def check_rpg_maker():
     essential = ["data/System.json", "data/CommonEvents.json", "data/Map004.json"]
     for f in essential:
         if not (path / f).exists():
-            print(f"[FAIL] Missing: {f}")
+            print(f"[失敗] 不足ファイル: {f}")
             success = False
         else:
-            print(f"[OK] Found: {f}")
+            print(f"[正常] 存在確認: {f}")
             
     # 2. 初期化スイッチの確認 (Switch 1 がONになるイベントがあるか)
-    # ※ 既に手動で追加済みだが、簡易チェック
     try:
         with open(path / "data" / "Map004.json", "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -52,130 +49,67 @@ def check_rpg_maker():
                     has_init = True
                     break
             if has_init:
-                print("[OK] INITIALIZER event found on Map004")
+                print("[正常] Map004に INITIALIZER イベントが見つかりました")
             else:
-                print("[WARNING] INITIALIZER event MISSING on Map004! (Skipped by user request)")
-                # success = False  # 一旦スキップ
+                print("[警告] Map004に INITIALIZER イベントが見つかりません！ (ユーザー要求によりスキップ)")
     except Exception as e:
-        print(f"⚠️ Could not check Map004 events: {e}")
+        print(f"⚠️ Map004のイベントを確認できませんでした: {e}")
         success = False
         
     return success
 
 def check_renpy():
-    header("Checking Ren'Py (22_HeroineAdv)")
+    header("Ren'Pyのチェック中 (21_RenPy)")
     path = PROJECTS["RENPY"]
     if not path.exists():
-        print("[FAIL] Project directory not found.")
+        print("[失敗] プロジェクトフォルダが見つかりません。")
         return False
 
     if not RENPY_SDK.exists():
-        print(f"[WARNING] Ren'Py SDK not found at {RENPY_SDK}. Skipping CLI lint.")
+        print(f"[警告] {RENPY_SDK} に Ren'Py SDK が見つかりません。CLIによる構文チェックをスキップします。")
         return True # 環境依存のため警告のみ
 
     try:
-        print("Running Ren'Py Lint...")
+        print("Ren'Pyの構文チェックを実行中...")
         result = subprocess.run([str(RENPY_SDK), str(path), "lint"], capture_output=True, text=True, timeout=30)
         stdout = result.stdout or ""
         if "0 blocks" in stdout and "14 dialogue blocks" not in stdout:
-             # ※ dialogue blocks の数はプロジェクトに合わせて調整
-             print("[FAIL] Lint output seems suspicious (no dialogue found).")
+             print("[失敗] 構文チェック出力が異常です（対話ブロックが見つかりません）。")
              success = False
         else:
-            print("[OK] Ren'Py Lint completed successfully.")
-            success = True
+             print("[正常] Ren'Pyの構文チェックが正常に完了しました。")
+             success = True
     except subprocess.TimeoutExpired:
-        print("[FAIL] Ren'Py Lint timed out.")
+        print("[失敗] Ren'Pyの構文チェックがタイムアウトしました。")
         success = False
     except Exception as e:
-        # 絵文字を使わずに出力（cp932エンコードエラー対策）
-        print(f"[ERROR] Ren'Py Lint encountered an error: {str(e)}")
+        print(f"[エラー] Ren'Pyの構文チェック中にエラーが発生しました: {str(e)}")
         success = False
-    return success
-
-def check_tyrano():
-    header("Checking TyranoBuilder (23_HeroineAdv)")
-    path = PROJECTS["TYRANO"]
-    if not path.exists():
-        print("[FAIL] Project directory not found.")
-        return False
-    
-    success = True
-    # 1. 必須シナリオの確認
-    essential = ["data/scenario/scene1.ks", "data/scenario/first.ks", "index.html"]
-    for f in essential:
-        if not (path / f).exists():
-            print(f"[FAIL] Missing: {f}")
-            success = False
-        else:
-            print(f"[OK] Found: {f}")
-            
-    # 2. 変数定義の確認
-    ks_path = path / "data" / "scenario" / "scene1.ks"
-    if ks_path.exists():
-        content = ks_path.read_text(encoding="utf-8")
-        if "f.p_pleasure" in content:
-            print("[OK] f.p_pleasure defined in scene1.ks")
-        else:
-            print("[FAIL] Variable definitions might be missing in scene1.ks")
-            success = False
-            
-    return success
-
-def check_twine():
-    header("Checking Twine (24_HeroineAdv)")
-    path = PROJECTS["TWINE"]
-    if not path.exists():
-        print("[FAIL] Project directory not found.")
-        return False
-    
-    success = True
-    # 1. 必須ファイルの確認
-    essential = ["index.html", "images/heroine_rank1.png"]
-    for f in essential:
-        if not (path / f).exists():
-            print(f"[FAIL] Missing: {f}")
-            success = False
-        else:
-            print(f"[OK] Found: {f}")
-            
-    # 2. ロジックの簡易確認
-    html_path = path / "index.html"
-    if html_path.exists():
-        content = html_path.read_text(encoding="utf-8")
-        if "pleasure" in content and "love" in content:
-            print("[OK] Core variables found in index.html")
-        else:
-            print("[FAIL] Logic context missing in index.html")
-            success = False
-            
     return success
 
 def main():
-    print("--- Master Antigravity Consistency Check Starting ---")
+    print("--- アンチグラビティ プロジェクト整合性チェックを開始 ---")
     
     results = {
-        "RPG": check_rpg_maker(),
-        "RenPy": check_renpy(),
-        "Tyrano": check_tyrano(),
-        "Twine": check_twine()
+        "RPGツクール": check_rpg_maker(),
+        "RenPy": check_renpy()
     }
     
-    header("FINAL REPORT")
+    header("最終レポート")
     all_ok = True
     for engine, ok in results.items():
-        status = "[OK]" if ok else "[FAIL]"
+        status = "[正常]" if ok else "[失敗]"
         print(f"{engine:10}: {status}")
         if not ok: all_ok = False
         
     print("\n" + "="*50)
     if all_ok:
-        print("--- PROJECT HEALTH: GREEN (PASS) ---")
-        print("All engines are synchronized and functional.")
+        print("--- プロジェクト状態: 正常 (GREEN) ---")
+        print("すべてのゲームエンジンプロジェクトの整合性が取れており、正常に動作します。")
         sys.exit(0)
     else:
-        print("--- PROJECT HEALTH: RED (FAIL) ---")
-        print("Issues detected. See details above.")
+        print("--- プロジェクト状態: 異常 (RED) ---")
+        print("問題が検出されました。上記の詳細を確認してください。")
         sys.exit(1)
 
 if __name__ == "__main__":

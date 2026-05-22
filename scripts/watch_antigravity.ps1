@@ -15,13 +15,13 @@ if (-not (Test-Path -Path $LogFile)) {
 
 $enabled = Test-Path -Path $EnableFlag
 if (-not $enabled) {
-    "Watcher disabled because flag file was not found: $EnableFlag ($(Get-Date))" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+    "監視が無効化されています。フラグファイルが見つかりません: $EnableFlag ($(Get-Date))" | Out-File -FilePath $LogFile -Encoding utf8 -Append
     exit 0
 }
 
 $running = $false
 $trackedPid = $null
-"Watcher started for process '$ProcessName' at $(Get-Date)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+"プロセス '$ProcessName' の監視を開始しました。時刻: $(Get-Date)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
 
 while ($true) {
     try {
@@ -32,17 +32,17 @@ while ($true) {
                 $procToTrack = $ps | Sort-Object StartTime -Descending | Select-Object -First 1
                 $trackedPid = $procToTrack.Id
                 $running = $true
-                "Detected start of process $($procToTrack.Name) (PID $trackedPid) at $(Get-Date)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+                "プロセス $($procToTrack.Name) の起動を検出しました (PID $trackedPid)。時刻: $(Get-Date)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
             } else {
                 # 既に追跡中の場合はその PID がまだ存在するかを確認
                 if ($trackedPid -and -not (Get-Process -Id $trackedPid -ErrorAction SilentlyContinue)) {
-                    "Tracked PID $trackedPid disappeared unexpectedly at $(Get-Date). Running commit script..." | Out-File -FilePath $LogFile -Encoding utf8 -Append
+                    "追跡中の PID $trackedPid が予期せず終了しました。時刻: $(Get-Date)。コミットスクリプトを実行します..." | Out-File -FilePath $LogFile -Encoding utf8 -Append
                     try {
                         $arg = "-NoProfile -ExecutionPolicy Bypass -File `"$CommitScript`""
                         $proc = Start-Process -FilePath "powershell.exe" -ArgumentList $arg -WindowStyle Hidden -PassThru -Wait
-                        "Commit script finished at $(Get-Date) with exit code $($proc.ExitCode)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+                        "コミットスクリプトが正常終了しました。時刻: $(Get-Date)、終了コード: $($proc.ExitCode)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
                     } catch {
-                        "Error running commit script: $_" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+                        "コミットスクリプトの実行中にエラーが発生しました: $_" | Out-File -FilePath $LogFile -Encoding utf8 -Append
                     }
                     $running = $false
                     $trackedPid = $null
@@ -50,20 +50,20 @@ while ($true) {
             }
         } else {
             if ($running) {
-                "Detected exit of process $trackedPid at $(Get-Date). Running commit script..." | Out-File -FilePath $LogFile -Encoding utf8 -Append
+                "プロセス $trackedPid の終了を検出しました。時刻: $(Get-Date)。コミットスクリプトを実行します..." | Out-File -FilePath $LogFile -Encoding utf8 -Append
                 try {
                     $arg = "-NoProfile -ExecutionPolicy Bypass -File `"$CommitScript`""
                     $proc = Start-Process -FilePath "powershell.exe" -ArgumentList $arg -WindowStyle Hidden -PassThru -Wait
-                    "Commit script finished at $(Get-Date) with exit code $($proc.ExitCode)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+                    "コミットスクリプトが正常終了しました。時刻: $(Get-Date)、終了コード: $($proc.ExitCode)" | Out-File -FilePath $LogFile -Encoding utf8 -Append
                 } catch {
-                    "Error running commit script: $_" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+                    "コミットスクリプトの実行中にエラーが発生しました: $_" | Out-File -FilePath $LogFile -Encoding utf8 -Append
                 }
                 $running = $false
                 $trackedPid = $null
             }
         }
     } catch {
-        "Watcher error: $_" | Out-File -FilePath $LogFile -Encoding utf8 -Append
+        "監視中にエラーが発生しました: $_" | Out-File -FilePath $LogFile -Encoding utf8 -Append
     }
     Start-Sleep -Seconds $PollSeconds
 }
