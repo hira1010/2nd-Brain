@@ -20,7 +20,7 @@
 // ============================================================
 
 /** 食事メニューデータ（P:たんぱく質, F:脂質, C:炭水化物, kcal:カロリー） */
-const MEAL_MENU = {
+let MEAL_MENU = {
     none:       { name: '選択しない',           p: 0,    f: 0,    c: 0,    kcal: 0   },
     toast:      { name: '🍞 トースト',           p: 6,    f: 4,    c: 30,   kcal: 180 },
     egg:        { name: '🍳 スクランブルエッグ', p: 7,    f: 6,    c: 1,    kcal: 90  },
@@ -39,6 +39,19 @@ const MEAL_MENU = {
 
 /** 食事の時間帯リスト（このリストを使い、同じタイプ名を何度も書かない） */
 const MEAL_TYPES = ['breakfast', 'lunch', 'dinner', 'snack'];
+
+/**
+ * 1日の目標摂取栄養素（身長180cm・体重94kg・43歳・-20kgダイエット目標に基づいて計算）
+ * 基礎代謞: 1,855 kcal / TDEE: 2,550 kcal / 赤字-750kcal = 目標 1,800 kcal
+ * PFC配分: P:30% F:25% C:45%（ダイエット中の筋肉維持のためたんぱく質多め）
+ */
+let DAILY_TARGET = {
+    kcal: 1800,
+    p:    135,  // 1800 × 30% ÷ 4kcal/g
+    f:    50,   // 1800 × 25% ÷ 9kcal/g
+    c:    203,  // 1800 × 45% ÷ 4kcal/g
+    water: 2000, // 1日の目標水分摂取量 (ml)
+};
 
 /** バイタル・活動の入力項目定義（ID・保存キー・型） */
 const VITAL_FIELDS = [
@@ -143,6 +156,8 @@ let DOM            = {};                            // DOM要素キャッシュ
 
 document.addEventListener('DOMContentLoaded', () => {
     cacheDOM();
+    loadTargetSettings(); // 目標設定のロード
+    loadCustomMeals();    // カスタム食事のロード
     generateMealOptions();
 
     if (DOM.datePicker) DOM.datePicker.value = selectedDate;
@@ -206,6 +221,31 @@ function cacheDOM() {
         // その他
         autosaveBadge: document.getElementById('autosave-badge'),
         chartCanvas:   document.getElementById('weightChart'),
+
+        // PFC目標超過判定用のラベル要素
+        labelP: document.getElementById('label-p'),
+        labelF: document.getElementById('label-f'),
+        labelC: document.getElementById('label-c'),
+
+        // 設定トグルとパネル
+        toggleSettingsBtn: document.getElementById('toggle-settings-btn'),
+        settingsPanel:     document.getElementById('settings-panel'),
+        
+        // 目標設定の入力項目
+        targetKcal:  document.getElementById('target-kcal-input'),
+        targetP:     document.getElementById('target-p-input'),
+        targetF:     document.getElementById('target-f-input'),
+        targetC:     document.getElementById('target-c-input'),
+        targetWater: document.getElementById('target-water-input'),
+        
+        // カスタム食事の入力項目
+        customMealName:    document.getElementById('custom-meal-name'),
+        customMealKcal:    document.getElementById('custom-meal-kcal'),
+        customMealP:       document.getElementById('custom-meal-p'),
+        customMealF:       document.getElementById('custom-meal-f'),
+        customMealC:       document.getElementById('custom-meal-c'),
+        saveCustomMealBtn: document.getElementById('save-custom-meal-btn'),
+        customMealsTags:   document.getElementById('custom-meals-tags'),
     };
 
     // バイタル入力欄をキャッシュ（VITAL_FIELDSの定義から自動生成）
@@ -284,6 +324,17 @@ function setupEventListeners() {
             updateChart();
         });
     });
+
+    // 設定トグルのイベント
+    DOM.toggleSettingsBtn?.addEventListener('click', toggleSettingsPanel);
+
+    // 目標設定の入力イベント
+    [DOM.targetKcal, DOM.targetP, DOM.targetF, DOM.targetC, DOM.targetWater].forEach(input => {
+        input?.addEventListener('input', saveTargetSettings);
+    });
+
+    // カスタム食事の登録ボタン
+    DOM.saveCustomMealBtn?.addEventListener('click', addCustomMeal);
 }
 
 // ============================================================
@@ -455,11 +506,16 @@ function renderMealList(type) {
  * 水分摂取量の表示（数値・パーセントバー）を更新する
  */
 function updateWaterDisplay(value) {
-    const goal = 2000;
+    const goal = DAILY_TARGET.water || 2000;
     const pct  = Math.min(Math.round((value / goal) * 100), 100);
     if (DOM.waterCurrent)  DOM.waterCurrent.textContent  = value;
     if (DOM.waterPctText)  DOM.waterPctText.textContent  = `${pct}%`;
     if (DOM.waterProgress) DOM.waterProgress.style.width = `${pct}%`;
+    // 画面の目標水分量表示も更新する
+    const unitEl = DOM.waterCurrent?.nextElementSibling;
+    if (unitEl && unitEl.classList.contains('unit')) {
+        unitEl.textContent = `/ ${goal} ml`;
+    }
 }
 
 /** 水分摂取量を加算する */
@@ -571,18 +627,36 @@ function findLatestValue(key) {
 }
 
 /**
- * 今日の総カロリー・PFCバランスバーを更新する
+ * 今日の総カロリー・PFCバランスバーを更新する。
+ * 目標値（DAILY_TARGET）を超えた項目は赤色（over-limit）に切り替える。
  */
 function updatePfcSummary(dayData) {
     // 全食事タイプのメニューキーを1つの配列に集める（旧形式・新形式の両方に対応）
     const allKeys = MEAL_TYPES.flatMap(type => normalizeMealData(dayData[type]));
     const totals  = sumNutrition(allKeys);
 
-    if (DOM.totalCalories) DOM.totalCalories.textContent = `${Math.round(totals.kcal)} kcal`;
-    if (DOM.totalP)        DOM.totalP.textContent        = round1(totals.p);
-    if (DOM.totalF)        DOM.totalF.textContent        = round1(totals.f);
-    if (DOM.totalC)        DOM.totalC.textContent        = round1(totals.c);
+    // カロリー表示（実績 / 目標 kcal）＋ 超過時に赤色
+    if (DOM.totalCalories) {
+        DOM.totalCalories.textContent = `${Math.round(totals.kcal)} / ${DAILY_TARGET.kcal} kcal`;
+        DOM.totalCalories.classList.toggle('over-limit', totals.kcal > DAILY_TARGET.kcal);
+    }
 
+    // PFCの目標表示と実績の更新
+    if (DOM.labelP) DOM.labelP.innerHTML = `P 🥩 たんぱく質: <b id="total-p">${round1(totals.p)}</b> / ${DAILY_TARGET.p}g`;
+    if (DOM.labelF) DOM.labelF.innerHTML = `F 🧈 脂質: <b id="total-f">${round1(totals.f)}</b> / ${DAILY_TARGET.f}g`;
+    if (DOM.labelC) DOM.labelC.innerHTML = `C 🍚 炭水化物: <b id="total-c">${round1(totals.c)}</b> / ${DAILY_TARGET.c}g`;
+
+    // innerHTMLで再構築されたID要素をキャッシュに再ロード
+    DOM.totalP = document.getElementById('total-p');
+    DOM.totalF = document.getElementById('total-f');
+    DOM.totalC = document.getElementById('total-c');
+
+    // 目標超過時にラベル全体を赤色に切り替える
+    DOM.labelP?.classList.toggle('over-limit', totals.p > DAILY_TARGET.p);
+    DOM.labelF?.classList.toggle('over-limit', totals.f > DAILY_TARGET.f);
+    DOM.labelC?.classList.toggle('over-limit', totals.c > DAILY_TARGET.c);
+
+    // PFC割合バー（摂取したP:F:C の比率を表示）
     const totalGrams = totals.p + totals.f + totals.c;
     if (totalGrams > 0) {
         if (DOM.pBar) DOM.pBar.style.width = `${(totals.p / totalGrams) * 100}%`;
@@ -592,6 +666,7 @@ function updatePfcSummary(dayData) {
         [DOM.pBar, DOM.fBar, DOM.cBar].forEach(b => { if (b) b.style.width = '0%'; });
     }
 }
+
 
 /**
  * 日付の選択を指定した日数分ずらす
@@ -662,7 +737,7 @@ function updateChart() {
             grid:  { drawOnChartArea: false },
             ticks: { color: '#94a3b8' },
             title: { display: true, text: '水分 (ml)', color: '#3b82f6' },
-            min: 0, max: 3000,
+            min: 0, max: Math.max((DAILY_TARGET.water || 2000) + 1000, 3000),
         };
     }
 
@@ -852,4 +927,180 @@ function sumNutrition(keys) {
  */
 function round1(x) {
     return Math.round(x * 10) / 10;
+}
+
+// ============================================================
+// [12] 設定パネル機能（目標設定とカスタム食事）
+// ============================================================
+
+/**
+ * 設定パネルの表示・非表示を切り替える
+ */
+function toggleSettingsPanel() {
+    if (!DOM.settingsPanel) return;
+    DOM.settingsPanel.classList.toggle('hidden');
+    
+    // 開いた際、現在の設定値を入力を反映する
+    if (!DOM.settingsPanel.classList.contains('hidden')) {
+        if (DOM.targetKcal)  DOM.targetKcal.value  = DAILY_TARGET.kcal;
+        if (DOM.targetP)     DOM.targetP.value     = DAILY_TARGET.p;
+        if (DOM.targetF)     DOM.targetF.value     = DAILY_TARGET.f;
+        if (DOM.targetC)     DOM.targetC.value     = DAILY_TARGET.c;
+        if (DOM.targetWater) DOM.targetWater.value = DAILY_TARGET.water;
+    }
+}
+
+/**
+ * 画面から変更された目標設定をローカルストレージに保存する
+ */
+function saveTargetSettings() {
+    DAILY_TARGET.kcal  = parseFloat(DOM.targetKcal?.value) || 1800;
+    DAILY_TARGET.p     = parseFloat(DOM.targetP?.value) || 135;
+    DAILY_TARGET.f     = parseFloat(DOM.targetF?.value) || 50;
+    DAILY_TARGET.c     = parseFloat(DOM.targetC?.value) || 203;
+    DAILY_TARGET.water = parseFloat(DOM.targetWater?.value) || 2000;
+
+    localStorage.setItem('health_tracker_target_settings', JSON.stringify(DAILY_TARGET));
+    
+    // 水分表示とダッシュボード・グラフを即座に更新する
+    const currentWater = parseInt(DOM.waterCurrent?.textContent || '0', 10) || 0;
+    updateWaterDisplay(currentWater);
+    updateDashboard(true);
+}
+
+/**
+ * 目標設定をローカルストレージから読み込む
+ */
+function loadTargetSettings() {
+    const raw = localStorage.getItem('health_tracker_target_settings');
+    if (raw) {
+        try {
+            DAILY_TARGET = JSON.parse(raw);
+        } catch (e) {
+            console.error('目標設定の読み込みに失敗しました:', e);
+        }
+    }
+}
+
+/**
+ * カスタム食事メニューをローカルストレージから読み込み、MEAL_MENUにマージする
+ */
+function loadCustomMeals() {
+    const raw = localStorage.getItem('health_tracker_custom_meals');
+    if (raw) {
+        try {
+            const customMeals = JSON.parse(raw);
+            Object.assign(MEAL_MENU, customMeals);
+        } catch (e) {
+            console.error('カスタム食事の読み込みに失敗しました:', e);
+        }
+    }
+    renderCustomMealsTags();
+}
+
+/**
+ * 画面で入力されたマイ食事メニューを登録して保存する
+ */
+function addCustomMeal() {
+    const name = DOM.customMealName?.value?.trim();
+    const kcal = parseFloat(DOM.customMealKcal?.value) || 0;
+    const p    = parseFloat(DOM.customMealP?.value) || 0;
+    const f    = parseFloat(DOM.customMealF?.value) || 0;
+    const c    = parseFloat(DOM.customMealC?.value) || 0;
+
+    if (!name) {
+        alert('食事の名前を入力してください。');
+        return;
+    }
+
+    // 重複を避けるための識別キーを生成
+    const key = `custom_${Date.now()}`;
+    
+    // 新しいメニューオブジェクトを作成
+    const newMeal = {
+        name: `⭐ ${name}`, // マイメニューであることが分かりやすいように星マークを付与
+        kcal: kcal,
+        p: p,
+        f: f,
+        c: c
+    };
+
+    // メモリ上のメニューデータにマージ
+    MEAL_MENU[key] = newMeal;
+
+    // ローカルストレージにカスタム食事のみを抽出して保存
+    saveCustomMealsToStorage();
+
+    // 入力フォームをクリア
+    if (DOM.customMealName) DOM.customMealName.value = '';
+    if (DOM.customMealKcal) DOM.customMealKcal.value = '';
+    if (DOM.customMealP)    DOM.customMealP.value = '';
+    if (DOM.customMealF)    DOM.customMealF.value = '';
+    if (DOM.customMealC)    DOM.customMealC.value = '';
+
+    // プルダウンの選択肢を再生成
+    generateMealOptions();
+    // 登録済みタグ一覧を更新
+    renderCustomMealsTags();
+}
+
+/**
+ * カスタム食事（キーが custom_ で始まるもの）のみを抽出してローカルストレージに保存する
+ */
+function saveCustomMealsToStorage() {
+    const customMeals = {};
+    Object.entries(MEAL_MENU).forEach(([key, meal]) => {
+        if (key.startsWith('custom_')) {
+            customMeals[key] = meal;
+        }
+    });
+    localStorage.setItem('health_tracker_custom_meals', JSON.stringify(customMeals));
+}
+
+/**
+ * 登録済みのカスタム食事メニューを削除する
+ * @param {string} key - 削除するメニューの識別キー
+ */
+function removeCustomMeal(key) {
+    if (confirm('このマイメニューを削除しますか？\n(すでにその日の食事として記録されている項目は、そのまま計算に残ります)')) {
+        delete MEAL_MENU[key];
+        saveCustomMealsToStorage();
+        generateMealOptions();
+        renderCustomMealsTags();
+    }
+}
+
+/**
+ * 登録されているカスタム食事の一覧をタグで描画する
+ */
+function renderCustomMealsTags() {
+    if (!DOM.customMealsTags) return;
+    DOM.customMealsTags.innerHTML = '';
+
+    let hasCustom = false;
+    Object.entries(MEAL_MENU).forEach(([key, meal]) => {
+        if (!key.startsWith('custom_')) return;
+        hasCustom = true;
+
+        const tag = document.createElement('span');
+        tag.className = 'custom-meal-tag';
+        tag.textContent = `${meal.name.replace('⭐ ', '')} (${meal.kcal}kcal)`;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'custom-meal-tag-remove';
+        removeBtn.textContent = '×';
+        removeBtn.title = 'このメニューを削除';
+        removeBtn.addEventListener('click', () => removeCustomMeal(key));
+
+        tag.appendChild(removeBtn);
+        DOM.customMealsTags.appendChild(tag);
+    });
+
+    if (!hasCustom) {
+        const msg = document.createElement('span');
+        msg.style.color = 'var(--text-muted)';
+        msg.style.fontSize = '0.85rem';
+        msg.textContent = '登録済みのマイメニューはありません';
+        DOM.customMealsTags.appendChild(msg);
+    }
 }

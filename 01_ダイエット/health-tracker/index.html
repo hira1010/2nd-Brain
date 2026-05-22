@@ -44,6 +44,85 @@
             <button id="next-date-btn" class="icon-btn" title="翌日">
                 <i data-lucide="chevron-right"></i>
             </button>
+            <button id="toggle-settings-btn" class="icon-btn" title="設定を開く/閉じる">
+                <i data-lucide="settings"></i>
+            </button>
+        </section>
+
+        <!-- 設定パネル（トグル式） -->
+        <section id="settings-panel" class="settings-panel glass-panel hidden">
+            <div class="settings-grid">
+                <!-- 目標設定エリア -->
+                <div class="settings-group">
+                    <div class="group-header">
+                        <i data-lucide="target"></i>
+                        <h3>1日の目標設定</h3>
+                    </div>
+                    <div class="settings-inputs-grid">
+                        <div class="input-wrapper">
+                            <label for="target-kcal-input">目標カロリー (kcal)</label>
+                            <input type="number" id="target-kcal-input" placeholder="1800">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="target-p-input">目標タンパク質 (g)</label>
+                            <input type="number" id="target-p-input" placeholder="135">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="target-f-input">目標脂質 (g)</label>
+                            <input type="number" id="target-f-input" placeholder="50">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="target-c-input">目標炭水化物 (g)</label>
+                            <input type="number" id="target-c-input" placeholder="203">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="target-water-input">目標水分量 (ml)</label>
+                            <input type="number" id="target-water-input" placeholder="2000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 食事メニュー追加エリア -->
+                <div class="settings-group">
+                    <div class="group-header">
+                        <i data-lucide="plus-circle"></i>
+                        <h3>マイ食事メニューの追加</h3>
+                    </div>
+                    <div class="settings-inputs-grid">
+                        <div class="input-wrapper full-width">
+                            <label for="custom-meal-name">食事の名前</label>
+                            <input type="text" id="custom-meal-name" placeholder="例: 自製プロテインスムージー">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="custom-meal-kcal">カロリー (kcal)</label>
+                            <input type="number" id="custom-meal-kcal" placeholder="150">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="custom-meal-p">タンパク質 (g)</label>
+                            <input type="number" id="custom-meal-p" placeholder="20">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="custom-meal-f">脂質 (g)</label>
+                            <input type="number" id="custom-meal-f" placeholder="2">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="custom-meal-c">炭水化物 (g)</label>
+                            <input type="number" id="custom-meal-c" placeholder="10">
+                        </div>
+                    </div>
+                    <button type="button" id="save-custom-meal-btn" class="settings-save-btn">
+                        ➕ メニューに登録する
+                    </button>
+                </div>
+            </div>
+            
+            <!-- カスタム食事一覧 -->
+            <div class="custom-meals-list-section">
+                <h4>登録済みのマイメニュー</h4>
+                <div id="custom-meals-tags" class="custom-meals-tags">
+                    <!-- JSで登録済みのメニューをタグ形式で表示し、削除できるようにする -->
+                </div>
+            </div>
         </section>
 
         <!-- メインコンテンツグリッド -->
@@ -326,9 +405,9 @@
                                     <div class="pfc-segment c-seg" id="c-bar" style="width: 0%" title="炭水化物"></div>
                                 </div>
                                 <div class="pfc-legend-labels">
-                                    <span class="p-label">P 🥩 たんぱく質: <b id="total-p">0</b>g</span>
-                                    <span class="f-label">F 🧈 脂質: <b id="total-f">0</b>g</span>
-                                    <span class="c-label">C 🍚 炭水化物: <b id="total-c">0</b>g</span>
+                                    <span class="p-label" id="label-p">P 🥩 たんぱく質: <b id="total-p">0</b> / 135g</span>
+                                    <span class="f-label" id="label-f">F 🧈 脂質: <b id="total-f">0</b> / 50g</span>
+                                    <span class="c-label" id="label-c">C 🍚 炭水化物: <b id="total-c">0</b> / 203g</span>
                                 </div>
                             </div>
                         </div>

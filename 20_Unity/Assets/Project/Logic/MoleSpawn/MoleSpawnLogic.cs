@@ -18,7 +18,7 @@ namespace UnityMcpTextbook.Logic
     {
         Normal,
         Boss,
-        /// <summary>叩いてはいけない毒モグラ。叩つと減点、見逃しても減点なし。</summary>
+        /// <summary>叩いてはいけない毒モグラ。叩くと減点、見逃しても減点なし。</summary>
         Poison
     }
 

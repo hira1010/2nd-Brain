@@ -43,6 +43,8 @@ IGNORE_PATTERNS = [
     "Logs",
     "obj",
     ".vs",
+    "19_野球剣",
+    "*.asar",
     ".pi",
     ".pochi",
     ".qoder",

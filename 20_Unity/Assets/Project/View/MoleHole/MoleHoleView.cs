@@ -204,36 +204,47 @@ namespace UnityMcpTextbook.View
             switch (displayType)
             {
                 case MoleDisplayType.Boss:
-                    moleImage.rectTransform.localScale = new Vector3(1.3f, 1.3f, 1f);
-                    moleImage.color = Color.red;
-                    EnsureHpText();
-                    if (hpText != null)
-                    {
-                        // HP数値はLogicが管理するためここでは初期化のみ。
-                        // Presenterが直後にUpdateHpDisplay()を呼んで正しい値を設定する。
-                        hpText.text = string.Empty;
-                        hpText.gameObject.SetActive(true);
-                    }
+                    ApplyBossMoleAppearance();
                     break;
 
                 case MoleDisplayType.Poison:
-                    // 毒モグラ: 緑色・通常サイズで識別できる見た目
-                    moleImage.rectTransform.localScale = Vector3.one;
-                    moleImage.color = new Color(0.2f, 0.85f, 0.3f, 1f);
-                    if (hpText != null)
-                    {
-                        hpText.gameObject.SetActive(false);
-                    }
+                    ApplyPoisonMoleAppearance();
                     break;
 
-                default: // MoleDisplayType.Normal
-                    moleImage.rectTransform.localScale = Vector3.one;
-                    moleImage.color = Color.white;
-                    if (hpText != null)
-                    {
-                        hpText.gameObject.SetActive(false);
-                    }
+                default:
+                    ApplyNormalMoleAppearance();
                     break;
+            }
+        }
+
+        private void ApplyBossMoleAppearance()
+        {
+            moleImage.rectTransform.localScale = new Vector3(1.3f, 1.3f, 1f);
+            moleImage.color = Color.red;
+            EnsureHpText();
+            hpText.text = string.Empty;
+            hpText.gameObject.SetActive(true);
+        }
+
+        private void ApplyPoisonMoleAppearance()
+        {
+            moleImage.rectTransform.localScale = Vector3.one;
+            moleImage.color = new Color(0.2f, 0.85f, 0.3f, 1f);
+            HideHpText();
+        }
+
+        private void ApplyNormalMoleAppearance()
+        {
+            moleImage.rectTransform.localScale = Vector3.one;
+            moleImage.color = Color.white;
+            HideHpText();
+        }
+
+        private void HideHpText()
+        {
+            if (hpText != null)
+            {
+                hpText.gameObject.SetActive(false);
             }
         }
 

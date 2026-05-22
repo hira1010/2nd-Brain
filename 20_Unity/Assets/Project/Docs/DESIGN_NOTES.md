@@ -20,3 +20,8 @@ Step 4 では Logic / Presenter を作らず、GameLauncher の一時テスト�
 MoleSpawnLogic handles index management for 9 holes, max 3 active, and hit/miss notifications in Logic.
 MoleSpawnPresenter connects indices to MoleHoleView, handles score callbacks, and triggers View animations.
 Step 5 spawns 9 holes via GameLauncher and starts spawn logic without screen transitions.
+
+App 層は GameLauncher / GameFlowController / GameplaySession / GameScreenFactory に分ける。
+GameLauncher はブートストラップと全体寿命管理だけを担当する。
+GameFlowController は画面遷移、GameplaySession は Logic / Presenter の生成と破棄を担当する。
+音声再生は現状機能維持を優先し、RandomAudioPlayer を残して View 側演出として扱う。
