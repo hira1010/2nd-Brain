@@ -24,7 +24,7 @@ namespace UnityMcpTextbook.View
     {
         /// <summary>通常モグラ。</summary>
         Normal,
-        /// <summary>ボスモグラ（赤色・拡大・HP3）。</summary>
+        /// <summary>ボスモグラ（赤色・画面いっぱい・HP100）。</summary>
         Boss,
         /// <summary>叩いてはいけない毒モグラ（緑色）。叩くと減点。</summary>
         Poison
@@ -48,6 +48,7 @@ namespace UnityMcpTextbook.View
 
         private Tween activeTween;
         private Vector2 defaultMoleAnchoredPosition;
+        private Vector2 defaultMoleSizeDelta;
         private bool hasDefaultMolePosition;
         private bool isHitEnabled;
         private Text hpText;
@@ -94,6 +95,7 @@ namespace UnityMcpTextbook.View
             SetMoleSprite(appearSprite);
             moleImage.enabled = true;
             moleImage.rectTransform.anchoredPosition = defaultMoleAnchoredPosition;
+            moleImage.rectTransform.sizeDelta = defaultMoleSizeDelta;
             moleImage.rectTransform.localScale = Vector3.one;
         }
 
@@ -105,6 +107,7 @@ namespace UnityMcpTextbook.View
             SetHitEnabled(false);
             moleImage.enabled = false;
             moleImage.rectTransform.anchoredPosition = defaultMoleAnchoredPosition;
+            moleImage.rectTransform.sizeDelta = defaultMoleSizeDelta;
             moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = Color.white;
             if (hpText != null)
@@ -219,7 +222,8 @@ namespace UnityMcpTextbook.View
 
         private void ApplyBossMoleAppearance()
         {
-            moleImage.rectTransform.localScale = new Vector3(1.3f, 1.3f, 1f);
+            moleImage.rectTransform.sizeDelta = new Vector2(1080f, 1200f);
+            moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = Color.red;
             EnsureHpText();
             hpText.text = string.Empty;
@@ -228,6 +232,7 @@ namespace UnityMcpTextbook.View
 
         private void ApplyPoisonMoleAppearance()
         {
+            moleImage.rectTransform.sizeDelta = defaultMoleSizeDelta;
             moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = new Color(0.2f, 0.85f, 0.3f, 1f);
             HideHpText();
@@ -235,6 +240,7 @@ namespace UnityMcpTextbook.View
 
         private void ApplyNormalMoleAppearance()
         {
+            moleImage.rectTransform.sizeDelta = defaultMoleSizeDelta;
             moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = Color.white;
             HideHpText();
@@ -347,6 +353,7 @@ namespace UnityMcpTextbook.View
             }
 
             defaultMoleAnchoredPosition = moleImage.rectTransform.anchoredPosition;
+            defaultMoleSizeDelta = moleImage.rectTransform.sizeDelta;
             hasDefaultMolePosition = true;
         }
 

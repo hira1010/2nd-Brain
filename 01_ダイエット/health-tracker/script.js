@@ -19,9 +19,8 @@
 // [1] 定数・設定データ
 // ============================================================
 
-/** 食事メニューデータ（P:たんぱく質, F:脂質, C:炭水化物, kcal:カロリー） */
-let MEAL_MENU = {
-    none:       { name: '選択しない',           p: 0,    f: 0,    c: 0,    kcal: 0   },
+/** デフォルトの食事メニューデータ（P:たんぱく質, F:脂質, C:炭水化物, kcal:カロリー） */
+const DEFAULT_MEAL_MENU = {
     toast:      { name: '🍞 トースト',           p: 6,    f: 4,    c: 30,   kcal: 180 },
     egg:        { name: '🍳 スクランブルエッグ', p: 7,    f: 6,    c: 1,    kcal: 90  },
     salad:      { name: '🥗 グリーンサラダ',     p: 1,    f: 0.2,  c: 4,    kcal: 20  },
@@ -35,6 +34,11 @@ let MEAL_MENU = {
     chocolate:  { name: '🍫 チョコレート',       p: 2,    f: 15,   c: 28,   kcal: 250 },
     apple:      { name: '🍎 りんご (半分)',       p: 0.3,  f: 0.1,  c: 15,   kcal: 60  },
     protein:    { name: '🥤 プロテイン',         p: 20,   f: 1.5,  c: 3,    kcal: 120 },
+};
+
+/** 食事メニューデータ（ロードされたデータがマージされます） */
+let MEAL_MENU = {
+    none:       { name: '選択しない',           p: 0,    f: 0,    c: 0,    kcal: 0   },
 };
 
 /** 食事の時間帯リスト（このリストを使い、同じタイプ名を何度も書かない） */
@@ -157,7 +161,7 @@ let DOM            = {};                            // DOM要素キャッシュ
 document.addEventListener('DOMContentLoaded', () => {
     cacheDOM();
     loadTargetSettings(); // 目標設定のロード
-    loadCustomMeals();    // カスタム食事のロード
+    loadMeals();          // 食事メニュー全体のロード
     generateMealOptions();
 
     if (DOM.datePicker) DOM.datePicker.value = selectedDate;
@@ -337,7 +341,7 @@ function setupEventListeners() {
                     c: 0
                 };
 
-                saveCustomMealsToStorage();
+                saveMealsToStorage(); // 食事メニュー全体を保存
                 generateMealOptions();
                 renderCustomMealsTags();
                 addMealItem(type, newKey);
@@ -1016,17 +1020,31 @@ function loadTargetSettings() {
 }
 
 /**
- * カスタム食事メニューをローカルストレージから読み込み、MEAL_MENUにマージする
+ * 食事メニューをローカルストレージから読み込み、MEAL_MENUにマージする
  */
-function loadCustomMeals() {
-    const raw = localStorage.getItem('health_tracker_custom_meals');
+function loadMeals() {
+    const raw = localStorage.getItem('health_tracker_meals');
     if (raw) {
         try {
-            const customMeals = JSON.parse(raw);
-            Object.assign(MEAL_MENU, customMeals);
+            const savedMeals = JSON.parse(raw);
+            MEAL_MENU = {
+                none: { name: '選択しない', p: 0, f: 0, c: 0, kcal: 0 },
+                ...savedMeals
+            };
         } catch (e) {
-            console.error('カスタム食事の読み込みに失敗しました:', e);
+            console.error('食事メニューの読み込みに失敗しました:', e);
+            MEAL_MENU = {
+                none: { name: '選択しない', p: 0, f: 0, c: 0, kcal: 0 },
+                ...DEFAULT_MEAL_MENU
+            };
         }
+    } else {
+        // 初回起動時はデフォルト値を設定して保存
+        MEAL_MENU = {
+            none: { name: '選択しない', p: 0, f: 0, c: 0, kcal: 0 },
+            ...DEFAULT_MEAL_MENU
+        };
+        saveMealsToStorage();
     }
     renderCustomMealsTags();
 }
@@ -1061,8 +1079,8 @@ function addCustomMeal() {
     // メモリ上のメニューデータにマージ
     MEAL_MENU[key] = newMeal;
 
-    // ローカルストレージにカスタム食事のみを抽出して保存
-    saveCustomMealsToStorage();
+    // ローカルストレージに食事メニュー全体を保存
+    saveMealsToStorage();
 
     // 入力フォームをクリア
     if (DOM.customMealName) DOM.customMealName.value = '';
@@ -1075,31 +1093,33 @@ function addCustomMeal() {
     generateMealOptions();
     // 登録済みタグ一覧を更新
     renderCustomMealsTags();
+    showToast(`マイメニュー「${name}」を追加しました`);
 }
 
 /**
- * カスタム食事（キーが custom_ で始まるもの）のみを抽出してローカルストレージに保存する
+ * 食事メニュー全体（noneを除く）をローカルストレージに保存する
  */
-function saveCustomMealsToStorage() {
-    const customMeals = {};
+function saveMealsToStorage() {
+    const mealsToSave = {};
     Object.entries(MEAL_MENU).forEach(([key, meal]) => {
-        if (key.startsWith('custom_')) {
-            customMeals[key] = meal;
+        if (key !== 'none') {
+            mealsToSave[key] = meal;
         }
     });
-    localStorage.setItem('health_tracker_custom_meals', JSON.stringify(customMeals));
+    localStorage.setItem('health_tracker_meals', JSON.stringify(mealsToSave));
 }
 
 /**
- * 登録済みのカスタム食事メニューを削除する
+ * 登録済みの食事メニューを削除する
  * @param {string} key - 削除するメニューの識別キー
  */
 function removeCustomMeal(key) {
     const meal = MEAL_MENU[key];
-    const name = meal ? meal.name.replace('⭐ ', '') : 'メニュー';
-    if (confirm(`このマイメニュー「${name}」を削除しますか？\n(すでにその日の食事として記録されている項目は、そのまま計算に残ります)`)) {
+    if (!meal) return;
+    const name = meal.name.replace('⭐ ', '');
+    if (confirm(`この食事メニュー「${name}」を削除しますか？\n(すでにその日の食事として記録されている項目は、そのまま計算に残ります)`)) {
         delete MEAL_MENU[key];
-        saveCustomMealsToStorage();
+        saveMealsToStorage();
         generateMealOptions();
         renderCustomMealsTags();
         showToast(`マイメニュー「${name}」を削除しました`);
@@ -1107,16 +1127,16 @@ function removeCustomMeal(key) {
 }
 
 /**
- * 登録されているカスタム食事の一覧をタグで描画する
+ * 登録されているすべての食事メニュー（noneを除く）をタグで描画する
  */
 function renderCustomMealsTags() {
     if (!DOM.customMealsTags) return;
     DOM.customMealsTags.innerHTML = '';
 
-    let hasCustom = false;
+    let hasMeals = false;
     Object.entries(MEAL_MENU).forEach(([key, meal]) => {
-        if (!key.startsWith('custom_')) return;
-        hasCustom = true;
+        if (key === 'none') return;
+        hasMeals = true;
 
         const tag = document.createElement('span');
         tag.className = 'custom-meal-tag';
@@ -1132,7 +1152,7 @@ function renderCustomMealsTags() {
         DOM.customMealsTags.appendChild(tag);
     });
 
-    if (!hasCustom) {
+    if (!hasMeals) {
         const msg = document.createElement('span');
         msg.style.color = 'var(--text-muted)';
         msg.style.fontSize = '0.85rem';

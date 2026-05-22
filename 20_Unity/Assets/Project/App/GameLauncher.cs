@@ -2,6 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityMcpTextbook.View;
 
 namespace UnityMcpTextbook.App
@@ -108,13 +109,35 @@ namespace UnityMcpTextbook.App
 
         private static void EnsureEventSystem()
         {
-            if (FindFirstObjectByType<EventSystem>() != null)
+            var eventSystems = FindObjectsByType<EventSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            EventSystem eventSystem;
+            if (eventSystems.Length == 0)
             {
-                return;
+                var eventSystemObject = new GameObject("EventSystem", typeof(EventSystem));
+                DontDestroyOnLoad(eventSystemObject);
+                eventSystem = eventSystemObject.GetComponent<EventSystem>();
+            }
+            else
+            {
+                eventSystem = eventSystems[0];
+                DontDestroyOnLoad(eventSystem.gameObject);
+
+                for (var i = 1; i < eventSystems.Length; i++)
+                {
+                    Destroy(eventSystems[i].gameObject);
+                }
             }
 
-            var eventSystemObject = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
-            DontDestroyOnLoad(eventSystemObject);
+            var standaloneInputModule = eventSystem.GetComponent<StandaloneInputModule>();
+            if (standaloneInputModule != null)
+            {
+                Destroy(standaloneInputModule);
+            }
+
+            if (eventSystem.GetComponent<InputSystemUIInputModule>() == null)
+            {
+                eventSystem.gameObject.AddComponent<InputSystemUIInputModule>();
+            }
         }
 
         private static void ConfigureMainCamera()

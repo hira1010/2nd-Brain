@@ -25,7 +25,8 @@ namespace UnityMcpTextbook.Logic
             double spawnIntervalMaxSeconds = 0.42d,
             double moleVisibleDurationSeconds = 1.8d,
             double bossSpawnProbability = 0.2d,
-            double poisonSpawnProbability = 0.15d)
+            double poisonSpawnProbability = 0.15d,
+            int bossHitPoints = 100)
         {
             if (holeCount <= 0)
             {
@@ -62,6 +63,11 @@ namespace UnityMcpTextbook.Logic
                 throw new ArgumentOutOfRangeException(nameof(poisonSpawnProbability), "Poison spawn probability must be between 0.0 and 1.0.");
             }
 
+            if (bossHitPoints <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bossHitPoints), "Boss hit points must be greater than zero.");
+            }
+
             HoleCount = holeCount;
             MaxActiveMoles = maxActiveMoles;
             SpawnIntervalMinSeconds = spawnIntervalMinSeconds;
@@ -69,6 +75,7 @@ namespace UnityMcpTextbook.Logic
             MoleVisibleDurationSeconds = moleVisibleDurationSeconds;
             BossSpawnProbability = bossSpawnProbability;
             PoisonSpawnProbability = poisonSpawnProbability;
+            BossHitPoints = bossHitPoints;
         }
 
         /// <summary>Total number of holes.</summary>
@@ -91,5 +98,8 @@ namespace UnityMcpTextbook.Logic
 
         /// <summary>毒モグラが出現する確率。</summary>
         public double PoisonSpawnProbability { get; }
+
+        /// <summary>Number of hits needed to defeat a boss mole.</summary>
+        public int BossHitPoints { get; }
     }
 }

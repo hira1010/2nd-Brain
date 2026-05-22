@@ -161,7 +161,7 @@ namespace UnityMcpTextbook.Logic
             var holeIndex = candidates[_random.Next(candidates.Count)];
             var type = GetRandomMoleType();
 
-            if (TrySpawn(holeIndex, type))
+            if (TrySpawn(holeIndex, type) && type != MoleType.Boss)
             {
                 WaitForMissAsync(holeIndex, cancellationToken).Forget();
             }
@@ -197,9 +197,9 @@ namespace UnityMcpTextbook.Logic
             return MoleType.Normal;
         }
 
-        private static int GetInitialHp(MoleType type)
+        private int GetInitialHp(MoleType type)
         {
-            return type == MoleType.Boss ? 3 : 1;
+            return type == MoleType.Boss ? _config.BossHitPoints : 1;
         }
 
         private async UniTask WaitForMissAsync(int holeIndex, CancellationToken cancellationToken)

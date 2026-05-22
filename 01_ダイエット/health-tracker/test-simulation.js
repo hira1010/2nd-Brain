@@ -113,8 +113,8 @@ setTimeout(() => {
     setTimeout(() => {
         console.log("さらに600ms経過後のローカルストレージ内容（朝食と昼食の両方が保存されているはず）:");
         console.log(localStorage.getItem('health_tracker_data'));
-        console.log("カスタム食事メニューのストレージ内容（ステーキが記憶されているはず）:");
-        console.log(localStorage.getItem('health_tracker_custom_meals'));
+        console.log("食事メニューのストレージ内容（ステーキが記憶されているはず）:");
+        console.log(localStorage.getItem('health_tracker_meals'));
         console.log("\n--- テスト終了 ---");
     }, 600);
 

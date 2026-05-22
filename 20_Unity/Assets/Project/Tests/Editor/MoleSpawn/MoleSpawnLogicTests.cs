@@ -104,7 +104,7 @@ namespace UnityMcpTextbook.Tests.Editor
         }
 
         [Test]
-        public void TrySpawn_BossMole_RequiresThreeHitsToDefeat()
+        public void TrySpawn_BossMole_RequiresOneHundredHitsToDefeat()
         {
             var logic = new MoleSpawnLogic(new MoleSpawnConfig(holeCount: 9, maxActiveMoles: 3));
             var damaged = new List<Tuple<int, int>>();
@@ -116,28 +116,62 @@ namespace UnityMcpTextbook.Tests.Editor
             // ボスモグラを出現させる
             logic.TrySpawn(3, MoleType.Boss);
             Assert.That(logic.IsActive(3), Is.True);
+            Assert.That(logic.GetCurrentHp(3), Is.EqualTo(100));
 
-            // 1回目のヒット
-            var hit1 = logic.TryHit(3);
-            Assert.That(hit1, Is.True);
-            Assert.That(logic.IsActive(3), Is.True); // まだ倒れていない
-            Assert.That(damaged.Count, Is.EqualTo(1));
-            Assert.That(damaged[0].Item2, Is.EqualTo(2)); // 残りHP 2
+            for (var i = 0; i < 99; i++)
+            {
+                Assert.That(logic.TryHit(3), Is.True);
+                Assert.That(logic.IsActive(3), Is.True);
+            }
 
-            // 2回目のヒット
-            var hit2 = logic.TryHit(3);
-            Assert.That(hit2, Is.True);
-            Assert.That(logic.IsActive(3), Is.True); // まだ倒れていない
-            Assert.That(damaged.Count, Is.EqualTo(2));
-            Assert.That(damaged[1].Item2, Is.EqualTo(1)); // 残りHP 1
+            Assert.That(damaged.Count, Is.EqualTo(99));
+            Assert.That(damaged[0].Item2, Is.EqualTo(99));
+            Assert.That(damaged[98].Item2, Is.EqualTo(1));
+            Assert.That(defeated.Count, Is.EqualTo(0));
 
-            // 3回目のヒット
-            var hit3 = logic.TryHit(3);
-            Assert.That(hit3, Is.True);
+            var finalHit = logic.TryHit(3);
+            Assert.That(finalHit, Is.True);
             Assert.That(logic.IsActive(3), Is.False); // 倒れた！
             Assert.That(defeated.Count, Is.EqualTo(1));
             Assert.That(defeated[0].Item1, Is.EqualTo(3));
             Assert.That(defeated[0].Item2, Is.EqualTo(MoleType.Boss));
+        }
+
+        [UnityTest]
+        public IEnumerator RunAsync_BossMole_DoesNotMissByVisibleDuration()
+        {
+            return UniTask.ToCoroutine(async () =>
+            {
+                var config = new MoleSpawnConfig(
+                    holeCount: 1,
+                    maxActiveMoles: 1,
+                    spawnIntervalMinSeconds: 0.005d,
+                    spawnIntervalMaxSeconds: 0.005d,
+                    moleVisibleDurationSeconds: 0.02d,
+                    bossSpawnProbability: 1d,
+                    poisonSpawnProbability: 0d);
+                var logic = new MoleSpawnLogic(config, new Random(1));
+                var missed = new List<Tuple<int, MoleType>>();
+                using var cancellationTokenSource = new CancellationTokenSource();
+
+                logic.OnMoleMissed += (holeIndex, type) => missed.Add(Tuple.Create(holeIndex, type));
+
+                var runTask = logic.RunAsync(cancellationTokenSource.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.08d), DelayType.Realtime);
+                cancellationTokenSource.Cancel();
+
+                try
+                {
+                    await runTask;
+                }
+                catch (OperationCanceledException)
+                {
+                }
+
+                Assert.That(logic.IsActive(0), Is.True);
+                Assert.That(logic.GetCurrentHp(0), Is.EqualTo(100));
+                Assert.That(missed.Count, Is.EqualTo(0));
+            });
         }
 
         [Test]
