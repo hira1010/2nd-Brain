@@ -1,5 +1,5 @@
 /**
- * ヘルスケア記録サイト - メインスクリプト
+ * ヘルスケア記録サイト - メインスクリプト (リファクタリング版)
  */
 
 // 食事メニューデータの定義（P:たんぱく質, F:脂質, C:炭水化物）
@@ -20,6 +20,21 @@ const MEAL_MENU = {
     "protein": { name: "🥤 プロテイン", p: 20, f: 1.5, c: 3, kcal: 120 }
 };
 
+// バイタルおよび活動入力項目の定義（ID、データキー、型の指定）
+const VITAL_FIELDS = [
+    { id: 'weight-input', key: 'weight', type: 'float' },
+    { id: 'bodyfat-input', key: 'bodyfat', type: 'float' },
+    { id: 'bp-input', key: 'bp', type: 'string' },
+    { id: 'bmi-input', key: 'bmi', type: 'float' },
+    { id: 'waist-input', key: 'waist', type: 'float' },
+    { id: 'visceral-fat-input', key: 'visceralFat', type: 'float' },
+    { id: 'subcutaneous-fat-input', key: 'subcutaneousFat', type: 'float' },
+    { id: 'muscle-input', key: 'muscle', type: 'float' },
+    { id: 'metabolism-input', key: 'metabolism', type: 'float' },
+    { id: 'body-age-input', key: 'bodyAge', type: 'int' },
+    { id: 'exercise-input', key: 'exercise', type: 'string' }
+];
+
 // 選択中の日付 (デフォルトは今日の日付: YYYY-MM-DD形式)
 let selectedDate = getFormattedDate(new Date());
 
@@ -32,22 +47,60 @@ let currentChartTab = 'weight';
 // 自動保存のデバウンス用タイマー
 let saveTimeout = null;
 
+// DOM要素のキャッシュ用オブジェクト
+let DOM = {};
+
 // アプリケーション起動時の初期化
 document.addEventListener('DOMContentLoaded', () => {
-    // プルダウンメニューのオプションを生成
+    cacheDOM();
     generateMealOptions();
 
-    // 日付選択フォームに初期日付を設定
-    const datePicker = document.getElementById('date-picker');
-    datePicker.value = selectedDate;
+    if (DOM.datePicker) {
+        DOM.datePicker.value = selectedDate;
+    }
 
-    // イベントリスナーの登録
     setupEventListeners();
-
-    // データの読み込みと画面の更新
     loadDateData(selectedDate);
     updateDashboard();
 });
+
+/**
+ * 主要なDOM要素を1箇所で取得してキャッシュする
+ */
+function cacheDOM() {
+    DOM = {
+        datePicker: document.getElementById('date-picker'),
+        prevBtn: document.getElementById('prev-date-btn'),
+        nextBtn: document.getElementById('next-date-btn'),
+        mealBreakfast: document.getElementById('meal-breakfast'),
+        mealLunch: document.getElementById('meal-lunch'),
+        mealDinner: document.getElementById('meal-dinner'),
+        mealSnack: document.getElementById('meal-snack'),
+        waterCurrent: document.getElementById('water-current'),
+        waterResetBtn: document.getElementById('water-reset-btn'),
+        waterPctText: document.getElementById('water-pct-text'),
+        waterProgress: document.getElementById('water-progress'),
+        summaryWeight: document.getElementById('summary-weight'),
+        summaryBodyfat: document.getElementById('summary-bodyfat'),
+        summaryBp: document.getElementById('summary-bp'),
+        summaryBmi: document.getElementById('summary-bmi'),
+        summaryWaist: document.getElementById('summary-waist'),
+        totalCalories: document.getElementById('total-calories'),
+        totalP: document.getElementById('total-p'),
+        totalF: document.getElementById('total-f'),
+        totalC: document.getElementById('total-c'),
+        pBar: document.getElementById('p-bar'),
+        fBar: document.getElementById('f-bar'),
+        cBar: document.getElementById('c-bar'),
+        autosaveBadge: document.getElementById('autosave-badge'),
+        chartCanvas: document.getElementById('weightChart')
+    };
+
+    // バイタル入力項目もキャッシュに追加
+    VITAL_FIELDS.forEach(field => {
+        DOM[field.key] = document.getElementById(field.id);
+    });
+}
 
 /**
  * Dateオブジェクトを YYYY-MM-DD 形式の文字列に変換する
@@ -63,19 +116,16 @@ function getFormattedDate(date) {
  * 食事プルダウンメニューの選択肢を動的に生成する
  */
 function generateMealOptions() {
-    const selects = ['meal-breakfast', 'meal-lunch', 'meal-dinner', 'meal-snack'];
+    const selects = [DOM.mealBreakfast, DOM.mealLunch, DOM.mealDinner, DOM.mealSnack];
     
-    selects.forEach(selectId => {
-        const select = document.getElementById(selectId);
+    selects.forEach(select => {
+        if (!select) return;
         select.innerHTML = ''; // クリア
         
         Object.entries(MEAL_MENU).forEach(([key, meal]) => {
             const option = document.createElement('option');
             option.value = key;
-            option.textContent = `${meal.name} (${meal.kcal} kcal)`;
-            if (key === 'none') {
-                option.textContent = meal.name;
-            }
+            option.textContent = key === 'none' ? meal.name : `${meal.name} (${meal.kcal} kcal)`;
             select.appendChild(option);
         });
     });
@@ -85,45 +135,21 @@ function generateMealOptions() {
  * 各種イベントリスナーをセットアップする
  */
 function setupEventListeners() {
-    const datePicker = document.getElementById('date-picker');
-    const prevBtn = document.getElementById('prev-date-btn');
-    const nextBtn = document.getElementById('next-date-btn');
-    
-    // 入力項目
-    const weightInput = document.getElementById('weight-input');
-    const bodyfatInput = document.getElementById('bodyfat-input');
-    const bpInput = document.getElementById('bp-input');
-    const bmiInput = document.getElementById('bmi-input');
-    const waistInput = document.getElementById('waist-input');
-    const visceralFatInput = document.getElementById('visceral-fat-input');
-    const subcutaneousFatInput = document.getElementById('subcutaneous-fat-input');
-    const muscleInput = document.getElementById('muscle-input');
-    const metabolismInput = document.getElementById('metabolism-input');
-    const bodyAgeInput = document.getElementById('body-age-input');
-    const exerciseInput = document.getElementById('exercise-input');
-    
-    const mealSelects = document.querySelectorAll('.meal-select');
-    const waterButtons = document.querySelectorAll('.water-btn[data-amount]');
-    const waterResetBtn = document.getElementById('water-reset-btn');
+    // 日付変更イベント
+    if (DOM.datePicker) {
+        DOM.datePicker.addEventListener('change', (e) => {
+            selectedDate = e.target.value;
+            loadDateData(selectedDate);
+            updateDashboard();
+        });
+    }
 
-    // 日付手動変更時
-    datePicker.addEventListener('change', (e) => {
-        selectedDate = e.target.value;
-        loadDateData(selectedDate);
-        updateDashboard();
-    });
-
-    // 前日ボタン
-    prevBtn.addEventListener('click', () => {
-        changeDate(-1);
-    });
-
-    // 翌日ボタン
-    nextBtn.addEventListener('click', () => {
-        changeDate(1);
-    });
+    // 前日・翌日ボタン
+    if (DOM.prevBtn) DOM.prevBtn.addEventListener('click', () => changeDate(-1));
+    if (DOM.nextBtn) DOM.nextBtn.addEventListener('click', () => changeDate(1));
 
     // 水分クイック加算ボタン
+    const waterButtons = document.querySelectorAll('.water-btn[data-amount]');
     waterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const amount = parseInt(btn.dataset.amount, 10);
@@ -132,40 +158,29 @@ function setupEventListeners() {
     });
 
     // 水分リセットボタン
-    waterResetBtn.addEventListener('click', () => {
-        resetWater();
-    });
+    if (DOM.waterResetBtn) {
+        DOM.waterResetBtn.addEventListener('click', () => resetWater());
+    }
 
-    // 各バイタル・活動の入力イベントで自動保存（デバウンス処理）
-    const autoSaveInputs = [
-        weightInput, bodyfatInput, bpInput, bmiInput, waistInput,
-        visceralFatInput, subcutaneousFatInput, muscleInput,
-        metabolismInput, bodyAgeInput, exerciseInput
-    ];
-    
-    autoSaveInputs.forEach(input => {
+    // 各バイタル項目の入力イベント（自動保存トリガー）
+    VITAL_FIELDS.forEach(field => {
+        const input = DOM[field.key];
         if (input) {
-            input.addEventListener('input', () => {
-                triggerAutoSave();
-            });
+            input.addEventListener('input', () => triggerAutoSave());
         }
     });
 
-    // 食事プルダウンの変更イベントで自動保存＆PFC表示更新
+    // 食事プルダウンの変更イベント
+    const mealSelects = [DOM.mealBreakfast, DOM.mealLunch, DOM.mealDinner, DOM.mealSnack];
     mealSelects.forEach(select => {
+        if (!select) return;
         select.addEventListener('change', (e) => {
-            const selectId = e.target.id;
-            const mealKey = e.target.value;
-            
-            // 選択した食事の栄養素を表示
-            updateSingleMealNutrition(selectId, mealKey);
-            
-            // 自動保存の実行
+            updateSingleMealNutrition(e.target.id, e.target.value);
             triggerAutoSave();
         });
     });
 
-    // グラフ切り替えタブのイベントリスナー
+    // グラフ切り替えタブ
     const chartTabs = document.querySelectorAll('.chart-tab');
     chartTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -185,7 +200,9 @@ function changeDate(daysOffset) {
     currentDate.setDate(currentDate.getDate() + daysOffset);
     selectedDate = getFormattedDate(currentDate);
     
-    document.getElementById('date-picker').value = selectedDate;
+    if (DOM.datePicker) {
+        DOM.datePicker.value = selectedDate;
+    }
     loadDateData(selectedDate);
     updateDashboard();
 }
@@ -212,36 +229,29 @@ function loadDateData(dateStr) {
     const data = getAllData();
     const dayData = data[dateStr] || {};
 
-    // 各プルダウンに値を反映（なければ 'none'）
-    document.getElementById('meal-breakfast').value = dayData.breakfast || 'none';
-    document.getElementById('meal-lunch').value = dayData.lunch || 'none';
-    document.getElementById('meal-dinner').value = dayData.dinner || 'none';
-    document.getElementById('meal-snack').value = dayData.snack || 'none';
+    // 食事プルダウンへの反映
+    const mealTypes = ['breakfast', 'lunch', 'dinner', 'snack'];
+    mealTypes.forEach(type => {
+        const key = `meal${type.charAt(0).toUpperCase() + type.slice(1)}`;
+        const select = DOM[key];
+        const val = dayData[type] || 'none';
+        if (select) {
+            select.value = val;
+            updateSingleMealNutrition(select.id, val);
+        }
+    });
 
-    // 各食事の栄養素表示を更新
-    updateSingleMealNutrition('meal-breakfast', dayData.breakfast || 'none');
-    updateSingleMealNutrition('meal-lunch', dayData.lunch || 'none');
-    updateSingleMealNutrition('meal-dinner', dayData.dinner || 'none');
-    updateSingleMealNutrition('meal-snack', dayData.snack || 'none');
+    // バイタル項目の入力欄へ反映
+    VITAL_FIELDS.forEach(field => {
+        const input = DOM[field.key];
+        if (input) {
+            const val = dayData[field.key];
+            input.value = (val !== undefined && val !== null) ? val : '';
+        }
+    });
 
-    // 体重と運動の入力欄
-    document.getElementById('weight-input').value = dayData.weight || '';
-    document.getElementById('exercise-input').value = dayData.exercise || '';
-
-    // 新しいバイタル項目の入力欄
-    document.getElementById('bodyfat-input').value = dayData.bodyfat || '';
-    document.getElementById('bp-input').value = dayData.bp || '';
-    document.getElementById('bmi-input').value = dayData.bmi || '';
-    document.getElementById('waist-input').value = dayData.waist || '';
-    document.getElementById('visceral-fat-input').value = dayData.visceralFat || '';
-    document.getElementById('subcutaneous-fat-input').value = dayData.subcutaneousFat || '';
-    document.getElementById('muscle-input').value = dayData.muscle || '';
-    document.getElementById('metabolism-input').value = dayData.metabolism || '';
-    document.getElementById('body-age-input').value = dayData.bodyAge || '';
-
-    // 水分の表示更新
-    const waterVal = dayData.water || 0;
-    updateWaterDisplay(waterVal);
+    // 水分データの反映
+    updateWaterDisplay(dayData.water || 0);
 }
 
 /**
@@ -252,12 +262,12 @@ function updateSingleMealNutrition(selectId, mealKey) {
     const targetDiv = document.getElementById(`${type}-nutrition`);
     const meal = MEAL_MENU[mealKey];
 
+    if (!targetDiv) return;
     if (!meal || mealKey === 'none') {
         targetDiv.innerHTML = '';
         return;
     }
 
-    // PFCとカロリーのバッジ風HTMLを作成
     targetDiv.innerHTML = `
         <span class="nutri-tag cal"><i data-lucide="flame" style="width: 0.8rem; height: 0.8rem"></i>${meal.kcal} kcal</span>
         <span class="nutri-tag p">P: ${meal.p}g</span>
@@ -265,7 +275,6 @@ function updateSingleMealNutrition(selectId, mealKey) {
         <span class="nutri-tag c">C: ${meal.c}g</span>
     `;
 
-    // アイコンの初期化
     lucide.createIcons();
 }
 
@@ -273,25 +282,21 @@ function updateSingleMealNutrition(selectId, mealKey) {
  * 水分摂取量の表示を更新する
  */
 function updateWaterDisplay(value) {
-    document.getElementById('water-current').textContent = value;
+    if (DOM.waterCurrent) DOM.waterCurrent.textContent = value;
     
-    // サマリー部分の更新
-    const goal = 2000; // 水分目標 2000ml
+    const goal = 2000;
     const pct = Math.min(Math.round((value / goal) * 100), 100);
     
-    document.getElementById('water-pct-text').textContent = `${pct}%`;
-    document.getElementById('water-progress').style.width = `${pct}%`;
+    if (DOM.waterPctText) DOM.waterPctText.textContent = `${pct}%`;
+    if (DOM.waterProgress) DOM.waterProgress.style.width = `${pct}%`;
 }
 
 /**
  * 水分摂取量を加算する
  */
 function addWater(amount) {
-    const currentWater = parseInt(document.getElementById('water-current').textContent, 10) || 0;
-    const newWater = currentWater + amount;
-    updateWaterDisplay(newWater);
-    
-    // 水分は変更後、即座に自動保存
+    const currentWater = parseInt(DOM.waterCurrent ? DOM.waterCurrent.textContent : '0', 10) || 0;
+    updateWaterDisplay(currentWater + amount);
     saveCurrentData();
 }
 
@@ -307,92 +312,64 @@ function resetWater() {
  * 自動保存のデバウンス処理（キー入力後、手が止まってから実行）
  */
 function triggerAutoSave() {
-    // 自動保存バッジを「保存中...」にする
-    const badge = document.getElementById('autosave-badge');
-    badge.classList.add('saving');
-    badge.querySelector('span').textContent = '保存中...';
+    if (DOM.autosaveBadge) {
+        DOM.autosaveBadge.classList.add('saving');
+        const span = DOM.autosaveBadge.querySelector('span');
+        if (span) span.textContent = '保存中...';
+    }
 
     clearTimeout(saveTimeout);
     saveTimeout = setTimeout(() => {
         saveCurrentData();
-    }, 500); // 500ミリ秒後に実行
+    }, 500);
 }
 
 /**
- * フォーム全体のデータをローカルストレージに自動保存する
+ * フォーム全体のデータを収集してローカルストレージに自動保存する
  */
 function saveCurrentData() {
     const data = getAllData();
+    const dayData = {};
     
-    const breakfast = document.getElementById('meal-breakfast').value;
-    const lunch = document.getElementById('meal-lunch').value;
-    const dinner = document.getElementById('meal-dinner').value;
-    const snack = document.getElementById('meal-snack').value;
+    // 食事データの取得
+    dayData.breakfast = DOM.mealBreakfast ? DOM.mealBreakfast.value : 'none';
+    dayData.lunch = DOM.mealLunch ? DOM.mealLunch.value : 'none';
+    dayData.dinner = DOM.mealDinner ? DOM.mealDinner.value : 'none';
+    dayData.snack = DOM.mealSnack ? DOM.mealSnack.value : 'none';
     
-    const weightVal = document.getElementById('weight-input').value;
-    const weight = weightVal !== '' ? parseFloat(weightVal) : null;
-    
-    const exercise = document.getElementById('exercise-input').value.trim();
-    const water = parseInt(document.getElementById('water-current').textContent, 10) || 0;
+    // 水分データの取得
+    dayData.water = parseInt(DOM.waterCurrent ? DOM.waterCurrent.textContent : '0', 10) || 0;
 
-    // 新しいバイタル項目の取得
-    const bodyfatVal = document.getElementById('bodyfat-input').value;
-    const bodyfat = bodyfatVal !== '' ? parseFloat(bodyfatVal) : null;
-    
-    const bp = document.getElementById('bp-input').value.trim();
-    
-    const bmiVal = document.getElementById('bmi-input').value;
-    const bmi = bmiVal !== '' ? parseFloat(bmiVal) : null;
-    
-    const waistVal = document.getElementById('waist-input').value;
-    const waist = waistVal !== '' ? parseFloat(waistVal) : null;
-    
-    const visceralFatVal = document.getElementById('visceral-fat-input').value;
-    const visceralFat = visceralFatVal !== '' ? parseFloat(visceralFatVal) : null;
-    
-    const subcutaneousFatVal = document.getElementById('subcutaneous-fat-input').value;
-    const subcutaneousFat = subcutaneousFatVal !== '' ? parseFloat(subcutaneousFatVal) : null;
-    
-    const muscleVal = document.getElementById('muscle-input').value;
-    const muscle = muscleVal !== '' ? parseFloat(muscleVal) : null;
-    
-    const metabolismVal = document.getElementById('metabolism-input').value;
-    const metabolism = metabolismVal !== '' ? parseFloat(metabolismVal) : null;
-    
-    const bodyAgeVal = document.getElementById('body-age-input').value;
-    const bodyAge = bodyAgeVal !== '' ? parseInt(bodyAgeVal, 10) : null;
+    // バイタル項目の自動収集
+    VITAL_FIELDS.forEach(field => {
+        const input = DOM[field.key];
+        if (!input) return;
 
-    // データの組み立て
-    data[selectedDate] = {
-        breakfast,
-        lunch,
-        dinner,
-        snack,
-        weight,
-        exercise,
-        water,
-        bodyfat,
-        bp,
-        bmi,
-        waist,
-        visceralFat,
-        subcutaneousFat,
-        muscle,
-        metabolism,
-        bodyAge
-    };
+        const val = input.value;
+        if (val === '') {
+            dayData[field.key] = field.type === 'string' ? '' : null;
+        } else {
+            if (field.type === 'float') {
+                dayData[field.key] = parseFloat(val);
+            } else if (field.type === 'int') {
+                dayData[field.key] = parseInt(val, 10);
+            } else {
+                dayData[field.key] = val.trim();
+            }
+        }
+    });
 
+    data[selectedDate] = dayData;
     saveAllData(data);
     
-    // 自動保存完了アニメーション表示
-    const badge = document.getElementById('autosave-badge');
-    badge.classList.remove('saving');
-    badge.querySelector('span').textContent = '自動保存済';
+    // 自動保存完了表示
+    if (DOM.autosaveBadge) {
+        DOM.autosaveBadge.classList.remove('saving');
+        const span = DOM.autosaveBadge.querySelector('span');
+        if (span) span.textContent = '自動保存済';
+    }
     
-    // 入力欄に一瞬光るエフェクトを適用
     applySaveGlow();
-
-    // 各表示コンポーネントの更新
     updateDashboard();
 }
 
@@ -401,28 +378,17 @@ function saveCurrentData() {
  */
 function applySaveGlow() {
     const inputs = [
-        document.getElementById('weight-input'),
-        document.getElementById('bodyfat-input'),
-        document.getElementById('bp-input'),
-        document.getElementById('bmi-input'),
-        document.getElementById('waist-input'),
-        document.getElementById('visceral-fat-input'),
-        document.getElementById('subcutaneous-fat-input'),
-        document.getElementById('muscle-input'),
-        document.getElementById('metabolism-input'),
-        document.getElementById('body-age-input'),
-        document.getElementById('exercise-input'),
-        document.getElementById('meal-breakfast'),
-        document.getElementById('meal-lunch'),
-        document.getElementById('meal-dinner'),
-        document.getElementById('meal-snack')
+        DOM.mealBreakfast, DOM.mealLunch, DOM.mealDinner, DOM.mealSnack
     ];
+    
+    VITAL_FIELDS.forEach(field => {
+        inputs.push(DOM[field.key]);
+    });
 
     inputs.forEach(input => {
         if (input) {
             input.classList.remove('autosave-glow');
-            // リフローを起こしてアニメーションを再トリガーする
-            void input.offsetWidth;
+            void input.offsetWidth; // リフロー
             input.classList.add('autosave-glow');
         }
     });
@@ -435,68 +401,30 @@ function updateDashboard() {
     const data = getAllData();
     const todayData = data[selectedDate] || {};
 
-    // 1. 体重サマリーの更新
-    const summaryWeight = document.getElementById('summary-weight');
-    if (todayData.weight) {
-        summaryWeight.textContent = `${todayData.weight} kg`;
-    } else {
-        const latestWeight = findLatestValue('weight');
-        if (latestWeight) {
-            summaryWeight.textContent = `${latestWeight} kg (直近)`;
+    // 各サマリー要素のテキスト設定（データがなければ直近値を表示）
+    const updateSummaryElement = (elem, val, latestVal, suffix = '') => {
+        if (!elem) return;
+        if (val !== undefined && val !== null && val !== '') {
+            elem.textContent = `${val}${suffix}`;
+        } else if (latestVal !== null && latestVal !== undefined && latestVal !== '') {
+            elem.textContent = `${latestVal}${suffix} (直近)`;
         } else {
-            summaryWeight.textContent = '- kg';
+            elem.textContent = `- ${suffix}`.trim();
         }
-    }
+    };
 
-    // 新しい詳細サマリーの更新
-    const summaryBodyfat = document.getElementById('summary-bodyfat');
-    if (todayData.bodyfat) {
-        summaryBodyfat.textContent = `${todayData.bodyfat} %`;
-    } else {
-        const latest = findLatestValue('bodyfat');
-        summaryBodyfat.textContent = latest ? `${latest} % (直近)` : '- %';
-    }
+    updateSummaryElement(DOM.summaryWeight, todayData.weight, findLatestValue('weight'), ' kg');
+    updateSummaryElement(DOM.summaryBodyfat, todayData.bodyfat, findLatestValue('bodyfat'), ' %');
+    updateSummaryElement(DOM.summaryBp, todayData.bp, findLatestValue('bp'), ' mmHg');
+    updateSummaryElement(DOM.summaryBmi, todayData.bmi, findLatestValue('bmi'));
+    updateSummaryElement(DOM.summaryWaist, todayData.waist, findLatestValue('waist'), ' cm');
 
-    const summaryBp = document.getElementById('summary-bp');
-    if (todayData.bp) {
-        summaryBp.textContent = `${todayData.bp} mmHg`;
-    } else {
-        const latest = findLatestValue('bp');
-        summaryBp.textContent = latest ? `${latest} mmHg (直近)` : '- mmHg';
-    }
-
-    const summaryBmi = document.getElementById('summary-bmi');
-    if (todayData.bmi) {
-        summaryBmi.textContent = todayData.bmi;
-    } else {
-        const latest = findLatestValue('bmi');
-        summaryBmi.textContent = latest ? `${latest} (直近)` : '-';
-    }
-
-    const summaryWaist = document.getElementById('summary-waist');
-    if (todayData.waist) {
-        summaryWaist.textContent = `${todayData.waist} cm`;
-    } else {
-        const latest = findLatestValue('waist');
-        summaryWaist.textContent = latest ? `${latest} cm (直近)` : '- cm';
-    }
-
-    // 2. 今日の総カロリー＆PFCバランスの計算と更新
     updatePfcSummary(todayData);
-
-    // 3. グラフの更新
     updateChart();
-
-    // 4. カレンダーの描画
     renderCalendar();
-
-    // 5. 履歴リストの更新
     renderHistoryList();
 }
 
-/**
- * 直近で記録されている体重を取得する
- */
 /**
  * 特定のキーの直近の記録値を取得する
  */
@@ -505,8 +433,9 @@ function findLatestValue(key) {
     const sortedDates = Object.keys(data).sort((a, b) => new Date(b) - new Date(a));
     
     for (const dStr of sortedDates) {
-        if (data[dStr] && data[dStr][key] !== undefined && data[dStr][key] !== null && data[dStr][key] !== '') {
-            return data[dStr][key];
+        const val = data[dStr] ? data[dStr][key] : null;
+        if (val !== undefined && val !== null && val !== '') {
+            return val;
         }
     }
     return null;
@@ -523,10 +452,7 @@ function updatePfcSummary(dayData) {
         dayData.snack || 'none'
     ];
 
-    let totalCal = 0;
-    let totalP = 0;
-    let totalF = 0;
-    let totalC = 0;
+    let totalCal = 0, totalP = 0, totalF = 0, totalC = 0;
 
     meals.forEach(key => {
         const meal = MEAL_MENU[key];
@@ -538,46 +464,59 @@ function updatePfcSummary(dayData) {
         }
     });
 
-    // カロリー数値更新
-    document.getElementById('total-calories').textContent = `${totalCal} kcal`;
-    
-    // PFC数値更新
-    document.getElementById('total-p').textContent = totalP;
-    document.getElementById('total-f').textContent = totalF;
-    document.getElementById('total-c').textContent = totalC;
+    if (DOM.totalCalories) DOM.totalCalories.textContent = `${totalCal} kcal`;
+    if (DOM.totalP) DOM.totalP.textContent = totalP;
+    if (DOM.totalF) DOM.totalF.textContent = totalF;
+    if (DOM.totalC) DOM.totalC.textContent = totalC;
 
-    // PFC割合バーの更新
     const totalGrams = totalP + totalF + totalC;
-    const pBar = document.getElementById('p-bar');
-    const fBar = document.getElementById('f-bar');
-    const cBar = document.getElementById('c-bar');
-
     if (totalGrams > 0) {
         const pPct = (totalP / totalGrams) * 100;
         const fPct = (totalF / totalGrams) * 100;
         const cPct = (totalC / totalGrams) * 100;
 
-        pBar.style.width = `${pPct}%`;
-        fBar.style.width = `${fPct}%`;
-        cBar.style.width = `${cPct}%`;
+        if (DOM.pBar) DOM.pBar.style.width = `${pPct}%`;
+        if (DOM.fBar) DOM.fBar.style.width = `${fPct}%`;
+        if (DOM.cBar) DOM.cBar.style.width = `${cPct}%`;
     } else {
-        pBar.style.width = `0%`;
-        fBar.style.width = `0%`;
-        cBar.style.width = `0%`;
+        if (DOM.pBar) DOM.pBar.style.width = `0%`;
+        if (DOM.fBar) DOM.fBar.style.width = `0%`;
+        if (DOM.cBar) DOM.cBar.style.width = `0%`;
     }
 }
 
 /**
- * Chart.jsを使用して過去7日間の体重と水分の複合グラフを描画する
+ * Chart.js用の線グラフデータセット作成用の共通関数
+ */
+function createLineDataset(label, data, color, bgColor, yAxisID) {
+    return {
+        label,
+        data,
+        borderColor: color,
+        backgroundColor: bgColor,
+        borderWidth: 3,
+        pointBackgroundColor: color,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        tension: 0.3,
+        yAxisID,
+        spanGaps: true
+    };
+}
+
+/**
+ * 過去7日間の各種推移グラフを描画する
  */
 function updateChart() {
-    const data = getAllData();
+    if (!DOM.chartCanvas) return;
     
+    const data = getAllData();
     const labels = [];
     const datasets = [];
     
     const baseDate = new Date(selectedDate);
     const dates = [];
+    
     for (let i = 6; i >= 0; i--) {
         const d = new Date(baseDate);
         d.setDate(baseDate.getDate() - i);
@@ -586,6 +525,7 @@ function updateChart() {
         labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
     }
 
+    // 水分の棒グラフ（背景用）
     const waterData = dates.map(dStr => (data[dStr] || {}).water || 0);
     const waterDataset = {
         label: '水分 (ml)',
@@ -603,40 +543,16 @@ function updateChart() {
     let ySecondaryMax = 3000;
     let showWater = true;
 
+    // 各種タブごとのデータセット構成
     if (currentChartTab === 'weight') {
         const weightData = dates.map(dStr => (data[dStr] || {}).weight || null);
         yPrimaryLabel = '体重 (kg)';
-        datasets.push({
-            label: '体重 (kg)',
-            data: weightData,
-            borderColor: '#ec4899',
-            backgroundColor: 'rgba(236, 72, 153, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#ec4899',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
+        datasets.push(createLineDataset('体重 (kg)', weightData, '#ec4899', 'rgba(236, 72, 153, 0.08)', 'yPrimary'));
     } else if (currentChartTab === 'bodyfat') {
         const bodyfatData = dates.map(dStr => (data[dStr] || {}).bodyfat || null);
         yPrimaryLabel = '体脂肪率 (%)';
-        datasets.push({
-            label: '体脂肪率 (%)',
-            data: bodyfatData,
-            borderColor: '#a855f7',
-            backgroundColor: 'rgba(168, 85, 247, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#a855f7',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
+        datasets.push(createLineDataset('体脂肪率 (%)', bodyfatData, '#a855f7', 'rgba(168, 85, 247, 0.08)', 'yPrimary'));
     } else if (currentChartTab === 'bp') {
-        // 血圧: 最高と最低
         const systolicData = [];
         const diastolicData = [];
         dates.forEach(dStr => {
@@ -652,67 +568,18 @@ function updateChart() {
         });
         
         yPrimaryLabel = '血圧 (mmHg)';
-        showWater = false; // 血圧グラフは水分を非表示
+        showWater = false;
         
-        datasets.push({
-            label: '最高血圧 (mmHg)',
-            data: systolicData,
-            borderColor: '#f97316',
-            backgroundColor: 'rgba(249, 115, 22, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#f97316',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
-        
-        datasets.push({
-            label: '最低血圧 (mmHg)',
-            data: diastolicData,
-            borderColor: '#06b6d4',
-            backgroundColor: 'rgba(6, 182, 212, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#06b6d4',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
+        datasets.push(createLineDataset('最高血圧 (mmHg)', systolicData, '#f97316', 'rgba(249, 115, 22, 0.08)', 'yPrimary'));
+        datasets.push(createLineDataset('最低血圧 (mmHg)', diastolicData, '#06b6d4', 'rgba(6, 182, 212, 0.08)', 'yPrimary'));
     } else if (currentChartTab === 'waist') {
         const waistData = dates.map(dStr => (data[dStr] || {}).waist || null);
         yPrimaryLabel = 'ウエスト (cm)';
-        datasets.push({
-            label: 'ウエスト (cm)',
-            data: waistData,
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#10b981',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
+        datasets.push(createLineDataset('ウエスト (cm)', waistData, '#10b981', 'rgba(16, 185, 129, 0.08)', 'yPrimary'));
     } else if (currentChartTab === 'bmi') {
         const bmiData = dates.map(dStr => (data[dStr] || {}).bmi || null);
         yPrimaryLabel = 'BMI';
-        datasets.push({
-            label: 'BMI',
-            data: bmiData,
-            borderColor: '#3b82f6',
-            backgroundColor: 'rgba(59, 130, 246, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#3b82f6',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
+        datasets.push(createLineDataset('BMI', bmiData, '#3b82f6', 'rgba(59, 130, 246, 0.08)', 'yPrimary'));
     } else if (currentChartTab === 'muscle') {
         const muscleData = dates.map(dStr => (data[dStr] || {}).muscle || null);
         const subcutaneousData = dates.map(dStr => (data[dStr] || {}).subcutaneousFat || null);
@@ -720,49 +587,12 @@ function updateChart() {
         yPrimaryLabel = '割合 (%)';
         showWater = false;
         
-        datasets.push({
-            label: '骨格筋率 (%)',
-            data: muscleData,
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#10b981',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
-        
-        datasets.push({
-            label: '皮下脂肪率 (%)',
-            data: subcutaneousData,
-            borderColor: '#ec4899',
-            backgroundColor: 'rgba(236, 72, 153, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#ec4899',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
+        datasets.push(createLineDataset('骨格筋率 (%)', muscleData, '#10b981', 'rgba(16, 185, 129, 0.08)', 'yPrimary'));
+        datasets.push(createLineDataset('皮下脂肪率 (%)', subcutaneousData, '#ec4899', 'rgba(236, 72, 153, 0.08)', 'yPrimary'));
     } else if (currentChartTab === 'metabolism') {
         const metabolismData = dates.map(dStr => (data[dStr] || {}).metabolism || null);
         yPrimaryLabel = '基礎代謝 (kcal)';
-        datasets.push({
-            label: '基礎代謝 (kcal)',
-            data: metabolismData,
-            borderColor: '#f59e0b',
-            backgroundColor: 'rgba(245, 158, 11, 0.08)',
-            borderWidth: 3,
-            pointBackgroundColor: '#f59e0b',
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.3,
-            yAxisID: 'yPrimary',
-            spanGaps: true
-        });
+        datasets.push(createLineDataset('基礎代謝 (kcal)', metabolismData, '#f59e0b', 'rgba(245, 158, 11, 0.08)', 'yPrimary'));
     }
 
     if (showWater) {
@@ -773,26 +603,17 @@ function updateChart() {
         weightChart.destroy();
     }
 
-    const ctx = document.getElementById('weightChart').getContext('2d');
-    
+    const ctx = DOM.chartCanvas.getContext('2d');
     const scalesConfig = {
         x: {
-            grid: {
-                color: 'rgba(255, 255, 255, 0.05)'
-            },
-            ticks: {
-                color: '#94a3b8'
-            }
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94a3b8' }
         },
         yPrimary: {
             type: 'linear',
             position: 'left',
-            grid: {
-                color: 'rgba(255, 255, 255, 0.05)'
-            },
-            ticks: {
-                color: '#94a3b8'
-            },
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94a3b8' },
             title: {
                 display: true,
                 text: yPrimaryLabel,
@@ -805,12 +626,8 @@ function updateChart() {
         scalesConfig.ySecondary = {
             type: 'linear',
             position: 'right',
-            grid: {
-                drawOnChartArea: false
-            },
-            ticks: {
-                color: '#94a3b8'
-            },
+            grid: { drawOnChartArea: false },
+            ticks: { color: '#94a3b8' },
             title: {
                 display: true,
                 text: ySecondaryLabel,
@@ -834,9 +651,7 @@ function updateChart() {
                 legend: {
                     labels: {
                         color: '#94a3b8',
-                        font: {
-                            family: 'Outfit, Noto Sans JP'
-                        }
+                        font: { family: 'Outfit, Noto Sans JP' }
                     }
                 },
                 tooltip: {
@@ -854,6 +669,7 @@ function updateChart() {
  */
 function renderCalendar() {
     const calendarGrid = document.getElementById('calendar-grid');
+    if (!calendarGrid) return;
     calendarGrid.innerHTML = '';
 
     const data = getAllData();
@@ -897,12 +713,8 @@ function renderCalendar() {
 
         const dayCell = document.createElement('div');
         dayCell.className = 'calendar-day';
-        if (dateStr === selectedDate) {
-            dayCell.classList.add('active');
-        }
-        if (hasData) {
-            dayCell.classList.add('has-data');
-        }
+        if (dateStr === selectedDate) dayCell.classList.add('active');
+        if (hasData) dayCell.classList.add('has-data');
 
         const dayNumSpan = document.createElement('span');
         dayNumSpan.className = 'day-number';
@@ -911,7 +723,7 @@ function renderCalendar() {
 
         dayCell.addEventListener('click', () => {
             selectedDate = dateStr;
-            document.getElementById('date-picker').value = selectedDate;
+            if (DOM.datePicker) DOM.datePicker.value = selectedDate;
             loadDateData(selectedDate);
             updateDashboard();
         });
@@ -925,6 +737,7 @@ function renderCalendar() {
  */
 function renderHistoryList() {
     const historyList = document.getElementById('history-list');
+    if (!historyList) return;
     historyList.innerHTML = '';
 
     const data = getAllData();
@@ -944,7 +757,6 @@ function renderHistoryList() {
 
     recentDates.forEach(dateStr => {
         const dayData = data[dateStr];
-        
         const item = document.createElement('div');
         item.className = 'history-item';
         
@@ -952,17 +764,8 @@ function renderHistoryList() {
         const displayDate = `${dObj.getMonth() + 1}月${dObj.getDate()}日`;
         const displayWeight = dayData.weight ? `${dayData.weight}kg` : '-- kg';
 
-        // 食事があるかのチェック
-        let hasMeals = false;
-        if (
-            (dayData.breakfast && dayData.breakfast !== 'none') ||
-            (dayData.lunch && dayData.lunch !== 'none') ||
-            (dayData.dinner && dayData.dinner !== 'none') ||
-            (dayData.snack && dayData.snack !== 'none')
-        ) {
-            hasMeals = true;
-        }
-        let hasExercise = dayData.exercise ? true : false;
+        const hasMeals = ['breakfast', 'lunch', 'dinner', 'snack'].some(type => dayData[type] && dayData[type] !== 'none');
+        const hasExercise = !!dayData.exercise;
         
         item.innerHTML = `
             <div class="history-item-header">
@@ -987,7 +790,7 @@ function renderHistoryList() {
 
         item.addEventListener('click', () => {
             selectedDate = dateStr;
-            document.getElementById('date-picker').value = selectedDate;
+            if (DOM.datePicker) DOM.datePicker.value = selectedDate;
             loadDateData(selectedDate);
             updateDashboard();
         });
