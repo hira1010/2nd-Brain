@@ -153,6 +153,8 @@ let weightChart    = null;                          // Chart.js インスタン�
 let currentChartTab = 'weight';                    // 現在表示中のグラフタブ
 let saveTimeout    = null;                          // 自動保存の遅延タイマー
 let DOM            = {};                            // DOM要素キャッシュ
+let lastActiveMealInputType = null;                 // 直前に「新しい食事を追加」を押した食事タイプ
+
 
 // ============================================================
 // [3] 初期化
@@ -342,7 +344,7 @@ function renderDropdown(type, filterText = '') {
         deleteBtn.addEventListener('mousedown', (e) => {
             e.stopPropagation(); // 親要素の選択処理が走らないようにする
             e.preventDefault();  // フォーカスが外れないようにする
-            removeCustomMeal(key);
+            removeCustomMeal(key, true); // ドロップダウン内からの削除は確認を省略
         });
 
         item.appendChild(deleteBtn);
@@ -367,6 +369,9 @@ function renderDropdown(type, filterText = '') {
         e.stopPropagation();
         e.preventDefault(); // 入力欄からのフォーカス移動を防ぐ
         dropdown.classList.add('hidden');
+        
+        // どの食事タイプから新しい食事追加を押したかを記録
+        lastActiveMealInputType = type;
         
         // 設定パネルを開く
         if (DOM.settingsPanel) {
@@ -524,6 +529,17 @@ function setupEventListeners() {
 
     // カスタム食事の登録ボタン
     DOM.saveCustomMealBtn?.addEventListener('click', addCustomMeal);
+
+    // カスタム食事入力欄での Enter キー押下で登録
+    [DOM.customMealName, DOM.customMealKcal, DOM.customMealP, DOM.customMealF, DOM.customMealC].forEach(input => {
+        input?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // フォーム送信を防ぐ
+                addCustomMeal();
+            }
+        });
+    });
+
 }
 
 // ============================================================
@@ -1245,7 +1261,33 @@ function addCustomMeal() {
     generateMealOptions();
     // 登録済みタグ一覧を更新
     renderCustomMealsTags();
-    showToast(`マイメニュー「${name}」を追加しました`);
+
+    // 自動追加と自動スクロールバックの制御
+    if (lastActiveMealInputType) {
+        // 元の食事タイプに自動追加
+        addMealItem(lastActiveMealInputType, key);
+        showToast(`マイメニュー「${name}」を登録し、${getMealTypeName(lastActiveMealInputType)}に追加しました`);
+        
+        // 設定パネルを閉じる
+        if (DOM.settingsPanel) {
+            DOM.settingsPanel.classList.add('hidden');
+        }
+        
+        // 元の食事入力欄までスクロール
+        const cap = lastActiveMealInputType.charAt(0).toUpperCase() + lastActiveMealInputType.slice(1);
+        const input = DOM[`meal${cap}`];
+        if (input) {
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                input.focus();
+            }, 300);
+        }
+        
+        // 状態をリセット
+        lastActiveMealInputType = null;
+    } else {
+        showToast(`マイメニュー「${name}」を追加しました`);
+    }
 }
 
 /**
@@ -1264,12 +1306,13 @@ function saveMealsToStorage() {
 /**
  * 登録済みの食事メニューを削除する
  * @param {string} key - 削除するメニューの識別キー
+ * @param {boolean} bypassConfirm - 確認ダイアログをスキップするかどうか
  */
-function removeCustomMeal(key) {
+function removeCustomMeal(key, bypassConfirm = false) {
     const meal = MEAL_MENU[key];
     if (!meal) return;
     const name = meal.name.replace('⭐ ', '');
-    if (confirm(`この食事メニュー「${name}」を削除しますか？\n(すでにその日の食事として記録されている項目は、そのまま計算に残ります)`)) {
+    if (bypassConfirm || confirm(`この食事メニュー「${name}」を削除しますか？\n(すでにその日の食事として記録されている項目は、そのまま計算に残ります)`)) {
         delete MEAL_MENU[key];
         saveMealsToStorage();
         generateMealOptions();
