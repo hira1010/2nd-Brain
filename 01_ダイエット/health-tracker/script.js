@@ -550,7 +550,7 @@ function updatePfcSummary(dayData) {
     const totalGrams = totalP + totalF + totalC;
     const pBar = document.getElementById('p-bar');
     const fBar = document.getElementById('f-bar');
-    const c-bar = document.getElementById('c-bar'); // 注意: IDは 'c-bar'
+    const cBar = document.getElementById('c-bar');
 
     if (totalGrams > 0) {
         const pPct = (totalP / totalGrams) * 100;
@@ -559,11 +559,11 @@ function updatePfcSummary(dayData) {
 
         pBar.style.width = `${pPct}%`;
         fBar.style.width = `${fPct}%`;
-        document.getElementById('c-bar').style.width = `${cPct}%`;
+        cBar.style.width = `${cPct}%`;
     } else {
         pBar.style.width = `0%`;
         fBar.style.width = `0%`;
-        document.getElementById('c-bar').style.width = `0%`;
+        cBar.style.width = `0%`;
     }
 }
 
