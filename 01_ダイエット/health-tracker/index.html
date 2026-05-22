@@ -68,38 +68,125 @@
                         <h3>バイタル＆活動</h3>
                     </div>
 
-                    <div class="vitals-grid">
-                        <!-- 体重入力 -->
-                        <div class="input-wrapper">
-                            <label for="weight-input">体重 (kg)</label>
-                            <div class="number-input-container">
-                                <input type="number" id="weight-input" step="0.1" min="20" max="200" placeholder="0.0">
-                                <span class="unit">kg</span>
+                    <div class="vitals-container">
+                        <!-- 身体データ（バイタル）入力グリッド -->
+                        <div class="vitals-body-grid">
+                            <!-- 体重入力 -->
+                            <div class="input-wrapper">
+                                <label for="weight-input">体重 (kg)</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="weight-input" step="0.1" min="20" max="200" placeholder="0.0">
+                                    <span class="unit">kg</span>
+                                </div>
+                            </div>
+
+                            <!-- 体脂肪率入力 -->
+                            <div class="input-wrapper">
+                                <label for="bodyfat-input">体脂肪率 (%)</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="bodyfat-input" step="0.1" min="1" max="60" placeholder="0.0">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
+
+                            <!-- 血圧入力 -->
+                            <div class="input-wrapper">
+                                <label for="bp-input">血圧 (最高/最低)</label>
+                                <div class="number-input-container">
+                                    <input type="text" id="bp-input" placeholder="120/80">
+                                    <span class="unit">mmHg</span>
+                                </div>
+                            </div>
+
+                            <!-- BMI入力 -->
+                            <div class="input-wrapper">
+                                <label for="bmi-input">BMI</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="bmi-input" step="0.1" min="10" max="50" placeholder="0.0">
+                                    <span class="unit"></span>
+                                </div>
+                            </div>
+
+                            <!-- ウエスト入力 -->
+                            <div class="input-wrapper">
+                                <label for="waist-input">ウエスト (cm)</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="waist-input" step="0.1" min="40" max="150" placeholder="0.0">
+                                    <span class="unit">cm</span>
+                                </div>
+                            </div>
+
+                            <!-- 内臓脂肪レベル入力 -->
+                            <div class="input-wrapper">
+                                <label for="visceral-fat-input">内臓脂肪</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="visceral-fat-input" step="0.5" min="1" max="30" placeholder="0.0">
+                                    <span class="unit">レベル</span>
+                                </div>
+                            </div>
+
+                            <!-- 皮下脂肪率入力 -->
+                            <div class="input-wrapper">
+                                <label for="subcutaneous-fat-input">皮下脂肪率 (%)</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="subcutaneous-fat-input" step="0.1" min="1" max="60" placeholder="0.0">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
+
+                            <!-- 骨格筋率入力 -->
+                            <div class="input-wrapper">
+                                <label for="muscle-input">骨格筋率 (%)</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="muscle-input" step="0.1" min="5" max="70" placeholder="0.0">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
+
+                            <!-- 基礎代謝入力 -->
+                            <div class="input-wrapper">
+                                <label for="metabolism-input">基礎代謝 (kcal)</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="metabolism-input" step="1" min="500" max="4000" placeholder="0">
+                                    <span class="unit">kcal</span>
+                                </div>
+                            </div>
+
+                            <!-- 体内年齢入力 -->
+                            <div class="input-wrapper">
+                                <label for="body-age-input">体内年齢 (歳)</label>
+                                <div class="number-input-container">
+                                    <input type="number" id="body-age-input" step="1" min="1" max="120" placeholder="0">
+                                    <span class="unit">歳</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 水分入力 -->
-                        <div class="input-wrapper">
-                            <label>水分摂取量</label>
-                            <div class="water-input-container">
-                                <div class="water-display">
-                                    <span id="water-current">0</span>
-                                    <span class="unit">/ 2000 ml</span>
-                                </div>
-                                <div class="water-quick-buttons">
-                                    <button type="button" class="water-btn" data-amount="200">+200ml</button>
-                                    <button type="button" class="water-btn" data-amount="500">+500ml</button>
-                                    <button type="button" id="water-reset-btn" class="water-btn reset" title="リセット">
-                                        <i data-lucide="rotate-ccw"></i>
-                                    </button>
+                        <!-- 活動データ（水分・運動）入力グリッド -->
+                        <div class="vitals-activity-grid">
+                            <!-- 水分入力 -->
+                            <div class="input-wrapper">
+                                <label>水分摂取量</label>
+                                <div class="water-input-container">
+                                    <div class="water-display">
+                                        <span id="water-current">0</span>
+                                        <span class="unit">/ 2000 ml</span>
+                                    </div>
+                                    <div class="water-quick-buttons">
+                                        <button type="button" class="water-btn" data-amount="200">+200ml</button>
+                                        <button type="button" class="water-btn" data-amount="500">+500ml</button>
+                                        <button type="button" id="water-reset-btn" class="water-btn reset" title="リセット">
+                                            <i data-lucide="rotate-ccw"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- 運動入力 -->
-                        <div class="input-wrapper full-width">
-                            <label for="exercise-input">運動内容と時間</label>
-                            <input type="text" id="exercise-input" placeholder="例: ウォーキング 30分、ヨガ 15分">
+                            <!-- 運動入力 -->
+                            <div class="input-wrapper">
+                                <label for="exercise-input">運動内容と時間</label>
+                                <textarea id="exercise-input" placeholder="例: ウォーキング 30分、ヨガ 15分" rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -172,13 +259,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="widget">
+                        <div class="widget weight-widget">
                             <div class="widget-icon weight-theme">
                                 <i data-lucide="scale"></i>
                             </div>
                             <div class="widget-info">
                                 <span class="widget-label">登録体重</span>
                                 <span class="widget-value" id="summary-weight">- kg</span>
+                            </div>
+                        </div>
+                        <div class="vital-details-summary">
+                            <div class="vital-detail-card">
+                                <span class="detail-label">体脂肪率</span>
+                                <span class="detail-value" id="summary-bodyfat">- %</span>
+                            </div>
+                            <div class="vital-detail-card">
+                                <span class="detail-label">血圧</span>
+                                <span class="detail-value" id="summary-bp">- mmHg</span>
+                            </div>
+                            <div class="vital-detail-card">
+                                <span class="detail-label">BMI</span>
+                                <span class="detail-value" id="summary-bmi">-</span>
+                            </div>
+                            <div class="vital-detail-card">
+                                <span class="detail-label">ウエスト</span>
+                                <span class="detail-value" id="summary-waist">- cm</span>
                             </div>
                         </div>
                         <!-- 今日の総カロリー＆PFC -->
@@ -208,9 +313,20 @@
 
                 <!-- グラフカード -->
                 <div class="chart-card glass-panel">
-                    <div class="section-title">
-                        <i data-lucide="trending-up"></i>
-                        <h2>推移グラフ (過去7日間)</h2>
+                    <div class="chart-header-container">
+                        <div class="section-title">
+                            <i data-lucide="trending-up"></i>
+                            <h2>推移グラフ</h2>
+                        </div>
+                        <div class="chart-tabs-container">
+                            <button type="button" class="chart-tab active" data-tab="weight">体重</button>
+                            <button type="button" class="chart-tab" data-tab="bodyfat">体脂肪率</button>
+                            <button type="button" class="chart-tab" data-tab="bp">血圧</button>
+                            <button type="button" class="chart-tab" data-tab="waist">ウエスト</button>
+                            <button type="button" class="chart-tab" data-tab="bmi">BMI</button>
+                            <button type="button" class="chart-tab" data-tab="muscle">骨格筋</button>
+                            <button type="button" class="chart-tab" data-tab="metabolism">基礎代謝</button>
+                        </div>
                     </div>
                     <div class="chart-container">
                         <canvas id="weightChart"></canvas>

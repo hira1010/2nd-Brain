@@ -482,11 +482,135 @@ body {
     color: #a5f3fc;
 }
 
-/* バイタルグリッド */
-.vitals-grid {
+/* バイタルコンテナ */
+.vitals-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* 身体データのグリッド（PCでは3列） */
+.vitals-body-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.2rem;
+}
+
+/* 活動データ（水分・運動）のグリッド */
+.vitals-activity-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.05);
+    padding-top: 1.2rem;
+}
+
+/* 運動のテキストエリア装飾 */
+.input-wrapper textarea {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    color: var(--text-main);
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    outline: none;
+    resize: none;
+    transition: var(--transition-smooth);
+}
+
+.input-wrapper textarea:focus {
+    border-color: var(--accent-pink);
+    background: rgba(15, 23, 42, 0.7);
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);
+}
+
+/* 詳細バイタルサマリー */
+.vital-details-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+}
+
+.vital-detail-card {
+    background: rgba(15, 23, 42, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    transition: var(--transition-smooth);
+}
+
+.vital-detail-card:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.detail-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* グラフヘッダーとタブ */
+.chart-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.8rem;
+}
+
+.chart-header-container .section-title {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.chart-tabs-container {
+    display: flex;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    padding: 0.2rem;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.chart-tab {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--font-family);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    white-space: nowrap;
+}
+
+.chart-tab:hover {
+    color: var(--text-main);
+}
+
+.chart-tab.active {
+    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+    color: white;
+    box-shadow: 0 2px 10px rgba(168, 85, 247, 0.3);
 }
 
 /* 体重・数値入力の装飾 */
@@ -985,6 +1109,12 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .vitals-body-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 600px) {
     .app-container {
         padding: 1.5rem 1rem;
@@ -994,8 +1124,13 @@ body {
         font-size: 2rem;
     }
     
-    .meals-grid, .vitals-grid {
+    .meals-grid, .vitals-activity-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .vitals-body-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
     }
     
     .input-wrapper.full-width {
@@ -1004,5 +1139,15 @@ body {
     
     .water-quick-buttons {
         flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .vitals-body-grid {
+        grid-template-columns: 1fr;
+    }
+    .chart-header-container {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

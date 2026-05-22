@@ -26,6 +26,9 @@ let selectedDate = getFormattedDate(new Date());
 // Chart.js のインスタンスを保持する変数
 let weightChart = null;
 
+// 現在選択されているグラフのタブ
+let currentChartTab = 'weight';
+
 // 自動保存のデバウンス用タイマー
 let saveTimeout = null;
 
@@ -86,7 +89,17 @@ function setupEventListeners() {
     const prevBtn = document.getElementById('prev-date-btn');
     const nextBtn = document.getElementById('next-date-btn');
     
+    // 入力項目
     const weightInput = document.getElementById('weight-input');
+    const bodyfatInput = document.getElementById('bodyfat-input');
+    const bpInput = document.getElementById('bp-input');
+    const bmiInput = document.getElementById('bmi-input');
+    const waistInput = document.getElementById('waist-input');
+    const visceralFatInput = document.getElementById('visceral-fat-input');
+    const subcutaneousFatInput = document.getElementById('subcutaneous-fat-input');
+    const muscleInput = document.getElementById('muscle-input');
+    const metabolismInput = document.getElementById('metabolism-input');
+    const bodyAgeInput = document.getElementById('body-age-input');
     const exerciseInput = document.getElementById('exercise-input');
     
     const mealSelects = document.querySelectorAll('.meal-select');
@@ -123,13 +136,19 @@ function setupEventListeners() {
         resetWater();
     });
 
-    // 体重・運動の入力イベントで自動保存（デバウンス処理）
-    weightInput.addEventListener('input', () => {
-        triggerAutoSave();
-    });
+    // 各バイタル・活動の入力イベントで自動保存（デバウンス処理）
+    const autoSaveInputs = [
+        weightInput, bodyfatInput, bpInput, bmiInput, waistInput,
+        visceralFatInput, subcutaneousFatInput, muscleInput,
+        metabolismInput, bodyAgeInput, exerciseInput
+    ];
     
-    exerciseInput.addEventListener('input', () => {
-        triggerAutoSave();
+    autoSaveInputs.forEach(input => {
+        if (input) {
+            input.addEventListener('input', () => {
+                triggerAutoSave();
+            });
+        }
     });
 
     // 食事プルダウンの変更イベントで自動保存＆PFC表示更新
@@ -143,6 +162,17 @@ function setupEventListeners() {
             
             // 自動保存の実行
             triggerAutoSave();
+        });
+    });
+
+    // グラフ切り替えタブのイベントリスナー
+    const chartTabs = document.querySelectorAll('.chart-tab');
+    chartTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            chartTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentChartTab = tab.dataset.tab;
+            updateChart();
         });
     });
 }
@@ -197,6 +227,17 @@ function loadDateData(dateStr) {
     // 体重と運動の入力欄
     document.getElementById('weight-input').value = dayData.weight || '';
     document.getElementById('exercise-input').value = dayData.exercise || '';
+
+    // 新しいバイタル項目の入力欄
+    document.getElementById('bodyfat-input').value = dayData.bodyfat || '';
+    document.getElementById('bp-input').value = dayData.bp || '';
+    document.getElementById('bmi-input').value = dayData.bmi || '';
+    document.getElementById('waist-input').value = dayData.waist || '';
+    document.getElementById('visceral-fat-input').value = dayData.visceralFat || '';
+    document.getElementById('subcutaneous-fat-input').value = dayData.subcutaneousFat || '';
+    document.getElementById('muscle-input').value = dayData.muscle || '';
+    document.getElementById('metabolism-input').value = dayData.metabolism || '';
+    document.getElementById('body-age-input').value = dayData.bodyAge || '';
 
     // 水分の表示更新
     const waterVal = dayData.water || 0;
@@ -294,6 +335,33 @@ function saveCurrentData() {
     const exercise = document.getElementById('exercise-input').value.trim();
     const water = parseInt(document.getElementById('water-current').textContent, 10) || 0;
 
+    // 新しいバイタル項目の取得
+    const bodyfatVal = document.getElementById('bodyfat-input').value;
+    const bodyfat = bodyfatVal !== '' ? parseFloat(bodyfatVal) : null;
+    
+    const bp = document.getElementById('bp-input').value.trim();
+    
+    const bmiVal = document.getElementById('bmi-input').value;
+    const bmi = bmiVal !== '' ? parseFloat(bmiVal) : null;
+    
+    const waistVal = document.getElementById('waist-input').value;
+    const waist = waistVal !== '' ? parseFloat(waistVal) : null;
+    
+    const visceralFatVal = document.getElementById('visceral-fat-input').value;
+    const visceralFat = visceralFatVal !== '' ? parseFloat(visceralFatVal) : null;
+    
+    const subcutaneousFatVal = document.getElementById('subcutaneous-fat-input').value;
+    const subcutaneousFat = subcutaneousFatVal !== '' ? parseFloat(subcutaneousFatVal) : null;
+    
+    const muscleVal = document.getElementById('muscle-input').value;
+    const muscle = muscleVal !== '' ? parseFloat(muscleVal) : null;
+    
+    const metabolismVal = document.getElementById('metabolism-input').value;
+    const metabolism = metabolismVal !== '' ? parseFloat(metabolismVal) : null;
+    
+    const bodyAgeVal = document.getElementById('body-age-input').value;
+    const bodyAge = bodyAgeVal !== '' ? parseInt(bodyAgeVal, 10) : null;
+
     // データの組み立て
     data[selectedDate] = {
         breakfast,
@@ -302,7 +370,16 @@ function saveCurrentData() {
         snack,
         weight,
         exercise,
-        water
+        water,
+        bodyfat,
+        bp,
+        bmi,
+        waist,
+        visceralFat,
+        subcutaneousFat,
+        muscle,
+        metabolism,
+        bodyAge
     };
 
     saveAllData(data);
@@ -325,6 +402,15 @@ function saveCurrentData() {
 function applySaveGlow() {
     const inputs = [
         document.getElementById('weight-input'),
+        document.getElementById('bodyfat-input'),
+        document.getElementById('bp-input'),
+        document.getElementById('bmi-input'),
+        document.getElementById('waist-input'),
+        document.getElementById('visceral-fat-input'),
+        document.getElementById('subcutaneous-fat-input'),
+        document.getElementById('muscle-input'),
+        document.getElementById('metabolism-input'),
+        document.getElementById('body-age-input'),
         document.getElementById('exercise-input'),
         document.getElementById('meal-breakfast'),
         document.getElementById('meal-lunch'),
@@ -333,10 +419,12 @@ function applySaveGlow() {
     ];
 
     inputs.forEach(input => {
-        input.classList.remove('autosave-glow');
-        // リフローを起こしてアニメーションを再トリガーする
-        void input.offsetWidth;
-        input.classList.add('autosave-glow');
+        if (input) {
+            input.classList.remove('autosave-glow');
+            // リフローを起こしてアニメーションを再トリガーする
+            void input.offsetWidth;
+            input.classList.add('autosave-glow');
+        }
     });
 }
 
@@ -352,12 +440,45 @@ function updateDashboard() {
     if (todayData.weight) {
         summaryWeight.textContent = `${todayData.weight} kg`;
     } else {
-        const latestWeight = findLatestWeight();
+        const latestWeight = findLatestValue('weight');
         if (latestWeight) {
             summaryWeight.textContent = `${latestWeight} kg (直近)`;
         } else {
             summaryWeight.textContent = '- kg';
         }
+    }
+
+    // 新しい詳細サマリーの更新
+    const summaryBodyfat = document.getElementById('summary-bodyfat');
+    if (todayData.bodyfat) {
+        summaryBodyfat.textContent = `${todayData.bodyfat} %`;
+    } else {
+        const latest = findLatestValue('bodyfat');
+        summaryBodyfat.textContent = latest ? `${latest} % (直近)` : '- %';
+    }
+
+    const summaryBp = document.getElementById('summary-bp');
+    if (todayData.bp) {
+        summaryBp.textContent = `${todayData.bp} mmHg`;
+    } else {
+        const latest = findLatestValue('bp');
+        summaryBp.textContent = latest ? `${latest} mmHg (直近)` : '- mmHg';
+    }
+
+    const summaryBmi = document.getElementById('summary-bmi');
+    if (todayData.bmi) {
+        summaryBmi.textContent = todayData.bmi;
+    } else {
+        const latest = findLatestValue('bmi');
+        summaryBmi.textContent = latest ? `${latest} (直近)` : '-';
+    }
+
+    const summaryWaist = document.getElementById('summary-waist');
+    if (todayData.waist) {
+        summaryWaist.textContent = `${todayData.waist} cm`;
+    } else {
+        const latest = findLatestValue('waist');
+        summaryWaist.textContent = latest ? `${latest} cm (直近)` : '- cm';
     }
 
     // 2. 今日の総カロリー＆PFCバランスの計算と更新
@@ -376,13 +497,16 @@ function updateDashboard() {
 /**
  * 直近で記録されている体重を取得する
  */
-function findLatestWeight() {
+/**
+ * 特定のキーの直近の記録値を取得する
+ */
+function findLatestValue(key) {
     const data = getAllData();
     const sortedDates = Object.keys(data).sort((a, b) => new Date(b) - new Date(a));
     
     for (const dStr of sortedDates) {
-        if (data[dStr] && data[dStr].weight) {
-            return data[dStr].weight;
+        if (data[dStr] && data[dStr][key] !== undefined && data[dStr][key] !== null && data[dStr][key] !== '') {
+            return data[dStr][key];
         }
     }
     return null;
@@ -450,20 +574,199 @@ function updateChart() {
     const data = getAllData();
     
     const labels = [];
-    const weightDataset = [];
-    const waterDataset = [];
+    const datasets = [];
     
     const baseDate = new Date(selectedDate);
+    const dates = [];
     for (let i = 6; i >= 0; i--) {
         const d = new Date(baseDate);
         d.setDate(baseDate.getDate() - i);
         const dStr = getFormattedDate(d);
-        
+        dates.push(dStr);
         labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
+    }
+
+    const waterData = dates.map(dStr => (data[dStr] || {}).water || 0);
+    const waterDataset = {
+        label: '水分 (ml)',
+        data: waterData,
+        type: 'bar',
+        backgroundColor: 'rgba(59, 130, 246, 0.12)',
+        borderColor: 'rgba(59, 130, 246, 0.25)',
+        borderWidth: 1,
+        borderRadius: 5,
+        yAxisID: 'ySecondary'
+    };
+
+    let yPrimaryLabel = '';
+    let ySecondaryLabel = '水分 (ml)';
+    let ySecondaryMax = 3000;
+    let showWater = true;
+
+    if (currentChartTab === 'weight') {
+        const weightData = dates.map(dStr => (data[dStr] || {}).weight || null);
+        yPrimaryLabel = '体重 (kg)';
+        datasets.push({
+            label: '体重 (kg)',
+            data: weightData,
+            borderColor: '#ec4899',
+            backgroundColor: 'rgba(236, 72, 153, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#ec4899',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+    } else if (currentChartTab === 'bodyfat') {
+        const bodyfatData = dates.map(dStr => (data[dStr] || {}).bodyfat || null);
+        yPrimaryLabel = '体脂肪率 (%)';
+        datasets.push({
+            label: '体脂肪率 (%)',
+            data: bodyfatData,
+            borderColor: '#a855f7',
+            backgroundColor: 'rgba(168, 85, 247, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#a855f7',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+    } else if (currentChartTab === 'bp') {
+        // 血圧: 最高と最低
+        const systolicData = [];
+        const diastolicData = [];
+        dates.forEach(dStr => {
+            const bpStr = (data[dStr] || {}).bp || '';
+            const match = bpStr.match(/^(\d+)\s*\/\s*(\d+)$/);
+            if (match) {
+                systolicData.push(parseInt(match[1], 10));
+                diastolicData.push(parseInt(match[2], 10));
+            } else {
+                systolicData.push(null);
+                diastolicData.push(null);
+            }
+        });
         
-        const dayVal = data[dStr] || {};
-        weightDataset.push(dayVal.weight || null);
-        waterDataset.push(dayVal.water || 0);
+        yPrimaryLabel = '血圧 (mmHg)';
+        showWater = false; // 血圧グラフは水分を非表示
+        
+        datasets.push({
+            label: '最高血圧 (mmHg)',
+            data: systolicData,
+            borderColor: '#f97316',
+            backgroundColor: 'rgba(249, 115, 22, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#f97316',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+        
+        datasets.push({
+            label: '最低血圧 (mmHg)',
+            data: diastolicData,
+            borderColor: '#06b6d4',
+            backgroundColor: 'rgba(6, 182, 212, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#06b6d4',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+    } else if (currentChartTab === 'waist') {
+        const waistData = dates.map(dStr => (data[dStr] || {}).waist || null);
+        yPrimaryLabel = 'ウエスト (cm)';
+        datasets.push({
+            label: 'ウエスト (cm)',
+            data: waistData,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#10b981',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+    } else if (currentChartTab === 'bmi') {
+        const bmiData = dates.map(dStr => (data[dStr] || {}).bmi || null);
+        yPrimaryLabel = 'BMI';
+        datasets.push({
+            label: 'BMI',
+            data: bmiData,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#3b82f6',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+    } else if (currentChartTab === 'muscle') {
+        const muscleData = dates.map(dStr => (data[dStr] || {}).muscle || null);
+        const subcutaneousData = dates.map(dStr => (data[dStr] || {}).subcutaneousFat || null);
+        
+        yPrimaryLabel = '割合 (%)';
+        showWater = false;
+        
+        datasets.push({
+            label: '骨格筋率 (%)',
+            data: muscleData,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#10b981',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+        
+        datasets.push({
+            label: '皮下脂肪率 (%)',
+            data: subcutaneousData,
+            borderColor: '#ec4899',
+            backgroundColor: 'rgba(236, 72, 153, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#ec4899',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+    } else if (currentChartTab === 'metabolism') {
+        const metabolismData = dates.map(dStr => (data[dStr] || {}).metabolism || null);
+        yPrimaryLabel = '基礎代謝 (kcal)';
+        datasets.push({
+            label: '基礎代謝 (kcal)',
+            data: metabolismData,
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.08)',
+            borderWidth: 3,
+            pointBackgroundColor: '#f59e0b',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.3,
+            yAxisID: 'yPrimary',
+            spanGaps: true
+        });
+    }
+
+    if (showWater) {
+        datasets.push(waterDataset);
     }
 
     if (weightChart) {
@@ -472,35 +775,57 @@ function updateChart() {
 
     const ctx = document.getElementById('weightChart').getContext('2d');
     
+    const scalesConfig = {
+        x: {
+            grid: {
+                color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+                color: '#94a3b8'
+            }
+        },
+        yPrimary: {
+            type: 'linear',
+            position: 'left',
+            grid: {
+                color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+                color: '#94a3b8'
+            },
+            title: {
+                display: true,
+                text: yPrimaryLabel,
+                color: '#94a3b8'
+            }
+        }
+    };
+
+    if (showWater) {
+        scalesConfig.ySecondary = {
+            type: 'linear',
+            position: 'right',
+            grid: {
+                drawOnChartArea: false
+            },
+            ticks: {
+                color: '#94a3b8'
+            },
+            title: {
+                display: true,
+                text: ySecondaryLabel,
+                color: '#3b82f6'
+            },
+            min: 0,
+            max: ySecondaryMax
+        };
+    }
+
     weightChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [
-                {
-                    label: '体重 (kg)',
-                    data: weightDataset,
-                    borderColor: '#ec4899',
-                    backgroundColor: 'rgba(236, 72, 153, 0.1)',
-                    borderWidth: 3,
-                    pointBackgroundColor: '#ec4899',
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    tension: 0.3,
-                    yAxisID: 'yWeight',
-                    spanGaps: true
-                },
-                {
-                    label: '水分 (ml)',
-                    data: waterDataset,
-                    type: 'bar',
-                    backgroundColor: 'rgba(59, 130, 246, 0.3)',
-                    borderColor: 'rgba(59, 130, 246, 0.6)',
-                    borderWidth: 1,
-                    borderRadius: 5,
-                    yAxisID: 'yWater'
-                }
-            ]
+            datasets: datasets
         },
         options: {
             responsive: true,
@@ -519,48 +844,7 @@ function updateChart() {
                     intersect: false
                 }
             },
-            scales: {
-                x: {
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.05)'
-                    },
-                    ticks: {
-                        color: '#94a3b8'
-                    }
-                },
-                yWeight: {
-                    type: 'linear',
-                    position: 'left',
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.05)'
-                    },
-                    ticks: {
-                        color: '#94a3b8'
-                    },
-                    title: {
-                        display: true,
-                        text: '体重 (kg)',
-                        color: '#ec4899'
-                    }
-                },
-                yWater: {
-                    type: 'linear',
-                    position: 'right',
-                    grid: {
-                        drawOnChartArea: false
-                    },
-                    ticks: {
-                        color: '#94a3b8'
-                    },
-                    title: {
-                        display: true,
-                        text: '水分 (ml)',
-                        color: '#3b82f6'
-                    },
-                    min: 0,
-                    max: 3000
-                }
-            }
+            scales: scalesConfig
         }
     });
 }
