@@ -199,39 +199,63 @@
                     <div class="meals-grid select-layout">
                         <!-- 朝食 -->
                         <div class="input-wrapper">
-                            <label for="meal-breakfast">朝食</label>
-                            <select id="meal-breakfast" class="meal-select">
-                                <!-- JSでオプションを挿入します -->
-                            </select>
-                            <div id="breakfast-nutrition" class="nutrition-display">
-                                <!-- 栄養素がここに表示されます -->
+                            <label>朝食</label>
+                            <div class="meal-add-row">
+                                <select id="meal-breakfast" class="meal-select">
+                                    <!-- JSでオプションを挿入します -->
+                                </select>
+                                <button type="button" id="add-breakfast-btn" class="meal-add-btn" title="朝食に追加">
+                                    ➕
+                                </button>
                             </div>
+                            <!-- 追加した食事のリスト表示エリア -->
+                            <div id="breakfast-list" class="meal-item-list"></div>
+                            <!-- 朝食合計の栄養素タグ表示エリア -->
+                            <div id="breakfast-nutrition" class="nutrition-display"></div>
                         </div>
                         
                         <!-- 昼食 -->
                         <div class="input-wrapper">
-                            <label for="meal-lunch">昼食</label>
-                            <select id="meal-lunch" class="meal-select">
-                                <!-- JSでオプションを挿入します -->
-                            </select>
+                            <label>昼食</label>
+                            <div class="meal-add-row">
+                                <select id="meal-lunch" class="meal-select">
+                                    <!-- JSでオプションを挿入します -->
+                                </select>
+                                <button type="button" id="add-lunch-btn" class="meal-add-btn" title="昼食に追加">
+                                    ➕
+                                </button>
+                            </div>
+                            <div id="lunch-list" class="meal-item-list"></div>
                             <div id="lunch-nutrition" class="nutrition-display"></div>
                         </div>
 
                         <!-- 晩御飯 -->
                         <div class="input-wrapper">
-                            <label for="meal-dinner">晩御飯</label>
-                            <select id="meal-dinner" class="meal-select">
-                                <!-- JSでオプションを挿入します -->
-                            </select>
+                            <label>晩御飯</label>
+                            <div class="meal-add-row">
+                                <select id="meal-dinner" class="meal-select">
+                                    <!-- JSでオプションを挿入します -->
+                                </select>
+                                <button type="button" id="add-dinner-btn" class="meal-add-btn" title="晩御飯に追加">
+                                    ➕
+                                </button>
+                            </div>
+                            <div id="dinner-list" class="meal-item-list"></div>
                             <div id="dinner-nutrition" class="nutrition-display"></div>
                         </div>
 
                         <!-- おやつ -->
                         <div class="input-wrapper">
-                            <label for="meal-snack">おやつ</label>
-                            <select id="meal-snack" class="meal-select">
-                                <!-- JSでオプションを挿入します -->
-                            </select>
+                            <label>おやつ</label>
+                            <div class="meal-add-row">
+                                <select id="meal-snack" class="meal-select">
+                                    <!-- JSでオプションを挿入します -->
+                                </select>
+                                <button type="button" id="add-snack-btn" class="meal-add-btn" title="おやつに追加">
+                                    ➕
+                                </button>
+                            </div>
+                            <div id="snack-list" class="meal-item-list"></div>
                             <div id="snack-nutrition" class="nutrition-display"></div>
                         </div>
                     </div>

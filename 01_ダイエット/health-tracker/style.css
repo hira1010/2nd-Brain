@@ -1151,3 +1151,107 @@ body {
         align-items: flex-start;
     }
 }
+
+/* ===========================
+   食事の複数登録UI スタイル
+   =========================== */
+
+/* プルダウンと追加ボタンを横並びにする行 */
+.meal-add-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.meal-add-row .meal-select {
+    flex: 1;
+}
+
+/* 「➕ 追加」ボタンのデザイン */
+.meal-add-btn {
+    flex-shrink: 0;
+    width: 2.8rem;
+    height: 2.8rem;
+    background: linear-gradient(135deg, var(--accent-orange) 0%, #fb923c 100%);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+}
+
+.meal-add-btn:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 18px rgba(249, 115, 22, 0.5);
+}
+
+.meal-add-btn:active {
+    transform: scale(0.95);
+}
+
+/* 食事のカードリスト表示エリア */
+.meal-item-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    min-height: 0;
+    margin-top: 0.2rem;
+}
+
+/* 各食事カード（タグ）のデザイン */
+.meal-item-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(249, 115, 22, 0.12);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    color: #fed7aa;
+    padding: 0.25rem 0.5rem 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    animation: tagAppear 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 食事カードが追加される時のふわっと出るアニメーション */
+@keyframes tagAppear {
+    from {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 食事カード内の削除（❌）ボタン */
+.meal-item-remove {
+    background: rgba(239, 68, 68, 0.2);
+    border: none;
+    color: #fca5a5;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.7rem;
+    line-height: 1;
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.meal-item-remove:hover {
+    background: rgba(239, 68, 68, 0.55);
+    color: white;
+    transform: scale(1.15);
+}
+

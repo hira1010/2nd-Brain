@@ -72,10 +72,22 @@ function cacheDOM() {
         datePicker: document.getElementById('date-picker'),
         prevBtn: document.getElementById('prev-date-btn'),
         nextBtn: document.getElementById('next-date-btn'),
+        // 食事プルダウン
         mealBreakfast: document.getElementById('meal-breakfast'),
         mealLunch: document.getElementById('meal-lunch'),
         mealDinner: document.getElementById('meal-dinner'),
         mealSnack: document.getElementById('meal-snack'),
+        // 食事追加ボタン
+        addBreakfastBtn: document.getElementById('add-breakfast-btn'),
+        addLunchBtn: document.getElementById('add-lunch-btn'),
+        addDinnerBtn: document.getElementById('add-dinner-btn'),
+        addSnackBtn: document.getElementById('add-snack-btn'),
+        // 食事リスト表示エリア
+        breakfastList: document.getElementById('breakfast-list'),
+        lunchList: document.getElementById('lunch-list'),
+        dinnerList: document.getElementById('dinner-list'),
+        snackList: document.getElementById('snack-list'),
+        // その他
         waterCurrent: document.getElementById('water-current'),
         waterResetBtn: document.getElementById('water-reset-btn'),
         waterPctText: document.getElementById('water-pct-text'),
@@ -100,6 +112,15 @@ function cacheDOM() {
     VITAL_FIELDS.forEach(field => {
         DOM[field.key] = document.getElementById(field.id);
     });
+
+    // 各食事タイプのメモリ上のリスト（保存前のバッファ）
+    // 例: mealLists.breakfast = ['toast', 'egg']
+    DOM.mealLists = {
+        breakfast: [],
+        lunch: [],
+        dinner: [],
+        snack: []
+    };
 }
 
 /**
@@ -166,17 +187,23 @@ function setupEventListeners() {
     VITAL_FIELDS.forEach(field => {
         const input = DOM[field.key];
         if (input) {
-            input.addEventListener('input', () => triggerAutoSave());
+            input.addEventListener('input', (e) => triggerAutoSave(e.target));
         }
     });
 
-    // 食事プルダウンの変更イベント
-    const mealSelects = [DOM.mealBreakfast, DOM.mealLunch, DOM.mealDinner, DOM.mealSnack];
-    mealSelects.forEach(select => {
-        if (!select) return;
-        select.addEventListener('change', (e) => {
-            updateSingleMealNutrition(e.target.id, e.target.value);
-            triggerAutoSave();
+    // 食事「追加」ボタンのイベント（複数メニュー対応）
+    const mealAddConfigs = [
+        { btn: DOM.addBreakfastBtn, select: DOM.mealBreakfast, type: 'breakfast' },
+        { btn: DOM.addLunchBtn,     select: DOM.mealLunch,     type: 'lunch'     },
+        { btn: DOM.addDinnerBtn,    select: DOM.mealDinner,    type: 'dinner'    },
+        { btn: DOM.addSnackBtn,     select: DOM.mealSnack,     type: 'snack'     },
+    ];
+    mealAddConfigs.forEach(({ btn, select, type }) => {
+        if (!btn || !select) return;
+        btn.addEventListener('click', () => {
+            const key = select.value;
+            if (!key || key === 'none') return; // 「選択しない」は追加しない
+            addMealItem(type, key);
         });
     });
 
@@ -229,16 +256,22 @@ function loadDateData(dateStr) {
     const data = getAllData();
     const dayData = data[dateStr] || {};
 
-    // 食事プルダウンへの反映
+    // 食事データをメモリ上のリストに復元する
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'snack'];
     mealTypes.forEach(type => {
-        const key = `meal${type.charAt(0).toUpperCase() + type.slice(1)}`;
-        const select = DOM[key];
-        const val = dayData[type] || 'none';
-        if (select) {
-            select.value = val;
-            updateSingleMealNutrition(select.id, val);
+        const saved = dayData[type];
+        let list = [];
+
+        if (Array.isArray(saved)) {
+            // 新形式: すでにリストになっている場合はそのまま使う
+            list = saved.filter(k => k && k !== 'none');
+        } else if (typeof saved === 'string' && saved !== 'none' && saved !== '') {
+            // 旧形式: 単一の文字列として保存されていた場合、リストに変換して引き継ぐ
+            list = [saved];
         }
+
+        DOM.mealLists[type] = list;
+        renderMealList(type); // 画面のリスト表示を更新
     });
 
     // バイタル項目の入力欄へ反映
@@ -255,27 +288,86 @@ function loadDateData(dateStr) {
 }
 
 /**
- * 単体の食事メニューに対するPFC・カロリー表示を更新する
+ * 1つの食事タイプのメニューリストに、選択したメニューを1件追加する
  */
-function updateSingleMealNutrition(selectId, mealKey) {
-    const type = selectId.split('-')[1]; // 'breakfast', 'lunch' など
-    const targetDiv = document.getElementById(`${type}-nutrition`);
-    const meal = MEAL_MENU[mealKey];
+function addMealItem(type, key) {
+    if (!DOM.mealLists[type]) DOM.mealLists[type] = [];
+    DOM.mealLists[type].push(key);
+    renderMealList(type);
+    triggerAutoSave(null);
+}
 
-    if (!targetDiv) return;
-    if (!meal || mealKey === 'none') {
-        targetDiv.innerHTML = '';
-        return;
+/**
+ * 1つの食事タイプのメニューリストから、指定した位置の1件を削除する
+ */
+function removeMealItem(type, index) {
+    if (!DOM.mealLists[type]) return;
+    DOM.mealLists[type].splice(index, 1);
+    renderMealList(type);
+    triggerAutoSave(null);
+}
+
+/**
+ * 指定した食事タイプのリスト（カード）と合計栄養素タグを再描画する
+ */
+function renderMealList(type) {
+    // リスト表示エリアのIDと栄養素表示エリアのIDを特定
+    const listKey = `${type}List`;       // 例: 'breakfastList'
+    const listDiv = DOM[listKey];        // 例: breakfast-list のDOM要素
+    const nutritionDiv = document.getElementById(`${type}-nutrition`);
+
+    const items = DOM.mealLists[type] || [];
+
+    // --- 食事カード（タグ）の描画 ---
+    if (listDiv) {
+        listDiv.innerHTML = '';
+        items.forEach((key, idx) => {
+            const meal = MEAL_MENU[key];
+            if (!meal) return;
+
+            const tag = document.createElement('span');
+            tag.className = 'meal-item-tag';
+
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = meal.name;
+
+            // 「×」削除ボタンの作成
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'meal-item-remove';
+            removeBtn.textContent = '×';
+            removeBtn.title = `${meal.name} を削除`;
+            removeBtn.addEventListener('click', () => removeMealItem(type, idx));
+
+            tag.appendChild(nameSpan);
+            tag.appendChild(removeBtn);
+            listDiv.appendChild(tag);
+        });
     }
 
-    targetDiv.innerHTML = `
-        <span class="nutri-tag cal"><i data-lucide="flame" style="width: 0.8rem; height: 0.8rem"></i>${meal.kcal} kcal</span>
-        <span class="nutri-tag p">P: ${meal.p}g</span>
-        <span class="nutri-tag f">F: ${meal.f}g</span>
-        <span class="nutri-tag c">C: ${meal.c}g</span>
-    `;
-
-    lucide.createIcons();
+    // --- 合計栄養素タグの描画 ---
+    if (nutritionDiv) {
+        if (items.length === 0) {
+            nutritionDiv.innerHTML = '';
+        } else {
+            // リスト内の全メニューのカロリー・PFCを合計する
+            let totalKcal = 0, totalP = 0, totalF = 0, totalC = 0;
+            items.forEach(key => {
+                const meal = MEAL_MENU[key];
+                if (meal) {
+                    totalKcal += meal.kcal;
+                    totalP   += meal.p;
+                    totalF   += meal.f;
+                    totalC   += meal.c;
+                }
+            });
+            nutritionDiv.innerHTML = `
+                <span class="nutri-tag cal">🔥 ${totalKcal} kcal</span>
+                <span class="nutri-tag p">P: ${Math.round(totalP * 10) / 10}g</span>
+                <span class="nutri-tag f">F: ${Math.round(totalF * 10) / 10}g</span>
+                <span class="nutri-tag c">C: ${Math.round(totalC * 10) / 10}g</span>
+            `;
+        }
+    }
 }
 
 /**
@@ -311,7 +403,7 @@ function resetWater() {
 /**
  * 自動保存のデバウンス処理（キー入力後、手が止まってから実行）
  */
-function triggerAutoSave() {
+function triggerAutoSave(changedElement) {
     if (DOM.autosaveBadge) {
         DOM.autosaveBadge.classList.add('saving');
         const span = DOM.autosaveBadge.querySelector('span');
@@ -320,22 +412,22 @@ function triggerAutoSave() {
 
     clearTimeout(saveTimeout);
     saveTimeout = setTimeout(() => {
-        saveCurrentData();
+        saveCurrentData(changedElement);
     }, 500);
 }
 
 /**
  * フォーム全体のデータを収集してローカルストレージに自動保存する
  */
-function saveCurrentData() {
+function saveCurrentData(changedElement) {
     const data = getAllData();
     const dayData = {};
     
-    // 食事データの取得
-    dayData.breakfast = DOM.mealBreakfast ? DOM.mealBreakfast.value : 'none';
-    dayData.lunch = DOM.mealLunch ? DOM.mealLunch.value : 'none';
-    dayData.dinner = DOM.mealDinner ? DOM.mealDinner.value : 'none';
-    dayData.snack = DOM.mealSnack ? DOM.mealSnack.value : 'none';
+    // 食事データをリスト形式で保存（複数メニュー対応）
+    dayData.breakfast = DOM.mealLists.breakfast || [];
+    dayData.lunch     = DOM.mealLists.lunch     || [];
+    dayData.dinner    = DOM.mealLists.dinner    || [];
+    dayData.snack     = DOM.mealLists.snack     || [];
     
     // 水分データの取得
     dayData.water = parseInt(DOM.waterCurrent ? DOM.waterCurrent.textContent : '0', 10) || 0;
@@ -369,35 +461,26 @@ function saveCurrentData() {
         if (span) span.textContent = '自動保存済';
     }
     
-    applySaveGlow();
-    updateDashboard();
+    applySaveGlow(changedElement);
+    updateDashboard(true); // 自動保存時はカレンダーや履歴の重い再描画をスキップ
 }
 
 /**
  * 自動保存された際、入力欄を一瞬光らせるエフェクト
  */
-function applySaveGlow() {
-    const inputs = [
-        DOM.mealBreakfast, DOM.mealLunch, DOM.mealDinner, DOM.mealSnack
-    ];
-    
-    VITAL_FIELDS.forEach(field => {
-        inputs.push(DOM[field.key]);
-    });
-
-    inputs.forEach(input => {
-        if (input) {
-            input.classList.remove('autosave-glow');
-            void input.offsetWidth; // リフロー
-            input.classList.add('autosave-glow');
-        }
-    });
+function applySaveGlow(changedElement) {
+    // 選択メニュー(SELECT)は、リフローやクラス操作によってプルダウンが閉じるなどのバグを防ぐため、エフェクト対象から外す
+    if (changedElement && changedElement.tagName !== 'SELECT') {
+        changedElement.classList.remove('autosave-glow');
+        void changedElement.offsetWidth; // リフローを発生させてアニメーションを再トリガー
+        changedElement.classList.add('autosave-glow');
+    }
 }
 
 /**
  * ダッシュボード全体の表示（サマリー、グラフ、カレンダー、履歴）を更新する
  */
-function updateDashboard() {
+function updateDashboard(lightweight = false) {
     const data = getAllData();
     const todayData = data[selectedDate] || {};
 
@@ -421,8 +504,12 @@ function updateDashboard() {
 
     updatePfcSummary(todayData);
     updateChart();
-    renderCalendar();
-    renderHistoryList();
+    
+    // 自動保存時は、DOMの大きな変更を伴うカレンダーと履歴の再描画をスキップして、プルダウンが閉じるバグを防ぐ
+    if (!lightweight) {
+        renderCalendar();
+        renderHistoryList();
+    }
 }
 
 /**
@@ -445,29 +532,34 @@ function findLatestValue(key) {
  * PFCとカロリーのサマリー表示を更新する
  */
 function updatePfcSummary(dayData) {
-    const meals = [
-        dayData.breakfast || 'none',
-        dayData.lunch || 'none',
-        dayData.dinner || 'none',
-        dayData.snack || 'none'
-    ];
-
-    let totalCal = 0, totalP = 0, totalF = 0, totalC = 0;
-
-    meals.forEach(key => {
-        const meal = MEAL_MENU[key];
-        if (meal) {
-            totalCal += meal.kcal;
-            totalP += meal.p;
-            totalF += meal.f;
-            totalC += meal.c;
+    // 全食事タイプのリストをまとめて1つの配列にする
+    // 旧形式（文字列）でも、新形式（リスト）でも両方に対応する
+    const allKeys = [];
+    ['breakfast', 'lunch', 'dinner', 'snack'].forEach(type => {
+        const saved = dayData[type];
+        if (Array.isArray(saved)) {
+            allKeys.push(...saved);
+        } else if (typeof saved === 'string' && saved !== 'none' && saved !== '') {
+            allKeys.push(saved);
         }
     });
 
-    if (DOM.totalCalories) DOM.totalCalories.textContent = `${totalCal} kcal`;
-    if (DOM.totalP) DOM.totalP.textContent = totalP;
-    if (DOM.totalF) DOM.totalF.textContent = totalF;
-    if (DOM.totalC) DOM.totalC.textContent = totalC;
+    let totalCal = 0, totalP = 0, totalF = 0, totalC = 0;
+
+    allKeys.forEach(key => {
+        const meal = MEAL_MENU[key];
+        if (meal) {
+            totalCal += meal.kcal;
+            totalP   += meal.p;
+            totalF   += meal.f;
+            totalC   += meal.c;
+        }
+    });
+
+    if (DOM.totalCalories) DOM.totalCalories.textContent = `${Math.round(totalCal)} kcal`;
+    if (DOM.totalP) DOM.totalP.textContent = Math.round(totalP * 10) / 10;
+    if (DOM.totalF) DOM.totalF.textContent = Math.round(totalF * 10) / 10;
+    if (DOM.totalC) DOM.totalC.textContent = Math.round(totalC * 10) / 10;
 
     const totalGrams = totalP + totalF + totalC;
     if (totalGrams > 0) {
@@ -764,7 +856,12 @@ function renderHistoryList() {
         const displayDate = `${dObj.getMonth() + 1}月${dObj.getDate()}日`;
         const displayWeight = dayData.weight ? `${dayData.weight}kg` : '-- kg';
 
-        const hasMeals = ['breakfast', 'lunch', 'dinner', 'snack'].some(type => dayData[type] && dayData[type] !== 'none');
+        // 食事記録があるかどうかの判定（リスト形式・文字列形式の両方に対応）
+        const hasMeals = ['breakfast', 'lunch', 'dinner', 'snack'].some(type => {
+            const val = dayData[type];
+            if (Array.isArray(val)) return val.length > 0;
+            return val && val !== 'none';
+        });
         const hasExercise = !!dayData.exercise;
         
         item.innerHTML = `
