@@ -265,17 +265,129 @@ function cacheDOM() {
 /**
  * 食事プルダウンの選択肢をMEAL_MENUから動的に生成する
  */
+/**
+ * 食事プルダウンの選択肢を再生成する
+ * (カスタムドロップダウンになったため、すべてのドロップダウンを再レンダリングします)
+ */
 function generateMealOptions() {
-    const listEl = document.getElementById('meal-options-list');
-    if (!listEl) return;
-    listEl.innerHTML = '';
+    MEAL_TYPES.forEach(type => {
+        const input = DOM[`meal${type.charAt(0).toUpperCase() + type.slice(1)}`];
+        renderDropdown(type, input ? input.value : '');
+    });
+}
+
+/**
+ * カスタムドロップダウンの表示内容をレンダリングする
+ * @param {string} type - 食事タイプ ('breakfast', 'lunch', 'dinner', 'snack')
+ * @param {string} filterText - 絞り込みテキスト
+ */
+function renderDropdown(type, filterText = '') {
+    const dropdown = document.getElementById(`dropdown-${type}`);
+    if (!dropdown) return;
+
+    dropdown.innerHTML = '';
+    const cleanedFilter = cleanMealName(filterText);
+
+    let hasItems = false;
+
     Object.entries(MEAL_MENU).forEach(([key, meal]) => {
         if (key === 'none') return;
-        const opt = document.createElement('option');
-        // ユーザーが選択しやすいよう、メニュー名とカロリーを含めた文字列を値にします。
-        opt.value = `${meal.name} (${meal.kcal} kcal)`;
-        listEl.appendChild(opt);
+
+        // 絞り込み処理
+        if (cleanedFilter) {
+            const cleanedName = cleanMealName(meal.name);
+            if (!cleanedName.includes(cleanedFilter) && !key.toLowerCase().includes(cleanedFilter)) {
+                return;
+            }
+        }
+
+        hasItems = true;
+
+        const item = document.createElement('div');
+        item.className = 'meal-dropdown-item';
+        
+        // 項目が選択された時の処理 (mousedown を使い、input の blur より先に発火させる)
+        item.addEventListener('mousedown', (e) => {
+            // 削除ボタンがクリックされた場合は処理をスキップ
+            if (e.target.classList.contains('meal-dropdown-item-delete')) {
+                return;
+            }
+            addMealItem(type, key);
+            const input = DOM[`meal${type.charAt(0).toUpperCase() + type.slice(1)}`];
+            if (input) input.value = '';
+            dropdown.classList.add('hidden');
+            showToast(`「${meal.name}」を${getMealTypeName(type)}に追加しました`);
+        });
+
+        // 食べ物の名前とカロリーを表示するエリア
+        const info = document.createElement('div');
+        info.className = 'meal-dropdown-item-info';
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = meal.name;
+        
+        const kcalSpan = document.createElement('span');
+        kcalSpan.className = 'meal-dropdown-item-kcal';
+        kcalSpan.textContent = `(${meal.kcal} kcal)`;
+        
+        info.appendChild(nameSpan);
+        info.appendChild(kcalSpan);
+        item.appendChild(info);
+
+        // 削除用の「×」ボタン
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'meal-dropdown-item-delete';
+        deleteBtn.textContent = '×';
+        deleteBtn.title = 'この食事をマイメニューから削除';
+        deleteBtn.addEventListener('mousedown', (e) => {
+            e.stopPropagation(); // 親要素の選択処理が走らないようにする
+            e.preventDefault();  // フォーカスが外れないようにする
+            removeCustomMeal(key);
+        });
+
+        item.appendChild(deleteBtn);
+        dropdown.appendChild(item);
     });
+
+    // 検索結果がない場合
+    if (!hasItems && cleanedFilter) {
+        const noResult = document.createElement('div');
+        noResult.style.padding = '0.75rem 1rem';
+        noResult.style.color = 'var(--text-muted)';
+        noResult.style.fontSize = '0.85rem';
+        noResult.textContent = '一致する食事がありません';
+        dropdown.appendChild(noResult);
+    }
+
+    // 最下部の「＋ 新しい食事を追加」ボタン
+    const actionItem = document.createElement('div');
+    actionItem.className = 'meal-dropdown-action-item';
+    actionItem.innerHTML = `➕ 新しい食事を追加`;
+    actionItem.addEventListener('mousedown', (e) => {
+        e.stopPropagation();
+        e.preventDefault(); // 入力欄からのフォーカス移動を防ぐ
+        dropdown.classList.add('hidden');
+        
+        // 設定パネルを開く
+        if (DOM.settingsPanel) {
+            DOM.settingsPanel.classList.remove('hidden');
+            // 目標値の設定を反映
+            if (DOM.targetKcal)  DOM.targetKcal.value  = DAILY_TARGET.kcal;
+            if (DOM.targetP)     DOM.targetP.value     = DAILY_TARGET.p;
+            if (DOM.targetF)     DOM.targetF.value     = DAILY_TARGET.f;
+            if (DOM.targetC)     DOM.targetC.value     = DAILY_TARGET.c;
+            if (DOM.targetWater) DOM.targetWater.value = DAILY_TARGET.water;
+        }
+        
+        // 新規登録の入力欄までスクロールして自動フォーカス
+        if (DOM.customMealName) {
+            DOM.customMealName.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                DOM.customMealName.focus();
+            }, 300);
+        }
+    });
+    dropdown.appendChild(actionItem);
 }
 
 /**
@@ -304,6 +416,46 @@ function setupEventListeners() {
     // バイタル入力（自動保存トリガー）
     VITAL_FIELDS.forEach(({ key }) => {
         DOM[key]?.addEventListener('input', e => triggerAutoSave(e.target));
+    });
+
+    // 食事入力フィールドとドロップダウンの制御イベント
+    MEAL_TYPES.forEach(type => {
+        const cap = type.charAt(0).toUpperCase() + type.slice(1);
+        const input = DOM[`meal${cap}`];
+        const dropdown = document.getElementById(`dropdown-${type}`);
+
+        if (input && dropdown) {
+            // フォーカス時にドロップダウンを表示
+            input.addEventListener('focus', () => {
+                document.querySelectorAll('.meal-dropdown-menu').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+                renderDropdown(type, input.value);
+                dropdown.classList.remove('hidden');
+            });
+
+            // 文字入力時に絞り込んで表示
+            input.addEventListener('input', () => {
+                renderDropdown(type, input.value);
+                dropdown.classList.remove('hidden');
+            });
+
+            // フォーカスが外れたときに遅延して非表示にする (mousedownイベントの処理を確実に走らせるため)
+            input.addEventListener('blur', () => {
+                setTimeout(() => {
+                    dropdown.classList.add('hidden');
+                }, 200);
+            });
+        }
+    });
+
+    // 画面のどこかをクリックしたときにドロップダウンを閉じる処理
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.meal-add-row-wrapper')) {
+            document.querySelectorAll('.meal-dropdown-menu').forEach(menu => {
+                menu.classList.add('hidden');
+            });
+        }
     });
 
     // 食事「追加」ボタン（MEAL_TYPESをベースに対応を自動生成）
@@ -365,7 +517,7 @@ function setupEventListeners() {
     // 設定トグルのイベント
     DOM.toggleSettingsBtn?.addEventListener('click', toggleSettingsPanel);
 
-    // 目標設定の入力イベント
+    // 目標設定 of 入力イベント
     [DOM.targetKcal, DOM.targetP, DOM.targetF, DOM.targetC, DOM.targetWater].forEach(input => {
         input?.addEventListener('input', saveTargetSettings);
     });

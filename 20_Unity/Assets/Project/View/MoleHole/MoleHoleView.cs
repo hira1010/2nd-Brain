@@ -38,6 +38,7 @@ namespace UnityMcpTextbook.View
         private const float AppearDurationSeconds = 0.22f;
         private const float HitDurationSeconds = 0.16f;
         private const float EscapeDurationSeconds = 0.24f;
+        private const int AuraTextureSize = 128;
 
         [SerializeField] private Image holeImage;
         [SerializeField] private Image moleImage;
@@ -47,11 +48,14 @@ namespace UnityMcpTextbook.View
         [SerializeField] private Sprite escapeSprite;
 
         private Tween activeTween;
+        private Tween auraTween;
         private Vector2 defaultMoleAnchoredPosition;
         private Vector2 defaultMoleSizeDelta;
         private bool hasDefaultMolePosition;
         private bool isHitEnabled;
+        private Image bossAuraImage;
         private Text hpText;
+        private static Sprite bossAuraSprite;
 
         /// <summary>Raised when the visible mole is clicked or tapped while hit input is enabled.</summary>
         public event Action OnHitRequested;
@@ -110,10 +114,8 @@ namespace UnityMcpTextbook.View
             moleImage.rectTransform.sizeDelta = defaultMoleSizeDelta;
             moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = Color.white;
-            if (hpText != null)
-            {
-                hpText.gameObject.SetActive(false);
-            }
+            HideBossAura();
+            HideHpText();
         }
 
         /// <summary>Plays the appear animation and enables hit input after it finishes.</summary>
@@ -225,6 +227,7 @@ namespace UnityMcpTextbook.View
             moleImage.rectTransform.sizeDelta = new Vector2(1080f, 1200f);
             moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = Color.red;
+            ShowBossAura();
             EnsureHpText();
             hpText.text = string.Empty;
             hpText.gameObject.SetActive(true);
@@ -235,6 +238,7 @@ namespace UnityMcpTextbook.View
             moleImage.rectTransform.sizeDelta = defaultMoleSizeDelta;
             moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = new Color(0.2f, 0.85f, 0.3f, 1f);
+            HideBossAura();
             HideHpText();
         }
 
@@ -243,7 +247,104 @@ namespace UnityMcpTextbook.View
             moleImage.rectTransform.sizeDelta = defaultMoleSizeDelta;
             moleImage.rectTransform.localScale = Vector3.one;
             moleImage.color = Color.white;
+            HideBossAura();
             HideHpText();
+        }
+
+        private void ShowBossAura()
+        {
+            EnsureBossAuraImage();
+            bossAuraImage.gameObject.SetActive(true);
+            bossAuraImage.color = new Color(1f, 0.12f, 0f, 0.45f);
+            bossAuraImage.rectTransform.localScale = Vector3.one;
+
+            auraTween?.Kill();
+            auraTween = DOTween.Sequence()
+                .Join(bossAuraImage.rectTransform.DOScale(new Vector3(1.12f, 1.12f, 1f), 0.65f).SetEase(Ease.InOutSine))
+                .Join(DOTween.To(GetBossAuraAlpha, SetBossAuraAlpha, 0.18f, 0.65f).SetEase(Ease.InOutSine))
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        private float GetBossAuraAlpha()
+        {
+            return bossAuraImage.color.a;
+        }
+
+        private void SetBossAuraAlpha(float alpha)
+        {
+            var color = bossAuraImage.color;
+            color.a = alpha;
+            bossAuraImage.color = color;
+        }
+
+        private void HideBossAura()
+        {
+            auraTween?.Kill();
+            auraTween = null;
+
+            if (bossAuraImage == null)
+            {
+                return;
+            }
+
+            bossAuraImage.gameObject.SetActive(false);
+            bossAuraImage.rectTransform.localScale = Vector3.one;
+        }
+
+        private void EnsureBossAuraImage()
+        {
+            if (bossAuraImage != null)
+            {
+                return;
+            }
+
+            var auraObject = new GameObject("BossAura", typeof(RectTransform), typeof(Image));
+            auraObject.transform.SetParent(transform, false);
+            auraObject.transform.SetSiblingIndex(moleImage.transform.GetSiblingIndex());
+
+            var rectTransform = auraObject.GetComponent<RectTransform>();
+            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            rectTransform.anchoredPosition = defaultMoleAnchoredPosition + new Vector2(0f, 40f);
+            rectTransform.sizeDelta = new Vector2(1280f, 1440f);
+
+            bossAuraImage = auraObject.GetComponent<Image>();
+            bossAuraImage.sprite = GetBossAuraSprite();
+            bossAuraImage.preserveAspect = false;
+            bossAuraImage.raycastTarget = false;
+        }
+
+        private static Sprite GetBossAuraSprite()
+        {
+            if (bossAuraSprite != null)
+            {
+                return bossAuraSprite;
+            }
+
+            var texture = new Texture2D(AuraTextureSize, AuraTextureSize, TextureFormat.RGBA32, false)
+            {
+                name = "GeneratedBossAura",
+                wrapMode = TextureWrapMode.Clamp,
+                filterMode = FilterMode.Bilinear
+            };
+
+            var center = new Vector2((AuraTextureSize - 1) * 0.5f, (AuraTextureSize - 1) * 0.5f);
+            var radius = AuraTextureSize * 0.5f;
+            for (var y = 0; y < AuraTextureSize; y++)
+            {
+                for (var x = 0; x < AuraTextureSize; x++)
+                {
+                    var distance = Vector2.Distance(new Vector2(x, y), center) / radius;
+                    var alpha = Mathf.Clamp01(1f - distance);
+                    alpha = alpha * alpha;
+                    texture.SetPixel(x, y, new Color(1f, 0.08f, 0f, alpha));
+                }
+            }
+
+            texture.Apply();
+            bossAuraSprite = Sprite.Create(texture, new Rect(0f, 0f, AuraTextureSize, AuraTextureSize), new Vector2(0.5f, 0.5f), 100f);
+            return bossAuraSprite;
         }
 
         private void HideHpText()
@@ -328,6 +429,7 @@ namespace UnityMcpTextbook.View
         private void OnDestroy()
         {
             KillActiveTween();
+            HideBossAura();
         }
 
         private void EnsureImages()

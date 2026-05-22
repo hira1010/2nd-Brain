@@ -267,19 +267,19 @@
                         <i data-lucide="utensils"></i>
                         <h3>食事の記録 (PFC・カロリー)</h3>
                     </div>
-                    
-                    <!-- 食事用 datalist を追加 -->
-                    <datalist id="meal-options-list"></datalist>
 
                     <div class="meals-grid select-layout">
                         <!-- 朝食 -->
                         <div class="input-wrapper">
                             <label>朝食</label>
-                            <div class="meal-add-row">
-                                <input type="text" id="meal-breakfast" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
-                                <button type="button" id="add-breakfast-btn" class="meal-add-btn" title="朝食に追加">
-                                    ➕
-                                </button>
+                            <div class="meal-add-row-wrapper">
+                                <div class="meal-add-row">
+                                    <input type="text" id="meal-breakfast" class="meal-input-field" autocomplete="off" placeholder="食事を入力するか選択...">
+                                    <button type="button" id="add-breakfast-btn" class="meal-add-btn" title="朝食に追加">
+                                        ➕
+                                    </button>
+                                </div>
+                                <div id="dropdown-breakfast" class="meal-dropdown-menu hidden"></div>
                             </div>
                             <!-- 追加した食事のリスト表示エリア -->
                             <div id="breakfast-list" class="meal-item-list"></div>
@@ -290,11 +290,14 @@
                         <!-- 昼食 -->
                         <div class="input-wrapper">
                             <label>昼食</label>
-                            <div class="meal-add-row">
-                                <input type="text" id="meal-lunch" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
-                                <button type="button" id="add-lunch-btn" class="meal-add-btn" title="昼食に追加">
-                                    ➕
-                                </button>
+                            <div class="meal-add-row-wrapper">
+                                <div class="meal-add-row">
+                                    <input type="text" id="meal-lunch" class="meal-input-field" autocomplete="off" placeholder="食事を入力するか選択...">
+                                    <button type="button" id="add-lunch-btn" class="meal-add-btn" title="昼食に追加">
+                                        ➕
+                                    </button>
+                                </div>
+                                <div id="dropdown-lunch" class="meal-dropdown-menu hidden"></div>
                             </div>
                             <div id="lunch-list" class="meal-item-list"></div>
                             <div id="lunch-nutrition" class="nutrition-display"></div>
@@ -303,11 +306,14 @@
                         <!-- 晩御飯 -->
                         <div class="input-wrapper">
                             <label>晩御飯</label>
-                            <div class="meal-add-row">
-                                <input type="text" id="meal-dinner" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
-                                <button type="button" id="add-dinner-btn" class="meal-add-btn" title="晩御飯に追加">
-                                    ➕
-                                </button>
+                            <div class="meal-add-row-wrapper">
+                                <div class="meal-add-row">
+                                    <input type="text" id="meal-dinner" class="meal-input-field" autocomplete="off" placeholder="食事を入力するか選択...">
+                                    <button type="button" id="add-dinner-btn" class="meal-add-btn" title="晩御飯に追加">
+                                        ➕
+                                    </button>
+                                </div>
+                                <div id="dropdown-dinner" class="meal-dropdown-menu hidden"></div>
                             </div>
                             <div id="dinner-list" class="meal-item-list"></div>
                             <div id="dinner-nutrition" class="nutrition-display"></div>
@@ -316,11 +322,14 @@
                         <!-- おやつ -->
                         <div class="input-wrapper">
                             <label>おやつ</label>
-                            <div class="meal-add-row">
-                                <input type="text" id="meal-snack" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
-                                <button type="button" id="add-snack-btn" class="meal-add-btn" title="おやつに追加">
-                                    ➕
-                                </button>
+                            <div class="meal-add-row-wrapper">
+                                <div class="meal-add-row">
+                                    <input type="text" id="meal-snack" class="meal-input-field" autocomplete="off" placeholder="食事を入力するか選択...">
+                                    <button type="button" id="add-snack-btn" class="meal-add-btn" title="おやつに追加">
+                                        ➕
+                                    </button>
+                                </div>
+                                <div id="dropdown-snack" class="meal-dropdown-menu hidden"></div>
                             </div>
                             <div id="snack-list" class="meal-item-list"></div>
                             <div id="snack-nutrition" class="nutrition-display"></div>

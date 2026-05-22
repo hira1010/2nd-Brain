@@ -137,6 +137,20 @@ namespace UnityMcpTextbook.Tests.Editor
             Assert.That(defeated[0].Item2, Is.EqualTo(MoleType.Boss));
         }
 
+        [Test]
+        public void TrySpawn_BossMole_AllowsOnlyOneActiveBoss()
+        {
+            var logic = new MoleSpawnLogic(new MoleSpawnConfig(holeCount: 9, maxActiveMoles: 3));
+
+            Assert.That(logic.TrySpawn(0, MoleType.Boss), Is.True);
+            Assert.That(logic.TrySpawn(1, MoleType.Boss), Is.False);
+            Assert.That(logic.TrySpawn(2, MoleType.Normal), Is.True);
+            Assert.That(logic.IsActive(0), Is.True);
+            Assert.That(logic.IsActive(1), Is.False);
+            Assert.That(logic.IsActive(2), Is.True);
+            Assert.That(logic.ActiveCount, Is.EqualTo(2));
+        }
+
         [UnityTest]
         public IEnumerator RunAsync_BossMole_DoesNotMissByVisibleDuration()
         {

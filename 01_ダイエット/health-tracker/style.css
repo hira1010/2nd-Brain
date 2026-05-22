@@ -1512,3 +1512,119 @@ body {
     font-weight: 600;
     color: var(--text-main);
 }
+
+/* カスタムドロップダウンメニューのスタイル */
+.meal-add-row-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.meal-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+.meal-dropdown-menu.hidden {
+    display: none;
+}
+
+/* カスタムスクロールバー */
+.meal-dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+.meal-dropdown-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+.meal-dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+
+.meal-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.meal-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.meal-dropdown-item-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.meal-dropdown-item-info span {
+    pointer-events: none;
+}
+
+.meal-dropdown-item-kcal {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.meal-dropdown-item-delete {
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    color: #fca5a5;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    line-height: 1;
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.meal-dropdown-item-delete:hover {
+    background: rgba(239, 68, 68, 0.6);
+    color: white;
+    transform: scale(1.1);
+}
+
+.meal-dropdown-action-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    color: var(--accent-purple);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    background: rgba(168, 85, 247, 0.03);
+}
+
+.meal-dropdown-action-item:hover {
+    background: rgba(168, 85, 247, 0.12);
+    color: #e9d5ff;
+}
+

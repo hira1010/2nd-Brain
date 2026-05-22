@@ -99,7 +99,7 @@ namespace UnityMcpTextbook.Logic
         public bool TrySpawn(int holeIndex, MoleType type)
         {
             ValidateHoleIndex(holeIndex);
-            if (_activeCount >= _config.MaxActiveMoles || _activeMoles[holeIndex])
+            if (_activeCount >= _config.MaxActiveMoles || _activeMoles[holeIndex] || IsSecondActiveBoss(type))
             {
                 return false;
             }
@@ -191,10 +191,28 @@ namespace UnityMcpTextbook.Logic
 
             if (roll < _config.PoisonSpawnProbability + _config.BossSpawnProbability)
             {
-                return MoleType.Boss;
+                return HasActiveBoss() ? MoleType.Normal : MoleType.Boss;
             }
 
             return MoleType.Normal;
+        }
+
+        private bool IsSecondActiveBoss(MoleType type)
+        {
+            return type == MoleType.Boss && HasActiveBoss();
+        }
+
+        private bool HasActiveBoss()
+        {
+            for (var i = 0; i < _activeMoles.Length; i++)
+            {
+                if (_activeMoles[i] && _moleTypes[i] == MoleType.Boss)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private int GetInitialHp(MoleType type)
