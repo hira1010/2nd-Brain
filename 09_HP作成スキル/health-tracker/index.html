@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ヘルスケア・ライフログ・トラッカー</title>
+    <!-- Google Fonts の読み込み（モダンな書体） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons (美しいアイコンライブラリ) の読み込み -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js (美しいグラフ描画ライブラリ) の読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- スタイルシートの読み込み -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-decorations">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- ヘッダー部分 -->
+        <header class="app-header">
+            <div class="logo-area">
+                <i data-lucide="heart-pulse" class="header-icon"></i>
+                <h1>ヘルスケア・ライフログ</h1>
+            </div>
+            <p class="subtitle">毎日の健康を美しく記録する</p>
+        </header>
+
+        <!-- 日付選択・ナビゲーション -->
+        <section class="date-selector-card glass-panel">
+            <button id="prev-date-btn" class="icon-btn" title="前日">
+                <i data-lucide="chevron-left"></i>
+            </button>
+            <div class="date-display-wrapper">
+                <i data-lucide="calendar" class="calendar-icon"></i>
+                <input type="date" id="date-picker" class="date-input">
+            </div>
+            <button id="next-date-btn" class="icon-btn" title="翌日">
+                <i data-lucide="chevron-right"></i>
+            </button>
+        </section>
+
+        <!-- メインコンテンツグリッド -->
+        <main class="main-grid">
+            <!-- 入力フォームエリア -->
+            <section class="input-section glass-panel">
+                <div class="section-title">
+                    <i data-lucide="edit-3"></i>
+                    <h2>今日の記録を入力</h2>
+                </div>
+
+                <form id="tracker-form">
+                    <!-- 食事記録グループ -->
+                    <div class="form-group-title">
+                        <i data-lucide="utensils"></i>
+                        <h3>食事の記録</h3>
+                    </div>
+                    
+                    <div class="meals-grid">
+                        <div class="input-wrapper">
+                            <label for="meal-breakfast">朝食</label>
+                            <textarea id="meal-breakfast" rows="2" placeholder="例: トースト、スクランブルエッグ、コーヒー"></textarea>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="meal-lunch">昼食</label>
+                            <textarea id="meal-lunch" rows="2" placeholder="例: パスタ、サラダ"></textarea>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="meal-dinner">晩御飯</label>
+                            <textarea id="meal-dinner" rows="2" placeholder="例: 焼き魚、ご飯、味噌汁"></textarea>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="meal-snack">おやつ</label>
+                            <textarea id="meal-snack" rows="2" placeholder="例: チョコレート、りんご"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 体重・水分・運動グループ -->
+                    <div class="form-group-title">
+                        <i data-lucide="activity"></i>
+                        <h3>バイタル＆活動</h3>
+                    </div>
+
+                    <div class="vitals-grid">
+                        <!-- 体重入力 -->
+                        <div class="input-wrapper">
+                            <label for="weight-input">体重 (kg)</label>
+                            <div class="number-input-container">
+                                <input type="number" id="weight-input" step="0.1" min="20" max="200" placeholder="0.0">
+                                <span class="unit">kg</span>
+                            </div>
+                        </div>
+
+                        <!-- 水分入力 -->
+                        <div class="input-wrapper">
+                            <label>水分摂取量</label>
+                            <div class="water-input-container">
+                                <div class="water-display">
+                                    <span id="water-current">0</span>
+                                    <span class="unit">/ 2000 ml</span>
+                                </div>
+                                <div class="water-quick-buttons">
+                                    <button type="button" class="water-btn" data-amount="200">+200ml</button>
+                                    <button type="button" class="water-btn" data-amount="500">+500ml</button>
+                                    <button type="button" id="water-reset-btn" class="water-btn reset" title="リセット">
+                                        <i data-lucide="rotate-ccw"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 運動入力 -->
+                        <div class="input-wrapper full-width">
+                            <label for="exercise-input">運動内容と時間</label>
+                            <input type="text" id="exercise-input" placeholder="例: ウォーキング 30分、ヨガ 15分">
+                        </div>
+                    </div>
+
+                    <!-- 保存ボタン -->
+                    <button type="submit" id="save-btn" class="submit-btn">
+                        <i data-lucide="save"></i>
+                        <span>記録を保存する</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- ダッシュボード・視覚化エリア -->
+            <section class="dashboard-section">
+                <!-- 今日のサマリーカード -->
+                <div class="summary-card glass-panel">
+                    <div class="section-title">
+                        <i data-lucide="pie-chart"></i>
+                        <h2>今日のサマリー</h2>
+                    </div>
+                    <div class="summary-widgets">
+                        <div class="widget">
+                            <div class="widget-icon water-theme">
+                                <i data-lucide="droplet"></i>
+                            </div>
+                            <div class="widget-info">
+                                <span class="widget-label">水分摂取率</span>
+                                <span class="widget-value" id="water-pct-text">0%</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" id="water-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <div class="widget-icon weight-theme">
+                                <i data-lucide="scale"></i>
+                            </div>
+                            <div class="widget-info">
+                                <span class="widget-label">登録体重</span>
+                                <span class="widget-value" id="summary-weight">- kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- グラフカード -->
+                <div class="chart-card glass-panel">
+                    <div class="section-title">
+                        <i data-lucide="trending-up"></i>
+                        <h2>推移グラフ (過去7日間)</h2>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weightChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 履歴カレンダー・一覧 -->
+        <section class="history-section glass-panel">
+            <div class="section-title">
+                <i data-lucide="history"></i>
+                <h2>カレンダーと履歴</h2>
+            </div>
+            <div class="history-container">
+                <div id="calendar-grid" class="calendar-grid">
+                    <!-- JSでカレンダーを描画します -->
+                </div>
+                <div class="history-list-wrapper">
+                    <h3>最近の記録</h3>
+                    <div id="history-list" class="history-list">
+                        <!-- JSで履歴リストを描画します -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript の読み込み -->
+    <script src="script.js"></script>
+    <script>
+        // Lucideアイコンの初期化
+        lucide.createIcons();
+    </script>
+</body>
+</html>
