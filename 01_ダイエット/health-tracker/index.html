@@ -51,76 +51,33 @@
 
         <!-- 設定パネル（トグル式） -->
         <section id="settings-panel" class="settings-panel glass-panel hidden">
-            <div class="settings-grid">
-                <!-- 目標設定エリア -->
-                <div class="settings-group">
-                    <div class="group-header">
-                        <i data-lucide="target"></i>
-                        <h3>1日の目標設定</h3>
-                    </div>
-                    <div class="settings-inputs-grid">
-                        <div class="input-wrapper">
-                            <label for="target-kcal-input">目標カロリー (kcal)</label>
-                            <input type="number" id="target-kcal-input" placeholder="1800">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="target-p-input">目標タンパク質 (g)</label>
-                            <input type="number" id="target-p-input" placeholder="135">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="target-f-input">目標脂質 (g)</label>
-                            <input type="number" id="target-f-input" placeholder="50">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="target-c-input">目標炭水化物 (g)</label>
-                            <input type="number" id="target-c-input" placeholder="203">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="target-water-input">目標水分量 (ml)</label>
-                            <input type="number" id="target-water-input" placeholder="2000">
-                        </div>
-                    </div>
+            <!-- 目標設定エリア -->
+            <div class="settings-group">
+                <div class="group-header">
+                    <i data-lucide="target"></i>
+                    <h3>1日の目標設定</h3>
                 </div>
-
-                <!-- 食事メニュー追加エリア -->
-                <div class="settings-group">
-                    <div class="group-header">
-                        <i data-lucide="plus-circle"></i>
-                        <h3>マイ食事メニューの追加</h3>
+                <div class="settings-inputs-grid">
+                    <div class="input-wrapper">
+                        <label for="target-kcal-input">目標カロリー (kcal)</label>
+                        <input type="number" id="target-kcal-input" placeholder="1800">
                     </div>
-                    <div class="settings-inputs-grid">
-                        <div class="input-wrapper full-width">
-                            <label for="custom-meal-name">食事の名前</label>
-                            <input type="text" id="custom-meal-name" placeholder="例: 自製プロテインスムージー">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="custom-meal-kcal">カロリー (kcal)</label>
-                            <input type="number" id="custom-meal-kcal" placeholder="150">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="custom-meal-p">タンパク質 (g)</label>
-                            <input type="number" id="custom-meal-p" placeholder="20">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="custom-meal-f">脂質 (g)</label>
-                            <input type="number" id="custom-meal-f" placeholder="2">
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="custom-meal-c">炭水化物 (g)</label>
-                            <input type="number" id="custom-meal-c" placeholder="10">
-                        </div>
+                    <div class="input-wrapper">
+                        <label for="target-p-input">目標タンパク質 (g)</label>
+                        <input type="number" id="target-p-input" placeholder="135">
                     </div>
-                    <button type="button" id="save-custom-meal-btn" class="settings-save-btn">
-                        ➕ メニューに登録する
-                    </button>
-                </div>
-            </div>
-            
-            <!-- カスタム食事一覧 -->
-            <div class="custom-meals-list-section">
-                <h4>登録済みのマイメニュー</h4>
-                <div id="custom-meals-tags" class="custom-meals-tags">
-                    <!-- JSで登録済みのメニューをタグ形式で表示し、削除できるようにする -->
+                    <div class="input-wrapper">
+                        <label for="target-f-input">目標脂質 (g)</label>
+                        <input type="number" id="target-f-input" placeholder="50">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="target-c-input">目標炭水化物 (g)</label>
+                        <input type="number" id="target-c-input" placeholder="203">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="target-water-input">目標水分量 (ml)</label>
+                        <input type="number" id="target-water-input" placeholder="2000">
+                    </div>
                 </div>
             </div>
         </section>
@@ -275,14 +232,15 @@
                         <h3>食事の記録 (PFC・カロリー)</h3>
                     </div>
                     
+                    <!-- 食事用 datalist を追加 -->
+                    <datalist id="meal-options-list"></datalist>
+
                     <div class="meals-grid select-layout">
                         <!-- 朝食 -->
                         <div class="input-wrapper">
                             <label>朝食</label>
                             <div class="meal-add-row">
-                                <select id="meal-breakfast" class="meal-select">
-                                    <!-- JSでオプションを挿入します -->
-                                </select>
+                                <input type="text" id="meal-breakfast" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
                                 <button type="button" id="add-breakfast-btn" class="meal-add-btn" title="朝食に追加">
                                     ➕
                                 </button>
@@ -297,9 +255,7 @@
                         <div class="input-wrapper">
                             <label>昼食</label>
                             <div class="meal-add-row">
-                                <select id="meal-lunch" class="meal-select">
-                                    <!-- JSでオプションを挿入します -->
-                                </select>
+                                <input type="text" id="meal-lunch" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
                                 <button type="button" id="add-lunch-btn" class="meal-add-btn" title="昼食に追加">
                                     ➕
                                 </button>
@@ -312,9 +268,7 @@
                         <div class="input-wrapper">
                             <label>晩御飯</label>
                             <div class="meal-add-row">
-                                <select id="meal-dinner" class="meal-select">
-                                    <!-- JSでオプションを挿入します -->
-                                </select>
+                                <input type="text" id="meal-dinner" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
                                 <button type="button" id="add-dinner-btn" class="meal-add-btn" title="晩御飯に追加">
                                     ➕
                                 </button>
@@ -327,15 +281,21 @@
                         <div class="input-wrapper">
                             <label>おやつ</label>
                             <div class="meal-add-row">
-                                <select id="meal-snack" class="meal-select">
-                                    <!-- JSでオプションを挿入します -->
-                                </select>
+                                <input type="text" id="meal-snack" class="meal-input-field" list="meal-options-list" placeholder="食事を入力するか選択...">
                                 <button type="button" id="add-snack-btn" class="meal-add-btn" title="おやつに追加">
                                     ➕
                                 </button>
                             </div>
                             <div id="snack-list" class="meal-item-list"></div>
                             <div id="snack-nutrition" class="nutrition-display"></div>
+                        </div>
+                    </div>
+
+                    <!-- 登録済みのマイ食事メニュー（不要なものは × で削除できます） -->
+                    <div class="custom-meals-list-section">
+                        <h4>登録済みのマイ食事メニュー（不要なものは × で削除できます）</h4>
+                        <div id="custom-meals-tags" class="custom-meals-tags">
+                            <!-- JSで登録済みのメニューをタグ形式で表示し、削除できるようにする -->
                         </div>
                     </div>
                 </form>
@@ -464,5 +424,10 @@
         // Lucideアイコンの初期化
         lucide.createIcons();
     </script>
+    <!-- トースト通知用のコンテナ -->
+    <div id="toast-notification" class="toast">
+        <i data-lucide="check-circle" style="color: var(--accent-emerald)"></i>
+        <span id="toast-message">保存しました</span>
+    </div>
 </body>
 </html>

@@ -262,16 +262,15 @@ function cacheDOM() {
  * 食事プルダウンの選択肢をMEAL_MENUから動的に生成する
  */
 function generateMealOptions() {
-    const selects = [DOM.mealBreakfast, DOM.mealLunch, DOM.mealDinner, DOM.mealSnack];
-    selects.forEach(select => {
-        if (!select) return;
-        select.innerHTML = '';
-        Object.entries(MEAL_MENU).forEach(([key, meal]) => {
-            const opt = document.createElement('option');
-            opt.value       = key;
-            opt.textContent = key === 'none' ? meal.name : `${meal.name} (${meal.kcal} kcal)`;
-            select.appendChild(opt);
-        });
+    const listEl = document.getElementById('meal-options-list');
+    if (!listEl) return;
+    listEl.innerHTML = '';
+    Object.entries(MEAL_MENU).forEach(([key, meal]) => {
+        if (key === 'none') return;
+        const opt = document.createElement('option');
+        // ユーザーが選択しやすいよう、メニュー名とカロリーを含めた文字列を値にします。
+        opt.value = `${meal.name} (${meal.kcal} kcal)`;
+        listEl.appendChild(opt);
     });
 }
 
@@ -307,10 +306,44 @@ function setupEventListeners() {
     MEAL_TYPES.forEach(type => {
         const cap    = type.charAt(0).toUpperCase() + type.slice(1);
         const btn    = DOM[`add${cap}Btn`];
-        const select = DOM[`meal${cap}`];
+        const input  = DOM[`meal${cap}`]; // input要素
         btn?.addEventListener('click', () => {
-            const key = select?.value;
-            if (key && key !== 'none') addMealItem(type, key);
+            const inputText = input?.value?.trim();
+            if (!inputText) return;
+
+            const existingKey = findMealKey(inputText);
+            if (existingKey) {
+                // 既存の食事が見つかった場合
+                addMealItem(type, existingKey);
+                const meal = MEAL_MENU[existingKey];
+                showToast(`「${meal.name}」を${getMealTypeName(type)}に追加しました`);
+                if (input) input.value = ''; // 入力欄をクリア
+            } else {
+                // 新規食事の場合、カロリーを聞く
+                const cleanedName = inputText.replace(/\s*\(.*\)\s*/g, '').trim();
+                if (!cleanedName) return;
+
+                const calorieInput = prompt(`「${cleanedName}」のカロリー(kcal)を入力してください：`, "200");
+                if (calorieInput === null) return; // キャンセルされた場合
+
+                const kcal = parseFloat(calorieInput) || 0;
+                const newKey = `custom_${Date.now()}`;
+                
+                MEAL_MENU[newKey] = {
+                    name: `⭐ ${cleanedName}`,
+                    kcal: kcal,
+                    p: 0,
+                    f: 0,
+                    c: 0
+                };
+
+                saveCustomMealsToStorage();
+                generateMealOptions();
+                renderCustomMealsTags();
+                addMealItem(type, newKey);
+                showToast(`「${cleanedName}」を新しく登録し、${getMealTypeName(type)}に追加しました`);
+                if (input) input.value = ''; // 入力欄をクリア
+            }
         });
     });
 
@@ -1062,11 +1095,14 @@ function saveCustomMealsToStorage() {
  * @param {string} key - 削除するメニューの識別キー
  */
 function removeCustomMeal(key) {
-    if (confirm('このマイメニューを削除しますか？\n(すでにその日の食事として記録されている項目は、そのまま計算に残ります)')) {
+    const meal = MEAL_MENU[key];
+    const name = meal ? meal.name.replace('⭐ ', '') : 'メニュー';
+    if (confirm(`このマイメニュー「${name}」を削除しますか？\n(すでにその日の食事として記録されている項目は、そのまま計算に残ります)`)) {
         delete MEAL_MENU[key];
         saveCustomMealsToStorage();
         generateMealOptions();
         renderCustomMealsTags();
+        showToast(`マイメニュー「${name}」を削除しました`);
     }
 }
 
@@ -1102,5 +1138,82 @@ function renderCustomMealsTags() {
         msg.style.fontSize = '0.85rem';
         msg.textContent = '登録済みのマイメニューはありません';
         DOM.customMealsTags.appendChild(msg);
+    }
+}
+
+// ============================================================
+// [13] あいまい検索とトースト通知ヘルパー関数
+// ============================================================
+
+/**
+ * 比較のために食事名から絵文字、余計な記号、スペース、括弧書きを除去する
+ */
+function cleanMealName(name) {
+    if (!name) return '';
+    return name
+        .replace(/[\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF]/g, '') // 絵文字除去
+        .replace(/\s+/g, '') // 全半角空白除去
+        .replace(/\([^)]*\)/g, '') // 半角カッコとその中身除去
+        .replace(/（[^）]*）/g, '') // 全角カッコとその中身除去
+        .toLowerCase()
+        .trim();
+}
+
+/**
+ * 入力されたテキストから既存メニュー(MEAL_MENU)のキーを特定する（あいまい検索）
+ */
+function findMealKey(inputText) {
+    if (!inputText) return null;
+    const cleanedInput = cleanMealName(inputText);
+    if (!cleanedInput) return null;
+
+    // 1. クリーンアップ後の完全一致、またはキー名との完全一致を探す
+    for (const [key, meal] of Object.entries(MEAL_MENU)) {
+        if (key === 'none') continue;
+        if (key.toLowerCase() === cleanedInput) return key;
+        if (cleanMealName(meal.name) === cleanedInput) return key;
+    }
+
+    // 2. 部分一致を探す（入力値がメニュー名に含まれる、またはメニュー名が入力値に含まれる）
+    for (const [key, meal] of Object.entries(MEAL_MENU)) {
+        if (key === 'none') continue;
+        const cleanedMenuName = cleanMealName(meal.name);
+        if (cleanedMenuName.includes(cleanedInput) || cleanedInput.includes(cleanedMenuName)) {
+            return key;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * 画面にフワッとお知らせを表示するトースト通知機能
+ */
+function showToast(message) {
+    const toast = document.getElementById('toast-notification');
+    const toastMsg = document.getElementById('toast-message');
+    if (toast && toastMsg) {
+        toastMsg.textContent = message;
+        toast.classList.add('show');
+        
+        if (window.toastTimer) {
+            clearTimeout(window.toastTimer);
+        }
+        window.toastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+}
+
+/**
+ * 食事の時間帯を日本語名に変換する
+ */
+function getMealTypeName(type) {
+    switch (type) {
+        case 'breakfast': return '朝食';
+        case 'lunch':     return '昼食';
+        case 'dinner':    return '晩御飯';
+        case 'snack':     return 'おやつ';
+        default:          return '食事';
     }
 }

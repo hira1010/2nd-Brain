@@ -3,6 +3,8 @@ const path = require('path');
 
 // グローバルオブジェクトのモック
 global.window = global;
+
+const elementCache = {};
 global.document = {
     addEventListener: (event, callback) => {
         if (event === 'DOMContentLoaded') {
@@ -10,23 +12,35 @@ global.document = {
         }
     },
     getElementById: (id) => {
-        return {
-            id: id,
-            value: 'none',
-            textContent: '',
-            style: {},
-            classList: {
-                add: () => {},
-                remove: () => {},
-                contains: () => false,
-                toggle: () => {}
-            },
-            addEventListener: () => {},
-            querySelector: () => ({ textContent: '' }),
-            getContext: () => ({}),
-            appendChild: () => {},
-            innerHTML: ''
-        };
+        if (!elementCache[id]) {
+            const listeners = {};
+            elementCache[id] = {
+                id: id,
+                value: '',
+                textContent: '',
+                style: {},
+                classList: {
+                    add: () => {},
+                    remove: () => {},
+                    contains: () => false,
+                    toggle: () => {}
+                },
+                addEventListener: (event, callback) => {
+                    listeners[event] = callback;
+                },
+                click: () => {
+                    if (listeners['click']) {
+                        listeners['click']();
+                    }
+                },
+                querySelector: () => ({ textContent: '' }),
+                getContext: () => ({}),
+                appendChild: () => {},
+                append: () => {},
+                innerHTML: ''
+            };
+        }
+        return elementCache[id];
     },
     createElement: (tag) => {
         return {
@@ -35,6 +49,7 @@ global.document = {
             style: {},
             className: '',
             appendChild: () => {},
+            append: () => {},
             addEventListener: () => {},
             classList: {
                 add: () => {},
@@ -46,6 +61,9 @@ global.document = {
     },
     querySelectorAll: () => []
 };
+
+global.prompt = (msg, def) => "250"; // カロリー入力ダイアログのモック
+
 global.localStorageStore = {};
 global.localStorage = {
     getItem: (key) => global.localStorageStore[key] || null,
@@ -70,26 +88,35 @@ const DOM = global.getDOM();
 
 console.log("--- 非同期自動保存シミュレーションテスト開始 ---");
 
-// 1. 朝食を toast に変更し自動保存をトリガー
-console.log("\n1. 朝食を 'toast' に変更します。");
-DOM.mealBreakfast.value = 'toast';
-global.triggerAutoSave(DOM.mealBreakfast);
+// 1. 朝食入力欄に「トースト」を入力し、追加ボタンをクリック
+console.log("\n1. 朝食に入力欄から 'トースト' を追加します。");
+DOM.mealBreakfast.value = 'トースト';
+const addBreakfastBtn = elementCache['add-breakfast-btn'];
+if (addBreakfastBtn) {
+    addBreakfastBtn.click();
+}
 
 // 2. 600ms 待つ
 setTimeout(() => {
-    console.log("600ms経過後のローカルストレージ内容（朝食のみ保存されているはず）:");
+    console.log("600ms経過後のローカルストレージ内容（朝食に toast が入っているはず）:");
     console.log(localStorage.getItem('health_tracker_data'));
 
-    // 3. 昼食を salad に変更し自動保存をトリガー
-    console.log("\n2. 昼食を 'salad' に変更します。");
-    DOM.mealLunch.value = 'salad';
-    global.triggerAutoSave(DOM.mealLunch);
+    // 3. 昼食に新規メニュー「ステーキ」を入力し、追加ボタンをクリック
+    console.log("\n2. 昼食に入力欄から新規メニュー 'ステーキ' (カロリーはモックで250) を追加します。");
+    DOM.mealLunch.value = 'ステーキ';
+    const addLunchBtn = elementCache['add-lunch-btn'];
+    if (addLunchBtn) {
+        addLunchBtn.click();
+    }
 
     // 4. さらに 600ms 待つ
     setTimeout(() => {
         console.log("さらに600ms経過後のローカルストレージ内容（朝食と昼食の両方が保存されているはず）:");
         console.log(localStorage.getItem('health_tracker_data'));
+        console.log("カスタム食事メニューのストレージ内容（ステーキが記憶されているはず）:");
+        console.log(localStorage.getItem('health_tracker_custom_meals'));
         console.log("\n--- テスト終了 ---");
     }, 600);
 
 }, 600);
+

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityMcpTextbook.Logic;
@@ -10,9 +9,9 @@ namespace UnityMcpTextbook.App
     internal sealed class GameplaySession : IDisposable
     {
         private readonly GameScreenRefs screens;
-        private readonly List<IDisposable> presenters = new();
         private CancellationTokenSource timerCancellationTokenSource;
         private CancellationTokenSource moleSpawnCancellationTokenSource;
+        private ScorePresenter scorePresenter;
         private TimerPresenter timerPresenter;
         private MoleSpawnPresenter moleSpawnPresenter;
         private ScoreLogic scoreLogic;
@@ -49,14 +48,12 @@ namespace UnityMcpTextbook.App
         private void CreatePresenters()
         {
             scoreLogic = new ScoreLogic(new ScoreConfig());
-            var scorePresenter = new ScorePresenter(scoreLogic, screens.ScoreView);
+            scorePresenter = new ScorePresenter(scoreLogic, screens.ScoreView);
             scorePresenter.Initialize();
-            presenters.Add(scorePresenter);
 
             var timerLogic = new TimerLogic(new GameConfig());
             timerPresenter = new TimerPresenter(timerLogic, screens.TimerView);
             timerPresenter.Initialize();
-            presenters.Add(timerPresenter);
 
             var moleSpawnLogic = new MoleSpawnLogic(new MoleSpawnConfig());
             moleSpawnPresenter = new MoleSpawnPresenter(
@@ -67,7 +64,6 @@ namespace UnityMcpTextbook.App
                 scoreLogic.ApplyPoisonHit,
                 scoreLogic.ApplyMiss);
             moleSpawnPresenter.Initialize();
-            presenters.Add(moleSpawnPresenter);
         }
 
         private async UniTask RunUntilTimeUpAsync(CancellationToken cancellationToken)
@@ -110,12 +106,10 @@ namespace UnityMcpTextbook.App
 
         private void DisposePresenters()
         {
-            foreach (var presenter in presenters)
-            {
-                presenter.Dispose();
-            }
-
-            presenters.Clear();
+            scorePresenter?.Dispose();
+            timerPresenter?.Dispose();
+            moleSpawnPresenter?.Dispose();
+            scorePresenter = null;
             timerPresenter = null;
             moleSpawnPresenter = null;
         }
