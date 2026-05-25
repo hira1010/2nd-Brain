@@ -26,17 +26,17 @@
     "@remotion/player": "^4.0.436",
     "@remotion/renderer": "^4.0.436",
     "@remotion/tailwind-v4": "^4.0.436",
-    "budoux": "^0.6.2",
+    "budoux": "^0.8.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "remotion": "^4.0.436",
     "yaml": "^2.3.4"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.2.0",
-    "concurrently": "^8.2.2",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
+    "concurrently": "^9.2.1",
     "ts-node": "^10.9.0",
-    "typescript": "^5.0.0"
+    "typescript": "^6.0.3"
   }
 }
