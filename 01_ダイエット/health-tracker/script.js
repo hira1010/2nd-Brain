@@ -21,19 +21,90 @@
 
 /** デフォルトの食事メニューデータ（P:たんぱく質, F:脂質, C:炭水化物, kcal:カロリー） */
 const DEFAULT_MEAL_MENU = {
-    toast:      { name: '🍞 トースト',           p: 6,    f: 4,    c: 30,   kcal: 180 },
-    egg:        { name: '🍳 スクランブルエッグ', p: 7,    f: 6,    c: 1,    kcal: 90  },
-    salad:      { name: '🥗 グリーンサラダ',     p: 1,    f: 0.2,  c: 4,    kcal: 20  },
-    chicken:    { name: '🍗 サラダチキン',       p: 25,   f: 1.5,  c: 0.5,  kcal: 120 },
-    curry:      { name: '🍛 カレーライス',       p: 15,   f: 18,   c: 90,   kcal: 650 },
-    fish_set:   { name: '🐟 焼き魚定食',         p: 25,   f: 12,   c: 60,   kcal: 480 },
-    beef_bowl:  { name: '🐂 牛丼',               p: 20,   f: 22,   c: 95,   kcal: 700 },
-    ramen:      { name: '🍜 醤油ラーメン',       p: 20,   f: 20,   c: 70,   kcal: 550 },
-    udon:       { name: '🥢 かけうどん',         p: 8,    f: 1,    c: 55,   kcal: 280 },
-    rice:       { name: '🍚 白米 (大盛1杯)',     p: 4,    f: 0.5,  c: 55,   kcal: 240 },
-    chocolate:  { name: '🍫 チョコレート',       p: 2,    f: 15,   c: 28,   kcal: 250 },
-    apple:      { name: '🍎 りんご (半分)',       p: 0.3,  f: 0.1,  c: 15,   kcal: 60  },
-    protein:    { name: '🥤 プロテイン',         p: 20,   f: 1.5,  c: 3,    kcal: 120 },
+    // 朝食・乳製品・卵
+    toast:      { name: '🍞 トースト (6枚切1枚)', p: 5.6,  f: 2.0,  c: 28.0,  kcal: 160 },
+    egg:        { name: '🍳 スクランブルエッグ', p: 7.0,  f: 6.0,  c: 1.0,   kcal: 90  },
+    boiled_egg: { name: '🥚 ゆで卵 (1個)',        p: 6.5,  f: 5.0,  c: 0.2,   kcal: 76  },
+    fried_egg:  { name: '🍳 目玉焼き (1個)',      p: 6.5,  f: 6.0,  c: 0.3,   kcal: 90  },
+    yogurt:     { name: '🥣 ヨーグルト (プレーン)', p: 3.6,  f: 3.0,  c: 4.9,   kcal: 62  },
+    yogurt_sw:  { name: '🥣 加糖ヨーグルト',      p: 3.0,  f: 2.0,  c: 12.0,  kcal: 80  },
+    milk:       { name: '🥛 牛乳 (200ml)',       p: 6.8,  f: 7.8,  c: 9.9,   kcal: 138 },
+    soymilk:    { name: '🥛 無調整豆乳 (200ml)',  p: 8.3,  f: 4.4,  c: 3.8,   kcal: 92  },
+    cheese:     { name: '🧀 スライスチーズ (1枚)', p: 4.0,  f: 5.0,  c: 0.3,   kcal: 60  },
+    cottage:    { name: '🧀 カッテージチーズ(100g)',p: 13.3, f: 4.5,  c: 1.9,   kcal: 101 },
+
+    // 定番・おかず・健康食品
+    natto:      { name: '🥢 納豆 (1パック)',      p: 8.0,  f: 5.0,  c: 6.0,   kcal: 100 },
+    tofu:       { name: '🥢 豆腐 (半丁)',        p: 7.0,  f: 4.5,  c: 2.5,   kcal: 80  },
+    chicken:    { name: '🍗 サラダチキン',       p: 25.0, f: 1.5,  c: 0.5,   kcal: 120 },
+    salmon:     { name: '🐟 鮭の塩焼き (1切れ)',  p: 20.0, f: 8.0,  c: 0.1,   kcal: 150 },
+    mackerel:   { name: '🐟 鯖の塩焼き (1切れ)',  p: 18.0, f: 16.0, c: 0.2,   kcal: 220 },
+    sashimi:    { name: '🐟 刺身盛り合わせ',      p: 22.0, f: 3.0,  c: 0.2,   kcal: 120 },
+    beef_steak: { name: '🥩 牛ヒレステーキ(100g)', p: 20.5, f: 4.8,  c: 0.3,   kcal: 130 },
+    pork_ginger:{ name: '🐖 豚の生姜焼き (1人前)', p: 18.0, f: 20.0, c: 8.0,   kcal: 300 },
+    yakitori:   { name: '🍢 焼き鳥 (もも塩3本)',  p: 15.0, f: 6.0,  c: 0.5,   kcal: 180 },
+    karage:     { name: '🍗 鶏の唐揚げ (3個)',    p: 12.0, f: 15.0, c: 6.0,   kcal: 210 },
+    hamburg:    { name: '🥩 ハンバーグ (1人前)',  p: 18.0, f: 22.0, c: 12.0,  kcal: 320 },
+    gyoza:      { name: '🥟 餃子 (5個)',         p: 8.0,  f: 10.0, c: 20.0,  kcal: 200 },
+    nugget:     { name: '🍗 チキンナゲット (5個)', p: 12.0, f: 15.0, c: 12.0,  kcal: 230 },
+    tuna_can:   { name: '🐟 ツナ缶 (水煮1缶)',    p: 12.5, f: 0.2,  c: 0.1,   kcal: 53  },
+    saba_can:   { name: '🐟 鯖の味噌煮缶 (1缶)',  p: 26.0, f: 18.0, c: 10.0,  kcal: 310 },
+    chikuwa:    { name: '🍢 ちくわ (2本)',        p: 6.0,  f: 1.0,  c: 7.0,   kcal: 60  },
+    sasakama:   { name: '🐟 笹かまぼこ (2枚)',    p: 7.0,  f: 0.5,  c: 4.0,   kcal: 50  },
+
+    // 主食・ご飯・麺
+    rice:       { name: '🍚 白米 (普通盛1杯)',     p: 3.8,  f: 0.4,  c: 55.7,  kcal: 240 },
+    rice_large: { name: '🍚 白米 (大盛1杯)',       p: 4.0,  f: 0.5,  c: 55.0,  kcal: 240 },
+    brown_rice: { name: '🍚 玄米 (普通盛1杯)',     p: 4.2,  f: 1.5,  c: 51.3,  kcal: 230 },
+    oats:       { name: '🥣 オートミール (30g)',  p: 4.4,  f: 2.0,  c: 20.5,  kcal: 110 },
+    onigiri_ume:{ name: '🍙 梅おにぎり',         p: 3.0,  f: 0.5,  c: 40.0,  kcal: 180 },
+    onigiri_sha:{ name: '🍙 鮭おにぎり',         p: 4.5,  f: 1.0,  c: 40.0,  kcal: 190 },
+    onigiri_may:{ name: '🍙 ツナマヨおにぎり',    p: 4.8,  f: 5.0,  c: 39.0,  kcal: 220 },
+    curry:      { name: '🍛 カレーライス',       p: 15.0, f: 18.0, c: 90.0,  kcal: 650 },
+    beef_bowl:  { name: '🐂 牛丼 (並盛)',         p: 20.0, f: 22.0, c: 95.0,  kcal: 700 },
+    ramen:      { name: '🍜 醤油ラーメン',       p: 20.0, f: 20.0, c: 70.0,  kcal: 550 },
+    udon:       { name: '🥢 かけうどん',         p: 8.0,  f: 1.0,  c: 55.0,  kcal: 280 },
+    soba:       { name: '🥢 かけそば',           p: 12.0, f: 2.0,  c: 55.0,  kcal: 290 },
+    pasta_toma: { name: '🍝 トマトパスタ',       p: 12.0, f: 8.0,  c: 75.0,  kcal: 450 },
+    pasta_carb: { name: '🍝 カルボナーラ',       p: 20.0, f: 30.0, c: 70.0,  kcal: 680 },
+    pizza:      { name: '🍕 ピザ (Mサイズ1切れ)', p: 8.0,  f: 8.0,  c: 24.0,  kcal: 200 },
+    sandwich:   { name: '🥪 ミックスサンド',     p: 10.0, f: 12.0, c: 25.0,  kcal: 250 },
+    croissant:  { name: '🥐 クロワッサン',       p: 4.0,  f: 11.0, c: 20.0,  kcal: 200 },
+
+    // スープ・サラダ・野菜
+    salad:      { name: '🥗 グリーンサラダ',     p: 1.0,  f: 0.2,  c: 4.0,   kcal: 20  },
+    miso_soup:  { name: '🥣 味噌汁',             p: 1.5,  f: 0.8,  c: 3.5,   kcal: 35  },
+    broccoli:   { name: '🥦 ブロッコリー (100g)', p: 4.3,  f: 0.5,  c: 5.2,   kcal: 33  },
+    spinach:    { name: '🥬 ほうれん草 (100g)',   p: 2.2,  f: 0.4,  c: 3.1,   kcal: 20  },
+    tomato:     { name: '🍅 トマト (中1個)',      p: 1.1,  f: 0.2,  c: 7.2,   kcal: 30  },
+    avocado:    { name: '🥑 アボカド (半分)',     p: 1.3,  f: 13.0, c: 4.0,   kcal: 130 },
+    konjac:     { name: '🥢 こんにゃく (100g)',   p: 0.1,  f: 0.0,  c: 2.3,   kcal: 7   },
+    shirataki:  { name: '🥢 しらたき (100g)',     p: 0.2,  f: 0.0,  c: 3.0,   kcal: 6   },
+    kimchi:     { name: '🥢 キムチ (50g)',       p: 1.0,  f: 0.2,  c: 2.6,   kcal: 23  },
+
+    // 果物・おやつ・サプリ
+    banana:     { name: '🍌 バナナ (1本)',        p: 1.1,  f: 0.2,  c: 22.5,  kcal: 86  },
+    apple:      { name: '🍎 りんご (半分)',       p: 0.3,  f: 0.1,  c: 15.0,  kcal: 60  },
+    orange:     { name: '🍊 オレンジ (1個)',      p: 1.0,  f: 0.1,  c: 20.0,  kcal: 80  },
+    sweet_pot:  { name: '🍠 さつまいも (150g)',   p: 1.8,  f: 0.3,  c: 45.0,  kcal: 190 },
+    nuts:       { name: '🥜 ミックスナッツ(25g)',  p: 5.0,  f: 15.0, c: 4.0,   kcal: 150 },
+    chocolate:  { name: '🍫 チョコレート (25g)',   p: 2.0,  f: 15.0, c: 28.0,  kcal: 250 },
+    protein:    { name: '🥤 プロテイン (ホエイ)',  p: 20.0, f: 1.5,  c: 3.0,   kcal: 120 },
+    pudding:    { name: '🍮 プリン',             p: 5.0,  f: 5.0,  c: 20.0,  kcal: 150 },
+    ice_cream:  { name: '🍨 バニラアイス',       p: 3.5,  f: 8.0,  c: 23.0,  kcal: 180 },
+
+    // 飲み物・調味料
+    yakult:     { name: '🍼 乳酸菌飲料 (1本)',    p: 0.8,  f: 0.1,  c: 11.5,  kcal: 50  },
+    coffee:     { name: '☕ ブラックコーヒー',     p: 0.2,  f: 0.0,  c: 0.7,   kcal: 4   },
+    latte:      { name: '☕ カフェラテ (200ml)',   p: 4.0,  f: 4.5,  c: 8.0,   kcal: 90  },
+    green_tea:  { name: '🍵 緑茶',               p: 0.0,  f: 0.0,  c: 0.0,   kcal: 0   },
+    coke:       { name: '🥤 コーラ (350ml)',     p: 0.0,  f: 0.0,  c: 40.0,  kcal: 160 },
+    beer:       { name: '🍺 ビール (350ml缶)',    p: 1.0,  f: 0.0,  c: 10.5,  kcal: 140 },
+    highball:   { name: '🥃 ハイボール',         p: 0.0,  f: 0.0,  c: 0.0,   kcal: 70  },
+    olive_oil:  { name: '🧴 オリーブオイル(大1)', p: 0.0,  f: 12.0, c: 0.0,   kcal: 110 },
+    butter:     { name: '🧈 バター (10g)',       p: 0.1,  f: 8.1,  c: 0.0,   kcal: 73  },
+    mayonnaise: { name: '🧴 マヨネーズ (大1)',    p: 0.2,  f: 11.2, c: 0.1,   kcal: 100 },
+    soy_sauce:  { name: '🧴 醤油 (大さじ1)',      p: 1.4,  f: 0.0,  c: 1.8,   kcal: 13  },
 };
 
 /** 食事メニューデータ（ロードされたデータがマージされます） */
@@ -490,12 +561,17 @@ function setupEventListeners() {
                 const kcal = parseFloat(calorieInput) || 0;
                 const newKey = `custom_${Date.now()}`;
                 
+                // 入力されたカロリー値からPFC（タンパク質20%、脂質25%、炭水化物55%）を自動推定して入力
+                const p = round1((kcal * 0.20) / 4);
+                const f = round1((kcal * 0.25) / 9);
+                const c = round1((kcal * 0.55) / 4);
+
                 MEAL_MENU[newKey] = {
                     name: `⭐ ${cleanedName}`,
                     kcal: kcal,
-                    p: 0,
-                    f: 0,
-                    c: 0
+                    p: p,
+                    f: f,
+                    c: c
                 };
 
                 saveMealsToStorage(); // 食事メニュー全体を保存
@@ -529,6 +605,21 @@ function setupEventListeners() {
 
     // カスタム食事の登録ボタン
     DOM.saveCustomMealBtn?.addEventListener('click', addCustomMeal);
+
+    // マイ食事メニュー追加の「食事の名前」入力時に、既存メニューからカロリーやPFCを自動補完する
+    DOM.customMealName?.addEventListener('input', () => {
+        const nameVal = DOM.customMealName.value.trim();
+        if (!nameVal) return;
+        
+        const existingKey = findMealKey(nameVal);
+        if (existingKey) {
+            const meal = MEAL_MENU[existingKey];
+            if (DOM.customMealKcal) DOM.customMealKcal.value = meal.kcal;
+            if (DOM.customMealP)    DOM.customMealP.value = meal.p;
+            if (DOM.customMealF)    DOM.customMealF.value = meal.f;
+            if (DOM.customMealC)    DOM.customMealC.value = meal.c;
+        }
+    });
 
     // カスタム食事入力欄での Enter キー押下で登録
     [DOM.customMealName, DOM.customMealKcal, DOM.customMealP, DOM.customMealF, DOM.customMealC].forEach(input => {
@@ -1195,8 +1286,10 @@ function loadMeals() {
     if (raw) {
         try {
             const savedMeals = JSON.parse(raw);
+            // 最新の DEFAULT_MEAL_MENU と保存されているマイメニュー・カスタムメニューをマージする
             MEAL_MENU = {
                 none: { name: '選択しない', p: 0, f: 0, c: 0, kcal: 0 },
+                ...DEFAULT_MEAL_MENU,
                 ...savedMeals
             };
         } catch (e) {
