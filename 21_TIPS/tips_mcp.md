@@ -1,4 +1,5 @@
-# TIPS情報：MCPの設定URL
+
+https://tips.jp/mypage/articles/new# TIPS情報：MCPの設定URL
 
 ## 登録URL
 https://tips.jp/mcp
