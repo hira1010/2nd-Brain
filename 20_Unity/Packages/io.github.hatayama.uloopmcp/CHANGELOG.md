@@ -1,5 +1,40 @@
 # Changelog
 
+## [2.1.9](https://github.com/hatayama/unity-cli-loop/compare/v2.1.8...v2.1.9) (2026-06-14)
+
+
+### Bug Fixes
+
+* Respect UI raycast priority in simulate-mouse-ui ([#1318](https://github.com/hatayama/unity-cli-loop/issues/1318)) ([acb40a6](https://github.com/hatayama/unity-cli-loop/commit/acb40a68a0e4723148892e961c3aeb95ddd32f90))
+
+## [2.1.8](https://github.com/hatayama/unity-cli-loop/compare/v2.1.7...v2.1.8) (2026-06-12)
+
+
+### Bug Fixes
+
+* Avoid dependency conflicts from bundled metadata DLLs ([#1288](https://github.com/hatayama/unity-cli-loop/issues/1288)) ([636439d](https://github.com/hatayama/unity-cli-loop/commit/636439d4ca5170623e5ceeb017fe8ba12d9c4c60))
+
+## [2.1.7](https://github.com/hatayama/unity-cli-loop/compare/v2.1.6...v2.1.7) (2026-06-12)
+
+
+### Bug Fixes
+
+* Multiline dynamic code snippets work reliably on Windows ([#1319](https://github.com/hatayama/unity-cli-loop/issues/1319)) ([aff5ddd](https://github.com/hatayama/unity-cli-loop/commit/aff5dddf53f586c2da19a571784549eb4f4079d8))
+
+## [2.1.6](https://github.com/hatayama/unity-cli-loop/compare/v2.1.5...v2.1.6) (2026-06-04)
+
+
+### Bug Fixes
+
+* Input simulation overlays stay usable without shipping runtime DLLs ([#1285](https://github.com/hatayama/unity-cli-loop/issues/1285)) ([e271514](https://github.com/hatayama/unity-cli-loop/commit/e2715140af298ab3698a8d02efd1cd319d448670))
+
+## [2.1.5](https://github.com/hatayama/unity-cli-loop/compare/v2.1.4...v2.1.5) (2026-06-01)
+
+
+### Bug Fixes
+
+* Interrupted PlayMode tests no longer leave domain reload disabled ([#1255](https://github.com/hatayama/unity-cli-loop/issues/1255)) ([551bb38](https://github.com/hatayama/unity-cli-loop/commit/551bb382c21abc4785b1b23fbb52e0e48e134906))
+
 ## [2.1.4](https://github.com/hatayama/unity-cli-loop/compare/v2.1.3...v2.1.4) (2026-05-21)
 
 
