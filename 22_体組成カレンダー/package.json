@@ -1,0 +1,15 @@
+{
+  "name": "body-composition-calendar",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "verify": "node --check public/script.js && node --check worker.js && node scripts/verify-parser.js"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

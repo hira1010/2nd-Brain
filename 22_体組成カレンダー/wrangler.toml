@@ -1,0 +1,12 @@
+name = "still-snow-35c8"
+main = "worker.js"
+compatibility_date = "2026-06-12"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "body-composition"
+database_id = "6a919bd7-9fa3-4f60-b805-2751facd38ad"

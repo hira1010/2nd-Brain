@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Noto+Serif+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <title>体組成グラフメーカー</title>
+  <link rel="stylesheet" href="styles.css?v=20260617-3" />
+</head>
+
+<body>
+  <main class="app-shell">
+    <section class="input-panel" aria-labelledby="appTitle">
+      <div class="title-row">
+        <div>
+          <p class="eyebrow">Body Composition Tracker</p>
+          <h1 id="appTitle">体組成グラフメーカー</h1>
+        </div>
+        <div class="date-card">
+          <label for="entryDate">記録日</label>
+          <input id="entryDate" type="date" />
+        </div>
+      </div>
+
+
+
+      <label class="field field-text" for="rawInput" style="margin-bottom: 12px;">
+        <span>文字データ</span>
+        <textarea id="rawInput" rows="5" placeholder="例:
+2026/06/12
+体重 68.4kg
+体脂肪率 22.1%
+筋肉量 50.2kg
+BMI 23.4
+内臓脂肪 10
+基礎代謝 1956 kcal
+体年齢 58
+
+または CSV:
+日付,体重,体脂肪率,骨格筋率,BMI,内臓脂肪レベル
+2026-06-12,68.4,22.1,29.7,23.4,10"></textarea>
+      </label>
+
+      <div class="action-row" style="margin-bottom: 24px;">
+        <button id="parseButton" type="button">文字から記録</button>
+      </div>
+
+      <div class="manual-grid">
+        <label class="field" for="weight"><span>体重 kg</span><input id="weight" type="number" step="0.1"
+            inputmode="decimal" /></label>
+        <label class="field" for="bodyFat"><span>体脂肪率 %</span><input id="bodyFat" type="number" step="0.1"
+            inputmode="decimal" /></label>
+        <label class="field" for="bodyFatMass"><span>体脂肪量 kg</span><input id="bodyFatMass" type="number" step="0.1"
+            inputmode="decimal" /></label>
+        <label class="field" for="subcutaneousFat"><span>皮下脂肪率 %</span><input id="subcutaneousFat" type="number"
+            step="0.1" inputmode="decimal" /></label>
+        <label class="field" for="skeletalMuscleRate"><span>骨格筋率 %</span><input id="skeletalMuscleRate" type="number"
+            step="0.1" inputmode="decimal" /></label>
+        <label class="field" for="skeletalMuscleMass"><span>骨格筋量 kg</span><input id="skeletalMuscleMass" type="number"
+            step="0.1" inputmode="decimal" /></label>
+        <label class="field" for="bmi"><span>BMI</span><input id="bmi" type="number" step="0.1"
+            inputmode="decimal" /></label>
+        <label class="field" for="visceralFat"><span>内臓脂肪レベル</span><input id="visceralFat" type="number" step="0.5"
+            inputmode="decimal" /></label>
+        <label class="field" for="basalMetabolism"><span>基礎代謝 kcal</span><input id="basalMetabolism" type="number"
+            step="1" inputmode="numeric" /></label>
+        <label class="field" for="bodyAge"><span>体年齢</span><input id="bodyAge" type="number" step="1"
+            inputmode="numeric" /></label>
+      </div>
+      <div class="action-row" style="margin-top: 16px;">
+        <button id="saveButton" type="button" class="primary">体組成を保存</button>
+      </div>
+
+      <section class="meal-panel" aria-labelledby="mealTitle">
+        <div class="meal-head">
+          <div>
+            <h2 id="mealTitle">食事メモ</h2>
+            <p>上の記録日で、食べたものを保存します。</p>
+          </div>
+        </div>
+        <div class="meal-grid">
+          <label class="field" for="breakfast"><span>朝食</span><textarea id="breakfast" rows="2"></textarea></label>
+          <label class="field" for="lunch"><span>昼食</span><textarea id="lunch" rows="2"></textarea></label>
+          <label class="field" for="dinner"><span>晩御飯</span><textarea id="dinner" rows="2"></textarea></label>
+          <label class="field" for="snack"><span>間食</span><textarea id="snack" rows="2"></textarea></label>
+        </div>
+
+        <div class="action-row meal-actions">
+          <button id="saveMealButton" type="button">食事を保存</button>
+          <button id="clearMealButton" type="button" class="secondary">食事欄を消す</button>
+        </div>
+      </section>
+
+
+    </section>
+
+    <section class="chart-panel" aria-label="体組成グラフ">
+      <div class="toolbar">
+        <div>
+          <h2>推移グラフ</h2>
+          <p id="statusText">記録を追加するとグラフが表示されます</p>
+        </div>
+        <div class="toolbar-actions">
+          <button id="cloudSyncButton" class="secondary cloud-sync-button" type="button">クラウド再読み込み</button>
+          <div class="metric-tabs" id="metricTabs" aria-label="表示項目"></div>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-switcher">
+          <label for="chartMetricSelect">表示</label>
+          <select id="chartMetricSelect" aria-label="グラフ表示項目"></select>
+
+          <span id="chartLatestValue">最新 -</span>
+        </div>
+        <canvas id="trendChart" width="1100" height="520"></canvas>
+      </div>
+      <p class="metric-comment" id="metricComment">タブを選ぶと前日比較のコメントが表示されます</p>
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="goal-panel">
+        <div class="goal-head">
+          <div>
+            <h2>減量目標</h2>
+            <p id="goalStatus">現在体重を入力すると2kgごとの目標が表示されます</p>
+          </div>
+          <label class="target-field" for="targetWeight">
+            <span>最終目標</span>
+            <input id="targetWeight" type="number" step="0.1" inputmode="decimal" value="72.4" />
+          </label>
+        </div>
+        <button id="showAllGoalsButton" type="button" class="secondary goal-reset" hidden>全目標表示</button>
+        <div class="goal-track" id="goalTrack"></div>
+      </div>
+
+      <section class="weekly-review" aria-labelledby="weeklyReviewTitle">
+        <div class="weekly-review-head">
+          <div>
+            <h2 id="weeklyReviewTitle">週刊レビュー</h2>
+            <p>最新7件の変化をまとめます</p>
+          </div>
+          <div class="weekly-review-actions">
+            <button id="weeklyReviewButton" type="button" class="secondary">週刊レビューを作成</button>
+            <button id="aiPromptButton" type="button" class="secondary">AIプロンプト作成</button>
+          </div>
+        </div>
+        <div id="weeklyReviewContent" class="weekly-review-content"></div>
+      </section>
+
+      <section class="calendar-panel" aria-labelledby="calendarTitle">
+        <div class="calendar-head">
+          <div>
+            <h2 id="calendarTitle">体組成カレンダー</h2>
+            <p>日々の記録をカレンダーで確認できます</p>
+          </div>
+          <div class="calendar-actions">
+            <button id="prevMonthButton" type="button" class="secondary">&lt; 先月</button>
+            <span id="calendarMonthLabel" class="calendar-month-label"></span>
+            <button id="nextMonthButton" type="button" class="secondary">来月 &gt;</button>
+          </div>
+        </div>
+        <div class="calendar-wrapper">
+          <div class="calendar-weekdays">
+            <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+          </div>
+          <div id="calendarGrid" class="calendar-grid"></div>
+        </div>
+      </section>
+
+      <section class="food-panel" aria-labelledby="foodListTitle">
+        <div class="history-head">
+          <h2 id="foodListTitle">食べたもの一覧</h2>
+        </div>
+        <div id="foodList" class="food-list"></div>
+      </section>
+
+      <div class="history-head">
+        <h2>記録一覧</h2>
+        <div class="history-actions">
+          <button id="exportButton" type="button" class="secondary">CSV出力</button>
+          <button id="resetButton" type="button" class="danger">全削除</button>
+        </div>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="script.js?v=20260617-3"></script>
+</body>
+
+</html>
