@@ -1,6 +1,0 @@
-[
-  null,
-  { "id": 1, "name": "プルプル", "hp": 50, "mp": 0, "atk": 10, "def": 10, "mat": 5, "mdf": 5, "agi": 5, "luk": 5, "exp": 10, "gold": 5, "dropItems": [], "traits": [], "note": "<ABS>\n<Type: Enemy>\n<Team: 2>\n<AI: Chase>\n<Atk: 15>\n<Range: 1.5>\n<Speed: 3>" },
-  { "id": 2, "name": "バッサ", "hp": 30, "mp": 0, "atk": 15, "def": 5, "mat": 5, "mdf": 5, "agi": 20, "luk": 5, "exp": 15, "gold": 10, "dropItems": [], "traits": [], "note": "<ABS>\n<Type: Enemy>\n<Team: 2>\n<AI: Chase>\n<Atk: 20>\n<Range: 1.0>\n<Speed: 5>" },
-  { "id": 3, "name": "親分プルプル", "hp": 500, "mp": 0, "atk": 30, "def": 20, "mat": 10, "mdf": 10, "agi": 3, "luk": 10, "exp": 100, "gold": 50, "dropItems": [], "traits": [], "note": "<ABS>\n<Type: Enemy>\n<Team: 2>\n<AI: Chase>\n<Atk: 40>\n<Range: 2.5>\n<Speed: 2>\n<Scale: 2.5>" }
-]

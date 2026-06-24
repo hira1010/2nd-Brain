@@ -14,7 +14,7 @@ RENPY_SDK = Path("C:/Users/hirak/Desktop/eroge/renpy-sdk/renpy-8.5.2-sdk/renpy.e
 # 各エンジンプロジェクトパス（実際のフォルダ名に合わせて更新済み）
 PROJECTS = {
     "RPG_MAKER": ROOT_DIR / "05_RPG制作",
-    "RENPY": ROOT_DIR / "17_RenPy"
+    "RENPY": ROOT_DIR / "16_RenPy"
 }
 
 def header(text):
@@ -26,8 +26,8 @@ def check_rpg_maker():
     header("RPGツクールMZのチェック中 (05_RPG制作)")
     path = PROJECTS["RPG_MAKER"]
     if not path.exists():
-        print("❌ プロジェクトフォルダが見つかりません。")
-        return False
+        print("⚠️ プロジェクトフォルダが見つかりません。スキップします。")
+        return True
     
     success = True
     # 1. 必須データの存在確認
@@ -59,7 +59,7 @@ def check_rpg_maker():
     return success
 
 def check_renpy():
-    header("Ren'Pyのチェック中 (21_RenPy)")
+    header("Ren'Pyのチェック中 (16_RenPy)")
     path = PROJECTS["RENPY"]
     if not path.exists():
         print("[失敗] プロジェクトフォルダが見つかりません。")

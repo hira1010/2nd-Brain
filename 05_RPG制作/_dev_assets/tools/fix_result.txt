@@ -1,8 +1,0 @@
-洞窟系バトルバック: ['DirtCave.png', 'IceCave.png', 'LavaCave.png', 'RockCave.png']
-全ファイル: ['Castle1.png', 'Castle2.png', 'Castle3.png', 'Clouds.png', 'Cobblestones1.png', 'Cobblestones2.png', 'Cobblestones3.png', 'Cobblestones4.png', 'Cobblestones5.png', 'Colosseum.png', 'Crystal.png', 'Cyberspace.png', 'DecorativeTile1.png', 'DecorativeTile2.png', 'DemonCastle1.png', 'DemonCastle2.png', 'DemonCastle3.png', 'DemonicWorld.png', 'Desert.png', 'Dirt.png']
-Map002.json修正完了！
-  tilesetId=4 (4=Dungeon)
-  encounterList=[{'regionSet': [], 'troopId': 1, 'weight': 10}, {'regionSet': [], 'troopId': 2, 'weight': 10}, {'regionSet': [], 'troopId': 3, 'weight': 5}]
-  イベント数=5
-Map001.json修正完了！
-  イベント数=2

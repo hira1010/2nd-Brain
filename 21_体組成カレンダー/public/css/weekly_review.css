@@ -1,0 +1,204 @@
+.goal-panel {
+  margin: 0 0 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfc;
+}
+
+.weekly-review {
+  margin: 0 0 16px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.weekly-review-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.weekly-review-head p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.weekly-review-actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.weekly-review-summary {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border: 1px solid #d7e8e2;
+  border-radius: 8px;
+  color: #18413d;
+  background: #ffffff;
+  line-height: 1.55;
+}
+
+.weekly-review-summary span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.weekly-review-summary strong {
+  display: block;
+  font-size: 1.02rem;
+}
+
+.weekly-review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 12px;
+}
+
+.weekly-review-item {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 14px;
+  min-height: 178px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.weekly-review-item.metric-weight {
+  background: #f0fbf8;
+}
+
+.weekly-review-item.metric-bodyFat {
+  background: #fff4f2;
+}
+
+.weekly-review-item.metric-skeletalMuscleMass {
+  background: #f1f7ff;
+}
+
+.weekly-review-item.metric-visceralFat {
+  background: #f7f2ff;
+}
+
+.weekly-review-item.metric-basalMetabolism {
+  background: #fff9e8;
+}
+
+.weekly-review-item.good {
+  border-left: 5px solid var(--accent);
+}
+
+.weekly-review-item.watch {
+  border-left: 5px solid #c45f4a;
+}
+
+.weekly-review-item.neutral {
+  border-left: 5px solid #8a98a5;
+}
+
+.weekly-review-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.weekly-review-item-head span,
+.weekly-review-item p {
+  display: block;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.weekly-review-item-head span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.weekly-review-values {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.weekly-review-values span {
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.weekly-review-item p {
+  margin: 0;
+  border-radius: 8px;
+  padding: 11px 12px;
+  color: #18413d;
+  background: #dff5ef;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.weekly-review-item strong {
+  display: block;
+  font-size: 1.32rem;
+  line-height: 1.35;
+}
+
+.weekly-review-item b {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: var(--accent);
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+.weekly-review-item.watch b {
+  background: #b65442;
+}
+
+.weekly-review-item.watch p {
+  color: #6e2b20;
+  background: #ffe0d9;
+}
+
+.weekly-review-item.neutral b {
+  background: #758392;
+}
+
+.weekly-review-item.neutral p {
+  color: #334155;
+  background: #e7edf3;
+}
+
+.weekly-review-item.metric-bodyFat p {
+  background: #ffe7e2;
+}
+
+.weekly-review-item.metric-skeletalMuscleMass p {
+  background: #dfeeff;
+}
+
+.weekly-review-item.metric-visceralFat p {
+  background: #eadfff;
+}
+
+.weekly-review-item.metric-basalMetabolism p {
+  background: #fff0c4;
+}
+
