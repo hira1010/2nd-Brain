@@ -14,6 +14,11 @@ config/name="2D Beauty Dodgeball"
 config/description="2Dドット絵美女バトルドッジボール"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+run/main_scene="res://Scenes/Title.tscn"
+
+[autoload]
+
+SaveManager="*res://Scripts/SaveManager.gd"
 
 [display]
 

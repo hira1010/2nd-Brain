@@ -1,6 +1,9 @@
 class_name Player
 extends CharacterBody2D
 
+signal defeated(player_instance: Player)
+signal special_thrown(player_instance: Player)
+
 # --- 定数・パラメータ設定 ---
 @export var SPEED: float = 300.0
 @export var MAX_HP: int = 100
@@ -120,14 +123,16 @@ func _use_special_move() -> void:
 	special_gauge = 0.0
 	print(self.name + " のボール投げ！")
 	
-	var ball: DodgeBall = BALL_SCENE.instantiate() as DodgeBall
+	var ball = BALL_SCENE.instantiate()
 	# 最後に動いた方向の少し先にボールを出す
 	ball.position = self.position + (last_direction * THROW_OFFSET)
 	ball.direction = last_direction
 	ball.thrower = self # 自分（投げた人）をボールに記録する
+	ball.is_special = true
 	get_parent().add_child(ball)
+	special_thrown.emit(self)
 
-func take_damage(amount: int, ball: DodgeBall) -> void:
+func take_damage(amount: int, ball) -> void:
 	if is_catching:
 		print(self.name + " が見事にキャッチした！")
 		ball.queue_free() # ボールを消す
@@ -139,12 +144,14 @@ func take_damage(amount: int, ball: DodgeBall) -> void:
 		
 		if hp <= 0:
 			print(self.name + " は力尽きた！勝負あり！")
+			defeated.emit(self)
 			queue_free() # キャラクターを消滅させる
 			return # これ以上処理を続けない
 			
 		# ボールをキャッチできなかったら、相手にボールが移る
-		if ball.thrower != null:
+		var ball_thrower = ball.get("thrower")
+		if ball_thrower != null:
 			print("ボールが相手に戻った！")
-			ball.thrower.special_gauge = MAX_GAUGE # 相手のゲージが即100になり、すぐ投げられる！
+			ball_thrower.set("special_gauge", MAX_GAUGE) # 相手のゲージが即100になり、すぐ投げられる！
 			
 		ball.queue_free() # ボール自体は一度消える
