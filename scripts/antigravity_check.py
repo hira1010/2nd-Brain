@@ -14,7 +14,7 @@ RENPY_SDK = Path("C:/Users/hirak/Desktop/eroge/renpy-sdk/renpy-8.5.2-sdk/renpy.e
 # 各エンジンプロジェクトパス（実際のフォルダ名に合わせて更新済み）
 PROJECTS = {
     "RPG_MAKER": ROOT_DIR / "05_RPG制作",
-    "RENPY": ROOT_DIR / "16_RenPy"
+    "RENPY": ROOT_DIR / "08_ゲーム制作" / "16_RenPy"
 }
 
 def header(text):

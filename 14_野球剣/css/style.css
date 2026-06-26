@@ -1,0 +1,394 @@
+        body {
+            font-family: 'Kiwi Maru', serif;
+            background-color: #fff0f6;
+            color: #d6336c;
+            overflow: hidden;
+            user-select: none;
+        }
+        .btn-pink {
+            background-color: #ffdeeb;
+            border: 2px solid #fcc2d7;
+            color: #d6336c;
+            transition: all 0.2s;
+            border-radius: 9999px;
+            box-shadow: 0 4px 0 #fcc2d7;
+        }
+        .btn-pink:hover:not(:disabled) {
+            background-color: #fcc2d7;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #fcc2d7;
+        }
+        .btn-pink:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+        .btn-pink:disabled {
+            background-color: #e5e7eb;
+            border-color: #d1d5db;
+            color: #9ca3af;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        .screen {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .screen.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .character-img {
+            max-height: 90vh;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+        .costume-option {
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 4px solid transparent;
+            border-radius: 20px;
+            width: 18%;
+            position: relative;
+        }
+        .costume-option:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 182, 193, 0.2);
+            border-color: #fcc2d7;
+        }
+        .clear-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: linear-gradient(135deg, #FFE494 0%, #FFAB00 100%);
+            color: #FFFFFF;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-family: 'Dela Gothic One', sans-serif;
+            font-size: 1rem;
+            border: 3px solid #FFFFFF;
+            box-shadow: 
+                0 4px 0 #E65100,
+                0 6px 10px rgba(0,0,0,0.2);
+            transform: rotate(10deg);
+            z-index: 20;
+            text-shadow: 
+                2px 2px 0 #E65100, -2px -2px 0 #E65100, 2px -2px 0 #E65100, -2px 2px 0 #E65100;
+        }
+        .heart {
+            font-size: 3rem;
+            color: #ff4d6d;
+            margin: 0 4px;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+            display: inline-block; /* アニメーションのために必要 */
+        }
+        @keyframes heartShake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            50% { transform: translateX(5px) rotate(5deg); }
+            75% { transform: translateX(-5px) rotate(-5deg); }
+            100% { transform: translateX(0); }
+        }
+        .heart-damage {
+            animation: heartShake 0.5s ease-in-out;
+        }
+        @keyframes heartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        .heart-pinch .filled {
+            animation: heartPulse 0.6s infinite ease-in-out;
+            display: inline-block;
+        }
+        .message-window {
+            background: rgba(255, 255, 255, 0.9);
+            border: 4px solid #fcc2d7;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .gallery-slide-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+        }
+        .gallery-image {
+            max-width: 80%;
+            max-height: 75vh;
+            object-fit: contain;
+            border: 10px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .janken-effect-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: effectFlash 1.35s ease-out forwards;
+        }
+        .janken-effect {
+            position: relative;
+            min-width: 460px;
+            padding: 42px 64px;
+            border-radius: 34px;
+            text-align: center;
+            font-weight: 900;
+            letter-spacing: 0;
+            transform: scale(0.65);
+            animation: effectPop 1.35s cubic-bezier(.16, 1.18, .28, 1) forwards;
+            box-shadow: 0 26px 60px rgba(0,0,0,0.28);
+        }
+        .janken-effect .effect-title {
+            display: block;
+            font-size: 6.5rem;
+            line-height: 1;
+        }
+        .janken-effect .effect-sub {
+            display: block;
+            margin-top: 10px;
+            font-size: 2rem;
+        }
+        .janken-effect.win {
+            color: #fff;
+            background: linear-gradient(135deg, #ff4d6d, #ffd43b);
+            border: 9px solid #fff5b8;
+            text-shadow: 0 3px 0 rgba(173, 20, 87, 0.35);
+        }
+        .janken-effect.lose {
+            color: #fff;
+            background: linear-gradient(135deg, #495057, #748ffc);
+            border: 9px solid #dbe4ff;
+            text-shadow: 0 3px 0 rgba(33, 37, 41, 0.45);
+        }
+        .spark {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 9999px;
+            background: #fff;
+            box-shadow: 0 0 18px rgba(255,255,255,0.95);
+            animation: sparkFly 1.15s ease-out forwards;
+        }
+        .janken-effect.lose .spark {
+            width: 10px;
+            height: 28px;
+            border-radius: 9999px;
+            background: #c5f6fa;
+        }
+        @keyframes effectFlash {
+            0% { background: rgba(255,255,255,0); }
+            12% { background: rgba(255,255,255,0.72); }
+            100% { background: rgba(255,255,255,0); }
+        }
+        @keyframes effectPop {
+            0% { opacity: 0; transform: scale(0.55) rotate(-8deg); }
+            16% { opacity: 1; transform: scale(1.24) rotate(3deg); }
+            38% { opacity: 1; transform: scale(1) rotate(0); }
+            74% { opacity: 1; transform: scale(1.04) rotate(0); }
+            100% { opacity: 0; transform: scale(1.35) rotate(0); }
+        }
+        @keyframes sparkFly {
+            from { opacity: 1; transform: translate(0, 0) scale(1); }
+            to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
+        }
+        .magnifier {
+            position: absolute;
+            border: 4px solid #fff;
+            border-radius: 50%;
+            cursor: none;
+            width: 180px;
+            height: 180px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 4px #FF6593;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 30;
+            display: none; /* JSで制御 */
+        }
+        .magnifier.active {
+            display: block;
+        }
+        @keyframes handShake {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+        .hand-shake {
+            animation: handShake 0.3s infinite ease-in-out;
+            display: inline-block;
+        }
+        @keyframes handPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .hand-pop {
+            animation: handPop 0.4s cubic-bezier(.16, 1.18, .28, 1) forwards;
+            display: inline-block;
+        }
+        .speed-lines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1; /* キャラクターの後ろか前にするか。一旦1に。 */
+            background: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 10deg,
+                rgba(255, 105, 180, 0.15) 10deg,
+                rgba(255, 105, 180, 0.15) 12deg
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .speed-lines.active {
+            opacity: 1;
+            animation: speedLinesRotate 10s infinite linear;
+        }
+        @keyframes speedLinesRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        /* デフォルトは非表示 */
+        /* デフォルトは非表示 */
+        .building-glow, .lamp-glow, .sparkle, .dust, .petal {
+            display: none;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* 舞台ごとに有効化（初期からある程度見せる） */
+        .place-1 .building-glow, .place-1 .lamp-glow, .place-1 .sparkle { display: block; opacity: 0.6; }
+        .place-2 .dust { display: block; opacity: 0.6; }
+        .place-3 .petal { display: block; opacity: 0.6; }
+        
+        /* 進行度（勝利数）に応じて豪華に（濃く）する */
+        .wins-1 .sparkle, .wins-1 .dust, .wins-1 .petal { opacity: 0.7; }
+        .wins-2 .sparkle, .wins-2 .dust, .wins-2 .petal { opacity: 0.8; }
+        .wins-3 .sparkle, .wins-3 .dust, .wins-3 .petal { opacity: 0.9; }
+        .wins-4 .sparkle, .wins-4 .dust, .wins-4 .petal { opacity: 1.0; }
+        .wins-5 .sparkle, .wins-5 .dust, .wins-5 .petal { opacity: 1.0; filter: saturate(1.5) drop-shadow(0 0 15px #ff69b4); }
+        
+        /* おへや用のスタイル（キラキラ） */
+        .sparkle {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #fff, 0 0 30px #ff69b4, 0 0 45px #ff1493;
+            animation: floatSparkle 4s infinite ease-in-out;
+        }
+        .sparkle1 { top: 30%; left: 20%; animation-delay: 0s; }
+        .sparkle2 { top: 60%; left: 80%; animation-delay: 1s; }
+        .sparkle3 { top: 80%; left: 40%; animation-delay: 2s; }
+        .sparkle4 { top: 15%; left: 70%; animation-delay: 0.5s; width: 10px; height: 10px; }
+        .sparkle5 { top: 45%; left: 10%; animation-delay: 1.5s; width: 12px; height: 12px; }
+        .sparkle6 { top: 75%; left: 90%; animation-delay: 2.5s; width: 8px; height: 8px; }
+        .sparkle7 { top: 5%; left: 30%; animation-delay: 0.2s; width: 6px; height: 6px; }
+        .sparkle8 { top: 35%; left: 60%; animation-delay: 1.2s; width: 10px; height: 10px; }
+        .sparkle9 { top: 55%; left: 40%; animation-delay: 2.2s; width: 8px; height: 8px; }
+        .sparkle10 { top: 85%; left: 15%; animation-delay: 3.2s; width: 5px; height: 5px; }
+        
+        @keyframes floatSparkle {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-30px) scale(0.5); opacity: 0; }
+        }
+        
+        /* おへや用のスタイル（グロウ） */
+        .building-glow {
+            position: absolute;
+            top: 25%;
+            left: 5%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.4) 0%, transparent 70%);
+            mix-blend-mode: screen;
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+        .lamp-glow {
+            position: absolute;
+            top: 35%;
+            right: 5%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 20, 147, 0.5) 0%, transparent 70%);
+            mix-blend-mode: screen;
+            animation: pulseGlow 2s infinite ease-in-out alternate;
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(0.9); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.5; }
+        }
+        
+        /* 教室用のスタイル（埃） */
+        .dust {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 200, 0.5);
+            animation: floatDust 5s infinite linear;
+        }
+        .dust1 { top: 20%; left: 30%; animation-delay: 0s; }
+        .dust2 { top: 50%; left: 70%; animation-delay: 1.5s; }
+        .dust3 { top: 70%; left: 20%; animation-delay: 3s; }
+        .dust4 { top: 10%; left: 80%; animation-delay: 0.5s; }
+        .dust5 { top: 40%; left: 10%; animation-delay: 2s; }
+        .dust6 { top: 80%; left: 60%; animation-delay: 3.5s; }
+        .dust7 { top: 5%; left: 40%; animation-delay: 1s; }
+        .dust8 { top: 35%; left: 90%; animation-delay: 2.5s; }
+        .dust9 { top: 65%; left: 50%; animation-delay: 4s; }
+        .dust10 { top: 90%; left: 5%; animation-delay: 0.2s; }
+        
+        @keyframes floatDust {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-50px) translateX(20px); opacity: 0; }
+        }
+        
+        /* 公園用のスタイル（桜） */
+        .petal {
+            position: absolute;
+            width: 24px;
+            height: 16px;
+            background: #ffb7c5;
+            border-radius: 50% 0 50% 0;
+            box-shadow: 0 0 10px rgba(255, 183, 197, 0.5);
+            animation: fallPetal 6s infinite linear;
+        }
+        .petal1 { top: -10%; left: 20%; animation-delay: 0s; }
+        .petal2 { top: -10%; left: 50%; animation-delay: 2s; }
+        .petal3 { top: -10%; left: 80%; animation-delay: 4s; }
+        .petal4 { top: -10%; left: 5%; animation-delay: 1s; }
+        .petal5 { top: -10%; left: 35%; animation-delay: 3s; }
+        .petal6 { top: -10%; left: 65%; animation-delay: 5s; }
+        .petal7 { top: -10%; left: 15%; animation-delay: 0.5s; }
+        .petal8 { top: -10%; left: 45%; animation-delay: 2.5s; }
+        .petal9 { top: -10%; left: 75%; animation-delay: 4.5s; }
+        .petal10 { top: -10%; left: 95%; animation-delay: 1.5s; }
+        
+        @keyframes fallPetal {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(600px) rotate(720deg); opacity: 0; }
+        }
