@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>横スクロールバトルゲーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- 3D Canvas (Background) -->
+        <canvas id="threeCanvas" width="800" height="600"></canvas>
+        <!-- 2D Canvas (Foreground) -->
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <!-- UIレイヤー -->
+        <div id="ui-layer">
+            <div id="status-bars">
+                <div id="stage-display" style="color: #ff9900; font-size: 24px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px #000;">STAGE: 1 / 5 <span id="next-score" style="font-size: 14px; color: #ccc;">(Next: 100)</span></div>
+                <div id="hp-bar-container">
+                    <span style="font-weight: bold; margin-right: 10px; color: white;">HP: </span>
+                    <div id="hp-bar"><div id="hp-fill"></div></div>
+                </div>
+                <div id="sp-bar-container">
+                    <span style="font-weight: bold; margin-right: 10px; color: yellow;">SP: </span>
+                    <div id="sp-bar"><div id="sp-fill"></div></div>
+                </div>
+                <div id="sp-hint" style="color: yellow; font-size: 14px; font-weight: bold; opacity: 0; transition: opacity 0.3s;">Press Z for ULTIMATE!</div>
+            </div>
+            <div id="score-display">Score: <span id="score">0</span></div>
+        </div>
+        
+        <div id="stage-clear-screen" class="hidden">
+            <h1 id="stage-clear-text">STAGE CLEAR!!</h1>
+        </div>
+        
+        <div id="game-over-screen" class="hidden">
+            <h1>GAME OVER</h1>
+            <p>Score: <span id="final-score">0</span></p>
+            <button onclick="location.reload()">リトライ</button>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

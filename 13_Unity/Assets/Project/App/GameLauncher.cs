@@ -18,6 +18,11 @@ namespace UnityMcpTextbook.App
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Bootstrap()
         {
+            // ピンボールシーンの時は、モグラ叩きゲームの自動起動をスキップします
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "PinballScene")
+            {
+                return;
+            }
             EnsureInstance().Initialize();
         }
 
@@ -61,6 +66,13 @@ namespace UnityMcpTextbook.App
 
         private void Awake()
         {
+            // ピンボールシーンの時は、モグラ叩きゲームの自動起動をスキップします
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "PinballScene")
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             if (current != null && current != this)
             {
                 Destroy(gameObject);
